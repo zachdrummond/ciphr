@@ -17,3 +17,7 @@ const AlgorithmsSchema = new Schema({
     },
   ],
 });
+
+const Algorithms = mongoose.model("Algorithms", AlgorithmsSchema);
+
+module.exports = Algorithms;
