@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// username, password, and date of account creation
 const UsersSchema = new Schema({
     username: {
         type: String,

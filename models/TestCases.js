@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// all test cases represented by input to be tested and output as a result of the code compile
 const TestCasesSchema = new Schema({
-    standardIn: {
+    input: {
         type: String,
         required: true,
     },
-    standardOut: {
+    output: {
         type: String,
         required: true,
     }
