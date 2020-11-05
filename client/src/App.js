@@ -1,16 +1,24 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from "./containers/Login/Login";
+import SignUp from "./containers/SignUp/SignUp";
+import Home from "./containers/Home/Home";
+import Challenge from "./containers/Challenge/Challenge";
+import EditAlgorithm from "./containers/EditAlgorithm/EditAlgorithm";
+import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
+
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route exact path="/books/new" component={NewBook} />
-          <Route exact path="/books/:bookId/edit" component={EditBook} />
-          <Route exact path="/books/:bookId" component={SingleBook} />
-          <Route exact path="/books" component={AllBooks} />
-          <Route exact path="/" component={Home} />
+          <Route exact path="/algorithms/new" component={AddAlgorithm} />
+          <Route exact path="/algorithms/:algorithmId/edit" component={EditAlgorithm} />
+          <Route exact path="/algorithms/:algorithmId" component={Challenge} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/" component={Login} />
           <Route path="/" component={NotFound} />
         </Switch>
       </Router>
