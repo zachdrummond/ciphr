@@ -6,6 +6,7 @@ import Home from "./containers/Home/Home";
 import Challenge from "./containers/Challenge/Challenge";
 import EditAlgorithm from "./containers/EditAlgorithm/EditAlgorithm";
 import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
+import NotFound from "./containers/NotFound/NotFound";
 
 
 function App() {
