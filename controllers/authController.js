@@ -47,10 +47,23 @@ router.post("/api/signup", (request, response) => {
 router.post("/api/signup", (request, response) => {
   const { username, password } = request.body;
   // Destructuring the request object
-  db.User.find({ username: username }).then((foundUser) => {
-    if (foundUser) {
-    }
-  });
+  db.User.findOne({ username: username })
+    .then((foundUser) => {
+      if (foundUser) {
+        bcrypt
+          .compare(password, foundUser.password)
+          .then(function (result) {})
+          .catch((error) => {});
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(500).json({
+        error: true,
+        data: null,
+        message: "Unable to hash password",
+      });
+    });
 });
 
 module.exports = router;
