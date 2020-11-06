@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const db = require("../models");
 
@@ -49,10 +50,12 @@ router.post("/api/signup", (request, response) => {
   // Destructuring the request object
   db.User.findOne({ username: username })
     .then((foundUser) => {
+      // If there is a matching user in the database
       if (foundUser) {
         bcrypt
           .compare(password, foundUser.password)
           .then(function (result) {
+            // If the passwords match
             if (result) {
               res.json({
                 error: false,
