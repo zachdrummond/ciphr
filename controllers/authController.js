@@ -44,5 +44,8 @@ router.post("/api/signup", (request, response) => {
 });
 
 // LOGIN ROUTE
+router.post("/api/signup", (request, response) => {
+    
+});
 
 module.exports = router;
