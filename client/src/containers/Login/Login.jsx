@@ -12,6 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import API from "../../utils/API"
 
 function Copyright() {
   return (
@@ -63,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
   const classes = useStyles();
 
+  // hook configures username/password state
+  // to find state in dev tools 'Components' look under 'SignInSide'
   const [userInfo, setUserInfo] = useState({
     username: "",
     password: "",
@@ -70,9 +73,20 @@ export default function SignInSide() {
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    // console.log(value)
+    // handles input of either username or password
     setUserInfo({...userInfo, [name]: value} );
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // username/password posted to back end
+    // see API.js in utils for more info
+    API.postUserInfo(userInfo).then((response) => {
+      console.log(response);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -86,7 +100,7 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form}  onSubmit={(e) => handleSubmit(e)}>
             {/* <TextField
               variant="outlined"
               margin="normal"
