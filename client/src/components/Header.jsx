@@ -8,35 +8,37 @@ import {
   List,
   ListItem,
   ListItemText,
+  Container,
 } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
-    navDisplayFlex: {
-      display: `flex`,
-      justifyContent: `space-between`
-    },
-    linkText: {
-      textDecoration: `none`,
-      textTransform: `uppercase`,
-      color: `white`
-    }
-  });
+  navbarDisplayFlex: {
+    display: `flex`,
+    justifyContent: `space-between`,
+  },
+  linkText: {
+    textDecoration: `none`,
+    display: `inline-block`,
+    textTransform: `uppercase`,
+    color: `white`,
+  },
+});
 
 const navLinks = [
   { title: `home`, path: `/home` },
-  { title: `Logout`, path: `/` },
   { title: `Add Algorithm`, path: `/algorithms/new` },
+  { title: `Logout`, path: `/` },
 ];
 
 const Header = () => {
-    const classes = useStyles();
-    
+  const classes = useStyles();
+
   return (
-    
-      <AppBar position="static">
-        <Toolbar>
+    <AppBar position="static">
+      <Toolbar>
+      <Container className={classes.navbarDisplayFlex}>
           <IconButton edge="start" color="inherit" aria-label="home">
             <Home fontSize="large" />
           </IconButton>
@@ -49,9 +51,9 @@ const Header = () => {
               </Link>
             ))}
           </List>
-        </Toolbar>
-      </AppBar>
-    
+        </Container>
+      </Toolbar>
+    </AppBar>
   );
 };
 export default Header;
