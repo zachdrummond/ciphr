@@ -6,6 +6,11 @@ const db = require("../models");
 router.post("/api/signup", (request, response) => {
     if(!request.body.username.trim() || !request.body.password.trim()) {
         response.status(400); // Bad Request
+    } else {
+        db.Users.create({
+            username: request.body.username,
+            password: request.body.password
+        });
     }
 })
 
