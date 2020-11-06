@@ -14,7 +14,7 @@ import { Home } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
-import Switch from '@material-ui/core/Switch';
+import Switch from "@material-ui/core/Switch";
 
 const useStyles = makeStyles({
   navbarDisplayFlex: {
@@ -27,12 +27,15 @@ const useStyles = makeStyles({
     textTransform: `uppercase`,
     color: `white`,
   },
+  left: {
+    float: `left`,
+  },
 });
 
 const navLinks = [
   { title: `home`, path: `/home` },
   { title: `Add Algorithm`, path: `/algorithms/new` },
-  { title: `Logout`, path: `/` },
+//   { title: `Logout`, path: `/` },
 ];
 
 const Header = () => {
@@ -50,6 +53,7 @@ const Header = () => {
           <IconButton edge="start" color="inherit" aria-label="home">
             <Home fontSize="large" />
           </IconButton>
+          
           <List component="nav" aria-labelledby="main navigation">
             {navLinks.map(({ title, path }) => (
               <Link to={path} key={title} className={classes.linkText}>
@@ -58,8 +62,7 @@ const Header = () => {
                 </ListItem>
               </Link>
             ))}
-          </List>
-          <FormGroup className={classes.linkText}>
+            <FormGroup className={classes.linkText}>
             <FormControlLabel
               control={
                 <Switch
@@ -71,6 +74,7 @@ const Header = () => {
               label={mode ? "Light" : "Dark"}
             />
           </FormGroup>
+          </List>
         </Container>
       </Toolbar>
     </AppBar>
