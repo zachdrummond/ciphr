@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -63,6 +63,17 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
   const classes = useStyles();
 
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    // console.log(value)
+    setUserInfo({...userInfo, [name]: value} );
+  };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -97,6 +108,8 @@ export default function SignInSide() {
               name="username"
               autoComplete="username"
               autoFocus
+              value={userInfo.username}
+              onChange={handleInput}
             />
             <TextField
               variant="outlined"
@@ -108,6 +121,8 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={userInfo.password}
+              onChange={handleInput}
             />
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
