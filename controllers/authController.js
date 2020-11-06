@@ -52,8 +52,29 @@ router.post("/api/signup", (request, response) => {
       if (foundUser) {
         bcrypt
           .compare(password, foundUser.password)
-          .then(function (result) {})
-          .catch((error) => {});
+          .then(function (result) {
+            if (result) {
+              res.json({
+                error: false,
+                data: null,
+                message: "Successfully logged in.",
+              });
+            } else {
+              response.status(401).json({
+                error: true,
+                data: null,
+                message: "Password is incorrect.",
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            response.status(401).json({
+              error: true,
+              data: null,
+              message: "Password is incorrect.",
+            });
+          });
       }
     })
     .catch((error) => {
@@ -61,7 +82,7 @@ router.post("/api/signup", (request, response) => {
       response.status(500).json({
         error: true,
         data: null,
-        message: "Unable to hash password",
+        message: "Unable to find user.",
       });
     });
 });
