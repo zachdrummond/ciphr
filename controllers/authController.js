@@ -4,8 +4,10 @@ const router = express.Router();
 const db = require("../models");
 
 // SIGNUP ROUTE
-router.post("/api/signup", ({ username, password }, response) => {
-  // Validation
+router.post("/api/signup", (request, response) => {
+   // Destructuring the request object
+    const { username, password } = request.body;
+    // Validation
   if (!username.trim() || !password.trim()) {
     response.status(400); // Bad Request
   } else {
