@@ -7,15 +7,20 @@ import Challenge from "./containers/Challenge/Challenge";
 import EditAlgorithm from "./containers/EditAlgorithm/EditAlgorithm";
 import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
 import NotFound from "./containers/NotFound/NotFound";
-
+import Header from "./components/Header";
 
 function App() {
   return (
     <div className="App">
       <Router>
+        <Header />
         <Switch>
           <Route exact path="/algorithms/new" component={AddAlgorithm} />
-          <Route exact path="/algorithms/:algorithmId/edit" component={EditAlgorithm} />
+          <Route
+            exact
+            path="/algorithms/:algorithmId/edit"
+            component={EditAlgorithm}
+          />
           <Route exact path="/algorithms/:algorithmId" component={Challenge} />
           <Route exact path="/home" component={Home} />
           <Route exact path="/signup" component={SignUp} />
