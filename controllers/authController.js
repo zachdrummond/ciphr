@@ -5,9 +5,9 @@ const db = require("../models");
 
 // SIGNUP ROUTE
 router.post("/api/signup", (request, response) => {
-   // Destructuring the request object
-    const { username, password } = request.body;
-    // Validation
+  // Destructuring the request object
+  const { username, password } = request.body;
+  // Validation
   if (!username.trim() || !password.trim()) {
     response.status(400); // Bad Request
   } else {
@@ -45,7 +45,12 @@ router.post("/api/signup", (request, response) => {
 
 // LOGIN ROUTE
 router.post("/api/signup", (request, response) => {
-    
+  const { username, password } = request.body;
+  // Destructuring the request object
+  db.User.find({ username: username }).then((foundUser) => {
+    if (foundUser) {
+    }
+  });
 });
 
 module.exports = router;
