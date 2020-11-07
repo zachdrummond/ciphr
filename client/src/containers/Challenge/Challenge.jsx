@@ -33,10 +33,15 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
+    float: "right",
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  runButton: {
+    margin: 20,
+    width: 100,
+  }
 }));
 
 const Challenge = () => {
@@ -47,6 +52,7 @@ const Challenge = () => {
     code: "",
     language: "",
   });
+  const [output, setOutput] = useState("")
 
   // changes either code or language depending on name attribute
   const handleInputChange = (e) => {
@@ -55,8 +61,28 @@ const Challenge = () => {
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
-    console.log(input.code);
-  }
+
+    // stops function if no code is entered
+    if (input.code.length === 0) {
+      alert("No code to run!")
+      return;
+    }
+    // post code/input to server (codeController.js) where third party api call is made
+    API.postCode(input).then(({data}) => {
+      // if nothing is logged to console alert pops up
+      if (data.out.length === 0 && data.err.length === 0) {
+        alert("Remember to call functions or log/print results to console!")
+      // if output is null error is logged to console and vice versa
+      } else if (data.out.length === 0) {
+        setOutput(data.err);
+      } else if (data.err.length === 0) {
+        setOutput(data.out);
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+
+  };
 
   return (
     <Container maxWidth="lg">
@@ -90,8 +116,7 @@ const Challenge = () => {
                   value={input.code}
                   onChange={handleInputChange}
                 >
-                  At w3schools.com you will learn how to make a website. They
-                  offer free tutorials in all web development technologies.
+                  Input your code here!
                 </textarea>
                 <Typography
                   className={classes.titleBottom}
@@ -100,7 +125,12 @@ const Challenge = () => {
                   align="left"
                 >
                   Output
-                  <Button onClick={handleCodeSubmit} variant="contained" color="primary">
+                  <Button
+                    onClick={handleCodeSubmit}
+                    variant="contained"
+                    color="primary"
+                    className={classes.runButton}
+                  >
                     Run
                   </Button>
                   <FormControl
@@ -128,12 +158,12 @@ const Challenge = () => {
                 </Typography>
                 <textarea
                   className={classes.autosize}
-                  name="textArea2"
+                  name="output"
                   rows="10"
                   cols="50"
+                  defaultValue={output}
                 >
-                  At w3schools.com you will learn how to make a website. They
-                  offer free tutorials in all web development technologies.
+                  
                 </textarea>
               </Paper>
             </Grid>
