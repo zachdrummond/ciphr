@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
@@ -6,6 +6,12 @@ import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,10 +30,23 @@ const useStyles = makeStyles((theme) => ({
   titleBottom: {
     marginBottom: "30px",
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const Challenge = () => {
   const classes = useStyles();
+  const [code, setCode] = useState("");
+
+  const handleChange = (e) => {
+    setCode(e.target.value);
+  };
+
   return (
     <Container maxWidth="lg">
       <Grid container className={classes.root}>
@@ -52,7 +71,12 @@ const Challenge = () => {
                 >
                   Input
                 </Typography>
-                <textarea className={classes.autosize} name="textArea1">
+                <textarea
+                  className={classes.autosize}
+                  name="textArea1"
+                  rows="22"
+                  cols="50"
+                >
                   At w3schools.com you will learn how to make a website. They
                   offer free tutorials in all web development technologies.
                 </textarea>
@@ -63,8 +87,34 @@ const Challenge = () => {
                   align="left"
                 >
                   Output
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
+                  >
+                    <InputLabel id="demo-simple-select-outlined-label">
+                      Language
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      value={code}
+                      onChange={handleChange}
+                      label="Language"
+                    >
+                      <MenuItem value="javascript">
+                        <em>Node.js</em>
+                      </MenuItem>
+                      <MenuItem value="python3">Python3</MenuItem>
+                      <MenuItem value="golang">Golang</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Typography>
-                <textarea className={classes.autosize} name="textArea2">
+                <textarea
+                  className={classes.autosize}
+                  name="textArea2"
+                  rows="10"
+                  cols="50"
+                >
                   At w3schools.com you will learn how to make a website. They
                   offer free tutorials in all web development technologies.
                 </textarea>
