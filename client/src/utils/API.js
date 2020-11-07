@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default {
+const API = {
     postUserInfo: function (data) {
         return axios({
             method: "POST",
@@ -16,3 +16,5 @@ export default {
         })
     }
 }
+
+export default API;
