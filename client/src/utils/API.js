@@ -7,5 +7,12 @@ export default {
             url: "/api/login",
             data: data
         })
+    },
+    postCode: function (data) {
+        return axios({
+            method: "POST",
+            url: "/api/code",
+            data: data,
+        })
     }
 }

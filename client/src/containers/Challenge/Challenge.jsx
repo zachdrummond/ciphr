@@ -9,9 +9,9 @@ import Button from "@material-ui/core/Button";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,11 +41,22 @@ const useStyles = makeStyles((theme) => ({
 
 const Challenge = () => {
   const classes = useStyles();
-  const [code, setCode] = useState("");
+  // sets the code input in first text area and language in dropdown select as state.
+  // find in dev tools components under 'Challenge'
+  const [input, setInput] = useState({
+    code: "",
+    language: "",
+  });
 
-  const handleChange = (e) => {
-    setCode(e.target.value);
+  // changes either code or language depending on name attribute
+  const handleInputChange = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
   };
+
+  const handleCodeSubmit = (e) => {
+    e.preventDefault();
+    console.log(input.code);
+  }
 
   return (
     <Container maxWidth="lg">
@@ -73,9 +84,11 @@ const Challenge = () => {
                 </Typography>
                 <textarea
                   className={classes.autosize}
-                  name="textArea1"
+                  name="code"
                   rows="22"
                   cols="50"
+                  value={input.code}
+                  onChange={handleInputChange}
                 >
                   At w3schools.com you will learn how to make a website. They
                   offer free tutorials in all web development technologies.
@@ -87,6 +100,9 @@ const Challenge = () => {
                   align="left"
                 >
                   Output
+                  <Button onClick={handleCodeSubmit} variant="contained" color="primary">
+                    Run
+                  </Button>
                   <FormControl
                     variant="outlined"
                     className={classes.formControl}
@@ -97,9 +113,10 @@ const Challenge = () => {
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      value={code}
-                      onChange={handleChange}
+                      value={input.language}
+                      onChange={handleInputChange}
                       label="Language"
+                      name="language"
                     >
                       <MenuItem value="javascript">
                         <em>Node.js</em>
