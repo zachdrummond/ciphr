@@ -5,7 +5,9 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 // import Copyright from "@material-ui/core/copyright";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+// import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
+
 
 
 function Copyright() {
@@ -60,6 +62,7 @@ const CredentialsForm = ({classes, handleSubmit, handleInput, username, password
       >
         Sign In
       </Button>
+      <Link to="/signup">New to Ciphr? Sign Up Here!</Link>
       <Box mt={5}>
         <Copyright />
       </Box>
