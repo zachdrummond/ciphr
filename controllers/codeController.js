@@ -4,13 +4,14 @@ const axios = require("axios");
 
 router.post("/api/code", (req, res) => {
   console.log(req.body);
+  // posts code from text area to the compiler API
   axios({
     method: "POST",
     url: "https://paiza-io.p.rapidapi.com/runners/create",
     headers: {
       "content-type": "application/x-www-form-urlencoded",
       "x-rapidapi-host": "paiza-io.p.rapidapi.com",
-      "x-rapidapi-key": "59d0c27c79msh6e6814003e3803ep1e5484jsn5fecf295231f",
+      "x-rapidapi-key": process.env.RAPIDAI_API_KEY,
       useQueryString: true,
     },
     params: {
@@ -20,14 +21,14 @@ router.post("/api/code", (req, res) => {
     data: {},
   })
     .then((postResponse) => {
+      // the response of the code compiler post request is an id which is used to get the compiler result
       axios({
         method: "GET",
         url: "https://paiza-io.p.rapidapi.com/runners/get_details",
         headers: {
           "content-type": "application/octet-stream",
           "x-rapidapi-host": "paiza-io.p.rapidapi.com",
-          "x-rapidapi-key":
-            "59d0c27c79msh6e6814003e3803ep1e5484jsn5fecf295231f",
+          "x-rapidapi-key": process.env.RAPIDAI_API_KEY,
           useQueryString: true,
         },
         params: {
@@ -38,7 +39,7 @@ router.post("/api/code", (req, res) => {
           console.log(getResponse.data);
           const output = getResponse.data.stdout;
           const error = getResponse.data.stderr;
-          // console.log(output);
+          // send standard output and error to the front end
           res.status(200).json({
             success: true,
             out: output,
@@ -46,10 +47,11 @@ router.post("/api/code", (req, res) => {
           });
         })
         .catch((error) => {
+          console.log(error);
           res.status(500).json({
             error: true,
             data: null,
-            message: "Unable to sign up",
+            message: "Unable get compiled code",
           });
         });
     })
