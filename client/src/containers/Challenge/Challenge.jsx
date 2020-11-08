@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
@@ -6,6 +6,12 @@ import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,10 +30,60 @@ const useStyles = makeStyles((theme) => ({
   titleBottom: {
     marginBottom: "30px",
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    float: "right",
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  runButton: {
+    margin: 20,
+    width: 100,
+  }
 }));
 
 const Challenge = () => {
   const classes = useStyles();
+  // sets the code input in first text area and language in dropdown select as state.
+  // find in dev tools components under 'Challenge'
+  const [input, setInput] = useState({
+    code: "",
+    language: "",
+  });
+  const [output, setOutput] = useState("")
+
+  // changes either code or language depending on name attribute
+  const handleInputChange = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+  };
+
+  const handleCodeSubmit = (e) => {
+    e.preventDefault();
+
+    // stops function if no code is entered
+    if (input.code.length === 0) {
+      alert("No code to run!")
+      return;
+    }
+    // post code/input to server (codeController.js) where third party api call is made
+    API.postCode(input).then(({data}) => {
+      // if nothing is logged to console alert pops up
+      if (data.out.length === 0 && data.err.length === 0) {
+        alert("Remember to call functions or log/print results to console!")
+      // if output is null error is logged to console and vice versa
+      } else if (data.out.length === 0) {
+        setOutput(data.err);
+      } else if (data.err.length === 0) {
+        setOutput(data.out);
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+
+  };
+
   return (
     <Container maxWidth="lg">
       <Grid container className={classes.root}>
@@ -52,9 +108,15 @@ const Challenge = () => {
                 >
                   Input
                 </Typography>
-                <textarea className={classes.autosize} name="textArea1">
-                  At w3schools.com you will learn how to make a website. They
-                  offer free tutorials in all web development technologies.
+                <textarea
+                  className={classes.autosize}
+                  name="code"
+                  rows="22"
+                  cols="50"
+                  value={input.code}
+                  onChange={handleInputChange}
+                >
+                  Input your code here!
                 </textarea>
                 <Typography
                   className={classes.titleBottom}
@@ -63,10 +125,45 @@ const Challenge = () => {
                   align="left"
                 >
                   Output
+                  <Button
+                    onClick={handleCodeSubmit}
+                    variant="contained"
+                    color="primary"
+                    className={classes.runButton}
+                  >
+                    Run
+                  </Button>
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
+                  >
+                    <InputLabel id="demo-simple-select-outlined-label">
+                      Language
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      value={input.language}
+                      onChange={handleInputChange}
+                      label="Language"
+                      name="language"
+                    >
+                      <MenuItem value="javascript">
+                        <em>Node.js</em>
+                      </MenuItem>
+                      <MenuItem value="python3">Python3</MenuItem>
+                      <MenuItem value="golang">Golang</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Typography>
-                <textarea className={classes.autosize} name="textArea2">
-                  At w3schools.com you will learn how to make a website. They
-                  offer free tutorials in all web development technologies.
+                <textarea
+                  className={classes.autosize}
+                  name="output"
+                  rows="10"
+                  cols="50"
+                  defaultValue={output}
+                >
+                  
                 </textarea>
               </Paper>
             </Grid>
