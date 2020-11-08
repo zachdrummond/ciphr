@@ -8,20 +8,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import API from "../../utils/API"
-import CredentialsForm from "../../components/LoginForm/CredentialsForm"
-
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {"Copyright © "}
-//       <Link color="inherit" href="https://material-ui.com/">
-//         AlgoMaster
-//       </Link>{" "}
-//       {new Date().getFullYear()}
-//       {"."}
-//     </Typography>
-//   );
-// }
+import CredentialsForm from "../../components/CredentialsForm/CredentialsForm"
 
 const useStyles = makeStyles((theme) => ({
   root: {
