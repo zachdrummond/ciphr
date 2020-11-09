@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -58,19 +59,60 @@ export default function AddAlgorithm() {
                         >
                         Give your Algorithm a name
                     </Typography>
-        
                     <form className={classes.form} noValidate autoComplete="off">
-                        <TextField
-                            id="outlined-multiline-flexible"
-                            label="Challenge name"
-                            multiline
-                            rowsMax={4}
-                            value={value}
-                            onChange={handleChange}
-                            variant="outlined"
-                            fullWidth
-                        />
+                    <TextField
+                        id="algo-name"
+                        label="Challenge name"
+                        multiline
+                        rowsMax={4}
+                        value={value}
+                        onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                    />
+                
+                    <Typography
+                        variant="h6"
+                        color="textPrimary"
+                        align="left"
+                        >
+                        Tell us about your Algorithm
+                    </Typography>
+                   
+                    <TextField
+                        id="algo-description"
+                        label="Challenge Description"
+                        multiline
+                        rowsMax={4}
+                        value={value}
+                        onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                    />
+             
+                    <Typography
+                        variant="h6"
+                        color="textPrimary"
+                        align="left"
+                        >
+                        Describe any test cases
+                    </Typography>
+                    
+                    <TextField
+                        id="algo-test-cases"
+                        label="Test Cases"
+                        multiline
+                        rowsMax={4}
+                        value={value}
+                        onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                    />
+                    <Button variant="contained" color="primary">
+                        Save
+                    </Button>
                     </form>
+                 
                 </Paper> 
             </Grid>
 

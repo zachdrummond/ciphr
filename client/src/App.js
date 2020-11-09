@@ -8,6 +8,7 @@ import EditAlgorithm from "./containers/EditAlgorithm/EditAlgorithm";
 import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
 import NotFound from "./containers/NotFound/NotFound";
 import Header from "./components/Header";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 // start of figuring out dark/light mode
 
@@ -36,6 +37,7 @@ function App() {
     // <ThemeProvider theme={theme}>
     //   <CssBaseline />
     <div className="App">
+      <CssBaseline />
       <Router>
         <Header />
         <Switch>
