@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 // Material UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,6 +11,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 // File Modules
 import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem";
+import HomeSection from "../../components/HomeSection/HomeSection";
 
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
@@ -40,36 +40,15 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={6}>
-          {/* My Algorithms Section */}
-          <Paper elevation={5} className={classes.paper}>
-            My Algorithms
-          </Paper>
-          <Container align="center">
-            <Box m={2}>
-              <Link to={"/algorithms/new"}>
-                <Fab color="primary" variant="extended">
-                  Add Algorithm
-                </Fab>
-              </Link>
-            </Box>
-            <List
-              component="nav"
-              className={classes.root}
-              aria-label="mailbox folders"
-            >
-              <Divider />
-              <AlgorithmListItem
-                title={"Is it a Palandrome?"}
-                author={"Some Guy"}
-              />
-              <AlgorithmListItem
-                title={"Reverse the array?"}
-                author={"Tommy Boy"}
-              />
-            </List>
-          </Container>
-        </Grid>
+        <HomeSection>
+          <Box m={2}>
+            <Link to={"/algorithms/new"}>
+              <Fab color="primary" variant="extended">
+                Add Algorithm
+              </Fab>
+            </Link>
+          </Box>
+        </HomeSection>
         <Grid item xs={6}>
           {/* Browse Algorithms Section */}
           <Paper elevation={5} className={classes.paper}>
