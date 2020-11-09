@@ -32,11 +32,19 @@ const useStyles = makeStyles((theme) => ({
 export default function AddAlgorithm() {
   const classes = useStyles();
 
-//   const [value, setValue] = React.useState('Controlled');
 
-//   const handleChange = (event) => {
-//     setValue(event.target.value);
-//   };
+  const [testCase, setTestCase] = useState({
+    test1: "",
+    test2: "",
+    test3: "",
+    test4: "",
+})
+
+const handleTestInput = (e) => {
+    const { name, value } = e.target;
+    setTestCase({...testCase, [name]: value})
+}
+
 
 const [testCount, setTestCount] = useState({
     count: 0,
@@ -121,17 +129,10 @@ const handleTestButton = () => {
 
                     {testCount.max.map((test, index) => {
                         if (index < testCount.count) {
-                            return <TestCase />
+                            return <TestCase {...testCase} key={test} handleTestInput={handleTestInput}/>
                         }
                     })}
                     
-                    
-                        
-                    
-
-
-                    
-
                     <Button
                         variant="outlined"
                         color="primary"
