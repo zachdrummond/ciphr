@@ -14,24 +14,23 @@ router.get("/api/algorithm/:id", function (request, response) {
 
 // Create an algorithm
 router.post("/api/algorithm", (req, res) => {
-  console.log(req.body)
-    db.TestCases.insertMany(req.body.testCases).then((testCaseResponse) => {
+  console.log(req.body);
+  db.TestCases.insertMany(req.body.testCases)
+    .then((testCaseResponse) => {
+      db.Algorithms.create({
+        challengeName: req.body.algorithm.challengeName,
+        description: req.body.algorithm.description,
+        testCases: testCaseResponse,
+      }).then((newAlgorithm) => {
         res.status(200).json({
-            error: false,
-            data: testCaseResponse,
-            message: "test cases created!"
-        })
+          error: false,
+          data: newAlgorithm,
+          message: "Succesfully posted new algorithm",
+        });
+      });
     })
     // })
 
-//   db.Algorithms.create(req.body)
-//     .then((newAlgorithm) => {
-//       res.status(200).json({
-//         error: false,
-//         data: newAlgorithm,
-//         message: "Succesfully posted new algorithm",
-//       });
-//     })
     .catch((err) => {
       console.log(err);
       res.status(500).json({
