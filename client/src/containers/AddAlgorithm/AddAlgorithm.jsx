@@ -7,6 +7,8 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 import TestCase from "../../components/TestCase/TestCase";
+import Icon from '@material-ui/core/Icon';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -35,6 +37,16 @@ export default function AddAlgorithm() {
 //   const handleChange = (event) => {
 //     setValue(event.target.value);
 //   };
+
+const [testCount, setTestCount] = useState({
+    count: 0,
+    max: ["test1", "test2", "test3", "test4"],
+})
+
+const handleTestButton = () => {
+    const newCount = testCount.count + 1;
+    setTestCount({...testCount, count: newCount})
+}
 
   const [algoInfo, setAlgoInfo] = useState({
     challengeName: "",
@@ -107,7 +119,28 @@ export default function AddAlgorithm() {
                         rows={4}
                     />
 
-                    <TestCase />
+                    {testCount.max.map((test, index) => {
+                        if (index < testCount.count) {
+                            return <TestCase />
+                        }
+                    })}
+                    
+                    
+                        
+                    
+
+
+                    
+
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        className={classes.button}
+                        startIcon={<AddIcon />}
+                        onClick={handleTestButton}
+                    >
+                         Add Test Case
+                    </Button>
        
                     <Button variant="contained" color="primary">
                         Save
