@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 // import Link from "@material-ui/core/Link";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import API from "../../utils/API"
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm"
+import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "center",
   },
   paper: {
-    margin: theme.spacing(8, 4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -73,10 +72,8 @@ export default function SignInSide() {
   }
 
   return (
-    <Grid container component="main" className={classes.root}>
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={8} className={classes.image} />
-      <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -85,9 +82,7 @@ export default function SignInSide() {
             Sign up
           </Typography>
           <CredentialsForm {...userInfo} handleInput={handleInput} handleSubmit={handleSubmit} classes={classes} type={"Sign up"} link={"/"} linkText={"Already have an account? Sign in"}/>
-          
         </div>
-      </Grid>
-    </Grid>
+    </Container>
   );
 }
