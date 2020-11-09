@@ -11,7 +11,7 @@ const API = {
     postNewUserInfo: function (data) {
         return axios({
             method: "POST",
-            url: "/api/login",
+            url: "/api/signup",
             data: data
         })
     },

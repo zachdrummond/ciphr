@@ -43,11 +43,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+export default function SignUpSide() {
   const classes = useStyles();
 
   // hook configures username/password state
-  // to find state in dev tools 'Components' look under 'SignInSide'
+  // to find state in dev tools 'Components' look under 'SignUpSide'
   const [userInfo, setUserInfo] = useState({
     username: "",
     password: "",
@@ -64,7 +64,7 @@ export default function SignInSide() {
     // username/password posted to back end
     // see API.js in utils for more info
     console.log(userInfo);
-    API.postUserInfo(userInfo)
+    API.postNewUserInfo(userInfo)
       .then((response) => {
         console.log(response);
       })
