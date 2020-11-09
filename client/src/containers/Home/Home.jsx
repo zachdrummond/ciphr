@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
 
+  
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -40,7 +42,7 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <HomeSection>
+        <HomeSection title="My Algorithms">
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">
@@ -56,9 +58,7 @@ const Home = () => {
           </Paper>
           <Container>
             <List
-              component="nav"
               className={classes.root}
-              aria-label="mailbox folders"
             >
               <Divider />
               <AlgorithmListItem

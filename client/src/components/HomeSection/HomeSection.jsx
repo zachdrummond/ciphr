@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 // Material UI
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -6,8 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import Container from "@material-ui/core/Container";
-import Fab from "@material-ui/core/Fab";
-import Box from "@material-ui/core/Box";
 // File Modules
 import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem";
 
@@ -32,14 +29,13 @@ const HomeSection = (props) => {
     <Grid item xs={6}>
       {/* My Algorithms Section */}
       <Paper elevation={5} className={classes.paper}>
-        My Algorithms
+        {props.title}
       </Paper>
       <Container align="center">
         {props.children}
         <List
           component="nav"
           className={classes.root}
-          aria-label="mailbox folders"
         >
           <Divider />
           <AlgorithmListItem
