@@ -1,19 +1,19 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+// Material UI
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
-// import ListItem from "@material-ui/core/ListItem";
-// import ListItemText from "@material-ui/core/ListItemText";
 import Container from "@material-ui/core/Container";
-// import Button from "@material-ui/core/Button";
 import Fab from "@material-ui/core/Fab";
-import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
+// File Modules
+import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem";
 
+// Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -28,12 +28,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
+          {/* Welcome Message */}
           <Box p={3}>
             <Typography variant="h3" component="h3" align="center">
               Welcome Username!
@@ -41,14 +41,12 @@ const Home = () => {
           </Box>
         </Grid>
         <Grid item xs={6}>
+          {/* My Algorithms Section */}
           <Paper elevation={5} className={classes.paper}>
             My Algorithms
           </Paper>
           <Container align="center">
             <Box m={2}>
-              {/* <Button variant="contained" color="primary" disableElevation>
-                Add Algorithm
-              </Button> */}
               <Link to={"/algorithms/new"}>
                 <Fab color="primary" variant="extended">
                   Add Algorithm
@@ -73,6 +71,7 @@ const Home = () => {
           </Container>
         </Grid>
         <Grid item xs={6}>
+          {/* Browse Algorithms Section */}
           <Paper elevation={5} className={classes.paper}>
             Browse Algorithms
           </Paper>
