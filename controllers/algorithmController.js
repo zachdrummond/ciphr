@@ -13,10 +13,13 @@ router.get("/api/algorithm/:id", function (request, response) {
 });
 
 // Create an algorithm
+//TODO: Add user info to algorithm model
 router.post("/api/algorithm", (req, res) => {
   console.log(req.body);
+  // first test cases are created (can be empty array!)
   db.TestCases.insertMany(req.body.testCases)
     .then((testCaseResponse) => {
+      // then an algorithm entry is created with the test cases
       db.Algorithms.create({
         challengeName: req.body.algorithm.challengeName,
         description: req.body.algorithm.description,
@@ -29,8 +32,6 @@ router.post("/api/algorithm", (req, res) => {
         });
       });
     })
-    // })
-
     .catch((err) => {
       console.log(err);
       res.status(500).json({
