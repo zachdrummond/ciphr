@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     justify: "center",
   },
   titleBottom: {
-    marginBottom: "30px",
+    marginBottom: theme.spacing(4), 
   },
 }));
 
@@ -36,7 +36,7 @@ export default function AddAlgorithm() {
 
   return (
 
-    <Container maxWidth="md" >
+    <Container maxWidth="sm" >
         <Grid container className={classes.mastergrid}>
             
             <Grid item xs={12}>

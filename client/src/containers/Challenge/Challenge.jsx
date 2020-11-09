@@ -21,14 +21,15 @@ const useStyles = makeStyles((theme) => ({
     resize: "vertical",
     width: "100%",
   },
-  // column: {
-  //   paddingRight: "60px",
-  // },
+  column: {
+    margin: theme.spacing(1, 0),
+  },
   paper: {
-    padding: "30px",
+    padding: theme.spacing(4),  
+    margin: theme.spacing(1, 1),
   },
   titleBottom: {
-    marginBottom: "30px",
+    marginBottom: theme.spacing(4), 
   },
   formControl: {
     margin: theme.spacing(1),
