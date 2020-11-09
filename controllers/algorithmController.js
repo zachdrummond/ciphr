@@ -16,13 +16,14 @@ router.get("/api/algorithm/:id", function (request, response) {
 //TODO: Add user info to algorithm model
 router.post("/api/algorithm", (req, res) => {
   console.log(req.body);
-  // first test cases are created (can be empty array!)
-  db.TestCases.insertMany(req.body.testCases)
+  const { testCases, algorithm } = req.body;
+  // first test cases are created from the front end input (can be empty array!)
+  db.TestCases.insertMany(testCases)
     .then((testCaseResponse) => {
-      // then an algorithm entry is created with the test cases
+      // then an algorithm entry is created with the front end input and test cases from db
       db.Algorithms.create({
-        challengeName: req.body.algorithm.challengeName,
-        description: req.body.algorithm.description,
+        challengeName: algorithm.challengeName,
+        description: algorithm.description,
         testCases: testCaseResponse,
       }).then((newAlgorithm) => {
         res.status(200).json({
