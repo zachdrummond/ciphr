@@ -14,21 +14,22 @@ import Select from "@material-ui/core/Select";
 import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: theme.spacing(8, 4),
+  mastergrid: {
+    margin: theme.spacing(8, 0),
   },
   autosize: {
     resize: "vertical",
     width: "100%",
   },
   column: {
-    paddingRight: "60px",
+    margin: theme.spacing(1, 0),
   },
   paper: {
-    padding: "30px",
+    padding: theme.spacing(4),  
+    margin: theme.spacing(1, 1),
   },
   titleBottom: {
-    marginBottom: "30px",
+    marginBottom: theme.spacing(4), 
   },
   formControl: {
     margin: theme.spacing(1),
@@ -86,7 +87,8 @@ const Challenge = () => {
 
   return (
     <Container maxWidth="lg">
-      <Grid container className={classes.root}>
+      <Grid container className={classes.mastergrid}>
+      <Grid item xs={12}>
         <Typography
           className={classes.titleBottom}
           variant="h4"
@@ -95,6 +97,7 @@ const Challenge = () => {
         >
           Challenge: The Three Comma Club
         </Typography>
+        </Grid>
         <Grid item xs={12}>
           <Grid container>
             <Grid className={classes.column} item xs={12} md={6}>
