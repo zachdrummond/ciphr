@@ -14,7 +14,7 @@ import Select from "@material-ui/core/Select";
 import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  mastergrid: {
     margin: theme.spacing(8, 4),
   },
   autosize: {
@@ -86,7 +86,7 @@ const Challenge = () => {
 
   return (
     <Container maxWidth="lg">
-      <Grid container className={classes.root}>
+      <Grid container className={classes.mastergrid}>
         <Typography
           className={classes.titleBottom}
           variant="h4"

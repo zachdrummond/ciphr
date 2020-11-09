@@ -35,28 +35,24 @@ function App() {
 
     // <ThemeProvider theme={theme}>
     //   <CssBaseline />
-      <div className="App">
-        <Router>
-          <Header />
-          <Switch>
-            <Route exact path="/algorithms/new" component={AddAlgorithm} />
-            <Route
-              exact
-              path="/algorithms/:algorithmId/edit"
-              component={EditAlgorithm}
-            />
-            <Route
-              exact
-              path="/algorithms/:algorithmId"
-              component={Challenge}
-            />
-            <Route exact path="/home" component={Home} />
-            <Route exact path="/signup" component={SignUp} />
-            <Route exact path="/" component={Login} />
-            <Route path="/" component={NotFound} />
-          </Switch>
-        </Router>
-      </div>
+    <div className="App">
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path="/algorithms/new" component={AddAlgorithm} />
+          <Route
+            exact
+            path="/algorithms/:algorithmId/edit"
+            component={EditAlgorithm}
+          />
+          <Route exact path="/algorithms/:algorithmId" component={Challenge} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/" component={Login} />
+          <Route path="/" component={NotFound} />
+        </Switch>
+      </Router>
+    </div>
     // </ThemeProvider>
   );
 }
