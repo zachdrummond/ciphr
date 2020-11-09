@@ -84,7 +84,8 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <CredentialsForm {...userInfo} handleInput={handleInput} handleSubmit={handleSubmit} classes={classes}/>
+          <CredentialsForm {...userInfo} handleInput={handleInput} handleSubmit={handleSubmit} classes={classes} type={"Sign in"} link={"/signup"} linkText={"New to Ciphr? Sign Up Here!"}/>
+          
         </div>
       </Grid>
     </Grid>
