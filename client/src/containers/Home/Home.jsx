@@ -6,9 +6,9 @@ import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Fab from "@material-ui/core/Fab";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,9 +43,6 @@ const Home = () => {
         <Grid item xs={6}>
           <Paper className={classes.paper}>My Algorithms</Paper>
           <Container className={classes.center}>
-            {/* <Fab className={classes.center} variant="extended">
-            Add Algorithm
-          </Fab> */}
             <Button className={classes.button} variant="contained" color="primary" disableElevation>
               Add Algorithm
             </Button>
@@ -55,10 +52,7 @@ const Home = () => {
               aria-label="mailbox folders"
             >
               <Divider />
-              <ListItem button>
-                <ListItemText primary="Inbox" />
-              </ListItem>
-              <Divider />
+              <AlgorithmListItem title={"Is it a Palandrome?"} author={"Some Guy"} />
               <ListItem button divider>
                 <ListItemText primary="Drafts" />
               </ListItem>
@@ -82,10 +76,7 @@ const Home = () => {
               aria-label="mailbox folders"
             >
               <Divider />
-              <ListItem button>
-                <ListItemText primary="Inbox" />
-              </ListItem>
-              <Divider />
+              <AlgorithmListItem title={"Who is your daddy?"} author={"Shark Man"} />
               <ListItem button divider>
                 <ListItemText primary="Drafts" />
               </ListItem>
