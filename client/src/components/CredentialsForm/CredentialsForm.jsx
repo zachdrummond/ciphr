@@ -24,7 +24,7 @@ function Copyright() {
   }
 
 // 'classes' is a style object found on Login page. Maybe copy/paste or create new style object???
-const CredentialsForm = ({classes, handleSubmit, handleInput, username, password}) => {
+const CredentialsForm = ({classes, handleSubmit, handleInput, username, password, type, link, linkText}) => {
   return (
     <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
       <TextField
@@ -60,9 +60,9 @@ const CredentialsForm = ({classes, handleSubmit, handleInput, username, password
         color="primary"
         className={classes.submit}
       >
-        Sign In
+        {type}
       </Button>
-      <Link to="/signup">New to Ciphr? Sign Up Here!</Link>
+      <Link to={link}>{linkText}</Link>
       <Box mt={5}>
         <Copyright />
       </Box>
@@ -77,6 +77,9 @@ CredentialsForm.propTypes = {
   handleInput: PropTypes.func,
   username: PropTypes.string,
   password: PropTypes.string,
+  type: PropTypes.string,
+  link: PropTypes.string,
+  linkText: PropTypes.string
 };
 
 export default CredentialsForm;
