@@ -3,12 +3,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Typography } from "@material-ui/core";
 
-const TestCase = () => {
-    const [value, setValue] = React.useState('Controlled');
-
-    const handleChange = (event) => {
-      setValue(event.target.value);
-    };
+const TestCase = ({test, setInput, setOutput, input, output}) => {
     return (
         <div>
         <Typography
@@ -19,11 +14,12 @@ const TestCase = () => {
             Add Input
         </Typography>
         <TextField
-            id="algo-name"
+            id="test-input"
             label="Add Input"
             multiline
-            value={value}
-            onChange={handleChange}
+            name={test}
+            value={input[test]}
+            onChange={setInput}
             variant="outlined"
             fullWidth
         />
@@ -35,11 +31,12 @@ const TestCase = () => {
             Add Output
         </Typography>
         <TextField
-            id="algo-name"
+            id="test-output"
             label="Add Output"
             multiline
-            value={value}
-            onChange={handleChange}
+            name={test}
+            value={output[test]}
+            onChange={setOutput}
             variant="outlined"
             fullWidth
         />
