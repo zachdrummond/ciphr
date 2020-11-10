@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./containers/Login/Login";
 import SignUp from "./containers/SignUp/SignUp";
@@ -10,6 +10,7 @@ import NotFound from "./containers/NotFound/NotFound";
 import Header from "./components/Header/Header";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AuthContext from "./context/AuthContext/AuthContext";
+import setAxiosDefaults from "./utils/setAxiosDefaults";
 
 // start of figuring out dark/light mode
 
@@ -19,6 +20,13 @@ import AuthContext from "./context/AuthContext/AuthContext";
 
 function App() {
   const [jwt, setJwt] = useState("");
+
+  // When jwt changes, this calls the setAxiosDefaults function to set the authorization header to the jwt
+  useEffect(() => {
+    if (jwt) {
+      setAxiosDefaults(jwt);
+    }
+  }, [jwt]);
   // start of figuring out dark/light mode
 
   // const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");

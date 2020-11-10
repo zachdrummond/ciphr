@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 // import Link from "@material-ui/core/Link";
@@ -7,8 +7,9 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import API from "../../utils/API"
-import CredentialsForm from "../../components/CredentialsForm/CredentialsForm"
+import API from "../../utils/API";
+import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
+import AuthContext from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
   const classes = useStyles();
 
+  // Using AuthContextAPI to get the setJwt function
+  const { setJwt } = useContext(AuthContext);
+
   // hook configures username/password state
   // to find state in dev tools 'Components' look under 'SignInSide'
   const [userInfo, setUserInfo] = useState({
@@ -57,20 +61,24 @@ export default function SignInSide() {
   const handleInput = (e) => {
     const { name, value } = e.target;
     // handles input of either username or password
-    setUserInfo({...userInfo, [name]: value} );
+    setUserInfo({ ...userInfo, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // username/password posted to back end
     // see API.js in utils for more info
-    console.log(userInfo)
-    API.postUserInfo(userInfo).then((response) => {
-      console.log(response);
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
+    console.log(userInfo);
+    API.postUserInfo(userInfo)
+      .then((response) => {
+        console.log(response);
+        // Setting the AuthContextAPI jwt to the new jwt received from the backend
+        setJwt(response.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -84,8 +92,15 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <CredentialsForm {...userInfo} handleInput={handleInput} handleSubmit={handleSubmit} classes={classes} type={"Sign in"} link={"/signup"} linkText={"New to Ciphr? Sign Up Here!"}/>
-          
+          <CredentialsForm
+            {...userInfo}
+            handleInput={handleInput}
+            handleSubmit={handleSubmit}
+            classes={classes}
+            type={"Sign in"}
+            link={"/signup"}
+            linkText={"New to Ciphr? Sign Up Here!"}
+          />
         </div>
       </Grid>
     </Grid>

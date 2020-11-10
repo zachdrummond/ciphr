@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUpSide() {
   const classes = useStyles();
 
+  // Using AuthContextAPI to get the setJwt function
   const {setJwt} = useContext(AuthContext);
 
   // hook configures username/password state
@@ -70,6 +71,7 @@ export default function SignUpSide() {
     API.postNewUserInfo(userInfo)
       .then((response) => {
         console.log(response);
+        // Setting the AuthContextAPI jwt to the new jwt received from the backend
         setJwt(response.data.data);
       })
       .catch((err) => {
