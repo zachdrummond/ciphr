@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { makeStyles }  from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
@@ -15,12 +15,12 @@ import Select from "@material-ui/core/Select";
 import API from "../../utils/API";
 import axios from "axios";
 import CodeMirror from "react-codemirror";
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/mode/python/python';
-import 'codemirror/mode/go/go';
-import 'codemirror/mode/clike/clike';
-import 'codemirror/mode/r/r';
+import "codemirror/lib/codemirror.css";
+import "codemirror/mode/javascript/javascript";
+import "codemirror/mode/python/python";
+import "codemirror/mode/go/go";
+import "codemirror/mode/clike/clike";
+import "codemirror/mode/r/r";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -59,9 +59,9 @@ const Challenge = () => {
 
   // const [code, setCode] = useState("// Code")
   const [options, setOptions] = useState({
-    mode: 'javascript',
+    mode: "javascript",
     lineNumbers: true,
-  })
+  });
   // sets the code input in first text area and language in dropdown select as state.
   // find in dev tools components under 'Challenge'
   const [input, setInput] = useState("");
@@ -76,10 +76,11 @@ const Challenge = () => {
   };
 
   const handleOptionsChange = (e) => {
-    const language = e.target.value.split(" ")[1];
+    console.log(e.target.value)
+    const language = e.target.value;
 
-    setOptions({...options, mode: language})
-  }
+    setOptions({ ...options, mode: language });
+  };
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
@@ -186,13 +187,11 @@ const Challenge = () => {
                       label="Language"
                       name="language"
                     >
-                      <MenuItem value="javascript javascript">
-                        <em>Node.js</em>
-                      </MenuItem>
-                      <MenuItem value="python3 python">Python3</MenuItem>
-                      <MenuItem value="golang go">Golang</MenuItem>
-                      <MenuItem value="java clike">Java</MenuItem>
-                      <MenuItem value="r r">r</MenuItem>
+                      <MenuItem value="javascript">Node.js</MenuItem>
+                      <MenuItem value="python">Python3</MenuItem>
+                      <MenuItem value="go">Golang</MenuItem>
+                      <MenuItem value="clike">Java</MenuItem>
+                      <MenuItem value="r">R</MenuItem>
                     </Select>
                   </FormControl>
                 </Typography>

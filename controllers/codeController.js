@@ -2,8 +2,24 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
+function compilerLang(lang) {
+  switch (lang) {
+    case "python":
+      return "python3";
+    case "go":
+      return "golang";
+    case "clike":
+      return "java";
+    case "r":
+      return "r";
+    default:
+      return "javascript";
+  }
+}
+
 router.post("/api/code", (req, res) => {
   console.log(req.body);
+  const language = compilerLang(req.body.mode)
   // posts code from text area to the compiler API
   axios({
     method: "POST",
@@ -15,7 +31,7 @@ router.post("/api/code", (req, res) => {
       useQueryString: true,
     },
     params: {
-      language: req.body.mode,
+      language: language,
       source_code: req.body.input,
     },
     data: {},
