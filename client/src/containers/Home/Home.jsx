@@ -32,6 +32,9 @@ const Home = () => {
         console.log(error);
       });
   };
+  const handleClick = (e)=>{
+    console.log(e);
+  }
 
   return (
     <div className={classes.root}>
@@ -44,7 +47,7 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <HomeSection size={6} title="My Algorithms" algorithms={allAlgorithms}>
+        <HomeSection size={6} title="My Algorithms" handleClick={handleClick} algorithms={allAlgorithms}>
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">
