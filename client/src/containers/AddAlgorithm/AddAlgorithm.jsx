@@ -9,6 +9,7 @@ import { Typography } from "@material-ui/core";
 import TestCase from "../../components/TestCase/TestCase";
 import Icon from "@material-ui/core/Icon";
 import AddIcon from "@material-ui/icons/Add";
+import useTestCase from "../../utils/useTestCase"
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -32,29 +33,10 @@ const useStyles = makeStyles((theme) => ({
 export default function AddAlgorithm() {
   const classes = useStyles();
 
-  const [testCaseIn, setTestCaseIn] = useState({
-    test1: "",
-    test2: "",
-    test3: "",
-    test4: "",
-  });
-
-  const [testCaseOut, setTestCaseOut] = useState({
-    test1: "",
-    test2: "",
-    test3: "",
-    test4: "",
-  });
-
-  const handleTestInput = (e) => {
-    const { name, value } = e.target;
-    setTestCaseIn({ ...testCaseIn, [name]: value });
-  };
-
-  const handleTestOutput = (e) => {
-    const { name, value } = e.target;
-    setTestCaseOut({ ...testCaseOut, [name]: value });
-  };
+  // custom hook imported from useTestCase.js
+  // instance for input and output
+  const input = useTestCase();
+  const output = useTestCase();
 
   const [testCount, setTestCount] = useState({
     count: 0,
@@ -131,12 +113,12 @@ export default function AddAlgorithm() {
                 if (index < testCount.count) {
                   return (
                     <TestCase
-                      testCaseIn={testCaseIn}
-                      testCaseOut={testCaseOut}
+                      input={input.test}
+                      output={output.test}
                       key={test}
-                      testName={test}
-                      handleTestInput={handleTestInput}
-                      handleTestOutput={handleTestOutput}
+                      test={test}
+                      setInput={input.setTestCase}
+                      setOutput={output.setTestCase}
                     />
                   );
                 }

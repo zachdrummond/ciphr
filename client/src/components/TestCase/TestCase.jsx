@@ -3,7 +3,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Typography } from "@material-ui/core";
 
-const TestCase = ({testName, handleTestInput, handleTestOutput, testCaseIn, testCaseOut}) => {
+const TestCase = ({test, setInput, setOutput, input, output}) => {
     return (
         <div>
         <Typography
@@ -17,9 +17,9 @@ const TestCase = ({testName, handleTestInput, handleTestOutput, testCaseIn, test
             id="test-input"
             label="Add Input"
             multiline
-            name={testName}
-            value={testCaseIn[testName]}
-            onChange={handleTestInput}
+            name={test}
+            value={input[test]}
+            onChange={setInput}
             variant="outlined"
             fullWidth
         />
@@ -34,9 +34,9 @@ const TestCase = ({testName, handleTestInput, handleTestOutput, testCaseIn, test
             id="test-output"
             label="Add Output"
             multiline
-            name={testName}
-            value={testCaseOut[testName]}
-            onChange={handleTestOutput}
+            name={test}
+            value={output[test]}
+            onChange={setOutput}
             variant="outlined"
             fullWidth
         />
