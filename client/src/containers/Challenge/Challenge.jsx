@@ -21,6 +21,8 @@ import "codemirror/mode/python/python";
 import "codemirror/mode/go/go";
 import "codemirror/mode/clike/clike";
 import "codemirror/mode/r/r";
+import "codemirror/mode/shell/shell";
+// import all the themes from codemirror/theme/...
 import "codemirror/theme/material-darker.css"
 
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +64,8 @@ const Challenge = () => {
   const [options, setOptions] = useState({
     mode: "javascript",
     lineNumbers: true,
-    theme: "material-darker"
+    //TODO: dark mode in the code editor!!! Just uncomment theme below
+    // theme: "material-darker"
   });
   // sets the code input in first text area and language in dropdown select as state.
   // find in dev tools components under 'Challenge'

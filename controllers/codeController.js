@@ -7,7 +7,7 @@ function compilerLang(lang) {
     case "python":
       return "python3";
     case "go":
-      return "golang";
+      return "go";
     case "clike":
       return "java";
     case "r":
