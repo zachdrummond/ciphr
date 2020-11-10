@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 // Material UI
 import { makeStyles, Grid, Fab, Box, Typography } from "@material-ui/core";
 // File Modules
 import HomeSection from "../../components/HomeSection/HomeSection";
 import API from "../../utils/API";
+import AuthContext from "../../context/AuthContext/AuthContext"
 
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
@@ -15,11 +16,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
+  const {jwt} =useContext(AuthContext);
 
   const [allAlgorithms, setAllAlgorithms] = useState([]);
+  const [myAlgorithms, setMyAlgorithms] = useState([]);
 
   useEffect(() => {
     getAllAlgorithms();
+    getMyAlgorithms();
   }, []);
 
   const getAllAlgorithms = () => {
@@ -31,6 +35,17 @@ const Home = () => {
         console.log(error);
       });
   };
+
+  const getMyAlgorithms = () => {
+    API.getMyAlgorithms(jwt)
+      .then((algorithms) => {
+        setMyAlgorithms(algorithms.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
 
   return (
     <div className={classes.root}>
