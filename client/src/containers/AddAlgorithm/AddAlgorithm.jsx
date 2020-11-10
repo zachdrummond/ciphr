@@ -7,9 +7,8 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 import TestCase from "../../components/TestCase/TestCase";
-import Icon from "@material-ui/core/Icon";
 import AddIcon from "@material-ui/icons/Add";
-import useTestCase from "../../utils/useTestCase"
+import useTestCase from "../../utils/useTestCase";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -34,18 +33,20 @@ export default function AddAlgorithm() {
   const classes = useStyles();
 
   // custom hook imported from useTestCase.js
-  // instance for input and output
-  const input = useTestCase();
-  const output = useTestCase();
+  // instance for each test case
+  const testOne = useTestCase();
+  const testTwo = useTestCase();
+  const testThree = useTestCase();
+  const testFour = useTestCase();
+  const allTests = [testOne, testTwo, testThree, testFour];
 
-  const [testCount, setTestCount] = useState({
-    count: 0,
-    max: ["test1", "test2", "test3", "test4"],
-  });
+  // testCount keeps track of how many test cases there are
+  const [testCount, setTestCount] = useState(0);
 
+  // each time the button is clicked the count is incremented
   const handleTestButton = () => {
-    const newCount = testCount.count + 1;
-    setTestCount({ ...testCount, count: newCount });
+    const newCount = testCount + 1;
+    setTestCount(newCount);
   };
 
   const [algoInfo, setAlgoInfo] = useState({
@@ -108,17 +109,15 @@ export default function AddAlgorithm() {
                 fullWidth
                 rows={4}
               />
-
-              {testCount.max.map((test, index) => {
-                if (index < testCount.count) {
+              {/* map over array of test case hooks */}
+              {allTests.map((test, index) => {
+                if (index < testCount) {
                   return (
                     <TestCase
-                      input={input.test}
-                      output={output.test}
-                      key={test}
-                      test={test}
-                      setInput={input.setTestCase}
-                      setOutput={output.setTestCase}
+                      {...test}
+                      key={`Test Case ${index + 1}`}
+                      header={`Test Case ${index + 1}`}
+                      setCase={test.setTestCase}
                     />
                   );
                 }
