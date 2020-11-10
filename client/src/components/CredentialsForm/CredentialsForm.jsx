@@ -62,7 +62,7 @@ const CredentialsForm = ({classes, handleSubmit, handleInput, username, password
       >
         {type}
       </Button>
-      <Link to={link}>{linkText}</Link>
+      <Link to={link ? link : "/"}>{linkText}</Link>
       <Box mt={5}>
         <Copyright />
       </Box>

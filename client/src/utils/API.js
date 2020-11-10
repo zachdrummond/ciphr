@@ -5,6 +5,9 @@ const API = {
   getAllAlgorithms: function () {
     return axios.get("/api/algorithm");
   },
+//   getAlgorithm: function () {
+//     return axios.get("/api/algorithm/:id");
+//   },
 
   postUserInfo: function (data) {
     return axios({
