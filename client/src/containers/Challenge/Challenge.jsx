@@ -14,6 +14,16 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import API from "../../utils/API";
 import axios from "axios";
+import CodeMirror from "react-codemirror";
+import "codemirror/lib/codemirror.css";
+import "codemirror/mode/javascript/javascript";
+import "codemirror/mode/python/python";
+import "codemirror/mode/go/go";
+import "codemirror/mode/clike/clike";
+import "codemirror/mode/r/r";
+import "codemirror/mode/shell/shell";
+// import all the themes from codemirror/theme/...
+import "codemirror/theme/material-darker.css"
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -49,32 +59,44 @@ const useStyles = makeStyles((theme) => ({
 
 const Challenge = () => {
   const classes = useStyles();
+
+  // const [code, setCode] = useState("// Code")
+  const [options, setOptions] = useState({
+    mode: "javascript",
+    lineNumbers: true,
+    //TODO: dark mode in the code editor!!! Just uncomment theme below
+    // theme: "material-darker"
+  });
   // sets the code input in first text area and language in dropdown select as state.
   // find in dev tools components under 'Challenge'
-  const [input, setInput] = useState({
-    code: "",
-    language: "",
-  });
+  const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [algorithm, setAlgorithm] = useState("");
 
   const { algoId } = useParams();
 
-  // changes either code or language depending on name attribute
+  // changes the value of the input hook
   const handleInputChange = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    setInput(e);
+  };
+
+  const handleOptionsChange = (e) => {
+    console.log(e.target.value)
+    const language = e.target.value;
+
+    setOptions({ ...options, mode: language });
   };
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
 
     // stops function if no code is entered
-    if (input.code.length === 0) {
+    if (input.length === 0) {
       alert("No code to run!");
       return;
     }
     // post code/input to server (codeController.js) where third party api call is made
-    API.postCode(input)
+    API.postCode(input, options.mode)
       .then(({ data }) => {
         // if nothing is logged to console alert pops up
         if (data.out.length === 0 && data.err.length === 0) {
@@ -132,16 +154,14 @@ const Challenge = () => {
                 >
                   Input
                 </Typography>
-                <textarea
-                  className={classes.autosize}
+                <CodeMirror
                   name="code"
-                  rows="22"
-                  cols="50"
-                  value={input.code}
+                  value={input}
                   onChange={handleInputChange}
+                  options={options}
                 >
                   Input your code here!
-                </textarea>
+                </CodeMirror>
                 <Typography
                   className={classes.titleBottom}
                   variant="h5"
@@ -167,16 +187,16 @@ const Challenge = () => {
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      value={input.language}
-                      onChange={handleInputChange}
+                      value={options.mode}
+                      onChange={handleOptionsChange}
                       label="Language"
                       name="language"
                     >
-                      <MenuItem value="javascript">
-                        <em>Node.js</em>
-                      </MenuItem>
-                      <MenuItem value="python3">Python3</MenuItem>
-                      <MenuItem value="golang">Golang</MenuItem>
+                      <MenuItem value="javascript">Node.js</MenuItem>
+                      <MenuItem value="python">Python3</MenuItem>
+                      <MenuItem value="go">Golang</MenuItem>
+                      <MenuItem value="clike">Java</MenuItem>
+                      <MenuItem value="r">R</MenuItem>
                     </Select>
                   </FormControl>
                 </Typography>
