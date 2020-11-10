@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
@@ -14,7 +14,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import API from "../../utils/API";
 import axios from "axios";
-
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -97,14 +96,16 @@ const Challenge = () => {
     let id = url.substring(url.lastIndexOf("/") + 1);
     // console.log(id);
     // getAlgo(id);
-    axios.get(`/api/algorithm/${id}`).then((response) => {
-      console.log(response.data);
-      setAlgorithm(response.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}, [algoId]);
+    axios
+      .get(`/api/algorithm/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        setAlgorithm(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [algoId]);
 
   // const getAlgo = (id) => {
   //   API.getAlgorithm(id)
@@ -227,25 +228,22 @@ const Challenge = () => {
                 >
                   Test Cases
                 </Typography>
-                <Typography
+                {/* <Typography
                   className={classes.titleBottom}
                   variant="body1"
                   color="textPrimary"
                   align="left"
-                >
-                  {algorithm ? algorithm.testCases.map(algo=>(
-                    `Input: ${algo.input}
-                    Result: ${algo.output}`
-                  )): ""}
-                  {/* // {algorithm ? `Input: ${algorithm.testCases[0].input}` : ""} <br />
-                  // {algorithm ? `Result: ${algorithm.testCases[0].output}` : ""} <br />
-                  // <br />
-                  // {algorithm ? `Input: ${algorithm.testCases[1].input}` : ""} <br />
-                  // {algorithm ? `Result: ${algorithm.testCases[1].output}` : ""} <br />
-                  // <br />
-                  // {algorithm ? `Input: ${algorithm.testCases[0].input}` : ""} <br />
-                  // {algorithm ? `Result: ${algorithm.testCases[0].output}` : ""} <br /> */}
-                </Typography>
+                > */}
+                  {algorithm
+                    ? algorithm.testCases.map((algo, index) => (
+                        <ul key={index}>
+                          <li>Input: {algo.input}</li>
+                          <li>Result: {algo.output}</li>
+                          <br />
+                        </ul>
+                      ))
+                    : ""}
+                {/* </Typography> */}
                 <Box p={3} bgcolor="text.primary" color="background.paper">
                   <Typography
                     className={classes.titleBottom}
