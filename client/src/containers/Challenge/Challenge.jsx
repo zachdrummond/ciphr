@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {useParams} from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
@@ -12,6 +13,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import API from "../../utils/API";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -25,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0),
   },
   paper: {
-    padding: theme.spacing(4),  
+    padding: theme.spacing(4),
     margin: theme.spacing(1, 1),
   },
   titleBottom: {
-    marginBottom: theme.spacing(4), 
+    marginBottom: theme.spacing(4),
   },
   formControl: {
     margin: theme.spacing(1),
@@ -42,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   runButton: {
     margin: 20,
     width: 100,
-  }
+  },
 }));
 
 const Challenge = () => {
@@ -53,7 +55,10 @@ const Challenge = () => {
     code: "",
     language: "",
   });
-  const [output, setOutput] = useState("")
+  const [output, setOutput] = useState("");
+  const [algorithm, setAlgorithm] = useState("");
+
+  const { algoId } = useParams();
 
   // changes either code or language depending on name attribute
   const handleInputChange = (e) => {
@@ -65,36 +70,46 @@ const Challenge = () => {
 
     // stops function if no code is entered
     if (input.code.length === 0) {
-      alert("No code to run!")
+      alert("No code to run!");
       return;
     }
     // post code/input to server (codeController.js) where third party api call is made
-    API.postCode(input).then(({data}) => {
-      // if nothing is logged to console alert pops up
-      if (data.out.length === 0 && data.err.length === 0) {
-        alert("Remember to call functions or log/print results to console!")
-      // if output is null error is logged to console and vice versa
-      } else if (data.out.length === 0) {
-        setOutput(data.err);
-      } else if (data.err.length === 0) {
-        setOutput(data.out);
-      }
-    }).catch(err => {
-      console.log(err);
-    })
-
+    API.postCode(input)
+      .then(({ data }) => {
+        // if nothing is logged to console alert pops up
+        if (data.out.length === 0 && data.err.length === 0) {
+          alert("Remember to call functions or log/print results to console!");
+          // if output is null error is logged to console and vice versa
+        } else if (data.out.length === 0) {
+          setOutput(data.err);
+        } else if (data.err.length === 0) {
+          setOutput(data.out);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
     let url = window.location.href;
-    let id = url.substring(url.lastIndexOf('/') + 1);
-    console.log(id);
-  }, []);
+    let id = url.substring(url.lastIndexOf("/") + 1);
+    // console.log(id);
+    // getAlgo(id);
+    axios.get(`/api/algorithm/${id}`).then((response) => {
+      console.log(response.data);
+      setAlgorithm(response.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}, [algoId]);
 
-  // const getAllAlgorithms = () => {
-  //   API.getAllAlgorithms()
-  //     .then((algorithms) => {
-  //       setAllAlgorithms(algorithms.data);
+  // const getAlgo = (id) => {
+  //   API.getAlgorithm(id)
+  //     .then((result) => {
+  //       setAlgorithm(result.data);
+  //       console.log(algorithm);
   //     })
   //     .catch((error) => {
   //       console.log(error);
@@ -104,15 +119,15 @@ const Challenge = () => {
   return (
     <Container maxWidth="lg">
       <Grid container className={classes.mastergrid}>
-      <Grid item xs={12}>
-        <Typography
-          className={classes.titleBottom}
-          variant="h4"
-          color="textPrimary"
-          align="left"
-        >
-          Challenge: The Three Comma Club
-        </Typography>
+        <Grid item xs={12}>
+          <Typography
+            className={classes.titleBottom}
+            variant="h4"
+            color="textPrimary"
+            align="left"
+          >
+            Challenge: The Three Comma Club
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <Grid container>
@@ -181,9 +196,7 @@ const Challenge = () => {
                   rows="10"
                   cols="50"
                   defaultValue={output}
-                >
-                  
-                </textarea>
+                ></textarea>
               </Paper>
             </Grid>
 
