@@ -50,7 +50,7 @@ router.post("/api/algorithm", (req, res) => {
       res.status(500).json({
         error: true,
         data: null,
-        message: "failed to post algorithm.",
+        message: "Failed to create algorithm.",
       });
     });
 });

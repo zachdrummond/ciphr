@@ -28,7 +28,6 @@ const HomeSection = ({ size, title, children, algorithms }) => {
       <Container align="center">
         {children}
         <List component="nav" className={classes.root}>
-          <Divider />
           {algorithms ? algorithms.map((algorithm) => {
             const { _id, challengeName, description } = algorithm;
             return (
