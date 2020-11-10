@@ -52,6 +52,11 @@ export default function AddAlgorithm() {
     setTestCount(newCount);
   };
 
+  const handleSeeLess = () => {
+    const newCount = testCount - 1;
+    setTestCount(newCount);
+  };
+
   const [algoInfo, setAlgoInfo] = useState({
     challengeName: "",
     challengeDescription: "",
@@ -164,7 +169,15 @@ export default function AddAlgorithm() {
               >
                 Add Test Case
               </Button>
-
+              {testCount > 0 ? (<Button
+                variant="outlined"
+                color="primary"
+                className={classes.button}
+                startIcon={<AddIcon />}
+                onClick={handleSeeLess}
+              >
+                Remove Test Case
+              </Button>) : <></>}
               <Button variant="contained" color="primary" type="submit">
                 Save
               </Button>
