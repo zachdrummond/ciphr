@@ -25,16 +25,12 @@ const Home = () => {
   const getAllAlgorithms = () => {
     API.getAllAlgorithms()
       .then((algorithms) => {
-        console.log(algorithms);
         setAllAlgorithms(algorithms.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const handleClick = (e)=>{
-    console.log(e);
-  }
 
   return (
     <div className={classes.root}>
@@ -47,7 +43,7 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <HomeSection size={6} title="My Algorithms" handleClick={handleClick} algorithms={allAlgorithms}>
+        <HomeSection size={6} title="My Algorithms" algorithms={allAlgorithms}>
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">
@@ -56,7 +52,11 @@ const Home = () => {
             </Link>
           </Box>
         </HomeSection>
-        <HomeSection size={6} title="Browse Algorithms" algorithms={allAlgorithms} />
+        <HomeSection
+          size={6}
+          title="Browse Algorithms"
+          algorithms={allAlgorithms}
+        />
       </Grid>
     </div>
   );

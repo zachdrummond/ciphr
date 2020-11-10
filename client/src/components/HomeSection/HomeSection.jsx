@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomeSection = ({ size, title, children, algorithms, handleClick }) => {
+const HomeSection = ({ size, title, children, algorithms }) => {
   const classes = useStyles();
 
   return (
@@ -31,10 +31,8 @@ const HomeSection = ({ size, title, children, algorithms, handleClick }) => {
           {algorithms.length > 0 ? (
             algorithms.map((algorithm) => {
               const { _id, challengeName, description } = algorithm;
-              console.log(_id);
               return (
                 <AlgorithmListItem
-                  handleClick={handleClick}
                   key={_id}
                   title={challengeName}
                   author={description}

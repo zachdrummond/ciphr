@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
@@ -84,6 +84,22 @@ const Challenge = () => {
     })
 
   };
+
+  useEffect(() => {
+    let url = window.location.href;
+    let id = url.substring(url.lastIndexOf('/') + 1);
+    console.log(id);
+  }, []);
+
+  // const getAllAlgorithms = () => {
+  //   API.getAllAlgorithms()
+  //     .then((algorithms) => {
+  //       setAllAlgorithms(algorithms.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   return (
     <Container maxWidth="lg">
@@ -220,7 +236,7 @@ const Challenge = () => {
                     className={classes.titleBottom}
                     variant="body2"
                     // color="background.paper"
-                    color="white"
+                    // color="white"
                     align="left"
                   >
                     This challenge is turning a number value into a string with
