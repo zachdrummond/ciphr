@@ -85,12 +85,12 @@ const Challenge = () => {
     e.preventDefault();
 
     // stops function if no code is entered
-    if (input.code.length === 0) {
+    if (input.length === 0) {
       alert("No code to run!");
       return;
     }
     // post code/input to server (codeController.js) where third party api call is made
-    API.postCode(input)
+    API.postCode(input, options.mode)
       .then(({ data }) => {
         // if nothing is logged to console alert pops up
         if (data.out.length === 0 && data.err.length === 0) {

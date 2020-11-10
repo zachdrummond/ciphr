@@ -15,8 +15,8 @@ router.post("/api/code", (req, res) => {
       useQueryString: true,
     },
     params: {
-      language: req.body.language,
-      source_code: req.body.code,
+      language: req.body.mode,
+      source_code: req.body.input,
     },
     data: {},
   })

@@ -4,9 +4,9 @@ const API = {
   getAllAlgorithms: function () {
     return axios.get("/api/algorithm");
   },
-//   getAlgorithm: function () {
-//     return axios.get("/api/algorithm/:id");
-//   },
+  //   getAlgorithm: function () {
+  //     return axios.get("/api/algorithm/:id");
+  //   },
 
   postUserInfo: function (data) {
     return axios({
@@ -22,11 +22,11 @@ const API = {
       data: data,
     });
   },
-  postCode: function (data) {
+  postCode: function (input, mode) {
     return axios({
       method: "POST",
       url: "/api/code",
-      data: data,
+      data: { input, mode },
     });
   },
   postAlgorithm: function (data) {
