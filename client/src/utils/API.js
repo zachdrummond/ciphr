@@ -26,11 +26,11 @@ const API = {
       data: data,
     });
   },
-  postCode: function (data) {
+  postCode: function (input, mode) {
     return axios({
       method: "POST",
       url: "/api/code",
-      data: data,
+      data: { input, mode },
     });
   },
   postAlgorithm: function (data) {
