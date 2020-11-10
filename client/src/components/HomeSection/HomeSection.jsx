@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomeSection = ({ title, children, algorithms }) => {
+const HomeSection = ({ size, title, children, algorithms }) => {
   const classes = useStyles();
 
   return (
-    <Grid item xs={6}>
+    <Grid item xs={size}>
       {/* My Algorithms Section */}
       <Paper elevation={5} className={classes.paper}>
         {title}

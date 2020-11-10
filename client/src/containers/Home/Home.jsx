@@ -48,7 +48,7 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <HomeSection title="My Algorithms" algorithms={allAlgorithms}>
+        <HomeSection size={6} title="My Algorithms" algorithms={allAlgorithms}>
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">
@@ -57,7 +57,7 @@ const Home = () => {
             </Link>
           </Box>
         </HomeSection>
-        <HomeSection title="Browse Algorithms" algorithms={allAlgorithms} />
+        <HomeSection size={6} title="Browse Algorithms" algorithms={allAlgorithms} />
       </Grid>
     </div>
   );
