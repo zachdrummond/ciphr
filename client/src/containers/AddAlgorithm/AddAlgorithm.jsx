@@ -32,7 +32,14 @@ const useStyles = makeStyles((theme) => ({
 export default function AddAlgorithm() {
   const classes = useStyles();
 
-  const [testCase, setTestCase] = useState({
+  const [testCaseIn, setTestCaseIn] = useState({
+    test1: "",
+    test2: "",
+    test3: "",
+    test4: "",
+  });
+
+  const [testCaseOut, setTestCaseOut] = useState({
     test1: "",
     test2: "",
     test3: "",
@@ -41,7 +48,12 @@ export default function AddAlgorithm() {
 
   const handleTestInput = (e) => {
     const { name, value } = e.target;
-    setTestCase({ ...testCase, [name]: value });
+    setTestCaseIn({ ...testCaseIn, [name]: value });
+  };
+
+  const handleTestOutput = (e) => {
+    const { name, value } = e.target;
+    setTestCaseOut({ ...testCaseOut, [name]: value });
   };
 
   const [testCount, setTestCount] = useState({
@@ -119,10 +131,12 @@ export default function AddAlgorithm() {
                 if (index < testCount.count) {
                   return (
                     <TestCase
-                      value={testCase}
+                      testCaseIn={testCaseIn}
+                      testCaseOut={testCaseOut}
                       key={test}
                       testName={test}
                       handleTestInput={handleTestInput}
+                      handleTestOutput={handleTestOutput}
                     />
                   );
                 }
