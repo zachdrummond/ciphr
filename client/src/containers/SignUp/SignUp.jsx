@@ -67,7 +67,7 @@ export default function SignUpSide() {
 
   let history = useHistory();
 
-  const handleSubmit = (e, history) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // username/password posted to back end
     // see API.js in utils for more info
@@ -79,7 +79,7 @@ export default function SignUpSide() {
         setJwt(response.data.data);
         // return <Redirect to="/home" />;
 
-        // history.push("/home");
+        history.push("/home");
       })
       .catch((err) => {
         console.log(err);
