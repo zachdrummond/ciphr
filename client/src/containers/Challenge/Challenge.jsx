@@ -21,6 +21,7 @@ import "codemirror/mode/python/python";
 import "codemirror/mode/go/go";
 import "codemirror/mode/clike/clike";
 import "codemirror/mode/r/r";
+import "codemirror/theme/material-darker.css"
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -61,6 +62,7 @@ const Challenge = () => {
   const [options, setOptions] = useState({
     mode: "javascript",
     lineNumbers: true,
+    theme: "material-darker"
   });
   // sets the code input in first text area and language in dropdown select as state.
   // find in dev tools components under 'Challenge'
