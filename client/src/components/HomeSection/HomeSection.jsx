@@ -21,31 +21,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomeSection = (props) => {
-
+const HomeSection = ({ title, children, algorithms }) => {
   const classes = useStyles();
 
   return (
     <Grid item xs={6}>
       {/* My Algorithms Section */}
       <Paper elevation={5} className={classes.paper}>
-        {props.title}
+        {title}
       </Paper>
       <Container align="center">
-        {props.children}
-        <List
-          component="nav"
-          className={classes.root}
-        >
+        {children}
+        <List component="nav" className={classes.root}>
           <Divider />
-          <AlgorithmListItem
-            title={"Is it a Palandrome?"}
-            author={"Some Guy"}
-          />
-          <AlgorithmListItem
-            title={"Reverse the array?"}
-            author={"Tommy Boy"}
-          />
+          {algorithms.map((algorithm) => {
+            const { _id, challengeName, description } = algorithm;
+            return (
+              <AlgorithmListItem
+                key={_id}
+                title={challengeName}
+                author={description}
+              />
+            );
+          })}
         </List>
       </Container>
     </Grid>

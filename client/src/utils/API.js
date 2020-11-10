@@ -1,11 +1,12 @@
 import axios from "axios";
 
 const API = {
-  getAllAlgorithms: function() {
+    
+  getAllAlgorithms: function () {
     return axios.get("/api/algorithm");
   },
 
-    postUserInfo: function (data) {
+  postUserInfo: function (data) {
     return axios({
       method: "POST",
       url: "/api/login",

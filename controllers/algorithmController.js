@@ -7,11 +7,7 @@ router.get("/api/algorithm", function (request, response) {
   // response.json({ success: "Get all algorithms worked!" });
   db.Algorithms.find({})
     .then((algorithms) => {
-      response.status(200).json({
-        error: false,
-        data: algorithms,
-        message: "Successfully found algorithms!",
-      });
+      response.json(algorithms);
     })
     .catch((error) => {
       console.log(error);

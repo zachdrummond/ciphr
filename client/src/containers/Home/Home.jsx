@@ -1,35 +1,41 @@
 import { Link } from "react-router-dom";
 // Material UI
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import Container from "@material-ui/core/Container";
 import Fab from "@material-ui/core/Fab";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 // File Modules
-import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem";
 import HomeSection from "../../components/HomeSection/HomeSection";
+import API from "../../utils/API";
+import { useState, useEffect } from "react";
 
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.primary,
-    fontSize: "1.5rem",
-  },
 }));
 
 const Home = () => {
   const classes = useStyles();
 
-  
+  const [allAlgorithms, setAllAlgorithms] = useState([]);
+
+  useEffect(() => {
+    getAllAlgorithms();
+  }, []);
+
+  const getAllAlgorithms = () => {
+    API.getAllAlgorithms()
+      .then((algorithms) => {
+        console.log(algorithms);
+        setAllAlgorithms(algorithms.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className={classes.root}>
@@ -42,7 +48,7 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <HomeSection title="My Algorithms">
+        <HomeSection title="My Algorithms" algorithms={allAlgorithms}>
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">
@@ -51,24 +57,7 @@ const Home = () => {
             </Link>
           </Box>
         </HomeSection>
-        <Grid item xs={6}>
-          {/* Browse Algorithms Section */}
-          <Paper elevation={5} className={classes.paper}>
-            Browse Algorithms
-          </Paper>
-          <Container>
-            <List
-              className={classes.root}
-            >
-              <Divider />
-              <AlgorithmListItem
-                title={"Who is your daddy?"}
-                author={"Shark Man"}
-              />
-              <AlgorithmListItem title={"Egg drop"} author={"Egg Man"} />
-            </List>
-          </Container>
-        </Grid>
+        <HomeSection title="Browse Algorithms" algorithms={allAlgorithms} />
       </Grid>
     </div>
   );
