@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import API from "../../utils/API";
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,6 +65,8 @@ export default function SignInSide() {
     setUserInfo({ ...userInfo, [name]: value });
   };
 
+  let history = useHistory();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // username/password posted to back end
@@ -74,6 +77,7 @@ export default function SignInSide() {
         console.log(response);
         // Setting the AuthContextAPI jwt to the new jwt received from the backend
         setJwt(response.data.data);
+        history.push("/home");
       })
       .catch((err) => {
         console.log(err);

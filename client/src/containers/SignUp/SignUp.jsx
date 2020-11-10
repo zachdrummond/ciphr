@@ -9,7 +9,6 @@ import API from "../../utils/API";
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
 import Container from "@material-ui/core/Container";
 import AuthContext from "../../context/AuthContext/AuthContext";
-import { Redirect } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -77,8 +76,6 @@ export default function SignUpSide() {
         console.log(response);
         // Setting the AuthContextAPI jwt to the new jwt received from the backend
         setJwt(response.data.data);
-        // return <Redirect to="/home" />;
-
         history.push("/home");
       })
       .catch((err) => {
