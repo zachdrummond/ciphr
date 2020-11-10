@@ -9,7 +9,7 @@ import { Typography } from "@material-ui/core";
 import TestCase from "../../components/TestCase/TestCase";
 import Icon from "@material-ui/core/Icon";
 import AddIcon from "@material-ui/icons/Add";
-import useTestCase from "../../utils/useTestCase"
+import useTestCase from "../../utils/useTestCase";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -59,6 +59,27 @@ export default function AddAlgorithm() {
     setAlgoInfo({ ...algoInfo, [name]: value });
   };
 
+  const handleSaveAlgo = () => {
+    API.postAlgorithm({
+      algorithm: {
+        challengeName: algoInfo.challengeName,
+        description: algoInfo.challengeDescription,
+      },
+      testCaseInput: {
+        test1: "",
+        test2: "",
+        test3: "",
+        test4: "",
+      },
+      testCaseOutput: {
+        test1: "",
+        test2: "",
+        test3: "",
+        test4: "",
+      },
+    });
+  };
+
   return (
     <Container maxWidth="sm">
       <Grid container className={classes.mastergrid}>
@@ -75,7 +96,12 @@ export default function AddAlgorithm() {
 
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <form className={classes.form} noValidate autoComplete="off">
+            <form
+              className={classes.form}
+              noValidate
+              autoComplete="off"
+              onSubmit={handleSaveAlgo}
+            >
               <Typography variant="h6" color="textPrimary" align="left">
                 Give your Algorithm a name
               </Typography>
