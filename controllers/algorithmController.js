@@ -41,8 +41,8 @@ router.get("/api/algorithm/:id", function (request, response) {
 // Create an algorithm
 //TODO: Add user info to algorithm model
 router.post("/api/algorithm", (req, res) => {
-  console.log(req.body);
   const { testCases, algorithm, userJwt } = req.body;
+  console.log(userJwt);
   const decoded = jwt.verify(userJwt, process.env.SECRET, (err, decoded) => {
     if (err) {
       console.log(err);
@@ -52,34 +52,46 @@ router.post("/api/algorithm", (req, res) => {
         message: "Invalid token.",
       });
     } else {
-      console.log(decoded);
+      console.log("decoded:" + decoded.username);
+      db.Users.findOne({ username: decoded.username })
+        .then((user) => {
+          console.log(user._id);
+          // first test cases are created from the front end input (can be empty array!)
+          db.TestCases.insertMany(testCases)
+            .then((testCaseResponse) => {
+              // then an algorithm entry is created with the front end input and test cases from db
+              db.Algorithms.create({
+                challengeName: algorithm.challengeName,
+                description: algorithm.description,
+                testCases: testCaseResponse,
+                userId: user._id
+              }).then((newAlgorithm) => {
+                res.status(200).json({
+                  error: false,
+                  data: newAlgorithm,
+                  message: "Successfully posted new algorithm.",
+                });
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+              res.status(500).json({
+                error: true,
+                data: null,
+                message: "Failed to create algorithm.",
+              });
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          response.status(500).json({
+            error: true,
+            data: null,
+            message: "Failed to find username.",
+          });
+        });
     }
   });
-  // first test cases are created from the front end input (can be empty array!)
-  //   db.TestCases.insertMany(testCases)
-  //     .then((testCaseResponse) => {
-  //       // then an algorithm entry is created with the front end input and test cases from db
-  //       db.Algorithms.create({
-  //         challengeName: algorithm.challengeName,
-  //         description: algorithm.description,
-  //         testCases: testCaseResponse,
-
-  //       }).then((newAlgorithm) => {
-  //         res.status(200).json({
-  //           error: false,
-  //           data: newAlgorithm,
-  //           message: "Successfully posted new algorithm.",
-  //         });
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       res.status(500).json({
-  //         error: true,
-  //         data: null,
-  //         message: "Failed to create algorithm.",
-  //       });
-  //     });
 });
 
 // Edit an algorithm
