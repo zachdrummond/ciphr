@@ -40,6 +40,7 @@ const Home = () => {
     API.getMyAlgorithms(jwt)
       .then((algorithms) => {
         setMyAlgorithms(algorithms.data);
+        console.log(myAlgorithms);
       })
       .catch((error) => {
         console.log(error);
@@ -58,7 +59,7 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <HomeSection size={6} title="My Algorithms" algorithms={allAlgorithms}>
+        <HomeSection size={6} title="My Algorithms" algorithms={myAlgorithms}>
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">
