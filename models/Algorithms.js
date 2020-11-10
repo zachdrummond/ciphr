@@ -18,6 +18,10 @@ const AlgorithmsSchema = new Schema({
       ref: "TestCases",
     },
   ],
+  userId: {
+    type: Schema.Types.ObjectId,
+      ref: "Users",
+  },
 });
 
 const Algorithms = mongoose.model("Algorithms", AlgorithmsSchema);

@@ -4,9 +4,12 @@ const API = {
   getAllAlgorithms: function () {
     return axios.get("/api/algorithm");
   },
-//   getAlgorithm: function () {
-//     return axios.get("/api/algorithm/:id");
-//   },
+  //   getAlgorithm: function () {
+  //     return axios.get("/api/algorithm/:id");
+  //   },
+  getMyAlgorithms: function (jwt) {
+    return axios.get(`/api/algorithm/:${jwt}`);
+  },
 
   postUserInfo: function (data) {
     return axios({
