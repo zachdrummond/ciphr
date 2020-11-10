@@ -7,6 +7,10 @@ const API = {
   //   getAlgorithm: function () {
   //     return axios.get("/api/algorithm/:id");
   //   },
+  getMyAlgorithms: function (jwt) {
+    return axios.get(`/api/algorithm/user/${jwt}`);
+
+  },
 
   postUserInfo: function (data) {
     return axios({

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 // import Link from "@material-ui/core/Link";
@@ -8,6 +8,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import API from "../../utils/API";
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
 import Container from "@material-ui/core/Container";
+import AuthContext from "../../context/AuthContext/AuthContext";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUpSide() {
   const classes = useStyles();
 
+  // Using AuthContextAPI to get the setJwt function
+  const { setJwt } = useContext(AuthContext);
+
   // hook configures username/password state
   // to find state in dev tools 'Components' look under 'SignUpSide'
   const [userInfo, setUserInfo] = useState({
@@ -59,6 +64,8 @@ export default function SignUpSide() {
     setUserInfo({ ...userInfo, [name]: value });
   };
 
+  let history = useHistory();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // username/password posted to back end
@@ -67,6 +74,9 @@ export default function SignUpSide() {
     API.postNewUserInfo(userInfo)
       .then((response) => {
         console.log(response);
+        // Setting the AuthContextAPI jwt to the new jwt received from the backend
+        setJwt(response.data.data);
+        history.push("/home");
       })
       .catch((err) => {
         console.log(err);

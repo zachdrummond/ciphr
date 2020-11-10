@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
@@ -10,6 +10,7 @@ import TestCase from "../../components/TestCase/TestCase";
 import AddIcon from "@material-ui/icons/Add";
 import useTestCase from "../../utils/useTestCase";
 import API from "../../utils/API";
+import AuthContext from "../../context/AuthContext/AuthContext"
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddAlgorithm() {
   const classes = useStyles();
+  const {jwt} = useContext(AuthContext)
 
   // custom hook imported from useTestCase.js
   // instance for each test case
@@ -76,7 +78,8 @@ export default function AddAlgorithm() {
         challengeName: algoInfo.challengeName,
         description: algoInfo.challengeDescription,
       },
-      testCases: allUsedTests
+      testCases: allUsedTests,
+      userJwt: jwt
     }).then((response) => {
       console.log(response);
     }).catch((err) => {
