@@ -9,6 +9,7 @@ import { Typography } from "@material-ui/core";
 import TestCase from "../../components/TestCase/TestCase";
 import AddIcon from "@material-ui/icons/Add";
 import useTestCase from "../../utils/useTestCase";
+import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -60,6 +61,29 @@ export default function AddAlgorithm() {
     setAlgoInfo({ ...algoInfo, [name]: value });
   };
 
+  const handleSaveAlgo = (e) => {
+    e.preventDefault();
+    // filters out empty hooks and formats for back end db
+    const allUsedTests = [];
+    for (const {test} of allTests) {
+      if (test.input !== "" && test.output !== "") {
+        allUsedTests.push(test);
+      }
+    }
+    // posts algorithm to the back end
+    API.postAlgorithm({
+      algorithm: {
+        challengeName: algoInfo.challengeName,
+        description: algoInfo.challengeDescription,
+      },
+      testCases: allUsedTests
+    }).then((response) => {
+      console.log(response);
+    }).catch((err) => {
+      console.log(err);
+    })
+  };
+
   return (
     <Container maxWidth="sm">
       <Grid container className={classes.mastergrid}>
@@ -76,7 +100,12 @@ export default function AddAlgorithm() {
 
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <form className={classes.form} noValidate autoComplete="off">
+            <form
+              className={classes.form}
+              noValidate
+              autoComplete="off"
+              onSubmit={handleSaveAlgo}
+            >
               <Typography variant="h6" color="textPrimary" align="left">
                 Give your Algorithm a name
               </Typography>
@@ -133,7 +162,7 @@ export default function AddAlgorithm() {
                 Add Test Case
               </Button>
 
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary" type="submit">
                 Save
               </Button>
             </form>
