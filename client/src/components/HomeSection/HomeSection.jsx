@@ -1,12 +1,8 @@
 // Material UI
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import Container from "@material-ui/core/Container";
+import { makeStyles, Paper, Grid, Divider, List, Container } from "@material-ui/core";
 // File Modules
 import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem";
+import HomeCard from "../HomeCard/HomeCard";
 
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +22,6 @@ const HomeSection = ({ size, title, children, algorithms }) => {
 
   return (
     <Grid item xs={size}>
-      {/* My Algorithms Section */}
       <Paper elevation={5} className={classes.paper}>
         {title}
       </Paper>
@@ -34,7 +29,7 @@ const HomeSection = ({ size, title, children, algorithms }) => {
         {children}
         <List component="nav" className={classes.root}>
           <Divider />
-          {algorithms.map((algorithm) => {
+          {algorithms ? algorithms.map((algorithm) => {
             const { _id, challengeName, description } = algorithm;
             return (
               <AlgorithmListItem
@@ -43,7 +38,7 @@ const HomeSection = ({ size, title, children, algorithms }) => {
                 author={description}
               />
             );
-          })}
+          }) : <HomeCard/>}
         </List>
       </Container>
     </Grid>

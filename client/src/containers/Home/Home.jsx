@@ -1,14 +1,10 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 // Material UI
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Fab from "@material-ui/core/Fab";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import { makeStyles, Grid, Fab, Box, Typography } from "@material-ui/core";
 // File Modules
 import HomeSection from "../../components/HomeSection/HomeSection";
 import API from "../../utils/API";
-import { useState, useEffect } from "react";
 
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
