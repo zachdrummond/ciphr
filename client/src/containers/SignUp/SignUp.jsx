@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 // import Link from "@material-ui/core/Link";
@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import API from "../../utils/API";
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
 import Container from "@material-ui/core/Container";
+import AuthContext from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +47,8 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUpSide() {
   const classes = useStyles();
 
+  const {setJwt} = useContext(AuthContext);
+
   // hook configures username/password state
   // to find state in dev tools 'Components' look under 'SignUpSide'
   const [userInfo, setUserInfo] = useState({
@@ -67,6 +70,7 @@ export default function SignUpSide() {
     API.postNewUserInfo(userInfo)
       .then((response) => {
         console.log(response);
+        setJwt(response.data.data);
       })
       .catch((err) => {
         console.log(err);
