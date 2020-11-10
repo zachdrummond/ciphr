@@ -91,14 +91,14 @@ export default function SignUpSide() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Sign Up
         </Typography>
         <CredentialsForm
           {...userInfo}
           handleInput={handleInput}
           handleSubmit={handleSubmit}
           classes={classes}
-          type={"Sign up"}
+          type={"Sign Up"}
           link={"/"}
           linkText={"Already have an account? Sign in"}
         />

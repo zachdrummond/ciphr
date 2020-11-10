@@ -94,16 +94,16 @@ export default function SignInSide() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign In
           </Typography>
           <CredentialsForm
             {...userInfo}
             handleInput={handleInput}
             handleSubmit={handleSubmit}
             classes={classes}
-            type={"Sign in"}
+            type={"Sign In"}
             link={"/signup"}
-            linkText={"New to Ciphr? Sign Up Here!"}
+            linkText={"New to Ciphr? Sign up here!"}
           />
         </div>
       </Grid>
