@@ -1,5 +1,5 @@
 // Material UI
-import { makeStyles, Paper, Grid, Divider, List, Container } from "@material-ui/core";
+import { makeStyles, Paper, Grid, List, Container } from "@material-ui/core";
 // File Modules
 import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem";
 import HomeCard from "../HomeCard/HomeCard";
@@ -28,7 +28,7 @@ const HomeSection = ({ size, title, children, algorithms }) => {
       <Container align="center">
         {children}
         <List component="nav" className={classes.root}>
-          {algorithms ? algorithms.map((algorithm) => {
+          {algorithms.length > 0 ? algorithms.map((algorithm) => {
             const { _id, challengeName, description } = algorithm;
             return (
               <AlgorithmListItem
