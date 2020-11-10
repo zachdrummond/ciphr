@@ -1,12 +1,10 @@
 import { useState } from "react";
 
-// custom hook, allows code to be repeated for input or output test case values
+// custom hook, allows code to be repeated for each test case input/output
 const useTestCase = () => {
   const [test, setTest] = useState({
-    test1: "",
-    test2: "",
-    test3: "",
-    test4: "",
+    input: "",
+    output: "",
   });
   return {
     test,
