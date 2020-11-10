@@ -153,6 +153,7 @@ export default function AddAlgorithm() {
                     />
                   );
                 }
+                return null; // IS THIS OKAY? THERE WAS A BUG THAT EXPECTED A RETURN
               })}
 
               <Button
