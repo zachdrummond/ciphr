@@ -21,7 +21,7 @@ router.get("/api/algorithm", function (request, response) {
 
 //Get my algorithms
 router.get("/api/algorithm/user/:userJwt", function (request, response) {
-  console.log(request.params.userJwt);
+  // console.log(request.params.userJwt);
   const decoded = jwt.verify(
     request.params.userJwt,
     process.env.SECRET,
@@ -74,7 +74,7 @@ router.get("/api/algorithm/:id", function (request, response) {
 //TODO: Add user info to algorithm model
 router.post("/api/algorithm", (req, res) => {
   const { testCases, algorithm, userJwt } = req.body;
-  console.log(userJwt);
+  // console.log(userJwt);
   const decoded = jwt.verify(userJwt, process.env.SECRET, (err, decoded) => {
     if (err) {
       console.log(err);
@@ -84,10 +84,10 @@ router.post("/api/algorithm", (req, res) => {
         message: "Invalid token.",
       });
     } else {
-      console.log("decoded:" + decoded.username);
+      // console.log("decoded:" + decoded.username);
       db.Users.findOne({ username: decoded.username })
         .then((user) => {
-          console.log(user._id);
+          // console.log(user._id);
           // first test cases are created from the front end input (can be empty array!)
           db.TestCases.insertMany(testCases)
             .then((testCaseResponse) => {

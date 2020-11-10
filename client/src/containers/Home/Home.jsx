@@ -6,6 +6,7 @@ import { makeStyles, Grid, Fab, Box, Typography } from "@material-ui/core";
 import HomeSection from "../../components/HomeSection/HomeSection";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext"
+import Jwt from "jsonwebtoken";
 
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +25,8 @@ const Home = () => {
   useEffect(() => {
     getAllAlgorithms();
     getMyAlgorithms();
+    console.log("This is jwt:"+ jwt)
+    
   }, []);
 
   const getAllAlgorithms = () => {
@@ -40,7 +43,6 @@ const Home = () => {
     API.getMyAlgorithms(jwt)
       .then((algorithms) => {
         setMyAlgorithms(algorithms.data);
-        console.log(myAlgorithms);
       })
       .catch((error) => {
         console.log(error);
