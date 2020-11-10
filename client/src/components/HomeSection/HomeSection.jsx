@@ -28,16 +28,21 @@ const HomeSection = ({ size, title, children, algorithms }) => {
       <Container align="center">
         {children}
         <List component="nav" className={classes.root}>
-          {algorithms.length > 0 ? algorithms.map((algorithm) => {
-            const { _id, challengeName, description } = algorithm;
-            return (
-              <AlgorithmListItem
-                key={_id}
-                title={challengeName}
-                author={description}
-              />
-            );
-          }) : <HomeCard/>}
+          {algorithms.length > 0 ? (
+            algorithms.map((algorithm) => {
+              const { _id, challengeName, description } = algorithm;
+              return (
+                <AlgorithmListItem
+                  key={_id}
+                  title={challengeName}
+                  author={description}
+                  id={_id}
+                />
+              );
+            })
+          ) : (
+            <HomeCard />
+          )}
         </List>
       </Container>
     </Grid>
