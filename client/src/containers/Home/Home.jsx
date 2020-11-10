@@ -25,7 +25,6 @@ const Home = () => {
   const getAllAlgorithms = () => {
     API.getAllAlgorithms()
       .then((algorithms) => {
-        console.log(algorithms);
         setAllAlgorithms(algorithms.data);
       })
       .catch((error) => {
@@ -53,7 +52,11 @@ const Home = () => {
             </Link>
           </Box>
         </HomeSection>
-        <HomeSection size={6} title="Browse Algorithms" algorithms={allAlgorithms} />
+        <HomeSection
+          size={6}
+          title="Browse Algorithms"
+          algorithms={allAlgorithms}
+        />
       </Grid>
     </div>
   );
