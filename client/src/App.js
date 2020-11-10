@@ -11,7 +11,7 @@ import Header from "./components/Header/Header";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AuthContext from "./context/AuthContext/AuthContext";
 import setAxiosDefaults from "./utils/setAxiosDefaults";
-
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 // start of figuring out dark/light mode
 
@@ -53,19 +53,20 @@ function App() {
         <Header />
         <AuthContext.Provider value={{ jwt, setJwt }}>
           <Switch>
-            <Route exact path="/algorithms/new" component={AddAlgorithm} />
-            <Route
+            <ProtectedRoute exact path="/algorithms/new" component={AddAlgorithm} />
+            <ProtectedRoute
               exact
               path="/algorithms/:algorithmId/edit"
               component={EditAlgorithm}
             />
-            <Route
+            <ProtectedRoute
               exact
               path="/algorithms/:algorithmId"
               component={Challenge}
             />
-            <Route exact path="/home" component={Home} />
+            <ProtectedRoute exact path="/home" component={Home} />
             <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/login" component={Login} />
             <Route exact path="/" component={Login} />
             <Route path="/" component={NotFound} />
           </Switch>
