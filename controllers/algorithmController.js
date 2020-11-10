@@ -4,7 +4,19 @@ const db = require("../models");
 
 // Get all algorithms
 router.get("/api/algorithm", function (request, response) {
-  response.json({ success: "Get all algorithms worked!" });
+  // response.json({ success: "Get all algorithms worked!" });
+  db.Algorithms.find({})
+    .then((algorithms) => {
+      response.json(algorithms);
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(500).json({
+        error: true,
+        data: null,
+        message: "Failed to get algorithms.",
+      });
+    });
 });
 
 // Get a specific algorithm
@@ -29,7 +41,7 @@ router.post("/api/algorithm", (req, res) => {
         res.status(200).json({
           error: false,
           data: newAlgorithm,
-          message: "Succesfully posted new algorithm",
+          message: "Successfully posted new algorithm.",
         });
       });
     })
@@ -38,7 +50,7 @@ router.post("/api/algorithm", (req, res) => {
       res.status(500).json({
         error: true,
         data: null,
-        message: "failed to post algorithm",
+        message: "Failed to create algorithm.",
       });
     });
 });
