@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 import TestCase from "../../components/TestCase/TestCase";
 import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 import useTestCase from "../../utils/useTestCase";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext"
@@ -173,7 +174,7 @@ export default function AddAlgorithm() {
                 variant="outlined"
                 color="primary"
                 className={classes.button}
-                startIcon={<AddIcon />}
+                startIcon={<RemoveIcon />}
                 onClick={handleSeeLess}
               >
                 Remove Test Case
