@@ -92,31 +92,19 @@ const Challenge = () => {
   };
 
   useEffect(() => {
+    //get id from url
     let url = window.location.href;
     let id = url.substring(url.lastIndexOf("/") + 1);
-    // console.log(id);
-    // getAlgo(id);
+    // make axios call to get algorithm by id
     axios
       .get(`/api/algorithm/${id}`)
       .then((response) => {
-        console.log(response.data);
         setAlgorithm(response.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [algoId]);
-
-  // const getAlgo = (id) => {
-  //   API.getAlgorithm(id)
-  //     .then((result) => {
-  //       setAlgorithm(result.data);
-  //       console.log(algorithm);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   return (
     <Container maxWidth="lg">
@@ -228,22 +216,16 @@ const Challenge = () => {
                 >
                   Test Cases
                 </Typography>
-                {/* <Typography
-                  className={classes.titleBottom}
-                  variant="body1"
-                  color="textPrimary"
-                  align="left"
-                > */}
-                  {algorithm
-                    ? algorithm.testCases.map((algo, index) => (
-                        <ul key={index}>
-                          <li>Input: {algo.input}</li>
-                          <li>Result: {algo.output}</li>
-                          <br />
-                        </ul>
-                      ))
-                    : ""}
-                {/* </Typography> */}
+                {/* populate all test cases if they exist */}
+                {algorithm
+                  ? algorithm.testCases.map((algo, index) => (
+                      <ul key={index}>
+                        <li>Input: {algo.input}</li>
+                        <li>Result: {algo.output}</li>
+                        <br />
+                      </ul>
+                    ))
+                  : ""}
                 <Box p={3} bgcolor="text.primary" color="background.paper">
                   <Typography
                     className={classes.titleBottom}
