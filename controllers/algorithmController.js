@@ -22,7 +22,8 @@ router.get("/api/algorithm", function (request, response) {
 // Get a specific algorithm
 router.get("/api/algorithm/:id", function (request, response) {
   // response.json({ success: "Get a single algorithm worked!" });
-  db.Algorithms.findOne({_id:request.params.id})
+  db.Algorithms.findOne({_id:request.params.id}).
+  populate('testCases')
     .then((algorithm) => {
       response.json(algorithm);
     })

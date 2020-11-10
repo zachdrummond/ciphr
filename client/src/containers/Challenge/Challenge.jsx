@@ -15,6 +15,7 @@ import Select from "@material-ui/core/Select";
 import API from "../../utils/API";
 import axios from "axios";
 
+
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
     margin: theme.spacing(8, 0),
@@ -126,7 +127,7 @@ const Challenge = () => {
             color="textPrimary"
             align="left"
           >
-            Challenge: The Three Comma Club
+            {algorithm.challengeName}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -216,10 +217,7 @@ const Challenge = () => {
                   color="textPrimary"
                   align="left"
                 >
-                  This challenge is turning a number value into a string with
-                  commas in the traditional place. For example, when given the
-                  number 1000000, your function should return the answer
-                  "1,000,000".
+                  {algorithm.description}
                 </Typography>
                 <Typography
                   className={classes.titleBottom}
@@ -235,14 +233,18 @@ const Challenge = () => {
                   color="textPrimary"
                   align="left"
                 >
-                  num1 = 12324; <br />
-                  returns "12,324" <br />
-                  <br />
-                  num2 = 1827364672; <br />
-                  returns "1,827,364,672" <br />
-                  <br />
-                  num3 = 234; <br />
-                  returns "234"
+                  {algorithm ? algorithm.testCases.map(algo=>(
+                    `Input: ${algo.input}
+                    Result: ${algo.output}`
+                  )): ""}
+                  {/* // {algorithm ? `Input: ${algorithm.testCases[0].input}` : ""} <br />
+                  // {algorithm ? `Result: ${algorithm.testCases[0].output}` : ""} <br />
+                  // <br />
+                  // {algorithm ? `Input: ${algorithm.testCases[1].input}` : ""} <br />
+                  // {algorithm ? `Result: ${algorithm.testCases[1].output}` : ""} <br />
+                  // <br />
+                  // {algorithm ? `Input: ${algorithm.testCases[0].input}` : ""} <br />
+                  // {algorithm ? `Result: ${algorithm.testCases[0].output}` : ""} <br /> */}
                 </Typography>
                 <Box p={3} bgcolor="text.primary" color="background.paper">
                   <Typography
@@ -252,10 +254,7 @@ const Challenge = () => {
                     // color="white"
                     align="left"
                   >
-                    This challenge is turning a number value into a string with
-                    commas in the traditional place. For example, when given the
-                    number 1000000, your function should return the answer
-                    "1,000,000".
+                    {algorithm.description}
                   </Typography>
                   <Button variant="contained" color="primary" disableElevation>
                     See answer
