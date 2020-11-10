@@ -1,27 +1,32 @@
 import axios from "axios";
 
 const API = {
-    postUserInfo: function (data) {
-        return axios({
-            method: "POST",
-            url: "/api/login",
-            data: data
-        })
-    },
-    postNewUserInfo: function (data) {
-        return axios({
-            method: "POST",
-            url: "/api/signup",
-            data: data
-        })
-    },
-    postCode: function (data) {
-        return axios({
-            method: "POST",
-            url: "/api/code",
-            data: data,
-        })
-    }
-}
+    
+  getAllAlgorithms: function () {
+    return axios.get("/api/algorithm");
+  },
+
+  postUserInfo: function (data) {
+    return axios({
+      method: "POST",
+      url: "/api/login",
+      data: data,
+    });
+  },
+  postNewUserInfo: function (data) {
+    return axios({
+      method: "POST",
+      url: "/api/signup",
+      data: data,
+    });
+  },
+  postCode: function (data) {
+    return axios({
+      method: "POST",
+      url: "/api/code",
+      data: data,
+    });
+  },
+};
 
 export default API;
