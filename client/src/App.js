@@ -12,6 +12,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import AuthContext from "./context/AuthContext/AuthContext";
 import setAxiosDefaults from "./utils/setAxiosDefaults";
 
+
 // start of figuring out dark/light mode
 
 // import useMediaQuery from "@material-ui/core/useMediaQuery";
