@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const API = {
-    
   getAllAlgorithms: function () {
     return axios.get("/api/algorithm");
   },
@@ -24,6 +23,13 @@ const API = {
     return axios({
       method: "POST",
       url: "/api/code",
+      data: data,
+    });
+  },
+  postAlgorithm: function (data) {
+    return axios({
+      method: "POST",
+      url: "/api/algorithm",
       data: data,
     });
   },
