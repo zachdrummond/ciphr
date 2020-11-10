@@ -22,7 +22,7 @@ router.post("/api/signup", (request, response) => {
           password: hashedPassword,
         })
           .then((newUser) => {
-            // Sends a JWT webtoken to the client
+            // Sends a JWT to the client
             const token = jwt.sign({ username: newUser.username }, process.env.SECRET);
             response.json({
               error: false,
@@ -52,8 +52,9 @@ router.post("/api/signup", (request, response) => {
 
 // LOGIN ROUTE
 router.post("/api/login", (request, response) => {
-  const { username, password } = request.body;
   // Destructuring the request object
+  const { username, password } = request.body;
+  // Find a user in the database
   db.Users.findOne({ username: username })
     .then((foundUser) => {
       // If there is a matching user in the database

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./containers/Login/Login";
 import SignUp from "./containers/SignUp/SignUp";
@@ -7,7 +7,7 @@ import Challenge from "./containers/Challenge/Challenge";
 import EditAlgorithm from "./containers/EditAlgorithm/EditAlgorithm";
 import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
 import NotFound from "./containers/NotFound/NotFound";
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 // start of figuring out dark/light mode
@@ -17,6 +17,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 // import CssBaseline from "@material-ui/core/CssBaseline";
 
 function App() {
+  const [jwt, setJwt] = useState("");
   // start of figuring out dark/light mode
 
   // const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
