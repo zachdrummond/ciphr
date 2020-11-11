@@ -34,7 +34,6 @@ function App() {
   const [jwt, setJwt] = useState("");
 
   const [theme, setTheme] = React.useState(true);
-
   const appliedTheme = createMuiTheme(theme ? lightTheme : darkTheme);
 
   // When jwt changes, this calls the setAxiosDefaults function to set the authorization header to the jwt
