@@ -75,6 +75,7 @@ router.get("/api/algorithm/:id", function (request, response) {
 router.post("/api/algorithm", (req, res) => {
   const { testCases, algorithm, userJwt } = req.body;
   console.log(userJwt);
+  console.log(algorithm)
   const decoded = jwt.verify(userJwt, process.env.SECRET, (err, decoded) => {
     if (err) {
       console.log(err);
