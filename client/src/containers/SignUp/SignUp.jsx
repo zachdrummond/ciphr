@@ -2,12 +2,19 @@
 import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 // Material UI
-import { Avatar, CssBaseline, Container, makeStyles, Typography } from "@material-ui/core";
+import {
+  Avatar,
+  CssBaseline,
+  Container,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
+import ModalComponent from "../../components/Modal/ModalComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +63,12 @@ export default function SignUpSide() {
     username: "",
     password: "",
   });
+  // modal state
+  const [open, setOpen] = useState(false);
+  // modal functions
+  const handleModalOpen = () => {
+    setOpen(true);
+  };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -73,8 +86,8 @@ export default function SignUpSide() {
         setJwt(response.data.data);
         history.push("/home");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        handleModalOpen();
       });
   };
 
@@ -98,6 +111,12 @@ export default function SignUpSide() {
           linkText={"Already have an account? Sign in here!"}
         />
       </div>
+      <ModalComponent
+        open={open}
+        setOpen={setOpen}
+        text="This username is already taken. Please choose another username."
+        url="/signup"
+      />
     </Container>
   );
 }
