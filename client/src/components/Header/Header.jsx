@@ -4,31 +4,17 @@ import { Link } from "react-router-dom";
 // Material UI
 import {
   AppBar,
-<<<<<<< HEAD
-  Box,
-  Container,
-  FormControlLabel,
-  FormGroup,
-=======
->>>>>>> be95673c1874dbb4c2229a3938981ccc04192508
   IconButton,
-  Toolbar,
   List,
   ListItem,
   ListItemText,
-<<<<<<< HEAD
   makeStyles,
-  Switch,
   Toolbar,
-  Typography,
-=======
->>>>>>> be95673c1874dbb4c2229a3938981ccc04192508
+  Tooltip
 } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
-import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles({
   toolbar: {
