@@ -73,7 +73,6 @@ router.get("/api/algorithm/:id", function (request, response) {
 });
 
 // Create an algorithm
-//TODO: Add user info to algorithm model
 router.post("/api/algorithm", (req, res) => {
   const { testCases, algorithm, userJwt } = req.body;
   // console.log(userJwt);
