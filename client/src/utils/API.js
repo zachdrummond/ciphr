@@ -10,6 +10,9 @@ const API = {
   getAlgorithm: function (id) {
     return axios.get(`/api/algorithm/${id}`);
   },
+  deleteAlgorithm: function (id) {
+    return axios.delete(`/api/algorithm/${id}`);
+  },
 
   postUserInfo: function (data) {
     return axios({

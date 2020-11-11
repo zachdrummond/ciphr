@@ -5,7 +5,8 @@ const jwt = require("jsonwebtoken");
 
 // Get all algorithms
 router.get("/api/algorithm", function (request, response) {
-  db.Algorithms.find({}).populate("user")
+  db.Algorithms.find({})
+    .populate("user")
     .then((algorithms) => {
       response.json(algorithms);
     })
@@ -56,7 +57,8 @@ router.get("/api/algorithm/user/:userJwt", function (request, response) {
 // Get a specific algorithm
 router.get("/api/algorithm/:id", function (request, response) {
   db.Algorithms.findOne({ _id: request.params.id })
-    .populate("testCases").populate("user")
+    .populate("testCases")
+    .populate("user")
     .then((algorithm) => {
       response.json(algorithm);
     })
@@ -133,7 +135,13 @@ router.put("/api/algorithm/:id", function (request, response) {
 
 // Delete an algorithm
 router.delete("/api/algorithm/:id", function (request, response) {
-  response.json({ success: "Delete an algorithm worked!" });
+  db.Algorithms.findByIdAndDelete(id, (err, docs) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Deleted : ", docs);
+    }
+  });
 });
 
 module.exports = router;
