@@ -68,10 +68,8 @@ export default function SignUpSide() {
     e.preventDefault();
     // username/password posted to back end
     // see API.js in utils for more info
-    console.log(userInfo);
     API.postNewUserInfo(userInfo)
       .then((response) => {
-        console.log(response);
         // Setting the AuthContextAPI jwt to the new jwt received from the backend
         setJwt(response.data.data);
         history.push("/home");

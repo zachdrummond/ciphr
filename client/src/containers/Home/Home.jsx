@@ -41,7 +41,6 @@ const Home = () => {
     API.getMyAlgorithms(jwt)
       .then((algorithms) => {
         setMyAlgorithms(algorithms.data);
-        console.log(myAlgorithms);
       })
       .catch((error) => {
         console.log(error);
