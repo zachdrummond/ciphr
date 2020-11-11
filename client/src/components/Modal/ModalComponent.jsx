@@ -25,7 +25,7 @@ const ModalComponent = ({open, setOpen, text, url}) => {
   const history = useHistory();
   const handleModalClose = () => {
     setOpen(false);
-    history.push({url});
+    history.push(`${url}`);
   };
   return (
     <Modal
