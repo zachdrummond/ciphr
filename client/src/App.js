@@ -62,8 +62,7 @@ function App() {
               />
               <ProtectedRoute
                 exact
-                path="/algorithms/:algorithmId" component={Challenge}
-                render={(props) => <Challenge {...props} theme={theme} />}
+                path="/algorithms/:algorithmId" component={Challenge} theme={theme}
               />
               <ProtectedRoute exact path="/home" component={Home} />
               <Route exact path="/signup" component={SignUp} />
