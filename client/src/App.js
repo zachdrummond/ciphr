@@ -15,7 +15,6 @@ import Header from "./components/Header/Header";
 import AuthContext from "./context/AuthContext/AuthContext";
 import setAxiosDefaults from "./utils/setAxiosDefaults";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 // define dark/light themes
@@ -55,19 +54,20 @@ function App() {
           <Header theme={theme} setTheme={setTheme} />
           <AuthContext.Provider value={{ jwt, setJwt }}>
             <Switch>
-              <Route exact path="/algorithms/new" component={AddAlgorithm} />
-              <Route
+              <ProtectedRoute exact path="/algorithms/new" component={AddAlgorithm} />
+              <ProtectedRoute
                 exact
                 path="/algorithms/edit/:algorithmId"
                 component={EditAlgorithm}
               />
-              <Route
+              <ProtectedRoute
                 exact
-                path="/algorithms/:algorithmId"
+                path="/algorithms/:algorithmId" component={Challenge}
                 render={(props) => <Challenge {...props} theme={theme} />}
               />
-              <Route exact path="/home" component={Home} />
+              <ProtectedRoute exact path="/home" component={Home} />
               <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Login} />
               <Route path="/" component={NotFound} />
             </Switch>

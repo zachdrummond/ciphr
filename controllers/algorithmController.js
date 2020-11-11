@@ -73,7 +73,6 @@ router.get("/api/algorithm/:id", function (request, response) {
 });
 
 // Create an algorithm
-//TODO: Add user info to algorithm model
 router.post("/api/algorithm", (req, res) => {
   const { testCases, algorithm, userJwt } = req.body;
   // console.log(userJwt);
@@ -101,11 +100,25 @@ router.post("/api/algorithm", (req, res) => {
                 testCases: testCaseResponse,
                 userId: user._id,
               }).then((newAlgorithm) => {
-                res.status(200).json({
-                  error: false,
-                  data: newAlgorithm,
-                  message: "Successfully posted new algorithm.",
-                });
+                user
+                  .updateOne(
+                    { $push: { algorithms: newAlgorithm._id } },
+                    { new: true }
+                  )
+                  .then((updatedUser) => {
+                    res.status(200).json({
+                      error: false,
+                      data: newAlgorithm,
+                      message: "Successfully added algorithm and updated user.",
+                    });
+                  })
+                  .catch((error) => {
+                    res.status(500).json({
+                      error: true,
+                      data: null,
+                      message: "Failed to update user.",
+                    });
+                  });
               });
             })
             .catch((err) => {
