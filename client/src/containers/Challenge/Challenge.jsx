@@ -61,15 +61,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Challenge = () => {
+const Challenge = ({ theme }) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    !theme
+      ? setOptions({ ...options, theme: "material-darker" })
+      : setOptions({ ...options, theme: "default" });
+  }, [theme]);
 
   // const [code, setCode] = useState("// Code")
   const [options, setOptions] = useState({
     mode: "javascript",
     lineNumbers: true,
-    //TODO: dark mode in the code editor!!! Just uncomment theme below
-    // theme: "material-darker"
+    theme: "",
   });
   // sets the code input in first text area and language in dropdown select as state.
   // find in dev tools components under 'Challenge'
@@ -151,7 +156,6 @@ const Challenge = () => {
           >
             Added by: {algorithm.user?.username}
           </Typography>
-          
         </Grid>
         <Grid item xs={12}>
           <Grid container>

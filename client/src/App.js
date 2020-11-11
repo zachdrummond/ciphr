@@ -64,7 +64,7 @@ function App() {
               <Route
                 exact
                 path="/algorithms/:algorithmId"
-                component={Challenge}
+                render={(props) => <Challenge {...props} theme={theme} />}
               />
               <Route exact path="/home" component={Home} />
               <Route exact path="/signup" component={SignUp} />
