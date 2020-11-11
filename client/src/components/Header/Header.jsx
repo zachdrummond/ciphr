@@ -40,18 +40,18 @@ const navLinks = [
   //   { title: `Logout`, path: `/` },
 ];
 
-const Header = (props) => {
+const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
   // const [mode, setMode] = React.useState(true);
 
-  const [theme, setTheme] = React.useState(true);
+  // const [theme, setTheme] = React.useState(true);
   // const icon = !theme ? <Brightness7Icon /> : <Brightness4Icon />;
 
   const changeMode = () => {
     if (!theme) {
-      props.setTheme(theme);
+      setTheme(theme);
     } else if (theme) {
-      props.setTheme(!theme);
+      setTheme(!theme);
     }
   };
 
@@ -93,7 +93,7 @@ const Header = (props) => {
               aria-label="mode"
               onClick={changeMode}
             >
-              {!theme ? <Brightness4Icon /> : <Brightness7Icon />}
+              {!theme ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </List>
         </Container>

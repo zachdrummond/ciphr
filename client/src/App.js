@@ -49,7 +49,7 @@ function App() {
       <ThemeProvider theme={appliedTheme}>
         <CssBaseline />
         <Router>
-          <Header setTheme={setTheme} />
+          <Header theme={theme} setTheme={setTheme} />
           {/* <IconButton
             edge="end"
             color="inherit"
