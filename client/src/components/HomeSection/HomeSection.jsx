@@ -30,12 +30,12 @@ const HomeSection = ({ size, title, children, algorithms }) => {
         <List component="nav" className={classes.root}>
           {algorithms.length > 0 ? (
             algorithms.map((algorithm) => {
-              const { _id, challengeName, description } = algorithm;
+              const { _id, challengeName, user } = algorithm;
               return (
                 <AlgorithmListItem
                   key={_id}
                   title={challengeName}
-                  author={description}
+                  author={user?.username}
                   id={_id}
                 />
               );

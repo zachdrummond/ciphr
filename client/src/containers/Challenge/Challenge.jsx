@@ -143,6 +143,15 @@ const Challenge = () => {
           >
             {algorithm.challengeName}
           </Typography>
+          <Typography
+            className={classes.titleBottom}
+            variant="h6"
+            color="textPrimary"
+            align="left"
+          >
+            Added by: {algorithm.user?.username}
+          </Typography>
+          
         </Grid>
         <Grid item xs={12}>
           <Grid container>

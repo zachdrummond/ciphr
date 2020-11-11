@@ -8,6 +8,7 @@ import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext"
 import HomeSection from "../../components/HomeSection/HomeSection";
 
+
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,8 @@ const Home = () => {
   useEffect(() => {
     getAllAlgorithms();
     getMyAlgorithms();
+    
+
   }, []);
 
   const getAllAlgorithms = () => {
