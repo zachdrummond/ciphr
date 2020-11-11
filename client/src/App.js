@@ -68,6 +68,7 @@ function App() {
               <ProtectedRoute exact path="/home" component={Home} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/" component={Login} />
               <Route path="/" component={NotFound} />
             </Switch>
           </AuthContext.Provider>
