@@ -211,7 +211,6 @@ export default function EditAlgorithm() {
               {/* map over array of test case hooks */}
               {allTests.map((test, index) => {
                 if (index < testCount) {
-                    console.log(test)
                   return (
                     <TestCase
                       

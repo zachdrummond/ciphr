@@ -172,7 +172,6 @@ router.put("/api/algorithm/:id", function (request, response) {
         message: "An error occurred updating your algorithm.",
       });
     });
-    console.log("Scoob Doo")
 });
 
 // Delete an algorithm
