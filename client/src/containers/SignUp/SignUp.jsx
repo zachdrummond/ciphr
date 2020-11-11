@@ -2,7 +2,7 @@
 import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 // Material UI
-import { Avatar, CssBaseline, Container, makeStyles, Typography } from "@material-ui/core";
+import { Avatar, CssBaseline, Container, makeStyles, Modal, Typography } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 // File Modules
 import API from "../../utils/API";
