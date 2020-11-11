@@ -124,7 +124,9 @@ const Challenge = () => {
     // make API call to get algorithm by id
     API.getAlgorithm(id)
       .then((response) => {
-        setAlgorithm(response.data);
+        console.log(response.data.description.replace(/(<br>)/g, "\n"))
+        setAlgorithm(response.data);//.replace(/["<br>"]/g, "\n")
+        // console.log("after: " + algorithm)
       })
       .catch((err) => {
         console.log(err);
@@ -235,10 +237,15 @@ const Challenge = () => {
                 <Typography
                   className={classes.titleBottom}
                   variant="body1"
+                  multiline={true}
                   color="textPrimary"
                   align="left"
+                  style={{whiteSpace: 'pre-line'}}
                 >
-                  {algorithm.description}
+                 {algorithm ? algorithm.description.replace(/(<br>)/g, "\n") : ""}
+
+                 
+                  {/* {algorithm ? algorithm.description.replace(/["<br>"]/g, "\n") : ""} */}
                 </Typography>
                 <Typography
                   className={classes.titleBottom}
