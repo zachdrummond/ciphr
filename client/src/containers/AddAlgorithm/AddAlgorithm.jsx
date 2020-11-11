@@ -1,5 +1,6 @@
 // React
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 // Material UI
 import {
   Button,
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddAlgorithm() {
   const classes = useStyles();
   const { jwt } = useContext(AuthContext);
+  const history = useHistory();
 
   // custom hook imported from useTestCase.js
   // instance for each test case
@@ -87,7 +89,7 @@ export default function AddAlgorithm() {
       }
     }
 
-    API.postAlgorithm({
+    API.addAlgorithm({
       algorithm: {
         challengeName: algoInfo.challengeName,
         description: algoInfo.challengeDescription,
@@ -96,7 +98,7 @@ export default function AddAlgorithm() {
       userJwt: jwt,
     })
       .then((response) => {
-        console.log(response);
+        history.push("/home");
       })
       .catch((err) => {
         console.log(err);

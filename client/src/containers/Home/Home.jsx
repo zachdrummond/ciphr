@@ -71,7 +71,7 @@ const Home = () => {
         </HomeSection>
         <HomeSection
           size={6}
-          title="Browse Algorithms"
+          title="All Algorithms"
           algorithms={allAlgorithms}
         />
       </Grid>

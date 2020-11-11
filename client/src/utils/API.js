@@ -11,19 +11,11 @@ const API = {
     return axios.get(`/api/algorithm/${id}`);
   },
 
-  postUserInfo: function (data) {
-    return axios({
-      method: "POST",
-      url: "/api/login",
-      data: data,
-    });
+  login: function (userInfo) {
+    return axios.post("/api/login", userInfo);
   },
-  postNewUserInfo: function (data) {
-    return axios({
-      method: "POST",
-      url: "/api/signup",
-      data: data,
-    });
+  signup: function (userInfo) {
+    return axios.post("/api/signup", userInfo);
   },
   postCode: function (input, mode) {
     return axios({
@@ -32,12 +24,8 @@ const API = {
       data: { input, mode },
     });
   },
-  postAlgorithm: function (data) {
-    return axios({
-      method: "POST",
-      url: "/api/algorithm",
-      data: data,
-    });
+  addAlgorithm: function (algorithm) {
+    return axios.post("/api/algorithm", algorithm);
   },
 };
 
