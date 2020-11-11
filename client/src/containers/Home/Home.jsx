@@ -26,8 +26,6 @@ const Home = () => {
   useEffect(() => {
     getAllAlgorithms();
     getMyAlgorithms();
-    
-
   }, []);
 
   const getAllAlgorithms = () => {

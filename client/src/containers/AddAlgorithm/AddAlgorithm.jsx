@@ -11,11 +11,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 // File Modules
+import useTestCase from "../../utils/useTestCase";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
-import TestCase from "../../components/TestCase/TestCase";
-import useTestCase from "../../utils/useTestCase";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -53,7 +53,15 @@ export default function AddAlgorithm() {
 
   // each time the button is clicked the count is incremented
   const handleTestButton = () => {
-    const newCount = testCount + 1;
+    if (testCount < 4) {
+      const newCount = testCount + 1;
+      setTestCount(newCount);
+    }
+  };
+
+  // decrements testCount value to remove test cases
+  const handleSeeLess = () => {
+    const newCount = testCount - 1;
     setTestCount(newCount);
   };
 
@@ -72,12 +80,12 @@ export default function AddAlgorithm() {
     e.preventDefault();
     // filters out empty hooks and formats for back end db
     const allUsedTests = [];
-    for (const { test } of allTests) {
-      if (test.input !== "" && test.output !== "") {
-        allUsedTests.push(test);
+    for (let i = 0; i < allTests.length; i++) {
+      if (i < testCount) {
+        allUsedTests.push(allTests[i].test);
       }
     }
-    // posts algorithm to the back end
+
     API.postAlgorithm({
       algorithm: {
         challengeName: algoInfo.challengeName,
@@ -172,7 +180,20 @@ export default function AddAlgorithm() {
               >
                 Add Test Case
               </Button>
-
+              {/* only shows remove test case button if there is at least one */}
+              {testCount > 0 ? (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  className={classes.button}
+                  startIcon={<RemoveIcon />}
+                  onClick={handleSeeLess}
+                >
+                  Remove Test Case
+                </Button>
+              ) : (
+                <></>
+              )}
               <Button variant="contained" color="primary" type="submit">
                 Save
               </Button>
