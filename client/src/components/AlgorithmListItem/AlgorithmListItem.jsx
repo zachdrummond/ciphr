@@ -15,7 +15,7 @@ import EditIcon from "@material-ui/icons/Edit";
 
 const AlgorithmListItem = ({ title, author, id }) => {
   const handleDelete = (e) => {
-    console.log(id)
+    console.log(id);
     API.deleteAlgorithm(id)
       .then((res) => {
         console.log(res);
@@ -31,7 +31,12 @@ const AlgorithmListItem = ({ title, author, id }) => {
         <ListItemText align="right" secondary={author} />
         {!author ? (
           <ListItemSecondaryAction>
-            <IconButton component={Link} to={`/algorithms/${id}/edit`}edge="end" aria-label="delete">
+            <IconButton
+              component={Link}
+              to={`/algorithms/${id}/edit`}
+              edge="end"
+              aria-label="delete"
+            >
               <EditIcon />
             </IconButton>
             <IconButton

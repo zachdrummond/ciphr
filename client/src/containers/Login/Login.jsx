@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
   const classes = useStyles();
+  const history = useHistory();
 
   // Using AuthContextAPI to get the setJwt function
   const { setJwt } = useContext(AuthContext);
@@ -62,14 +63,12 @@ export default function SignInSide() {
     setUserInfo({ ...userInfo, [name]: value });
   };
 
-  let history = useHistory();
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // username/password posted to back end
     // see API.js in utils for more info
     
-    API.postUserInfo(userInfo)
+    API.login(userInfo)
       .then((response) => {
         
         // Setting the AuthContextAPI jwt to the new jwt received from the backend

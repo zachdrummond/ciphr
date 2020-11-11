@@ -33,9 +33,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(8, 0),
   },
   modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   paper: {
     padding: theme.spacing(4),
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   modalPaper: {
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddAlgorithm() {
   const classes = useStyles();
   const { jwt } = useContext(AuthContext);
-  let history = useHistory();
+  const history = useHistory();
 
   // custom hook imported from useTestCase.js
   // instance for each test case
@@ -67,9 +67,9 @@ export default function AddAlgorithm() {
 
   // testCount keeps track of how many test cases there are
   const [testCount, setTestCount] = useState(0);
-// modal state
+  // modal state
   const [open, setOpen] = React.useState(false);
-// modal functions
+  // modal functions
   const handleOpen = () => {
     setOpen(true);
   };
@@ -114,7 +114,7 @@ export default function AddAlgorithm() {
       }
     }
 
-    API.postAlgorithm({
+    API.addAlgorithm({
       algorithm: {
         challengeName: algoInfo.challengeName,
         description: algoInfo.challengeDescription,
@@ -124,7 +124,6 @@ export default function AddAlgorithm() {
     })
       .then((response) => {
         console.log(response);
-        
       })
       .catch((err) => {
         console.log(err);
@@ -223,7 +222,12 @@ export default function AddAlgorithm() {
               ) : (
                 <></>
               )}
-              <Button onClick={handleOpen} variant="contained" color="primary" type="submit">
+              <Button
+                onClick={handleOpen}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
                 Save
               </Button>
             </form>
