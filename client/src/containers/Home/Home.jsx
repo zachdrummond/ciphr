@@ -28,6 +28,11 @@ const Home = () => {
     getMyAlgorithms();
   }, []);
 
+  useEffect(() => {
+    getAllAlgorithms();
+    getMyAlgorithms();
+  }, [myAlgorithms]);
+
   const getAllAlgorithms = () => {
     API.getAllAlgorithms()
       .then((algorithms) => {

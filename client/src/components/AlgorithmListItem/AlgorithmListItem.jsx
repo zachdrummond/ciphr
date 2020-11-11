@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom";
 // File imports
 import API from "../../utils/API";
-import axios from "axios";
 // Material UI
 import {
   Divider,
@@ -17,7 +16,7 @@ import EditIcon from "@material-ui/icons/Edit";
 const AlgorithmListItem = ({ title, author, id }) => {
   const handleDelete = (e) => {
     console.log(id)
-    axios.delete(`/api/algorithm/${id}`)
+    API.deleteAlgorithm(id)
       .then((res) => {
         console.log(res);
       })
