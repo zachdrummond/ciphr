@@ -104,6 +104,9 @@ export default function EditAlgorithm() {
   };
 
   const handleSaveAlgo = (e) => {
+    let url = window.location.href;
+    let id = url.substring(url.lastIndexOf("/") + 1);
+
     e.preventDefault();
     // filters out empty hooks and formats for back end db
     const allUsedTests = [];
@@ -113,16 +116,16 @@ export default function EditAlgorithm() {
       }
     }
 
-    API.editAlgorithm({
+    API.editAlgorithm(id, {
+
       algorithm: {
         challengeName: algoInfo.challengeName,
         description: algoInfo.description,
       },
       testCases: allUsedTests,
-      userJwt: jwt,
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
       })
       .catch((err) => {
         console.log(err);
@@ -144,10 +147,9 @@ export default function EditAlgorithm() {
         //   response.data.testCases[0].output
         // );
         for (let i = 0; i < response.data.testCases.length; i++) {
-          console.log(response.data.testCases[i]);
           allTests[i].updateTestCase( response.data.testCases[i].input, response.data.testCases[i].output);
         }
-        console.log(response.data);
+
       })
       .catch((err) => {
         console.log(err);

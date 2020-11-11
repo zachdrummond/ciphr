@@ -131,21 +131,27 @@ router.post("/api/algorithm", (req, res) => {
 
 // Edit an algorithm
 router.put("/api/algorithm/:id", function (request, response) {
- 
-  const updatedAlgorithm = {
-    challengeName: request.body.challengeName,
-    description: request.body.description,
-    testCases: request.body.testCases,
-  };
+  // const updatedAlgorithm = {
+  //   challengeName: request.body.algorithm.challengeName,
+  //   description: request.body.algorithm.description,
+  //   testCases: request.body.testCases,
+  // };
+  // console.log(updatedAlgorithm);
+  // console.log(request.params.id);
   // Restrict updates where the creatorId is equal to the user-provided token _id.
-  db.Algorithms.findOneAndUpdate(
+  db.Algorithms.findByIdAndUpdate(
     // { _id: req.params.id, creatorId: decoded._id },
-    { _id: request.params.id },
-    updatedAlgorithm,
+    request.params.id,
+    {
+      challengeName: request.body.algorithm.challengeName,
+      description: request.body.algorithm.description,
+      // testCases: request.body.testCases,
+    },
     { new: true }
   )
-    .then((updatedAlgorithm) => {
-      if (!updatedAlgorithm) {
+    .then((updated) => {
+      console.log(updated);
+      if (!updated) {
         response.status(404).json({
           error: true,
           data: null,
@@ -154,7 +160,7 @@ router.put("/api/algorithm/:id", function (request, response) {
       } else {
         response.json({
           error: false,
-          data: updatedAlgorithm,
+          data: updated,
           message: "Successfully updated algorithm.",
         });
       }
@@ -166,6 +172,7 @@ router.put("/api/algorithm/:id", function (request, response) {
         message: "An error occurred updating your algorithm.",
       });
     });
+    console.log("Scoob Doo")
 });
 
 // Delete an algorithm
