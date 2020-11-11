@@ -13,6 +13,10 @@ const API = {
   deleteAlgorithm: function (id) {
     return axios.delete(`/api/algorithm/${id}`);
   },
+  editAlgorithm: function (id) {
+    axios.put(`/api/algorithm/${id}`);
+  },
+  
 
   login: function (userInfo) {
     return axios.post("/api/login", userInfo);

@@ -130,7 +130,41 @@ router.post("/api/algorithm", (req, res) => {
 
 // Edit an algorithm
 router.put("/api/algorithm/:id", function (request, response) {
-  response.json({ success: "Edit an algorithm worked!" });
+ 
+  const updatedAlgorithm = {
+    challengeName: request.body.challengeName,
+    description: request.body.description,
+    testCases: request.body.testCases,
+  };
+  // Restrict updates where the creatorId is equal to the user-provided token _id.
+  db.Algorithms.findOneAndUpdate(
+    // { _id: req.params.id, creatorId: decoded._id },
+    { _id: request.params.id },
+    updatedAlgorithm,
+    { new: true }
+  )
+    .then((updatedAlgorithm) => {
+      if (!updatedAlgorithm) {
+        response.status(404).json({
+          error: true,
+          data: null,
+          message: "Unable to find that algorithm.",
+        });
+      } else {
+        response.json({
+          error: false,
+          data: updatedAlgorithm,
+          message: "Successfully updated algorithm.",
+        });
+      }
+    })
+    .catch((err) => {
+      response.status(500).json({
+        error: true,
+        data: null,
+        message: "An error occurred updating your algorithm.",
+      });
+    });
 });
 
 // Delete an algorithm
