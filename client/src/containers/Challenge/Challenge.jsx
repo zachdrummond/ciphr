@@ -124,9 +124,7 @@ const Challenge = () => {
     // make API call to get algorithm by id
     API.getAlgorithm(id)
       .then((response) => {
-        console.log(response.data.description.replace(/(<br>)/g, "\n"))
-        setAlgorithm(response.data);//.replace(/["<br>"]/g, "\n")
-        // console.log("after: " + algorithm)
+        setAlgorithm(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -242,10 +240,8 @@ const Challenge = () => {
                   align="left"
                   style={{whiteSpace: 'pre-line'}}
                 >
+                {/* Regex replaces breaks with line breaks */}
                  {algorithm ? algorithm.description.replace(/(<br>)/g, "\n") : ""}
-
-                 
-                  {/* {algorithm ? algorithm.description.replace(/["<br>"]/g, "\n") : ""} */}
                 </Typography>
                 <Typography
                   className={classes.titleBottom}

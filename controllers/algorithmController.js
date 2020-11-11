@@ -96,6 +96,7 @@ router.post("/api/algorithm", (req, res) => {
               // then an algorithm entry is created with the front end input and test cases from db
               db.Algorithms.create({
                 challengeName: algorithm.challengeName,
+                // regex added to preserve line breaks in mongodb
                 description: algorithm.description.replace(/(\r\n)/g, "<br>"),
                 testCases: testCaseResponse,
                 userId: user._id,
