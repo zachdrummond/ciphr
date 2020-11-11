@@ -235,10 +235,13 @@ const Challenge = () => {
                 <Typography
                   className={classes.titleBottom}
                   variant="body1"
+                  multiline={true}
                   color="textPrimary"
                   align="left"
+                  style={{whiteSpace: 'pre-line'}}
                 >
-                  {algorithm.description}
+                {/* Regex replaces breaks with line breaks */}
+                 {algorithm ? algorithm.description.replace(/(<br>)/g, "\n") : ""}
                 </Typography>
                 <Typography
                   className={classes.titleBottom}
