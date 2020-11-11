@@ -1,5 +1,4 @@
 // React
-import React from "react";
 import { Link } from "react-router-dom";
 // Material UI
 import {
@@ -10,11 +9,13 @@ import {
   ListItemText,
   makeStyles,
   Toolbar,
-  Tooltip
+  Tooltip,
+  Typography,
 } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
+// File Modules
 
 const useStyles = makeStyles({
   toolbar: {
@@ -30,14 +31,12 @@ const useStyles = makeStyles({
 });
 
 const navLinks = [
-  { title: `home`, path: `/home` },
   { title: `Add Algorithm`, path: `/algorithms/new` },
   { title: `Logout`, path: `/` },
 ];
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
-  // const [mode, setMode] = React.useState(true);
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
@@ -46,13 +45,19 @@ const Header = ({ theme, setTheme }) => {
   return (
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
-        <IconButton edge="start" color="inherit" aria-label="home">
-          <Home fontSize="large" />
-        </IconButton>
+        <Link to="/home">
+          <IconButton
+            edge="start"
+            className={classes.linkText}
+            aria-label="home"
+          >
+            <Home fontSize="large" />
+          </IconButton>
+        </Link>
 
-        {/* <Typography variant="h6" className={classes.linkText}>
+        <Typography variant="h6" className={classes.linkText}>
           AlgoMaster
-        </Typography> */}
+        </Typography>
 
         <List component="nav" aria-labelledby="main navigation">
           {navLinks.map(({ title, path }) => (
