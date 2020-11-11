@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 // Get all algorithms
 router.get("/api/algorithm", function (request, response) {
-  db.Algorithms.find({})
+  db.Algorithms.find({}).populate("user")
     .then((algorithms) => {
       response.json(algorithms);
     })
