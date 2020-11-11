@@ -56,7 +56,7 @@ router.get("/api/algorithm/user/:userJwt", function (request, response) {
 // Get a specific algorithm
 router.get("/api/algorithm/:id", function (request, response) {
   db.Algorithms.findOne({ _id: request.params.id })
-    .populate("testCases")
+    .populate("testCases").populate("user")
     .then((algorithm) => {
       response.json(algorithm);
     })
