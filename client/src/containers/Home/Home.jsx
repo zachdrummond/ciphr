@@ -24,11 +24,9 @@ const Home = () => {
 
   useEffect(() => {
     getAllAlgorithms();
-    getMyAlgorithms();
-  }, []);
+  }, [allAlgorithms]);
 
   useEffect(() => {
-    getAllAlgorithms();
     getMyAlgorithms();
   }, [myAlgorithms]);
 

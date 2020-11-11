@@ -1,12 +1,8 @@
 // React
-import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useState, useContext } from "react";
 // Material UI
 import {
   Button,
-  Fade,
-  Modal,
-  Backdrop,
   Container,
   Grid,
   makeStyles,
@@ -19,8 +15,9 @@ import RemoveIcon from "@material-ui/icons/Remove";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
-import useTestCase from "../../utils/useTestCase";
+import ModalComponent from "../../components/Modal/ModalComponent";
 import TestCase from "../../components/TestCase/TestCase";
+import useTestCase from "../../utils/useTestCase";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -32,20 +29,9 @@ const useStyles = makeStyles((theme) => ({
   mastergrid: {
     margin: theme.spacing(8, 0),
   },
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   paper: {
     padding: theme.spacing(4),
     justify: "center",
-  },
-  modalPaper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
   },
   titleBottom: {
     marginBottom: theme.spacing(4),
@@ -55,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AddAlgorithm() {
   const classes = useStyles();
   const { jwt } = useContext(AuthContext);
-  const history = useHistory();
 
   // custom hook imported from useTestCase.js
   // instance for each test case
@@ -68,15 +53,10 @@ export default function AddAlgorithm() {
   // testCount keeps track of how many test cases there are
   const [testCount, setTestCount] = useState(0);
   // modal state
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   // modal functions
-  const handleOpen = () => {
+  const handleModalOpen = () => {
     setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    history.push("/home");
   };
 
   // each time the button is clicked the count is incremented
@@ -123,7 +103,6 @@ export default function AddAlgorithm() {
       userJwt: jwt,
     })
       .then((response) => {
-        console.log(response);
       })
       .catch((err) => {
         console.log(err);
@@ -223,7 +202,7 @@ export default function AddAlgorithm() {
                 <></>
               )}
               <Button
-                onClick={handleOpen}
+                onClick={handleModalOpen}
                 variant="contained"
                 color="primary"
                 type="submit"
@@ -234,25 +213,11 @@ export default function AddAlgorithm() {
           </Paper>
         </Grid>
       </Grid>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.modalPaper}>
-            <h2 id="transition-modal-title">Algorithm Successfully Added!</h2>
-            <p id="transition-modal-description">Click anywhere to continue.</p>
-          </div>
-        </Fade>
-      </Modal>
+      <ModalComponent
+      open={open}
+      setOpen={setOpen}
+      text="Algorithm Successfully Added!"
+      url="/home"/>
     </Container>
   );
 }
