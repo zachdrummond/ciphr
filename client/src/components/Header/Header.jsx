@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 
 const navLinks = [
   { title: `Add Algorithm`, path: `/algorithms/new` },
-  { title: `Logout`, path: `/` },
+  { title: `Logout`, path: `/login` },
 ];
 
 const Header = ({ theme, setTheme }) => {

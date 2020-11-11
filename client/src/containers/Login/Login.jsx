@@ -1,5 +1,5 @@
 // React
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // Material UI
 import { Avatar, CssBaseline, Grid, makeStyles, Paper, Typography } from "@material-ui/core";
@@ -79,6 +79,10 @@ export default function SignInSide() {
         console.log(err);
       });
   };
+
+  useEffect(() =>{
+    setJwt("");
+  },[]);
 
   return (
     <Grid container component="main" className={classes.root}>
