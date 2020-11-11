@@ -1,11 +1,13 @@
+// React
 import { Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 // Material UI
 import { makeStyles, Grid, Fab, Box, Typography } from "@material-ui/core";
 // File Modules
-import HomeSection from "../../components/HomeSection/HomeSection";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext"
+import HomeSection from "../../components/HomeSection/HomeSection";
+
 
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +60,7 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <HomeSection size={6} title="My Algorithms" algorithms={allAlgorithms}>
+        <HomeSection size={6} title="My Algorithms" algorithms={myAlgorithms}>
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">

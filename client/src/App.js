@@ -1,5 +1,9 @@
+// React
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+// Material UI
+import CssBaseline from "@material-ui/core/CssBaseline";
+// File Modules
 import Login from "./containers/Login/Login";
 import SignUp from "./containers/SignUp/SignUp";
 import Home from "./containers/Home/Home";
@@ -8,11 +12,11 @@ import EditAlgorithm from "./containers/EditAlgorithm/EditAlgorithm";
 import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
 import NotFound from "./containers/NotFound/NotFound";
 import Header from "./components/Header/Header";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import AuthContext from "./context/AuthContext/AuthContext";
 import setAxiosDefaults from "./utils/setAxiosDefaults";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 // define dark/light themes
 
@@ -49,14 +53,6 @@ function App() {
         <CssBaseline />
         <Router>
           <Header theme={theme} setTheme={setTheme} />
-          {/* <IconButton
-            edge="end"
-            color="inherit"
-            aria-label="mode"
-            onClick={() => setTheme(!theme)}
-          >
-            {icon}
-          </IconButton> */}
           <AuthContext.Provider value={{ jwt, setJwt }}>
             <Switch>
               <Route exact path="/algorithms/new" component={AddAlgorithm} />

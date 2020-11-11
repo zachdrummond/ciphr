@@ -1,30 +1,33 @@
-import React from "react";
-import PropTypes from "prop-types";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-// import Copyright from "@material-ui/core/copyright";
-import Typography from "@material-ui/core/Typography";
-// import Link from "@material-ui/core/Link";
+// React
 import { Link } from "react-router-dom";
-
-
+import PropTypes from "prop-types";
+// Material UI
+import { Box, Button, TextField, Typography } from "@material-ui/core";
 
 function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {"Copyright © "}
-        <Link color="inherit" href="https://material-ui.com/">
-          AlgoMaster
-        </Link>{" "}
-        {new Date().getFullYear()}
-        {"."}
-      </Typography>
-    );
-  }
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" to="/">
+        AlgoMaster
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 
 // 'classes' is a style object found on Login page. Maybe copy/paste or create new style object???
-const CredentialsForm = ({classes, handleSubmit, handleInput, username, password, type, link, linkText}) => {
+const CredentialsForm = ({
+  classes,
+  handleSubmit,
+  handleInput,
+  username,
+  password,
+  type,
+  link,
+  linkText,
+}) => {
   return (
     <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
       <TextField
@@ -79,7 +82,7 @@ CredentialsForm.propTypes = {
   password: PropTypes.string,
   type: PropTypes.string,
   link: PropTypes.string,
-  linkText: PropTypes.string
+  linkText: PropTypes.string,
 };
 
 export default CredentialsForm;
