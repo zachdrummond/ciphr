@@ -1,8 +1,12 @@
 // React
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 // Material UI
 import {
   Button,
+  Fade,
+  Modal,
+  Backdrop,
   Container,
   Grid,
   makeStyles,
@@ -28,9 +32,20 @@ const useStyles = makeStyles((theme) => ({
   mastergrid: {
     margin: theme.spacing(8, 0),
   },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   paper: {
     padding: theme.spacing(4),
     justify: "center",
+  },
+  modalPaper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
   titleBottom: {
     marginBottom: theme.spacing(4),
@@ -40,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddAlgorithm() {
   const classes = useStyles();
   const { jwt } = useContext(AuthContext);
+  let history = useHistory();
 
   // custom hook imported from useTestCase.js
   // instance for each test case
@@ -51,6 +67,17 @@ export default function AddAlgorithm() {
 
   // testCount keeps track of how many test cases there are
   const [testCount, setTestCount] = useState(0);
+// modal state
+  const [open, setOpen] = React.useState(false);
+// modal functions
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    history.push("/home");
+  };
 
   // each time the button is clicked the count is incremented
   const handleTestButton = () => {
@@ -97,6 +124,7 @@ export default function AddAlgorithm() {
     })
       .then((response) => {
         console.log(response);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -195,13 +223,32 @@ export default function AddAlgorithm() {
               ) : (
                 <></>
               )}
-              <Button variant="contained" color="primary" type="submit">
+              <Button onClick={handleOpen} variant="contained" color="primary" type="submit">
                 Save
               </Button>
             </form>
           </Paper>
         </Grid>
       </Grid>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <div className={classes.modalPaper}>
+            <h2 id="transition-modal-title">Algorithm Successfully Added!</h2>
+            <p id="transition-modal-description">Click anywhere to continue.</p>
+          </div>
+        </Fade>
+      </Modal>
     </Container>
   );
 }
