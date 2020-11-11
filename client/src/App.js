@@ -57,7 +57,7 @@ function App() {
               <ProtectedRoute exact path="/algorithms/new" component={AddAlgorithm} />
               <ProtectedRoute
                 exact
-                path="/algorithms/:algorithmId/edit"
+                path="/algorithms/edit/:algorithmId"
                 component={EditAlgorithm}
               />
               <ProtectedRoute

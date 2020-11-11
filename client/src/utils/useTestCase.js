@@ -12,6 +12,9 @@ const useTestCase = () => {
       const { name, value } = e.target;
       setTest({ ...test, [name]: value });
     },
+    updateTestCase: (input, output) => {
+      setTest({...test, input: input, output: output});
+    },
   };
 };
 
