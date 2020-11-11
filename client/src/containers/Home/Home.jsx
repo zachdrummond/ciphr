@@ -5,9 +5,8 @@ import { useState, useEffect, useContext } from "react";
 import { makeStyles, Grid, Fab, Box, Typography } from "@material-ui/core";
 // File Modules
 import API from "../../utils/API";
-import AuthContext from "../../context/AuthContext/AuthContext"
+import AuthContext from "../../context/AuthContext/AuthContext";
 import HomeSection from "../../components/HomeSection/HomeSection";
-
 
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  const {jwt} =useContext(AuthContext);
+  const { jwt } = useContext(AuthContext);
 
   const [allAlgorithms, setAllAlgorithms] = useState([]);
   const [myAlgorithms, setMyAlgorithms] = useState([]);
@@ -27,6 +26,11 @@ const Home = () => {
     getAllAlgorithms();
     getMyAlgorithms();
   }, []);
+
+  useEffect(() => {
+    getAllAlgorithms();
+    getMyAlgorithms();
+  }, [myAlgorithms]);
 
   const getAllAlgorithms = () => {
     API.getAllAlgorithms()
@@ -47,7 +51,6 @@ const Home = () => {
         console.log(error);
       });
   };
-
 
   return (
     <div className={classes.root}>
@@ -71,7 +74,7 @@ const Home = () => {
         </HomeSection>
         <HomeSection
           size={6}
-          title="Browse Algorithms"
+          title="All Algorithms"
           algorithms={allAlgorithms}
         />
       </Grid>

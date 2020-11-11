@@ -10,20 +10,15 @@ const API = {
   getAlgorithm: function (id) {
     return axios.get(`/api/algorithm/${id}`);
   },
-
-  postUserInfo: function (data) {
-    return axios({
-      method: "POST",
-      url: "/api/login",
-      data: data,
-    });
+  deleteAlgorithm: function (id) {
+    return axios.delete(`/api/algorithm/${id}`);
   },
-  postNewUserInfo: function (data) {
-    return axios({
-      method: "POST",
-      url: "/api/signup",
-      data: data,
-    });
+
+  login: function (userInfo) {
+    return axios.post("/api/login", userInfo);
+  },
+  signup: function (userInfo) {
+    return axios.post("/api/signup", userInfo);
   },
   postCode: function (input, mode) {
     return axios({
@@ -32,12 +27,8 @@ const API = {
       data: { input, mode },
     });
   },
-  postAlgorithm: function (data) {
-    return axios({
-      method: "POST",
-      url: "/api/algorithm",
-      data: data,
-    });
+  addAlgorithm: function (algorithm) {
+    return axios.post("/api/algorithm", algorithm);
   },
 };
 
