@@ -4,21 +4,20 @@ import { Link } from "react-router-dom";
 // Material UI
 import {
   AppBar,
-  Container,
-  FormControlLabel,
-  FormGroup,
   IconButton,
+  Toolbar,
   List,
   ListItem,
   ListItemText,
-  makeStyles,
-  Switch,
-  Toolbar,
 } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
+import Brightness4Icon from "@material-ui/icons/Brightness4";
+import Brightness7Icon from "@material-ui/icons/Brightness7";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles({
-  navbarDisplayFlex: {
+  toolbar: {
     display: `flex`,
     justifyContent: `space-between`,
   },
@@ -28,9 +27,6 @@ const useStyles = makeStyles({
     textTransform: `uppercase`,
     color: `white`,
   },
-  left: {
-    float: `left`,
-  },
 });
 
 const navLinks = [
@@ -39,44 +35,40 @@ const navLinks = [
   //   { title: `Logout`, path: `/` },
 ];
 
-const Header = () => {
+const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
-  const [mode, setMode] = React.useState(true);
+  // const [mode, setMode] = React.useState(true);
 
-  const handleChange = (event) => {
-    setMode(event.target.checked);
+  const changeMode = () => {
+    !theme ? setTheme(true) : setTheme(false);
   };
 
   return (
     <AppBar position="static">
-      <Toolbar>
-        <Container className={classes.navbarDisplayFlex}>
-          <IconButton edge="start" color="inherit" aria-label="home">
-            <Home fontSize="large" />
-          </IconButton>
+      <Toolbar className={classes.toolbar}>
+        <IconButton edge="start" color="inherit" aria-label="home">
+          <Home fontSize="large" />
+        </IconButton>
 
-          <List component="nav" aria-labelledby="main navigation">
-            {navLinks.map(({ title, path }) => (
-              <Link to={path} key={title} className={classes.linkText}>
-                <ListItem button>
-                  <ListItemText primary={title} />
-                </ListItem>
-              </Link>
-            ))}
-            <FormGroup className={classes.linkText}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={mode}
-                    onChange={handleChange}
-                    aria-label="login switch"
-                  />
-                }
-                label={mode ? "Light" : "Dark"}
-              />
-            </FormGroup>
-          </List>
-        </Container>
+        <List component="nav" aria-labelledby="main navigation">
+          {navLinks.map(({ title, path }) => (
+            <Link to={path} key={title} className={classes.linkText}>
+              <ListItem button>
+                <ListItemText primary={title} />
+              </ListItem>
+            </Link>
+          ))}
+          <Tooltip title="Toggle Light/Dark Theme" placement="bottom-end">
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="mode"
+              onClick={changeMode}
+            >
+              {theme ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </Tooltip>
+        </List>
       </Toolbar>
     </AppBar>
   );
