@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from "react";
+// React
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import { Typography } from "@material-ui/core";
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+// Material UI
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+} from "@material-ui/core";
+// File Modules
 import API from "../../utils/API";
-import axios from "axios";
+// Code Mirror
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
 import "codemirror/mode/javascript/javascript";
@@ -23,7 +27,7 @@ import "codemirror/mode/clike/clike";
 import "codemirror/mode/r/r";
 import "codemirror/mode/shell/shell";
 // import all the themes from codemirror/theme/...
-import "codemirror/theme/material-darker.css"
+import "codemirror/theme/material-darker.css";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -81,7 +85,7 @@ const Challenge = () => {
   };
 
   const handleOptionsChange = (e) => {
-    console.log(e.target.value)
+    console.log(e.target.value);
     const language = e.target.value;
 
     setOptions({ ...options, mode: language });
@@ -117,9 +121,8 @@ const Challenge = () => {
     //get id from url
     let url = window.location.href;
     let id = url.substring(url.lastIndexOf("/") + 1);
-    // make axios call to get algorithm by id
-    axios
-      .get(`/api/algorithm/${id}`)
+    // make API call to get algorithm by id
+    API.getAlgorithm(id)
       .then((response) => {
         setAlgorithm(response.data);
       })

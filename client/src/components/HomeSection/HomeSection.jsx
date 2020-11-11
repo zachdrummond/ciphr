@@ -1,5 +1,5 @@
 // Material UI
-import { makeStyles, Paper, Grid, List, Container } from "@material-ui/core";
+import { Container, Grid, List, makeStyles, Paper } from "@material-ui/core";
 // File Modules
 import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem";
 import HomeCard from "../HomeCard/HomeCard";

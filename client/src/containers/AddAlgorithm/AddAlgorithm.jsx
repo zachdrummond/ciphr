@@ -1,16 +1,21 @@
+// React
 import React, { useState, useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
-import TestCase from "../../components/TestCase/TestCase";
+// Material UI
+import {
+  Button,
+  Container,
+  Grid,
+  makeStyles,
+  Paper,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import useTestCase from "../../utils/useTestCase";
+// File Modules
 import API from "../../utils/API";
-import AuthContext from "../../context/AuthContext/AuthContext"
+import AuthContext from "../../context/AuthContext/AuthContext";
+import TestCase from "../../components/TestCase/TestCase";
+import useTestCase from "../../utils/useTestCase";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -33,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddAlgorithm() {
   const classes = useStyles();
-  const {jwt} = useContext(AuthContext)
+  const { jwt } = useContext(AuthContext);
 
   // custom hook imported from useTestCase.js
   // instance for each test case
@@ -67,7 +72,7 @@ export default function AddAlgorithm() {
     e.preventDefault();
     // filters out empty hooks and formats for back end db
     const allUsedTests = [];
-    for (const {test} of allTests) {
+    for (const { test } of allTests) {
       if (test.input !== "" && test.output !== "") {
         allUsedTests.push(test);
       }
@@ -79,12 +84,14 @@ export default function AddAlgorithm() {
         description: algoInfo.challengeDescription,
       },
       testCases: allUsedTests,
-      userJwt: jwt
-    }).then((response) => {
-      console.log(response);
-    }).catch((err) => {
-      console.log(err);
+      userJwt: jwt,
     })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
