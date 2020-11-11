@@ -33,7 +33,7 @@ const AlgorithmListItem = ({ title, author, id }) => {
           <ListItemSecondaryAction>
             <IconButton
               component={Link}
-              to={`/algorithms/${id}/edit`}
+              to={`/algorithms/edit/${id}`}
               edge="end"
               aria-label="delete"
             >

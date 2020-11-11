@@ -1,6 +1,6 @@
 // React
-import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 // Material UI
 import {
   Button,
@@ -64,11 +64,14 @@ export default function EditAlgorithm() {
   const testThree = useTestCase();
   const testFour = useTestCase();
   const allTests = [testOne, testTwo, testThree, testFour];
-
+  //params
+  const { id } = useParams();
   // testCount keeps track of how many test cases there are
   const [testCount, setTestCount] = useState(0);
   // modal state
   const [open, setOpen] = React.useState(false);
+  // algorithm state
+  const [algoInfo, setAlgoInfo] = useState({});
   // modal functions
   const handleOpen = () => {
     setOpen(true);
@@ -93,11 +96,6 @@ export default function EditAlgorithm() {
     setTestCount(newCount);
   };
 
-  const [algoInfo, setAlgoInfo] = useState({
-    challengeName: "",
-    challengeDescription: "",
-  });
-
   const handleInput = (e) => {
     const { name, value } = e.target;
     // handles input of either challenge name or description
@@ -114,10 +112,10 @@ export default function EditAlgorithm() {
       }
     }
 
-    API.addAlgorithm({
+    API.editAlgorithm({
       algorithm: {
         challengeName: algoInfo.challengeName,
-        description: algoInfo.challengeDescription,
+        description: algoInfo.description,
       },
       testCases: allUsedTests,
       userJwt: jwt,
@@ -129,6 +127,21 @@ export default function EditAlgorithm() {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    //get id from url
+    let url = window.location.href;
+    let id = url.substring(url.lastIndexOf("/") + 1);
+    // make API call to get algorithm by id
+    API.getAlgorithm(id)
+      .then((response) => {
+        setAlgoInfo(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id]);
 
   return (
     <Container maxWidth="sm">
@@ -177,15 +190,15 @@ export default function EditAlgorithm() {
                 label="Challenge Description"
                 multiline
                 rowsMax={4}
-                name="challengeDescription"
-                value={algoInfo.challengeDescription}
+                name="description"
+                value={algoInfo.description}
                 onChange={handleInput}
                 variant="outlined"
                 fullWidth
                 rows={4}
               />
               {/* map over array of test case hooks */}
-              {allTests.map((test, index) => {
+              {algoInfo.testCases?.map((test, index) => {
                 if (index < testCount) {
                   return (
                     <TestCase
@@ -193,6 +206,8 @@ export default function EditAlgorithm() {
                       key={`Test Case ${index + 1}`}
                       header={`Test Case ${index + 1}`}
                       setCase={test.setTestCase}
+                      input={test.input}
+                      output={test.output}
                     />
                   );
                 }
@@ -248,7 +263,7 @@ export default function EditAlgorithm() {
       >
         <Fade in={open}>
           <div className={classes.modalPaper}>
-            <h2 id="transition-modal-title">Algorithm Successfully Added!</h2>
+            <h2 id="transition-modal-title">Algorithm Successfully Updated!</h2>
             <p id="transition-modal-description">Click anywhere to continue.</p>
           </div>
         </Fade>

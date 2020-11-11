@@ -17,7 +17,6 @@ const API = {
     axios.put(`/api/algorithm/${id}`);
   },
   
-
   login: function (userInfo) {
     return axios.post("/api/login", userInfo);
   },
