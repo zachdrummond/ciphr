@@ -58,7 +58,7 @@ function App() {
               <Route exact path="/algorithms/new" component={AddAlgorithm} />
               <Route
                 exact
-                path="/algorithms/:algorithmId/edit"
+                path="/algorithms/edit/:algorithmId"
                 component={EditAlgorithm}
               />
               <Route
