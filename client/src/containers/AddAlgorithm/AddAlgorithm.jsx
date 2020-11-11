@@ -68,7 +68,7 @@ export default function AddAlgorithm() {
   // testCount keeps track of how many test cases there are
   const [testCount, setTestCount] = useState(0);
   // modal state
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   // modal functions
   const handleOpen = () => {
     setOpen(true);

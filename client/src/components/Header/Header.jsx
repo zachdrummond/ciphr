@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 // Material UI
 import {
   AppBar,
+  Box,
   Container,
   FormControlLabel,
   FormGroup,
@@ -14,6 +15,7 @@ import {
   makeStyles,
   Switch,
   Toolbar,
+  Typography,
 } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
 
@@ -28,15 +30,12 @@ const useStyles = makeStyles({
     textTransform: `uppercase`,
     color: `white`,
   },
-  left: {
-    float: `left`,
-  },
 });
 
 const navLinks = [
   { title: `home`, path: `/home` },
   { title: `Add Algorithm`, path: `/algorithms/new` },
-  //   { title: `Logout`, path: `/` },
+  { title: `Logout`, path: `/` },
 ];
 
 const Header = () => {
@@ -50,11 +49,14 @@ const Header = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Container className={classes.navbarDisplayFlex}>
-          <IconButton edge="start" color="inherit" aria-label="home">
-            <Home fontSize="large" />
-          </IconButton>
+        <IconButton edge="start" color="inherit" aria-label="home">
+          <Home fontSize="large" />
+        </IconButton>
 
+        <Typography variant="h6" className={classes.linkText}>
+          AlgoMaster
+        </Typography>
+        <Container className={classes.navbarDisplayFlex}>
           <List component="nav" aria-labelledby="main navigation">
             {navLinks.map(({ title, path }) => (
               <Link to={path} key={title} className={classes.linkText}>

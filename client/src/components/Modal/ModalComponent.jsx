@@ -1,27 +1,8 @@
+import { useHistory } from "react-router-dom";
 // Material UI
-import {
-  Button,
-  Fade,
-  Modal,
-  Backdrop,
-  Container,
-  Grid,
-  makeStyles,
-  Paper,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Backdrop, Fade, Modal, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  form: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(3, 0),
-      width: "100%",
-    },
-  },
-  mastergrid: {
-    margin: theme.spacing(8, 0),
-  },
   modal: {
     display: "flex",
     alignItems: "center",
@@ -37,13 +18,36 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-  titleBottom: {
-    marginBottom: theme.spacing(4),
-  },
 }));
 
-const ModalComponent = () => {
-  return <div></div>;
+const ModalComponent = ({open, setOpen, text, url}) => {
+  const classes = useStyles();
+  const history = useHistory();
+  const handleModalClose = () => {
+    setOpen(false);
+    history.push({url});
+  };
+  return (
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      className={classes.modal}
+      open={open}
+      onClose={handleModalClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Fade in={open}>
+        <div className={classes.modalPaper}>
+          <h2 id="transition-modal-title">{text}</h2>
+          <p align="center" id="transition-modal-description">Click anywhere to continue.</p>
+        </div>
+      </Fade>
+    </Modal>
+  );
 };
 
 export default ModalComponent;
