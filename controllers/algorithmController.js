@@ -135,12 +135,8 @@ router.put("/api/algorithm/:id", function (request, response) {
 
 // Delete an algorithm
 router.delete("/api/algorithm/:id", function (request, response) {
-  db.Algorithms.findByIdAndDelete(id, (err, docs) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Deleted : ", docs);
-    }
+  db.Algorithms.findByIdAndDelete(request.params.id).then((result) => {
+    response.json(result);
   });
 });
 

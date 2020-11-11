@@ -1,5 +1,8 @@
 // React
 import { Link } from "react-router-dom";
+// File imports
+import API from "../../utils/API";
+import axios from "axios";
 // Material UI
 import {
   Divider,
@@ -12,9 +15,15 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
 const AlgorithmListItem = ({ title, author, id }) => {
-  const handleDelete = (e)=>{
-    console.log(id);
-  }
+  const handleDelete = (e) => {
+    console.log(id)
+    axios.delete(`/api/algorithm/${id}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div>
       <Divider />
@@ -26,25 +35,18 @@ const AlgorithmListItem = ({ title, author, id }) => {
             <IconButton edge="end" aria-label="delete">
               <EditIcon />
             </IconButton>
-            <IconButton value={id} onClick={handleDelete} edge="end" aria-label="delete">
+            <IconButton
+              value={id}
+              onClick={handleDelete}
+              edge="end"
+              aria-label="delete"
+            >
               <DeleteIcon />
             </IconButton>
           </ListItemSecondaryAction>
         ) : (
           ""
         )}
-        {/* {author ? (
-          <ListItemText align="right" secondary={author} />
-        ) : (
-          <>
-            <Fab color="primary" aria-label="add">
-              <DeleteIcon />
-            </Fab>
-            <Fab color="secondary" aria-label="edit">
-              <EditIcon />
-            </Fab>
-          </>
-        )} */}
       </ListItem>
       <Divider />
     </div>
