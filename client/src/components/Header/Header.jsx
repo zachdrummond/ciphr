@@ -5,16 +5,16 @@ import { Link } from "react-router-dom";
 import {
   AppBar,
   IconButton,
-  Toolbar,
   List,
   ListItem,
   ListItemText,
+  makeStyles,
+  Toolbar,
+  Tooltip
 } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
-import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 const navLinks = [
   { title: `home`, path: `/home` },
   { title: `Add Algorithm`, path: `/algorithms/new` },
-  //   { title: `Logout`, path: `/` },
+  { title: `Logout`, path: `/` },
 ];
 
 const Header = ({ theme, setTheme }) => {
@@ -49,6 +49,10 @@ const Header = ({ theme, setTheme }) => {
         <IconButton edge="start" color="inherit" aria-label="home">
           <Home fontSize="large" />
         </IconButton>
+
+        {/* <Typography variant="h6" className={classes.linkText}>
+          AlgoMaster
+        </Typography> */}
 
         <List component="nav" aria-labelledby="main navigation">
           {navLinks.map(({ title, path }) => (
