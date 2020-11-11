@@ -4,6 +4,7 @@ import React from "react";
 import { TextField, Typography } from "@material-ui/core";
 
 const TestCase = ({ setCase, input, output, header }) => {
+  console.log(input)
   return (
     <div>
       <h3>{header}</h3>

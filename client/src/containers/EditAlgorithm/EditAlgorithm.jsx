@@ -64,6 +64,7 @@ export default function EditAlgorithm() {
   const testThree = useTestCase();
   const testFour = useTestCase();
   const allTests = [testOne, testTwo, testThree, testFour];
+
   //params
   const { id } = useParams();
   // testCount keeps track of how many test cases there are
@@ -136,6 +137,16 @@ export default function EditAlgorithm() {
     API.getAlgorithm(id)
       .then((response) => {
         setAlgoInfo(response.data);
+        setTestCount(response.data.testCases.length);
+
+        // testOne.updateTestCase(
+        //   response.data.testCases[0].input,
+        //   response.data.testCases[0].output
+        // );
+        for (let i = 0; i < response.data.testCases.length; i++) {
+          console.log(response.data.testCases[i]);
+          allTests[i].updateTestCase( response.data.testCases[i].input, response.data.testCases[i].output);
+        }
         console.log(response.data);
       })
       .catch((err) => {
@@ -171,9 +182,8 @@ export default function EditAlgorithm() {
 
               <TextField
                 id="algo-name"
-                label="Challenge name"
-                multiline
                 rowsMax={4}
+                multiline
                 name="challengeName"
                 value={algoInfo.challengeName}
                 onChange={handleInput}
@@ -187,9 +197,8 @@ export default function EditAlgorithm() {
 
               <TextField
                 id="algo-description"
-                label="Challenge Description"
-                multiline
                 rowsMax={4}
+                multiline
                 name="description"
                 value={algoInfo.description}
                 onChange={handleInput}
@@ -198,16 +207,17 @@ export default function EditAlgorithm() {
                 rows={4}
               />
               {/* map over array of test case hooks */}
-              {algoInfo.testCases?.map((test, index) => {
+              {allTests.map((test, index) => {
                 if (index < testCount) {
+                    console.log(test)
                   return (
                     <TestCase
-                      {...test}
+                      
                       key={`Test Case ${index + 1}`}
                       header={`Test Case ${index + 1}`}
                       setCase={test.setTestCase}
-                      input={test.input}
-                      output={test.output}
+                      input={test.test.input}
+                      output={test.test.output}
                     />
                   );
                 }
