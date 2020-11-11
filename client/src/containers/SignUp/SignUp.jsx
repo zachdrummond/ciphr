@@ -1,15 +1,13 @@
-import React, { useState, useContext } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-// import Link from "@material-ui/core/Link";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import API from "../../utils/API";
-import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
-import Container from "@material-ui/core/Container";
-import AuthContext from "../../context/AuthContext/AuthContext";
+// React
+import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+// Material UI
+import { Avatar, CssBaseline, Container, makeStyles, Typography } from "@material-ui/core";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+// File Modules
+import API from "../../utils/API";
+import AuthContext from "../../context/AuthContext/AuthContext";
+import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,10 +68,8 @@ export default function SignUpSide() {
     e.preventDefault();
     // username/password posted to back end
     // see API.js in utils for more info
-    console.log(userInfo);
     API.postNewUserInfo(userInfo)
       .then((response) => {
-        console.log(response);
         // Setting the AuthContextAPI jwt to the new jwt received from the backend
         setJwt(response.data.data);
         history.push("/home");
@@ -91,16 +87,16 @@ export default function SignUpSide() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Sign Up
         </Typography>
         <CredentialsForm
           {...userInfo}
           handleInput={handleInput}
           handleSubmit={handleSubmit}
           classes={classes}
-          type={"Sign up"}
+          type={"Sign Up"}
           link={"/"}
-          linkText={"Already have an account? Sign in"}
+          linkText={"Already have an account? Sign in here!"}
         />
       </div>
     </Container>

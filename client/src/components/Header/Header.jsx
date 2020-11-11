@@ -1,20 +1,21 @@
+// React
 import React from "react";
 import { Link } from "react-router-dom";
-// import * as React from "react";
+// Material UI
 import {
   AppBar,
-  Toolbar,
+  Container,
+  FormControlLabel,
+  FormGroup,
   IconButton,
   List,
   ListItem,
   ListItemText,
-  Container,
+  makeStyles,
+  Switch,
+  Toolbar,
 } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormGroup from "@material-ui/core/FormGroup";
-import Switch from "@material-ui/core/Switch";
 
 const useStyles = makeStyles({
   navbarDisplayFlex: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles({
 const navLinks = [
   { title: `home`, path: `/home` },
   { title: `Add Algorithm`, path: `/algorithms/new` },
-//   { title: `Logout`, path: `/` },
+  //   { title: `Logout`, path: `/` },
 ];
 
 const Header = () => {
@@ -53,7 +54,7 @@ const Header = () => {
           <IconButton edge="start" color="inherit" aria-label="home">
             <Home fontSize="large" />
           </IconButton>
-          
+
           <List component="nav" aria-labelledby="main navigation">
             {navLinks.map(({ title, path }) => (
               <Link to={path} key={title} className={classes.linkText}>
@@ -63,17 +64,17 @@ const Header = () => {
               </Link>
             ))}
             <FormGroup className={classes.linkText}>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={mode}
-                  onChange={handleChange}
-                  aria-label="login switch"
-                />
-              }
-              label={mode ? "Light" : "Dark"}
-            />
-          </FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={mode}
+                    onChange={handleChange}
+                    aria-label="login switch"
+                  />
+                }
+                label={mode ? "Light" : "Dark"}
+              />
+            </FormGroup>
           </List>
         </Container>
       </Toolbar>

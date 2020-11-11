@@ -1,5 +1,7 @@
+// React
 import { Redirect, Route } from "react-router-dom";
 import { useContext } from "react";
+// File Modules
 import AuthContext from "../../context/AuthContext/AuthContext";
 
 // Takes in a component and all of its props

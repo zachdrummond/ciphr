@@ -1,17 +1,22 @@
+// React
 import React, { useState, useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
-import TestCase from "../../components/TestCase/TestCase";
+// Material UI
+import {
+  Button,
+  Container,
+  Grid,
+  makeStyles,
+  Paper,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import useTestCase from "../../utils/useTestCase";
+// File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import useTestCase from "../../utils/useTestCase";
+import TestCase from "../../components/TestCase/TestCase";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -164,6 +169,7 @@ export default function AddAlgorithm() {
                     />
                   );
                 }
+                return null; // IS THIS OKAY? THERE WAS A BUG THAT EXPECTED A RETURN
               })}
 
               <Button
