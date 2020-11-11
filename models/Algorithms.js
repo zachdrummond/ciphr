@@ -22,7 +22,8 @@ const AlgorithmsSchema = new Schema({
     type: Schema.Types.ObjectId,
       ref: "Users",
   },
-});
+}, {toJSON:{virtuals:true}});
+AlgorithmsSchema.virtual("user", {ref:"Users",localField:"userId", foreignField:"_id", justOne:true})
 
 const Algorithms = mongoose.model("Algorithms", AlgorithmsSchema);
 
