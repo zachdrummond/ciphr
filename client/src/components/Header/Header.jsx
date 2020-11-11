@@ -13,6 +13,7 @@ import { Home } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -56,14 +57,16 @@ const Header = ({ theme, setTheme }) => {
               </ListItem>
             </Link>
           ))}
-          <IconButton
-            edge="end"
-            color="inherit"
-            aria-label="mode"
-            onClick={changeMode}
-          >
-            {theme ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
+          <Tooltip title="Toggle Light/Dark Theme" placement="bottom-end">
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="mode"
+              onClick={changeMode}
+            >
+              {theme ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </Tooltip>
         </List>
       </Toolbar>
     </AppBar>
