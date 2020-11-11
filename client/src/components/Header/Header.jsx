@@ -15,6 +15,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import Switch from "@material-ui/core/Switch";
+import Brightness4Icon from "@material-ui/icons/Brightness4";
+import Brightness7Icon from "@material-ui/icons/Brightness7";
 
 const useStyles = makeStyles({
   navbarDisplayFlex: {
@@ -35,16 +37,27 @@ const useStyles = makeStyles({
 const navLinks = [
   { title: `home`, path: `/home` },
   { title: `Add Algorithm`, path: `/algorithms/new` },
-//   { title: `Logout`, path: `/` },
+  //   { title: `Logout`, path: `/` },
 ];
 
-const Header = () => {
+const Header = (props) => {
   const classes = useStyles();
-  const [mode, setMode] = React.useState(true);
+  // const [mode, setMode] = React.useState(true);
 
-  const handleChange = (event) => {
-    setMode(event.target.checked);
+  const [theme, setTheme] = React.useState(true);
+  // const icon = !theme ? <Brightness7Icon /> : <Brightness4Icon />;
+
+  const changeMode = () => {
+    if (!theme) {
+      props.setTheme(theme);
+    } else if (theme) {
+      props.setTheme(!theme);
+    }
   };
+
+  // const handleChange = (event) => {
+  //   setMode(event.target.checked);
+  // };
 
   return (
     <AppBar position="static">
@@ -53,7 +66,7 @@ const Header = () => {
           <IconButton edge="start" color="inherit" aria-label="home">
             <Home fontSize="large" />
           </IconButton>
-          
+
           <List component="nav" aria-labelledby="main navigation">
             {navLinks.map(({ title, path }) => (
               <Link to={path} key={title} className={classes.linkText}>
@@ -62,18 +75,26 @@ const Header = () => {
                 </ListItem>
               </Link>
             ))}
-            <FormGroup className={classes.linkText}>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={mode}
-                  onChange={handleChange}
-                  aria-label="login switch"
-                />
-              }
-              label={mode ? "Light" : "Dark"}
-            />
-          </FormGroup>
+            {/* <FormGroup className={classes.linkText}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={mode}
+                    onChange={handleChange}
+                    aria-label="login switch"
+                  />
+                }
+                label={mode ? "Light" : "Dark"}
+              />
+            </FormGroup> */}
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="mode"
+              onClick={changeMode}
+            >
+              {!theme ? <Brightness4Icon /> : <Brightness7Icon />}
+            </IconButton>
           </List>
         </Container>
       </Toolbar>
