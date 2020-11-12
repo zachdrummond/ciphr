@@ -31,20 +31,29 @@ router.get("/api/algorithm/user/:userJwt", function (request, response) {
         message: "Invalid token.",
       });
     } else {
-      db.Users.findOne({ username: decoded.username }).then((user) => {
-        db.Algorithms.find({ userId: user._id })
-          .then((algorithms) => {
-            response.json(algorithms);
-          })
-          .catch((error) => {
-            console.log(error);
-            response.status(500).json({
-              error: true,
-              data: null,
-              message: "Failed to get algorithms.",
+      db.Users.findOne({ username: decoded.username })
+        .then((user) => {
+          db.Algorithms.find({ userId: user._id })
+            .then((algorithms) => {
+              response.json(algorithms);
+            })
+            .catch((error) => {
+              console.log(error);
+              response.status(500).json({
+                error: true,
+                data: null,
+                message: "Failed to get algorithms.",
+              });
             });
+        })
+        .catch((error) => {
+          console.log(error);
+          response.status(500).json({
+            error: true,
+            data: null,
+            message: "Failed to get user.",
           });
-      });
+        });
     }
   });
 });
@@ -88,34 +97,42 @@ router.post("/api/algorithm", (req, res) => {
             description: algorithm.description.replace(/(\r\n)/g, "<br>"),
             testCases: testCases,
             userId: user._id,
-          }).then((newAlgorithm) => {
-            user
-              .updateOne(
-                { $push: { algorithms: newAlgorithm._id } },
-                { new: true }
-              )
-              .then((updatedUser) => {
-                res.status(200).json({
-                  error: false,
-                  data: newAlgorithm,
-                  message: "Successfully added algorithm and updated user.",
+          })
+            .then((newAlgorithm) => {
+              user
+                .updateOne(
+                  { $push: { algorithms: newAlgorithm._id } },
+                  { new: true }
+                )
+                .then((updatedUser) => {
+                  res.status(200).json({
+                    error: false,
+                    data: newAlgorithm,
+                    message: "Successfully added algorithm and updated user.",
+                  });
+                })
+                .catch((error) => {
+                  res.status(500).json({
+                    error: true,
+                    data: null,
+                    message: "Failed to update user.",
+                  });
                 });
-              })
-              .catch((error) => {
-                res.status(500).json({
-                  error: true,
-                  data: null,
-                  message: "Failed to update user.",
-                });
+            })
+            .catch((error) => {
+              res.status(500).json({
+                error: true,
+                data: null,
+                message: "Failed to create algorithm.",
               });
-          });
+            });
         })
         .catch((error) => {
           console.log(error);
           response.status(500).json({
             error: true,
             data: null,
-            message: "Failed to find username.",
+            message: "Failed to find user.",
           });
         });
     }
@@ -138,29 +155,22 @@ router.put("/api/algorithm/:id", function (request, response) {
       // updates the test cases associated with the model
       updated
         .updateOne({ $set: { testCases: testCases } }, { new: true })
-        .then((updateTest) => {
-        }).catch(err => {
+        .then((updatedTest) => {
+          response.status(200).json({
+            error: false,
+            data: updatedTest,
+            message: "Successfully updated algorithm and test.",
+          });
+        })
+        .catch((error) => {
           response.status(500).json({
             error: true,
             data: null,
             message: "Unable to update test cases.",
           });
         });
-      if (!updated) {
-        response.status(404).json({
-          error: true,
-          data: null,
-          message: "Unable to find that algorithm.",
-        });
-      } else {
-        response.json({
-          error: false,
-          data: updated,
-          message: "Successfully updated algorithm.",
-        });
-      }
     })
-    .catch((err) => {
+    .catch((error) => {
       response.status(500).json({
         error: true,
         data: null,
@@ -181,7 +191,7 @@ router.delete("/api/algorithm/:id", function (request, response) {
             message: "Successfully deleted algorithm and updated user.",
           });
         })
-        .catch((err) => {
+        .catch((error) => {
           response.status(500).json({
             error: true,
             data: null,
@@ -189,11 +199,11 @@ router.delete("/api/algorithm/:id", function (request, response) {
           });
         });
     })
-    .catch((err) => {
+    .catch((error) => {
       response.status(500).json({
         error: true,
         data: null,
-        message: "An error occurred deleting your algorithm.",
+        message: "An error occurred deleting the algorithm.",
       });
     });
 });
