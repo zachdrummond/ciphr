@@ -15,7 +15,6 @@ import EditIcon from "@material-ui/icons/Edit";
 
 const AlgorithmListItem = ({ title, author, id }) => {
   const handleDelete = (e) => {
-    console.log(id);
     API.deleteAlgorithm(id)
       .then((res) => {
         console.log(res);

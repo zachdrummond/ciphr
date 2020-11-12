@@ -36,11 +36,6 @@ const navLinks = [
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
-<<<<<<< HEAD
-=======
-    // Using AuthContextAPI to get the setJwt function
-    // const { jwt } = useContext(AuthContext);
->>>>>>> e110c3e56f07af94385039df74d409c5cadf3f45
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
