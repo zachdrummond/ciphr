@@ -25,6 +25,7 @@ import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import Snackbar from "@material-ui/core/Snackbar";
+import TheSnackbar from "../Snackbar/TheSnackbar";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -68,7 +69,7 @@ const Header = ({ theme, setTheme }) => {
     setAnchorEl(null);
   };
 
-  //Delete dialog state
+  //Dialog state
   const [open, setOpen] = React.useState(false);
 
   //Delete dialog
@@ -81,8 +82,18 @@ const Header = ({ theme, setTheme }) => {
     setOpen(false);
   };
 
-  //Delete confirmation
+  //Snackbar
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+
   const handleSnackbarOpen = () => {
+    setSnackbarOpen(true);
+    console.log("snackbar!");
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
     setSnackbarOpen(false);
   };
 
@@ -179,7 +190,11 @@ const Header = ({ theme, setTheme }) => {
         btnColor="secondary"
         deleteUser={deleteUser}
       />
-      <Snackbar />
+      <TheSnackbar
+        snackbarOpen={snackbarOpen}
+        setSnackbarOpen={setSnackbarOpen}
+        message="Your account has been deleted"
+      />
     </>
   );
 };
