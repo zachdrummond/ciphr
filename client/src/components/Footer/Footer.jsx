@@ -8,20 +8,22 @@ import {
 
   const useStyles = makeStyles({
     toolbar: {
-      textAlign: "center",
+      align: "center",
     },
   });
 
 export default function Footer() {
     return (
-        <AppBar position="static" color="primary">
+        
+        <AppBar className={useStyles.toolbar} position="static" color="primary">
           <Container maxWidth="md">
-            <Toolbar >
-              <Typography className={useStyles.toolbar} align="center" variant="body1" color="inherit">
-                &copy; 2020 -- Zach Drummond, Calvin Griffin, Joseph Perry, Andrew Stewart
+            <Toolbar  >
+              <Typography  align="center" position="static" variant="body1" color="inherit">
+                 ALGOMASTER &copy; 2020 -- Zach Drummond, Calvin Griffin, Joseph Perry, Andrew Stewart
               </Typography>
             </Toolbar>
           </Container>
         </AppBar>
+        
     )
 }
