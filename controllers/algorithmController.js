@@ -22,9 +22,9 @@ router.get("/api/algorithm", function (request, response) {
 
 //Get my algorithms
 router.get("/api/algorithm/user/:userJwt", function (request, response) {
-  jwt.verify(request.params.userJwt, process.env.SECRET, (err, decoded) => {
-    if (err) {
-      console.log(err);
+  jwt.verify(request.params.userJwt, process.env.SECRET, (error, decoded) => {
+    if (error) {
+      console.log(error);
       return response.status(401).json({
         error: true,
         data: null,
@@ -70,9 +70,9 @@ router.get("/api/algorithm/:id", function (request, response) {
 // Create an algorithm
 router.post("/api/algorithm", (req, res) => {
   const { testCases, algorithm, userJwt } = req.body;
-  jwt.verify(userJwt, process.env.SECRET, (err, decoded) => {
+  jwt.verify(userJwt, process.env.SECRET, (error, decoded) => {
     if (err) {
-      console.log(err);
+      console.log(error);
       return response.status(401).json({
         error: true,
         data: null,
@@ -139,7 +139,6 @@ router.put("/api/algorithm/:id", function (request, response) {
       updated
         .updateOne({ $set: { testCases: testCases } }, { new: true })
         .then((updateTest) => {
-          console.log(updateTest);
         }).catch(err => {
           response.status(500).json({
             error: true,
@@ -174,10 +173,8 @@ router.put("/api/algorithm/:id", function (request, response) {
 router.delete("/api/algorithm/:id", function (request, response) {
   db.Algorithms.findByIdAndDelete(request.params.id)
     .then((result) => {
-      console.log("Deleted Algorithm");
       db.Users.updateOne({ $pull: { algorithms: request.params.id } })
         .then((result) => {
-          console.log("Deleted User Algorithm");
           res.status(200).json({
             error: false,
             data: null,
