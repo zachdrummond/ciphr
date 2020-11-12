@@ -23,7 +23,7 @@ router.get("/api/algorithm", function (request, response) {
 //Get my algorithms
 router.get("/api/algorithm/user/:userJwt", function (request, response) {
   // console.log(request.params.userJwt);
-  const decoded = jwt.verify(
+  jwt.verify(
     request.params.userJwt,
     process.env.SECRET,
     (err, decoded) => {
@@ -76,7 +76,7 @@ router.get("/api/algorithm/:id", function (request, response) {
 router.post("/api/algorithm", (req, res) => {
   const { testCases, algorithm, userJwt } = req.body;
   // console.log(userJwt);
-  const decoded = jwt.verify(userJwt, process.env.SECRET, (err, decoded) => {
+  jwt.verify(userJwt, process.env.SECRET, (err, decoded) => {
     if (err) {
       console.log(err);
       return response.status(401).json({
@@ -90,46 +90,46 @@ router.post("/api/algorithm", (req, res) => {
         .then((user) => {
           // console.log(user._id);
           // first test cases are created from the front end input (can be empty array!)
-          db.TestCases.insertMany(testCases)
-            .then((testCaseResponse) => {
-              // then an algorithm entry is created with the front end input and test cases from db
-              db.Algorithms.create({
-                challengeName: algorithm.challengeName,
-                // regex added to preserve line breaks in mongodb
-                description: algorithm.description.replace(/(\r\n)/g, "<br>"),
-                testCases: testCaseResponse,
-                userId: user._id,
-              }).then((newAlgorithm) => {
-                user
-                  .updateOne(
-                    { $push: { algorithms: newAlgorithm._id } },
-                    { new: true }
-                  )
-                  .then((updatedUser) => {
-                    res.status(200).json({
-                      error: false,
-                      data: newAlgorithm,
-                      message: "Successfully added algorithm and updated user.",
-                    });
-                  })
-                  .catch((error) => {
-                    res.status(500).json({
-                      error: true,
-                      data: null,
-                      message: "Failed to update user.",
-                    });
-                  });
+          // db.TestCases.insertMany(testCases)
+          //   .then((testCaseResponse) => {
+          // then an algorithm entry is created with the front end input and test cases from db
+          db.Algorithms.create({
+            challengeName: algorithm.challengeName,
+            // regex added to preserve line breaks in mongodb
+            description: algorithm.description.replace(/(\r\n)/g, "<br>"),
+            testCases: testCases,
+            userId: user._id,
+          }).then((newAlgorithm) => {
+            user
+              .updateOne(
+                { $push: { algorithms: newAlgorithm._id } },
+                { new: true }
+              )
+              .then((updatedUser) => {
+                res.status(200).json({
+                  error: false,
+                  data: newAlgorithm,
+                  message: "Successfully added algorithm and updated user.",
+                });
+              })
+              .catch((error) => {
+                res.status(500).json({
+                  error: true,
+                  data: null,
+                  message: "Failed to update user.",
+                });
               });
-            })
-            .catch((err) => {
-              console.log(err);
-              res.status(500).json({
-                error: true,
-                data: null,
-                message: "Failed to create algorithm.",
-              });
-            });
+          });
         })
+        // .catch((err) => {
+        //   console.log(err);
+        //   res.status(500).json({
+        //     error: true,
+        //     data: null,
+        //     message: "Failed to create algorithm.",
+        //   });
+        // });
+        // })
         .catch((error) => {
           console.log(error);
           response.status(500).json({
@@ -145,27 +145,39 @@ router.post("/api/algorithm", (req, res) => {
 // Edit an algorithm
 router.put("/api/algorithm/:id", function (request, response) {
   // updates the challenge name and description of the Algorithm document
+  console.log(request.body.testCases);
   db.Algorithms.findByIdAndUpdate(
     request.params.id,
     {
       challengeName: request.body.algorithm.challengeName,
       description: request.body.algorithm.description,
+      // testCases: { $set: request.body.testCases },
     },
     { new: true }
   )
-    .populate("testCases")
+    // .populate("testCases")
     .then((updated) => {
-      // goes through each test case and updates the content
-      for (let i = 0; i < updated.testCases.length; i++) {
-        db.TestCases.findByIdAndUpdate(
-          updated.testCases[i]._id,
-          request.body.testCases[i],
-        ).then((testUpdate) => {
-          console.log(testUpdate);
-        }).catch(err => {
-          console.log(err);
+      updated
+        .updateOne(
+          { $set: { testCases: request.body.testCases } },
+          { new: true }
+        )
+        .then((updateTest) => {
+          console.log(updateTest);
         });
-      }
+      // goes through each test case and updates the content
+      // for (let i = 0; i < updated.testCases.length; i++) {
+      //   db.TestCases.findByIdAndUpdate(
+      //     updated.testCases[i]._id,
+      //     request.body.testCases[i]
+      //   )
+      //     .then((testUpdate) => {
+      //       console.log(testUpdate);
+      //     })
+      //     .catch((err) => {
+      //       console.log(err);
+      //     });
+      // }
       if (!updated) {
         response.status(404).json({
           error: true,
