@@ -150,7 +150,7 @@ router.delete("/api/user/:userJwt", function (request, response) {
               response.status(200).json({
                 error: false,
                 data: null,
-                message: "Successfully deleted user.",
+                message: "Successfully deleted user and algorithms.",
               });
             })
             .catch((error) => {
@@ -158,7 +158,7 @@ router.delete("/api/user/:userJwt", function (request, response) {
               response.status(500).json({
                 error: true,
                 data: null,
-                message: "Unable to delete user.",
+                message: "Unable to delete algorithms.",
               });
             });
         })

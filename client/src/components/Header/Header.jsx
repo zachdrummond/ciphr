@@ -148,10 +148,12 @@ const Header = ({ theme, setTheme }) => {
               onClose={handleMenuClose}
             >
               <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
-              <MenuItem onClick={handleMenuClose}>
-                <Link to="/login" className={classes.menuLink}>
-                  Logout
-                </Link>
+              <MenuItem
+                onClick={handleMenuClose}
+                component={Link}
+                to={"/login"}
+              >
+                Logout
               </MenuItem>
               <MenuItem onClick={handleAlertOpen} style={{ color: "red" }}>
                 Delete Account
