@@ -22,6 +22,7 @@ import AuthContext from "../../context/AuthContext/AuthContext";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import AlertDialog from "../../components/AlertDialog/AlertDialog";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -54,84 +55,108 @@ const Header = ({ theme, setTheme }) => {
     !theme ? setTheme(true) : setTheme(false);
   };
 
+  //Account menu
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
+  //Dialog state
+
+  const [open, setOpen] = React.useState(false);
+
+  //Delete account dialog
+
+  const handleAlertOpen = () => {
+    handleMenuClose();
+    setOpen(true);
+  };
+
+  const handleAlertClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <AppBar position="static">
-      <Toolbar className={classes.toolbar}>
-        <Link to="/home">
-          <IconButton
-            edge="start"
-            className={classes.linkText}
-            aria-label="home"
-          >
-            <Home fontSize="large" />
-          </IconButton>
-        </Link>
-
-        <Typography variant="h6" className={classes.linkText}>
-          AlgoMaster
-        </Typography>
-
-        <List component="nav" aria-labelledby="main navigation">
-          {navLinks.map(({ title, path }) => (
-            <Link to={path} key={title} className={classes.linkText}>
-              <ListItem button>
-                <ListItemText primary={title} />
-              </ListItem>
-            </Link>
-          ))}
-
-          <Tooltip title="Toggle Light/Dark Theme">
+    <>
+      <AppBar position="static">
+        <Toolbar className={classes.toolbar}>
+          <Link to="/home">
             <IconButton
-              edge="end"
-              color="inherit"
-              aria-label="mode"
-              onClick={changeMode}
+              edge="start"
+              className={classes.linkText}
+              aria-label="home"
             >
-              {theme ? <Brightness7Icon /> : <Brightness4Icon />}
+              <Home fontSize="large" />
             </IconButton>
-          </Tooltip>
-          <Tooltip title="Account">
-            <IconButton
-              color="inherit"
-              aria-label="account"
-              aria-haspopup="true"
-              onClick={handleClick}
-            >
-              <AccountCircleIcon />
-            </IconButton>
-          </Tooltip>
+          </Link>
 
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose} to="/login">
-              <Link to="/login" className={classes.menuLink}>
-                Logout
+          <Typography variant="h6" className={classes.linkText}>
+            AlgoMaster
+          </Typography>
+
+          <List component="nav" aria-labelledby="main navigation">
+            {navLinks.map(({ title, path }) => (
+              <Link to={path} key={title} className={classes.linkText}>
+                <ListItem button>
+                  <ListItemText primary={title} />
+                </ListItem>
               </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose} style={{ color: "red" }}>
-              Delete account
-            </MenuItem>
-          </Menu>
-          {/* <Avatar>H</Avatar> */}
-        </List>
-      </Toolbar>
-    </AppBar>
+            ))}
+
+            <Tooltip title="Toggle Light/Dark Theme">
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="mode"
+                onClick={changeMode}
+              >
+                {theme ? <Brightness7Icon /> : <Brightness4Icon />}
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Account">
+              <IconButton
+                color="inherit"
+                aria-label="account"
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <AccountCircleIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+            >
+              <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+              <MenuItem onClick={handleMenuClose} to="/login">
+                <Link to="/login" className={classes.menuLink}>
+                  Logout
+                </Link>
+              </MenuItem>
+              <MenuItem
+                // onClick={handleMenuClose}
+                onClick={handleAlertOpen}
+                style={{ color: "red" }}
+              >
+                Delete account
+              </MenuItem>
+            </Menu>
+            {/* <Avatar>H</Avatar> */}
+          </List>
+        </Toolbar>
+      </AppBar>
+      <AlertDialog open={open} setOpen={setOpen} />
+    </>
   );
 };
 export default Header;
