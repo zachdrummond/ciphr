@@ -55,7 +55,7 @@ export default function SignUpSide() {
   const history = useHistory();
 
   // Using AuthContextAPI to get the setJwt function
-  const { setJwt } = useContext(AuthContext);
+  const { setJwt, setUsername } = useContext(AuthContext);
 
   // hook configures username/password state
   // to find state in dev tools 'Components' look under 'SignUpSide'
@@ -84,6 +84,7 @@ export default function SignUpSide() {
       .then((response) => {
         // Setting the AuthContextAPI jwt to the new jwt received from the backend
         setJwt(response.data.data);
+        setUsername(userInfo.username);
         history.push("/home");
       })
       .catch((error) => {
