@@ -155,7 +155,12 @@ const Header = ({ theme, setTheme }) => {
           </List>
         </Toolbar>
       </AppBar>
-      <AlertDialog open={open} setOpen={setOpen} />
+      <AlertDialog
+        open={open}
+        setOpen={setOpen}
+        headline="Delete Account?"
+        description="This action can't be undone... and you'll probably lose some friends. Knowing that, you would you like to delete your Ciphr account?"
+      />
     </>
   );
 };
