@@ -158,8 +158,11 @@ const Header = ({ theme, setTheme }) => {
       <AlertDialog
         open={open}
         setOpen={setOpen}
-        headline="Delete Account?"
-        description="This action can't be undone... and you'll probably lose some friends. Knowing that, you would you like to delete your Ciphr account?"
+        dialogueTitle="Delete Account?"
+        dialogueContent="This action can't be undone... and you'll probably lose some friends. Knowing that, you would you like to delete your Ciphr account?"
+        btn1="Cancel"
+        btn2="Delete"
+        btnColor="secondary"
       />
     </>
   );
