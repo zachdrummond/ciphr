@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Container,
+  Chip,
   FormControl,
   Grid,
   InputLabel,
@@ -130,6 +131,7 @@ const Challenge = ({ theme }) => {
     API.getAlgorithm(id)
       .then((response) => {
         setAlgorithm(response.data);
+        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -144,7 +146,7 @@ const Challenge = ({ theme }) => {
             className={classes.titleBottom}
             variant="h4"
             color="textPrimary"
-            align="left"
+            align="center"
           >
             {algorithm.challengeName}
           </Typography>
@@ -152,7 +154,7 @@ const Challenge = ({ theme }) => {
             className={classes.titleBottom}
             variant="h6"
             color="textPrimary"
-            align="left"
+            align="center"
           >
             Added by: {algorithm.user?.username}
           </Typography>
@@ -242,10 +244,12 @@ const Challenge = ({ theme }) => {
                   multiline={true}
                   color="textPrimary"
                   align="left"
-                  style={{whiteSpace: 'pre-line'}}
+                  style={{ whiteSpace: "pre-line" }}
                 >
-                {/* Regex replaces breaks with line breaks */}
-                 {algorithm ? algorithm.description.replace(/(<br>)/g, "\n") : ""}
+                  {/* Regex replaces breaks with line breaks */}
+                  {algorithm
+                    ? algorithm.description.replace(/(<br>)/g, "\n")
+                    : ""}
                 </Typography>
                 <Typography
                   className={classes.titleBottom}
@@ -265,7 +269,21 @@ const Challenge = ({ theme }) => {
                       </ul>
                     ))
                   : ""}
-                <Box p={3} bgcolor="text.primary" color="background.paper">
+                <Typography
+                  className={classes.titleBottom}
+                  variant="h5"
+                  color="textPrimary"
+                  align="left"
+                >
+                  Hashtags
+                </Typography>
+                <Chip label={algorithm.hashtags} color="secondary" />
+                <Box
+                  p={3}
+                  mt={1}
+                  bgcolor="text.primary"
+                  color="background.paper"
+                >
                   <Typography
                     className={classes.titleBottom}
                     variant="body2"
