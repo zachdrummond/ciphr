@@ -140,6 +140,12 @@ router.put("/api/algorithm/:id", function (request, response) {
         .updateOne({ $set: { testCases: testCases } }, { new: true })
         .then((updateTest) => {
           console.log(updateTest);
+        }).catch(err => {
+          response.status(500).json({
+            error: true,
+            data: null,
+            message: "Unable to update test cases.",
+          });
         });
       if (!updated) {
         response.status(404).json({
