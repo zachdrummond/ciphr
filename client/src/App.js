@@ -16,6 +16,7 @@ import AuthContext from "./context/AuthContext/AuthContext";
 import setAxiosDefaults from "./utils/setAxiosDefaults";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import UserContext from "./context/UserContext/UserContext";
 
 // define dark/light themes
 
@@ -35,6 +36,7 @@ const darkTheme = createMuiTheme({
 
 function App() {
   const [jwt, setJwt] = useState("");
+  const [username, setUsername] = useState("");
 
   const [theme, setTheme] = React.useState(true);
   const appliedTheme = createMuiTheme(theme ? lightTheme : darkTheme);
@@ -53,6 +55,7 @@ function App() {
         <Router>
           <Header theme={theme} setTheme={setTheme} />
           <AuthContext.Provider value={{ jwt, setJwt }}>
+            <UserContext.Provider value={{ username, setUsername }}>
             <Switch>
               <ProtectedRoute exact path="/algorithms/new" component={AddAlgorithm} />
               <ProtectedRoute
@@ -71,6 +74,7 @@ function App() {
               <Route exact path="/" component={Login} />
               <Route path="/" component={NotFound} />
             </Switch>
+            </UserContext.Provider>
           </AuthContext.Provider>
         </Router>
       </ThemeProvider>

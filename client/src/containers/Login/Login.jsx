@@ -2,11 +2,19 @@
 import { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // Material UI
-import { Avatar, CssBaseline, Grid, makeStyles, Paper, Typography } from "@material-ui/core";
+import {
+  Avatar,
+  CssBaseline,
+  Grid,
+  makeStyles,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import UserContext from "../../context/UserContext/UserContext";
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +57,7 @@ export default function SignInSide() {
 
   // Using AuthContextAPI to get the setJwt function
   const { setJwt } = useContext(AuthContext);
+  const { setUsername } = useContext(UserContext);
 
   // hook configures username/password state
   // to find state in dev tools 'Components' look under 'SignInSide'
@@ -67,12 +76,12 @@ export default function SignInSide() {
     e.preventDefault();
     // username/password posted to back end
     // see API.js in utils for more info
-    
+
     API.login(userInfo)
       .then((response) => {
-        
         // Setting the AuthContextAPI jwt to the new jwt received from the backend
         setJwt(response.data.data);
+        setUsername(userInfo.username);
         history.push("/home");
       })
       .catch((err) => {
@@ -80,9 +89,9 @@ export default function SignInSide() {
       });
   };
 
-  useEffect(() =>{
+  useEffect(() => {
     setJwt("");
-  },[]);
+  }, []);
 
   return (
     <Grid container component="main" className={classes.root}>
