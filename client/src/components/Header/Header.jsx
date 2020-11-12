@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 // Material UI
 import {
   AppBar,
-  Box,
   IconButton,
   List,
   ListItem,
@@ -42,7 +41,7 @@ const useStyles = makeStyles({
 
 const navLinks = [
   { title: `Add Algorithm`, path: `/algorithms/new` },
-  { title: `Logout`, path: `/login` },
+  { title: `All Algorithms`, path: `/algorithms` },
 ];
 
 const Header = ({ theme, setTheme }) => {
@@ -53,7 +52,6 @@ const Header = ({ theme, setTheme }) => {
   };
 
   //Account menu
-
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -65,11 +63,9 @@ const Header = ({ theme, setTheme }) => {
   };
 
   //Delete dialog state
-
   const [open, setOpen] = React.useState(false);
 
   //Delete dialog
-
   const handleAlertOpen = () => {
     handleMenuClose();
     setOpen(true);
@@ -102,11 +98,10 @@ const Header = ({ theme, setTheme }) => {
               <Home fontSize="large" />
             </IconButton>
           </Link>
-          <Box align="center">
-            <Typography variant="h6" className={classes.linkText}>
-              AlgoMaster
-            </Typography>
-          </Box>
+
+          <Typography variant="h6" className={classes.linkText}>
+            AlgoMaster
+          </Typography>
 
           <List component="nav" aria-labelledby="main navigation">
             {navLinks.map(({ title, path }) => (
@@ -145,14 +140,14 @@ const Header = ({ theme, setTheme }) => {
               open={Boolean(anchorEl)}
               onClose={handleMenuClose}
             >
-              <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-              <MenuItem onClick={handleMenuClose} to="/login">
+              <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+              <MenuItem onClick={handleMenuClose}>
                 <Link to="/login" className={classes.menuLink}>
                   Logout
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleAlertOpen} style={{ color: "red" }}>
-                Delete account
+                Delete Account
               </MenuItem>
             </Menu>
           </List>

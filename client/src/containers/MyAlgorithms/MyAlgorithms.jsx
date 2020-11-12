@@ -16,30 +16,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = () => {
+const MyAlgorithms = () => {
   const classes = useStyles();
   const { jwt, username } = useContext(AuthContext);
 
-  const [allAlgorithms, setAllAlgorithms] = useState([]);
   const [myAlgorithms, setMyAlgorithms] = useState([]);
-
-  useEffect(() => {
-    getAllAlgorithms();
-  }, [allAlgorithms]);
 
   useEffect(() => {
     getMyAlgorithms();
   }, [myAlgorithms]);
-
-  const getAllAlgorithms = () => {
-    API.getAllAlgorithms()
-      .then((algorithms) => {
-        setAllAlgorithms(algorithms.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const getMyAlgorithms = () => {
     API.getMyAlgorithms(jwt)
@@ -62,7 +47,7 @@ const Home = () => {
             </Typography>
           </Box>
         </Grid>
-        <HomeSection size={6} title="My Algorithms" algorithms={myAlgorithms}>
+        <HomeSection size={12} title={`${username} Algorithms`} algorithms={myAlgorithms}>
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">
@@ -71,14 +56,9 @@ const Home = () => {
             </Link>
           </Box>
         </HomeSection>
-        <HomeSection
-          size={6}
-          title="All Algorithms"
-          algorithms={allAlgorithms}
-        />
       </Grid>
     </div>
   );
 };
 
-export default Home;
+export default MyAlgorithms;
