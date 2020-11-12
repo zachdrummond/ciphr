@@ -16,6 +16,7 @@ import AuthContext from "./context/AuthContext/AuthContext";
 import setAxiosDefaults from "./utils/setAxiosDefaults";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import Footer from "./components/Footer/Footer";
 
 // define dark/light themes
 
@@ -77,6 +78,7 @@ function App() {
               <Route path="/" component={NotFound} />
             </Switch>
           </AuthContext.Provider>
+          <Footer/>
         </Router>
       </ThemeProvider>
     </div>
