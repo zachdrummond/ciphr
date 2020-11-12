@@ -43,7 +43,7 @@ const ModalComponent = ({open, setOpen, text, url}) => {
       <Fade in={open}>
         <div className={classes.modalPaper}>
           <h2 id="transition-modal-title">{text}</h2>
-          <p align="center" id="transition-modal-description">Click anywhere to continue.</p>
+          <p align="center" id="transition-modal-description">Click outside to continue.</p>
         </div>
       </Fade>
     </Modal>

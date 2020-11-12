@@ -35,6 +35,7 @@ const darkTheme = createMuiTheme({
 
 function App() {
   const [jwt, setJwt] = useState("");
+  const [username, setUsername] = useState("");
 
   const [theme, setTheme] = React.useState(true);
   const appliedTheme = createMuiTheme(theme ? lightTheme : darkTheme);
@@ -52,9 +53,13 @@ function App() {
         <CssBaseline />
         <Router>
           <Header theme={theme} setTheme={setTheme} />
-          <AuthContext.Provider value={{ jwt, setJwt }}>
+          <AuthContext.Provider value={{ jwt, setJwt, username, setUsername }}>
             <Switch>
-              <ProtectedRoute exact path="/algorithms/new" component={AddAlgorithm} />
+              <ProtectedRoute
+                exact
+                path="/algorithms/new"
+                component={AddAlgorithm}
+              />
               <ProtectedRoute
                 exact
                 path="/algorithms/edit/:algorithmId"
@@ -62,8 +67,8 @@ function App() {
               />
               <ProtectedRoute
                 exact
-                path="/algorithms/:algorithmId" component={Challenge}
-                render={(props) => <Challenge {...props} theme={theme} />}
+                path="/algorithms/:algorithmId"
+                component={Challenge} theme={theme}
               />
               <ProtectedRoute exact path="/home" component={Home} />
               <Route exact path="/signup" component={SignUp} />
