@@ -14,6 +14,7 @@ const AlertDialog = ({
   btn1,
   btn2,
   btnColor,
+  deleteUser,
 }) => {
   const handleClose = () => {
     setOpen(false);
@@ -35,7 +36,7 @@ const AlertDialog = ({
         <Button onClick={handleClose} color="primary">
           {btn1}
         </Button>
-        <Button onClick={handleClose} color={btnColor} autoFocus>
+        <Button onClick={deleteUser} color={btnColor} autoFocus>
           {btn2}
         </Button>
       </DialogActions>
