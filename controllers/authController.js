@@ -152,11 +152,22 @@ router.delete("/api/user/:userJwt", function (request, response) {
         username: decoded.username,
       })
         .then((user) => {
-          response.status(200).json({
-            error: false,
-            data: null,
-            message: "Successfully deleted user.",
-          });
+          db.Algorithms.deleteMany({ userId: user._id })
+            .then((deletedAlgorithms) => {
+              response.status(200).json({
+                error: false,
+                data: null,
+                message: "Successfully deleted user and algorithms.",
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+              response.status(500).json({
+                error: true,
+                data: null,
+                message: "Unable to delete algorithms.",
+              });
+            });
         })
         .catch((error) => {
           console.log(error);

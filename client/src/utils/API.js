@@ -1,6 +1,15 @@
 import axios from "axios";
 
 const API = {
+  addAlgorithm: function (algorithm) {
+    return axios.post("/api/algorithm", algorithm);
+  },
+  deleteAlgorithm: function (id) {
+    return axios.delete(`/api/algorithm/${id}`);
+  },
+  editAlgorithm: function (id, data) {
+    return axios.put(`/api/algorithm/${id}`, data);
+  },
   getAllAlgorithms: function () {
     return axios.get("/api/algorithm");
   },
@@ -10,19 +19,6 @@ const API = {
   getAlgorithm: function (id) {
     return axios.get(`/api/algorithm/${id}`);
   },
-  deleteAlgorithm: function (id) {
-    return axios.delete(`/api/algorithm/${id}`);
-  },
-  editAlgorithm: function (id, data) {
-    return axios.put(`/api/algorithm/${id}`, data);
-  },
-
-  login: function (userInfo) {
-    return axios.post("/api/login", userInfo);
-  },
-  signup: function (userInfo) {
-    return axios.post("/api/signup", userInfo);
-  },
   postCode: function (input, mode) {
     return axios({
       method: "POST",
@@ -30,8 +26,11 @@ const API = {
       data: { input, mode },
     });
   },
-  addAlgorithm: function (algorithm) {
-    return axios.post("/api/algorithm", algorithm);
+  login: function (userInfo) {
+    return axios.post("/api/login", userInfo);
+  },
+  signup: function (userInfo) {
+    return axios.post("/api/signup", userInfo);
   },
   deleteUser: function (jwt) {
     return axios.delete(`/api/user/${jwt}`);
