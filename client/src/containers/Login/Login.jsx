@@ -64,16 +64,14 @@ export default function SignInSide() {
     username: "",
     password: "",
   });
-// modal state
-const [open, setOpen] = useState(false);
-const handleModalOpen = () => {
-  setOpen(true);
-};
+
+const [error, setError] = useState(false);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
     // handles input of either username or password
     setUserInfo({ ...userInfo, [name]: value });
+    setError(false);
   };
 
   const handleSubmit = (e) => {
@@ -90,7 +88,7 @@ const handleModalOpen = () => {
       })
       .catch((err) => {
         console.log(err);
-        handleModalOpen();
+        setError(true);
       });
   };
 
@@ -112,6 +110,7 @@ const handleModalOpen = () => {
           </Typography>
           <CredentialsForm
             {...userInfo}
+            error={error}
             handleInput={handleInput}
             handleSubmit={handleSubmit}
             classes={classes}
@@ -120,12 +119,6 @@ const handleModalOpen = () => {
             linkText={"New to Ciphr? Sign up here!"}
           />
         </div>
-        <ModalComponent
-        open={open}
-        setOpen={setOpen}
-        text="Invalid username or password. Please try again."
-        url="/login"
-      />
       </Grid>
     </Grid>
   );
