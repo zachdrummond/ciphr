@@ -27,6 +27,7 @@ const CredentialsForm = ({
   type,
   link,
   linkText,
+  error,
 }) => {
   return (
     <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
@@ -42,6 +43,8 @@ const CredentialsForm = ({
         autoFocus
         value={username}
         onChange={handleInput}
+        error={error}
+        helperText={error?"Invalid username.":""}
       />
       <TextField
         variant="outlined"
@@ -55,6 +58,8 @@ const CredentialsForm = ({
         autoComplete="current-password"
         value={password}
         onChange={handleInput}
+        error={error}
+        helperText={error?"Invalid password.":""}
       />
       <Button
         type="submit"
