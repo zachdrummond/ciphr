@@ -86,7 +86,7 @@ async function getCompiled(postRes) {
         data: null,
         message: "code compile timed out"
       });
-    } else {
+    } else if (data.status !== "running") {
       // handles error for compiled languages like go, c++, etc. Build exit code of 0 is success!
       if (!data.build_exit_code) {
         return [data.stdout, data.stderr];
