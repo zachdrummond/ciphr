@@ -217,7 +217,7 @@ const Challenge = ({ theme }) => {
                       <MenuItem value="r">R</MenuItem>
                       <MenuItem value="clike">C#</MenuItem>
                       <MenuItem value="ruby">Ruby</MenuItem>
-                      <MenuItem value="sql">Ruby</MenuItem>
+                      <MenuItem value="sql">SQL</MenuItem>
                     </Select>
                   </FormControl>
                 </Typography>
