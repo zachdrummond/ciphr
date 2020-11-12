@@ -141,22 +141,24 @@ router.delete("/api/user/:userJwt", function (request, response) {
         message: "Invalid token.",
       });
     } else {
-      console.log("hey");
-      db.Users.findOneAndDelete({ username: decoded.username }).then((user) => {
-        console.log("hey again");
-        // db.Algorithms.find({ userId: user._id })
-        //   .then((algorithms) => {
-        //     response.json(algorithms);
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //     response.status(500).json({
-        //       error: true,
-        //       data: null,
-        //       message: "Failed to delete user.",
-        //     });
-        // });
-      });
+      db.Users.findOneAndDelete({
+        username: decoded.username,
+      })
+        .then((user) => {
+          response.status(200).json({
+            error: false,
+            data: null,
+            message: "Successfully deleted user.",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          response.status(500).json({
+            error: true,
+            data: null,
+            message: "Unable to delete user.",
+          });
+        });
     }
   });
 });
