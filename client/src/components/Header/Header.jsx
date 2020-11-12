@@ -23,7 +23,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
-import Snackbar from "@material-ui/core/Snackbar";
 import TheSnackbar from "../Snackbar/TheSnackbar";
 
 const useStyles = makeStyles({
@@ -70,7 +69,7 @@ const Header = ({ theme, setTheme }) => {
   };
 
   //Dialog state
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   //Delete dialog
   const handleAlertOpen = () => {
@@ -83,7 +82,7 @@ const Header = ({ theme, setTheme }) => {
   };
 
   //Snackbar
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleSnackbarOpen = () => {
     setSnackbarOpen(true);
