@@ -24,7 +24,7 @@ const MyAlgorithms = () => {
 
   useEffect(() => {
     getMyAlgorithms();
-  }, [myAlgorithms]);
+  }, []);
 
   const getMyAlgorithms = () => {
     API.getMyAlgorithms(jwt)

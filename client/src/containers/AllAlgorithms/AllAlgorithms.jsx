@@ -20,7 +20,7 @@ const AllAlgorithms = () => {
 
   useEffect(() => {
     getAllAlgorithms();
-  }, [allAlgorithms]);
+  }, []);
 
   const getAllAlgorithms = () => {
     API.getAllAlgorithms()

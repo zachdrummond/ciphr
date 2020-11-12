@@ -76,6 +76,7 @@ export default function AddAlgorithm() {
   const [algoInfo, setAlgoInfo] = useState({
     challengeName: "",
     challengeDescription: "",
+    hashtags: ""
   });
 
   const handleInput = (e) => {
@@ -102,8 +103,7 @@ export default function AddAlgorithm() {
       testCases: allUsedTests,
       userJwt: jwt,
     })
-      .then((response) => {
-      })
+      .then((response) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -117,7 +117,7 @@ export default function AddAlgorithm() {
             className={classes.titleBottom}
             variant="h4"
             color="textPrimary"
-            align="left"
+            align="center"
           >
             Add an Algorithm
           </Typography>
@@ -146,8 +146,12 @@ export default function AddAlgorithm() {
                 variant="outlined"
                 fullWidth
               />
-
-              <Typography variant="h6" color="textPrimary" align="left">
+              <Typography
+                variant="h6"
+                color="textPrimary"
+                align="left"
+                display="inline"
+              >
                 Tell us about your Algorithm
               </Typography>
 
@@ -163,6 +167,29 @@ export default function AddAlgorithm() {
                 fullWidth
                 rows={4}
               />
+
+              <Typography
+                variant="h6"
+                color="textPrimary"
+                align="left"
+                display="inline"
+              >
+                Add Hashtags!
+              </Typography>
+
+              <TextField
+                id="algo-description"
+                label="#algorithm"
+                multiline
+                rowsMax={4}
+                name="hashtags"
+                value={algoInfo.hashtags}
+                onChange={handleInput}
+                variant="outlined"
+                fullWidth
+                rows={4}
+              />
+
               {/* map over array of test case hooks */}
               {allTests.map((test, index) => {
                 if (index < testCount) {
@@ -214,10 +241,11 @@ export default function AddAlgorithm() {
         </Grid>
       </Grid>
       <ModalComponent
-      open={open}
-      setOpen={setOpen}
-      text="Algorithm Successfully Added!"
-      url="/home"/>
+        open={open}
+        setOpen={setOpen}
+        text="Algorithm Successfully Added!"
+        url="/home"
+      />
     </Container>
   );
 }

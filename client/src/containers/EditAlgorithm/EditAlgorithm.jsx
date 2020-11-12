@@ -162,7 +162,7 @@ export default function EditAlgorithm() {
             className={classes.titleBottom}
             variant="h4"
             color="textPrimary"
-            align="left"
+            align="center"
           >
             Edit Algorithm
           </Typography>
