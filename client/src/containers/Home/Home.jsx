@@ -6,6 +6,7 @@ import { makeStyles, Grid, Fab, Box, Typography } from "@material-ui/core";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+// import UserContext from "../../context/UserContext/UserContext";
 import HomeSection from "../../components/HomeSection/HomeSection";
 
 // Styling for Specific Components
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  const { jwt } = useContext(AuthContext);
+  const { jwt, username } = useContext(AuthContext);
 
   const [allAlgorithms, setAllAlgorithms] = useState([]);
   const [myAlgorithms, setMyAlgorithms] = useState([]);
@@ -57,7 +58,7 @@ const Home = () => {
           {/* Welcome Message */}
           <Box p={3}>
             <Typography variant="h3" component="h3" align="center">
-              Welcome Username!
+              Welcome {username}!
             </Typography>
           </Box>
         </Grid>
