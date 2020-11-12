@@ -1,7 +1,6 @@
 // React
-import React from "react";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
 // Material UI
 import {
   AppBar,
@@ -51,13 +50,14 @@ const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
   // Using AuthContextAPI to get the setJwt function
   const { jwt } = useContext(AuthContext);
+  const history = useHistory();
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
   };
 
   //Account menu
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -68,7 +68,7 @@ const Header = ({ theme, setTheme }) => {
   };
 
   //Delete dialog state
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   //Delete dialog
   const handleAlertOpen = () => {
@@ -84,6 +84,7 @@ const Header = ({ theme, setTheme }) => {
 
   const deleteUser = () => {
     handleAlertClose();
+    history.push("/login");
     API.deleteUser(jwt)
       .then((res) => {
         console.log(res);
@@ -102,7 +103,7 @@ const Header = ({ theme, setTheme }) => {
           </Link>
 
           <List component="nav" aria-labelledby="main navigation">
-            <Link to="/home">
+            {jwt ? <Link to="/home">
               <IconButton
                 edge="start"
                 className={classes.linkText}
@@ -110,14 +111,14 @@ const Header = ({ theme, setTheme }) => {
               >
                 <Home fontSize="large" />
               </IconButton>
-            </Link>
-            {navLinks.map(({ title, path }) => (
+            </Link> : ""}
+            {jwt ? navLinks.map(({ title, path }) => (
               <Link to={path} key={title} className={classes.linkText}>
                 <ListItem button>
                   <ListItemText primary={title} />
                 </ListItem>
               </Link>
-            ))}
+            )) : ""}
 
             <Tooltip title="Toggle Light/Dark Theme">
               <IconButton
@@ -129,7 +130,7 @@ const Header = ({ theme, setTheme }) => {
                 {theme ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
             </Tooltip>
-            <Tooltip title="Account">
+            {jwt ? <Tooltip title="Account">
               <IconButton
                 color="inherit"
                 aria-label="account"
@@ -138,7 +139,7 @@ const Header = ({ theme, setTheme }) => {
               >
                 <AccountCircleIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> : ""}
 
             <Menu
               id="simple-menu"
