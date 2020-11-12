@@ -15,6 +15,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
+import ModalComponent from "../../components/Modal/ModalComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +64,11 @@ export default function SignInSide() {
     username: "",
     password: "",
   });
+// modal state
+const [open, setOpen] = useState(false);
+const handleModalOpen = () => {
+  setOpen(true);
+};
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -84,6 +90,7 @@ export default function SignInSide() {
       })
       .catch((err) => {
         console.log(err);
+        handleModalOpen();
       });
   };
 
@@ -113,6 +120,12 @@ export default function SignInSide() {
             linkText={"New to Ciphr? Sign up here!"}
           />
         </div>
+        <ModalComponent
+        open={open}
+        setOpen={setOpen}
+        text="Invalid username or password. Please try again."
+        url="/login"
+      />
       </Grid>
     </Grid>
   );
