@@ -22,35 +22,31 @@ router.get("/api/algorithm", function (request, response) {
 
 //Get my algorithms
 router.get("/api/algorithm/user/:userJwt", function (request, response) {
-  const decoded = jwt.verify(
-    request.params.userJwt,
-    process.env.SECRET,
-    (err, decoded) => {
-      if (err) {
-        console.log(err);
-        return response.status(401).json({
-          error: true,
-          data: null,
-          message: "Invalid token.",
-        });
-      } else {
-        db.Users.findOne({ username: decoded.username }).then((user) => {
-          db.Algorithms.find({ userId: user._id })
-            .then((algorithms) => {
-              response.json(algorithms);
-            })
-            .catch((error) => {
-              console.log(error);
-              response.status(500).json({
-                error: true,
-                data: null,
-                message: "Failed to get algorithms.",
-              });
+  jwt.verify(request.params.userJwt, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      console.log(err);
+      return response.status(401).json({
+        error: true,
+        data: null,
+        message: "Invalid token.",
+      });
+    } else {
+      db.Users.findOne({ username: decoded.username }).then((user) => {
+        db.Algorithms.find({ userId: user._id })
+          .then((algorithms) => {
+            response.json(algorithms);
+          })
+          .catch((error) => {
+            console.log(error);
+            response.status(500).json({
+              error: true,
+              data: null,
+              message: "Failed to get algorithms.",
             });
-        });
-      }
+          });
+      });
     }
-  );
+  });
 });
 
 // Get a specific algorithm
@@ -150,7 +146,6 @@ router.put("/api/algorithm/:id", function (request, response) {
     { new: true }
   )
     .then((updated) => {
-      console.log(updated);
       if (!updated) {
         response.status(404).json({
           error: true,
