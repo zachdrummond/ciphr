@@ -1,5 +1,6 @@
 // React
 import React from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 // Material UI
 import {
@@ -21,6 +22,8 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import API from "../../utils/API";
+import AuthContext from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -46,11 +49,8 @@ const navLinks = [
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
-<<<<<<< HEAD
   // Using AuthContextAPI to get the setJwt function
   const { jwt } = useContext(AuthContext);
-=======
->>>>>>> main
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
