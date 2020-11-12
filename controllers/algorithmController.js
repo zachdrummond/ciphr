@@ -189,9 +189,27 @@ router.put("/api/algorithm/:id", function (request, response) {
 
 // Delete an algorithm
 router.delete("/api/algorithm/:id", function (request, response) {
-  db.Algorithms.findByIdAndDelete(request.params.id).then((result) => {
-    response.json(result);
-  });
+  db.Algorithms.findByIdAndDelete(request.params.id)
+    .then((result) => {
+      db.Users.Algorithms.findByIdAndDelete(request.params.id)
+        .then((result) => {
+          response.json(result);
+        })
+        .catch((err) => {
+          response.status(500).json({
+            error: true,
+            data: null,
+            message: "An error occurred updating your algorithm.",
+          });
+        });
+    })
+    .catch((err) => {
+      response.status(500).json({
+        error: true,
+        data: null,
+        message: "An error occurred deleting your algorithm.",
+      });
+    });
 });
 
 module.exports = router;

@@ -1,5 +1,4 @@
 // React
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 // Material UI
 import {
@@ -16,8 +15,6 @@ import {
 import { Home } from "@material-ui/icons";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
-// File Modules
-import AuthContext from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -39,8 +36,6 @@ const navLinks = [
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
-    // Using AuthContextAPI to get the setJwt function
-    const { jwt } = useContext(AuthContext);
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
