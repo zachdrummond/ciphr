@@ -80,7 +80,7 @@ router.get("/api/algorithm/:id", function (request, response) {
 router.post("/api/algorithm", (req, res) => {
   const { testCases, algorithm, userJwt } = req.body;
   jwt.verify(userJwt, process.env.SECRET, (error, decoded) => {
-    if (err) {
+    if (error) {
       console.log(error);
       return response.status(401).json({
         error: true,
