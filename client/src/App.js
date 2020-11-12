@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import SignUp from "./containers/SignUp/SignUp";
 import NotFound from "./containers/NotFound/NotFound";
 import setAxiosDefaults from "./utils/setAxiosDefaults";
+import Footer from "./components/Footer/Footer";
 
 // define dark/light themes
 
@@ -77,6 +78,7 @@ function App() {
               <Route path="/" component={NotFound} />
             </Switch>
           </AuthContext.Provider>
+          <Footer/>
         </Router>
       </ThemeProvider>
     </div>
