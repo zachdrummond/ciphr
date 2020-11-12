@@ -45,7 +45,7 @@ const CredentialsForm = ({
         value={username}
         onChange={handleInput}
         error={error|| signupError}
-        
+        helperText={signupError?"Username already exists.":""}
         helperText={error && !signupError?"Invalid username.":"", signupError?"Username already exists.":""}
       />
       <TextField

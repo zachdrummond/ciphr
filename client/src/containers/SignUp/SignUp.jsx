@@ -63,12 +63,7 @@ export default function SignUpSide() {
     username: "",
     password: "",
   });
-  // modal state
-  // const [open, setOpen] = useState(false);
-  // // modal functions
-  // const handleModalOpen = () => {
-  //   setOpen(true);
-  // };
+  
   const [signupError, setSignupError] = useState(false);
   const [error, setError] = useState(false);
 
@@ -111,6 +106,7 @@ export default function SignUpSide() {
         <CredentialsForm
           {...userInfo}
           signupError={signupError}
+          error={error}
           handleInput={handleInput}
           handleSubmit={handleSubmit}
           classes={classes}
@@ -119,12 +115,6 @@ export default function SignUpSide() {
           linkText={"Already have an account? Sign in here!"}
         />
       </div>
-      {/* <ModalComponent
-        open={open}
-        setOpen={setOpen}
-        text="This username is already taken. Please choose another username."
-        url="/signup"
-      /> */}
     </Container>
   );
 }
