@@ -103,20 +103,21 @@ const Header = ({ theme, setTheme }) => {
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
           <Link to="/home">
-            <IconButton
-              edge="start"
-              className={classes.linkText}
-              aria-label="home"
-            >
-              <Home fontSize="large" />
-            </IconButton>
+            <Typography variant="h6" className={classes.linkText}>
+              AlgoMaster
+            </Typography>
           </Link>
 
-          <Typography variant="h6" className={classes.linkText}>
-            AlgoMaster
-          </Typography>
-
           <List component="nav" aria-labelledby="main navigation">
+            <Link to="/home">
+              <IconButton
+                edge="start"
+                className={classes.linkText}
+                aria-label="home"
+              >
+                <Home fontSize="large" />
+              </IconButton>
+            </Link>
             {navLinks.map(({ title, path }) => (
               <Link to={path} key={title} className={classes.linkText}>
                 <ListItem button>
@@ -154,10 +155,12 @@ const Header = ({ theme, setTheme }) => {
               onClose={handleMenuClose}
             >
               <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
-              <MenuItem onClick={handleMenuClose}>
-                <Link to="/login" className={classes.menuLink}>
-                  Logout
-                </Link>
+              <MenuItem
+                onClick={handleMenuClose}
+                component={Link}
+                to={"/login"}
+              >
+                Logout
               </MenuItem>
               <MenuItem onClick={handleAlertOpen} style={{ color: "red" }}>
                 Delete Account
