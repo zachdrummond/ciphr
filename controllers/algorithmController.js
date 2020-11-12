@@ -112,6 +112,7 @@ router.post("/api/algorithm", (req, res) => {
                   });
                 })
                 .catch((error) => {
+                  console.log(error);
                   res.status(500).json({
                     error: true,
                     data: null,
@@ -120,6 +121,7 @@ router.post("/api/algorithm", (req, res) => {
                 });
             })
             .catch((error) => {
+              console.log(error);
               res.status(500).json({
                 error: true,
                 data: null,
@@ -163,6 +165,7 @@ router.put("/api/algorithm/:id", function (request, response) {
           });
         })
         .catch((error) => {
+          console.log(error);
           response.status(500).json({
             error: true,
             data: null,
@@ -171,6 +174,7 @@ router.put("/api/algorithm/:id", function (request, response) {
         });
     })
     .catch((error) => {
+      console.log(error);
       response.status(500).json({
         error: true,
         data: null,
@@ -192,6 +196,7 @@ router.delete("/api/algorithm/:id", function (request, response) {
           });
         })
         .catch((error) => {
+          console.log(error);
           response.status(500).json({
             error: true,
             data: null,
@@ -200,6 +205,7 @@ router.delete("/api/algorithm/:id", function (request, response) {
         });
     })
     .catch((error) => {
+      console.log(error);
       response.status(500).json({
         error: true,
         data: null,

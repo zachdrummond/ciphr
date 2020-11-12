@@ -1,7 +1,6 @@
 // React
-import React from "react";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
 // Material UI
 import {
   AppBar,
@@ -24,6 +23,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import TheSnackbar from "../Snackbar/TheSnackbar";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -51,13 +51,14 @@ const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
   // Using AuthContextAPI to get the setJwt function
   const { jwt } = useContext(AuthContext);
+  const history = useHistory();
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
   };
 
   //Account menu
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,8 +68,8 @@ const Header = ({ theme, setTheme }) => {
     setAnchorEl(null);
   };
 
-  //Delete dialog state
-  const [open, setOpen] = React.useState(false);
+  //Dialog state
+  const [open, setOpen] = useState(false);
 
   //Delete dialog
   const handleAlertOpen = () => {
@@ -80,10 +81,27 @@ const Header = ({ theme, setTheme }) => {
     setOpen(false);
   };
 
+  //Snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleSnackbarOpen = () => {
+    setSnackbarOpen(true);
+    console.log("snackbar!");
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
   //Delete user function
 
   const deleteUser = () => {
     handleAlertClose();
+    handleSnackbarOpen();
+    history.push("/login");
     API.deleteUser(jwt)
       .then((res) => {
         console.log(res);
@@ -102,22 +120,28 @@ const Header = ({ theme, setTheme }) => {
           </Link>
 
           <List component="nav" aria-labelledby="main navigation">
-            <Link to="/home">
-              <IconButton
-                edge="start"
-                className={classes.linkText}
-                aria-label="home"
-              >
-                <Home fontSize="large" />
-              </IconButton>
-            </Link>
-            {navLinks.map(({ title, path }) => (
-              <Link to={path} key={title} className={classes.linkText}>
-                <ListItem button>
-                  <ListItemText primary={title} />
-                </ListItem>
+            {jwt ? (
+              <Link to="/home">
+                <IconButton
+                  edge="start"
+                  className={classes.linkText}
+                  aria-label="home"
+                >
+                  <Home fontSize="large" />
+                </IconButton>
               </Link>
-            ))}
+            ) : (
+              ""
+            )}
+            {jwt
+              ? navLinks.map(({ title, path }) => (
+                  <Link to={path} key={title} className={classes.linkText}>
+                    <ListItem button>
+                      <ListItemText primary={title} />
+                    </ListItem>
+                  </Link>
+                ))
+              : ""}
 
             <Tooltip title="Toggle Light/Dark Theme">
               <IconButton
@@ -129,16 +153,20 @@ const Header = ({ theme, setTheme }) => {
                 {theme ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
             </Tooltip>
-            <Tooltip title="Account">
-              <IconButton
-                color="inherit"
-                aria-label="account"
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <AccountCircleIcon />
-              </IconButton>
-            </Tooltip>
+            {jwt ? (
+              <Tooltip title="Account">
+                <IconButton
+                  color="inherit"
+                  aria-label="account"
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                >
+                  <AccountCircleIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              ""
+            )}
 
             <Menu
               id="simple-menu"
@@ -171,6 +199,11 @@ const Header = ({ theme, setTheme }) => {
         btn2="Delete"
         btnColor="secondary"
         deleteUser={deleteUser}
+      />
+      <TheSnackbar
+        snackbarOpen={snackbarOpen}
+        setSnackbarOpen={setSnackbarOpen}
+        message="Your account has been deleted"
       />
     </>
   );

@@ -15,6 +15,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
+import ModalComponent from "../../components/Modal/ModalComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,10 +65,13 @@ export default function SignInSide() {
     password: "",
   });
 
+const [error, setError] = useState(false);
+
   const handleInput = (e) => {
     const { name, value } = e.target;
     // handles input of either username or password
     setUserInfo({ ...userInfo, [name]: value });
+    setError(false);
   };
 
   const handleSubmit = (e) => {
@@ -84,6 +88,7 @@ export default function SignInSide() {
       })
       .catch((err) => {
         console.log(err);
+        setError(true);
       });
   };
 
@@ -105,6 +110,7 @@ export default function SignInSide() {
           </Typography>
           <CredentialsForm
             {...userInfo}
+            error={error}
             handleInput={handleInput}
             handleSubmit={handleSubmit}
             classes={classes}
