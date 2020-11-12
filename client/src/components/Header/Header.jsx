@@ -1,6 +1,5 @@
 // React
 import React from "react";
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 // Material UI
 import {
@@ -18,12 +17,10 @@ import { Home } from "@material-ui/icons";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 // File Modules
-import AuthContext from "../../context/AuthContext/AuthContext";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
-import API from "../../utils/API";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -44,20 +41,22 @@ const useStyles = makeStyles({
 
 const navLinks = [
   { title: `Add Algorithm`, path: `/algorithms/new` },
-  { title: `Logout`, path: `/login` },
+  { title: `All Algorithms`, path: `/algorithms` },
 ];
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
+<<<<<<< HEAD
   // Using AuthContextAPI to get the setJwt function
   const { jwt } = useContext(AuthContext);
+=======
+>>>>>>> main
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
   };
 
   //Account menu
-
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -69,11 +68,9 @@ const Header = ({ theme, setTheme }) => {
   };
 
   //Delete dialog state
-
   const [open, setOpen] = React.useState(false);
 
   //Delete dialog
-
   const handleAlertOpen = () => {
     handleMenuClose();
     setOpen(true);
@@ -149,21 +146,16 @@ const Header = ({ theme, setTheme }) => {
               open={Boolean(anchorEl)}
               onClose={handleMenuClose}
             >
-              <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-              <MenuItem onClick={handleMenuClose} to="/login">
+              <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+              <MenuItem onClick={handleMenuClose}>
                 <Link to="/login" className={classes.menuLink}>
                   Logout
                 </Link>
               </MenuItem>
-              <MenuItem
-                // onClick={handleMenuClose}
-                onClick={handleAlertOpen}
-                style={{ color: "red" }}
-              >
-                Delete account
+              <MenuItem onClick={handleAlertOpen} style={{ color: "red" }}>
+                Delete Account
               </MenuItem>
             </Menu>
-            {/* <Avatar>H</Avatar> */}
           </List>
         </Toolbar>
       </AppBar>

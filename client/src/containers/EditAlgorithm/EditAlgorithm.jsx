@@ -1,5 +1,5 @@
 // React
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 // Material UI
 import {
@@ -18,7 +18,6 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 // File Modules
 import API from "../../utils/API";
-import AuthContext from "../../context/AuthContext/AuthContext";
 import useTestCase from "../../utils/useTestCase";
 import TestCase from "../../components/TestCase/TestCase";
 
@@ -54,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditAlgorithm() {
   const classes = useStyles();
-  const { jwt } = useContext(AuthContext);
   const history = useHistory();
 
   // custom hook imported from useTestCase.js

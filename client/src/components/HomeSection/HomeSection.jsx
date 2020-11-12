@@ -10,6 +10,8 @@ import HomeCard from "../HomeCard/HomeCard";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    maxHeight: 500, 
+    overflow: 'auto',
   },
   paper: {
     padding: theme.spacing(2),
