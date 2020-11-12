@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
+// global variable keeps track of API get request attempts
 let attempts = 0;
 // formats parameters for API call
 function compilerLang(lang) {
@@ -25,82 +26,87 @@ function compilerLang(lang) {
   }
 }
 
-// sends post request to compiler API and recieves id of request
-// calls getCompiled function
-async function compilerCall(req, res) {
-  const language = compilerLang(req.body.mode);
-
-  try {
-    const postResponse = await axios({
-      method: "POST",
-      url: "https://paiza-io.p.rapidapi.com/runners/create",
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-        "x-rapidapi-host": "paiza-io.p.rapidapi.com",
-        "x-rapidapi-key": process.env.RAPIDAI_API_KEY,
-        useQueryString: true,
-      },
-      params: {
-        language: language,
-        source_code: req.body.input,
-      },
-      data: {},
-    });
-    const [getOutput, getError] = await getCompiled(postResponse);
-    res.status(200).json({
-      success: true,
-      out: getOutput,
-      err: getError,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-// get request for compiled code result
-async function getCompiled(postRes) {
-  try {
-    const { data } = await axios({
-      method: "GET",
-      url: "https://paiza-io.p.rapidapi.com/runners/get_details",
-      headers: {
-        "content-type": "application/octet-stream",
-        "x-rapidapi-host": "paiza-io.p.rapidapi.com",
-        "x-rapidapi-key": process.env.RAPIDAI_API_KEY,
-        useQueryString: true,
-      },
-      params: {
-        id: postRes.data.id,
-      },
-    });
-    // if code still executing re-call the get request for at least 3 attempts
-    if (data.status === "running" && attempts < 3) {
-      setTimeout(() => {
+// get request for code compiler results
+function getCompiled(postRes, res) {
+  axios({
+    method: "GET",
+    url: "https://paiza-io.p.rapidapi.com/runners/get_details",
+    headers: {
+      "content-type": "application/octet-stream",
+      "x-rapidapi-host": "paiza-io.p.rapidapi.com",
+      "x-rapidapi-key": process.env.RAPIDAI_API_KEY,
+      useQueryString: true,
+    },
+    params: {
+      id: postRes.data.id,
+    },
+  })
+    .then(({ data }) => {
+      console.log(data);
+      if (data.status === "completed") {
+        // checks out build exit codes for compiled languages like go, c#, etc.
+        if (!data.build_exit_code) {
+          res.status(200).json({
+            success: true,
+            out: data.stdout,
+            err: data.stderr,
+          });
+        } else {
+          res.status(200).json({
+            success: true,
+            out: data.build_stdout,
+            err: data.build_stderr,
+          });
+        }
+      } else if (data.status === "running" && attempts < 3) {
         attempts++;
-        // recursive function. 
-        getCompiled(postRes);
-      }, 500);
-    } else if (attempts === 3) {
+        setTimeout(() => {
+          // recursive function.
+          // if compiler is still executing code function is called again after timeout
+          console.log(`attempt ${attempts + 1}`);
+          getCompiled(postRes, res);
+        }, 500);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
       res.status(500).json({
         error: true,
         data: null,
-        message: "code compile timed out"
+        message: "unable to get code from compiler API",
       });
-    } else if (data.status !== "running") {
-      // handles error for compiled languages like go, c++, etc. Build exit code of 0 is success!
-      if (!data.build_exit_code) {
-        return [data.stdout, data.stderr];
-      } else {
-        return [data.build_stdout, data.build_stderr]
-      }
-    }
-  } catch (err) {
-    console.log(err);
-  }
+    });
 }
 
 router.post("/api/code", (request, response) => {
-  compilerCall(request, response);
+  const language = compilerLang(request.body.mode);
+  // post request for submitting code. Id is returned for use in get request
+  axios({
+    method: "POST",
+    url: "https://paiza-io.p.rapidapi.com/runners/create",
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+      "x-rapidapi-host": "paiza-io.p.rapidapi.com",
+      "x-rapidapi-key": process.env.RAPIDAI_API_KEY,
+      useQueryString: true,
+    },
+    params: {
+      language: language,
+      source_code: request.body.input,
+    },
+    data: {},
+  })
+    .then((postResponse) => {
+      getCompiled(postResponse, response);
+    })
+    .catch((err) => {
+      console.log(err);
+      response.status(500).json({
+        error: true,
+        data: null,
+        message: "unable to post code to compiler API",
+      });
+    });
 });
 
 module.exports = router;
