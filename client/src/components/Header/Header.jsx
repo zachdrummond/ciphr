@@ -1,10 +1,10 @@
 // React
 import React from "react";
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 // Material UI
 import {
   AppBar,
+  Box,
   IconButton,
   List,
   ListItem,
@@ -18,12 +18,10 @@ import { Home } from "@material-ui/icons";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 // File Modules
-import AuthContext from "../../context/AuthContext/AuthContext";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
-import API from "../../utils/API";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -49,8 +47,6 @@ const navLinks = [
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
-  // Using AuthContextAPI to get the setJwt function
-  // const { jwt } = useContext(AuthContext);
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
@@ -106,10 +102,11 @@ const Header = ({ theme, setTheme }) => {
               <Home fontSize="large" />
             </IconButton>
           </Link>
-
-          <Typography variant="h6" className={classes.linkText}>
-            AlgoMaster
-          </Typography>
+          <Box align="center">
+            <Typography variant="h6" className={classes.linkText}>
+              AlgoMaster
+            </Typography>
+          </Box>
 
           <List component="nav" aria-labelledby="main navigation">
             {navLinks.map(({ title, path }) => (
@@ -154,15 +151,10 @@ const Header = ({ theme, setTheme }) => {
                   Logout
                 </Link>
               </MenuItem>
-              <MenuItem
-                // onClick={handleMenuClose}
-                onClick={handleAlertOpen}
-                style={{ color: "red" }}
-              >
+              <MenuItem onClick={handleAlertOpen} style={{ color: "red" }}>
                 Delete account
               </MenuItem>
             </Menu>
-            {/* <Avatar>H</Avatar> */}
           </List>
         </Toolbar>
       </AppBar>

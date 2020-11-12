@@ -22,36 +22,31 @@ router.get("/api/algorithm", function (request, response) {
 
 //Get my algorithms
 router.get("/api/algorithm/user/:userJwt", function (request, response) {
-  // console.log(request.params.userJwt);
-  const decoded = jwt.verify(
-    request.params.userJwt,
-    process.env.SECRET,
-    (err, decoded) => {
-      if (err) {
-        console.log(err);
-        return response.status(401).json({
-          error: true,
-          data: null,
-          message: "Invalid token.",
-        });
-      } else {
-        db.Users.findOne({ username: decoded.username }).then((user) => {
-          db.Algorithms.find({ userId: user._id })
-            .then((algorithms) => {
-              response.json(algorithms);
-            })
-            .catch((error) => {
-              console.log(error);
-              response.status(500).json({
-                error: true,
-                data: null,
-                message: "Failed to get algorithms.",
-              });
+  jwt.verify(request.params.userJwt, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      console.log(err);
+      return response.status(401).json({
+        error: true,
+        data: null,
+        message: "Invalid token.",
+      });
+    } else {
+      db.Users.findOne({ username: decoded.username }).then((user) => {
+        db.Algorithms.find({ userId: user._id })
+          .then((algorithms) => {
+            response.json(algorithms);
+          })
+          .catch((error) => {
+            console.log(error);
+            response.status(500).json({
+              error: true,
+              data: null,
+              message: "Failed to get algorithms.",
             });
-        });
-      }
+          });
+      });
     }
-  );
+  });
 });
 
 // Get a specific algorithm
@@ -75,7 +70,6 @@ router.get("/api/algorithm/:id", function (request, response) {
 // Create an algorithm
 router.post("/api/algorithm", (req, res) => {
   const { testCases, algorithm, userJwt } = req.body;
-  // console.log(userJwt);
   const decoded = jwt.verify(userJwt, process.env.SECRET, (err, decoded) => {
     if (err) {
       console.log(err);
@@ -85,10 +79,8 @@ router.post("/api/algorithm", (req, res) => {
         message: "Invalid token.",
       });
     } else {
-      // console.log("decoded:" + decoded.username);
       db.Users.findOne({ username: decoded.username })
         .then((user) => {
-          // console.log(user._id);
           // first test cases are created from the front end input (can be empty array!)
           db.TestCases.insertMany(testCases)
             .then((testCaseResponse) => {
@@ -144,26 +136,16 @@ router.post("/api/algorithm", (req, res) => {
 
 // Edit an algorithm
 router.put("/api/algorithm/:id", function (request, response) {
-  // const updatedAlgorithm = {
-  //   challengeName: request.body.algorithm.challengeName,
-  //   description: request.body.algorithm.description,
-  //   testCases: request.body.testCases,
-  // };
-  // console.log(updatedAlgorithm);
-  // console.log(request.params.id);
   // Restrict updates where the creatorId is equal to the user-provided token _id.
   db.Algorithms.findByIdAndUpdate(
-    // { _id: req.params.id, creatorId: decoded._id },
     request.params.id,
     {
       challengeName: request.body.algorithm.challengeName,
       description: request.body.algorithm.description,
-      // testCases: request.body.testCases,
     },
     { new: true }
   )
     .then((updated) => {
-      console.log(updated);
       if (!updated) {
         response.status(404).json({
           error: true,
@@ -189,9 +171,33 @@ router.put("/api/algorithm/:id", function (request, response) {
 
 // Delete an algorithm
 router.delete("/api/algorithm/:id", function (request, response) {
-  db.Algorithms.findByIdAndDelete(request.params.id).then((result) => {
-    response.json(result);
-  });
+  db.Algorithms.findByIdAndDelete(request.params.id)
+    .then((result) => {
+      console.log("Deleted Algorithm");
+      db.Users.updateOne({ $pull: { algorithms: request.params.id } })
+        .then((result) => {
+          console.log("Deleted User Algorithm");
+          res.status(200).json({
+            error: false,
+            data: null,
+            message: "Successfully deleted algorithm and updated user.",
+          });
+        })
+        .catch((err) => {
+          response.status(500).json({
+            error: true,
+            data: null,
+            message: "An error occurred deleting the user's algorithm.",
+          });
+        });
+    })
+    .catch((err) => {
+      response.status(500).json({
+        error: true,
+        data: null,
+        message: "An error occurred deleting your algorithm.",
+      });
+    });
 });
 
 module.exports = router;
