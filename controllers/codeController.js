@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
+// formats parameters for API call
 function compilerLang(lang) {
   switch (lang) {
     case "python":
@@ -17,6 +18,8 @@ function compilerLang(lang) {
   }
 }
 
+// sends post request to compiler API and recieves id of request
+// calls getCompiled function
 async function compilerCall(req, res) {
   const language = compilerLang(req.body.mode);
 
@@ -47,6 +50,7 @@ async function compilerCall(req, res) {
   }
 }
 
+// get request for compiled code result
 async function getCompiled(postRes) {
   let attempts = 0;
   try {
@@ -63,15 +67,22 @@ async function getCompiled(postRes) {
         id: postRes.data.id,
       },
     });
+    // if code still executing re-call the get request for at least 3 attempts
     if (data.status === "running" && attempts < 3) {
       setTimeout(() => {
         attempts++;
-        // recursive function
+        // recursive function. 
         getCompiled(postRes);
       }, 500);
+    } else if (attempts === 3) {
+      res.status(500).json({
+        error: true,
+        data: null,
+        message: "code compile timed out"
+      });
     } else {
+      // handles error for compiled languages like go, c++, etc. Build exit code of 0 is success!
       if (!data.build_exit_code) {
-        // console.log(data);
         return [data.stdout, data.stderr];
       } else {
         return [data.build_stdout, data.build_stderr]
