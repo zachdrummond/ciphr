@@ -179,7 +179,7 @@ router.delete("/api/algorithm/:id", function (request, response) {
   db.Algorithms.findByIdAndDelete(request.params.id)
     .then((result) => {
       console.log("Deleted Algorithm");
-      db.Users.findByIdAndDelete(request.params.id)
+      db.Users.updateOne({ $pull: { algorithms: request.params.id } })
         .then((result) => {
           console.log("Deleted User Algorithm");
           res.status(200).json({
