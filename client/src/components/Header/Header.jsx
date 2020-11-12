@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 // Material UI
 import {
   AppBar,
+  Box,
   IconButton,
   List,
   ListItem,
@@ -101,10 +102,11 @@ const Header = ({ theme, setTheme }) => {
               <Home fontSize="large" />
             </IconButton>
           </Link>
-
-          <Typography variant="h6" className={classes.linkText}>
-            AlgoMaster
-          </Typography>
+          <Box align="center">
+            <Typography variant="h6" className={classes.linkText}>
+              AlgoMaster
+            </Typography>
+          </Box>
 
           <List component="nav" aria-labelledby="main navigation">
             {navLinks.map(({ title, path }) => (
@@ -149,10 +151,7 @@ const Header = ({ theme, setTheme }) => {
                   Logout
                 </Link>
               </MenuItem>
-              <MenuItem
-                onClick={handleAlertOpen}
-                style={{ color: "red" }}
-              >
+              <MenuItem onClick={handleAlertOpen} style={{ color: "red" }}>
                 Delete account
               </MenuItem>
             </Menu>

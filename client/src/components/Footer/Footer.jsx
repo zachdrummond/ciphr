@@ -1,29 +1,36 @@
 import {
-    AppBar,
-    Container,
-    makeStyles,
-    Toolbar,
-    Typography,
-  } from "@material-ui/core";
+  AppBar,
+  Box,
+  makeStyles,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
 
-  const useStyles = makeStyles({
-    toolbar: {
-      align: "center",
-    },
-  });
+const useStyles = makeStyles({
+  appBar: {
+    top: 'auto',
+    bottom: 0,
+  },
+});
 
 export default function Footer() {
-    return (
-        
-        <AppBar className={useStyles.toolbar} position="static" color="primary">
-          <Container maxWidth="md">
-            <Toolbar  >
-              <Typography  align="center" position="static" variant="body1" color="inherit">
-                 ALGOMASTER &copy; 2020 -- Zach Drummond, Calvin Griffin, Joseph Perry, Andrew Stewart
-              </Typography>
-            </Toolbar>
-          </Container>
-        </AppBar>
-        
-    )
+  const classes = useStyles();
+  
+  return (
+    <AppBar className={classes.appBar} position="fixed" color="primary">
+        <Toolbar>
+          <Box margin="auto">
+          <Typography
+            align="center"
+            position="static"
+            variant="body1"
+            color="inherit"
+          >
+            ALGOMASTER &copy; 2020 -- Zach Drummond, Calvin Griffin, Joseph
+            Perry, Andrew Stewart
+          </Typography>
+          </Box>
+        </Toolbar>
+    </AppBar>
+  );
 }
