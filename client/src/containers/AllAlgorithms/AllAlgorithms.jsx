@@ -1,5 +1,5 @@
 // React
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 // Material UI
 import { makeStyles, Grid } from "@material-ui/core";
 // File Modules
