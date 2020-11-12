@@ -73,7 +73,11 @@ function App() {
                 component={Challenge}
                 theme={theme}
               />
-              <ProtectedRoute exact path="/algorithms" component={AllAlgorithms} />
+              <ProtectedRoute
+                exact
+                path="/algorithms"
+                component={AllAlgorithms}
+              />
               <ProtectedRoute exact path="/home" component={MyAlgorithms} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/login" component={Login} />
@@ -81,7 +85,7 @@ function App() {
               <Route path="/" component={NotFound} />
             </Switch>
           </AuthContext.Provider>
-          <Footer/>
+          <Footer />
         </Router>
       </ThemeProvider>
     </div>
