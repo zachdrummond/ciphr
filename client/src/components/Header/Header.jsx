@@ -1,5 +1,6 @@
 // React
-// import { useContext } from "react";
+import React from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 // Material UI
 import {
@@ -17,7 +18,12 @@ import { Home } from "@material-ui/icons";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 // File Modules
-// import AuthContext from "../../context/AuthContext/AuthContext";
+import AuthContext from "../../context/AuthContext/AuthContext";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import API from "../../utils/API";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -30,6 +36,10 @@ const useStyles = makeStyles({
     textTransform: `uppercase`,
     color: `white`,
   },
+  menuLink: {
+    textDecoration: `none`,
+    color: "black",
+  },
 });
 
 const navLinks = [
@@ -39,51 +49,133 @@ const navLinks = [
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
-    // Using AuthContextAPI to get the setJwt function
-    // const { jwt } = useContext(AuthContext);
+  // Using AuthContextAPI to get the setJwt function
+  // const { jwt } = useContext(AuthContext);
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
   };
 
+  //Account menu
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  //Delete dialog state
+
+  const [open, setOpen] = React.useState(false);
+
+  //Delete dialog
+
+  const handleAlertOpen = () => {
+    handleMenuClose();
+    setOpen(true);
+  };
+
+  const handleAlertClose = () => {
+    setOpen(false);
+  };
+
+  //Delete user function
+
+  // const deleteUser = () => {
+  //   API.deleteUser(id)
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
   return (
-    <AppBar position="static">
-      <Toolbar className={classes.toolbar}>
-        <Link to="/home">
-          <IconButton
-            edge="start"
-            className={classes.linkText}
-            aria-label="home"
-          >
-            <Home fontSize="large" />
-          </IconButton>
-        </Link>
-
-        <Typography variant="h6" className={classes.linkText}>
-          AlgoMaster
-        </Typography>
-
-        <List component="nav" aria-labelledby="main navigation">
-          {navLinks.map(({ title, path }) => (
-            <Link to={path} key={title} className={classes.linkText}>
-              <ListItem button>
-                <ListItemText primary={title} />
-              </ListItem>
-            </Link>
-          ))}
-          <Tooltip title="Toggle Light/Dark Theme" placement="bottom-end">
+    <>
+      <AppBar position="static">
+        <Toolbar className={classes.toolbar}>
+          <Link to="/home">
             <IconButton
-              edge="end"
-              color="inherit"
-              aria-label="mode"
-              onClick={changeMode}
+              edge="start"
+              className={classes.linkText}
+              aria-label="home"
             >
-              {theme ? <Brightness7Icon /> : <Brightness4Icon />}
+              <Home fontSize="large" />
             </IconButton>
-          </Tooltip>
-        </List>
-      </Toolbar>
-    </AppBar>
+          </Link>
+
+          <Typography variant="h6" className={classes.linkText}>
+            AlgoMaster
+          </Typography>
+
+          <List component="nav" aria-labelledby="main navigation">
+            {navLinks.map(({ title, path }) => (
+              <Link to={path} key={title} className={classes.linkText}>
+                <ListItem button>
+                  <ListItemText primary={title} />
+                </ListItem>
+              </Link>
+            ))}
+
+            <Tooltip title="Toggle Light/Dark Theme">
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="mode"
+                onClick={changeMode}
+              >
+                {theme ? <Brightness7Icon /> : <Brightness4Icon />}
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Account">
+              <IconButton
+                color="inherit"
+                aria-label="account"
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <AccountCircleIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+            >
+              <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+              <MenuItem onClick={handleMenuClose} to="/login">
+                <Link to="/login" className={classes.menuLink}>
+                  Logout
+                </Link>
+              </MenuItem>
+              <MenuItem
+                // onClick={handleMenuClose}
+                onClick={handleAlertOpen}
+                style={{ color: "red" }}
+              >
+                Delete account
+              </MenuItem>
+            </Menu>
+            {/* <Avatar>H</Avatar> */}
+          </List>
+        </Toolbar>
+      </AppBar>
+      <AlertDialog
+        open={open}
+        setOpen={setOpen}
+        dialogTitle="Delete Account?"
+        dialogContent="This action can't be undone... and you'll probably lose some friends. Knowing that, you would you still like to delete your Ciphr account?"
+        btn1="Cancel"
+        btn2="Delete"
+        btnColor="secondary"
+      />
+    </>
   );
 };
 export default Header;
