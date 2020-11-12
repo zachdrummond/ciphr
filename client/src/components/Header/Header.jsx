@@ -1,5 +1,6 @@
 // React
 import React from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 // Material UI
 import {
@@ -21,6 +22,8 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import API from "../../utils/API";
+import AuthContext from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -46,11 +49,8 @@ const navLinks = [
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
-<<<<<<< HEAD
   // Using AuthContextAPI to get the setJwt function
   const { jwt } = useContext(AuthContext);
-=======
->>>>>>> main
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
@@ -96,20 +96,21 @@ const Header = ({ theme, setTheme }) => {
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
           <Link to="/home">
-            <IconButton
-              edge="start"
-              className={classes.linkText}
-              aria-label="home"
-            >
-              <Home fontSize="large" />
-            </IconButton>
+            <Typography variant="h6" className={classes.linkText}>
+              AlgoMaster
+            </Typography>
           </Link>
 
-          <Typography variant="h6" className={classes.linkText}>
-            AlgoMaster
-          </Typography>
-
           <List component="nav" aria-labelledby="main navigation">
+            <Link to="/home">
+              <IconButton
+                edge="start"
+                className={classes.linkText}
+                aria-label="home"
+              >
+                <Home fontSize="large" />
+              </IconButton>
+            </Link>
             {navLinks.map(({ title, path }) => (
               <Link to={path} key={title} className={classes.linkText}>
                 <ListItem button>
@@ -147,10 +148,12 @@ const Header = ({ theme, setTheme }) => {
               onClose={handleMenuClose}
             >
               <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
-              <MenuItem onClick={handleMenuClose}>
-                <Link to="/login" className={classes.menuLink}>
-                  Logout
-                </Link>
+              <MenuItem
+                onClick={handleMenuClose}
+                component={Link}
+                to={"/login"}
+              >
+                Logout
               </MenuItem>
               <MenuItem onClick={handleAlertOpen} style={{ color: "red" }}>
                 Delete Account
