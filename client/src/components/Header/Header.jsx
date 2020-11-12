@@ -102,7 +102,7 @@ const Header = ({ theme, setTheme }) => {
           </Link>
 
           <List component="nav" aria-labelledby="main navigation">
-            <Link to="/home">
+            {jwt ? <Link to="/home">
               <IconButton
                 edge="start"
                 className={classes.linkText}
@@ -110,14 +110,14 @@ const Header = ({ theme, setTheme }) => {
               >
                 <Home fontSize="large" />
               </IconButton>
-            </Link>
-            {navLinks.map(({ title, path }) => (
+            </Link> : ""}
+            {jwt ? navLinks.map(({ title, path }) => (
               <Link to={path} key={title} className={classes.linkText}>
                 <ListItem button>
                   <ListItemText primary={title} />
                 </ListItem>
               </Link>
-            ))}
+            )) : ""}
 
             <Tooltip title="Toggle Light/Dark Theme">
               <IconButton
@@ -129,7 +129,7 @@ const Header = ({ theme, setTheme }) => {
                 {theme ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
             </Tooltip>
-            <Tooltip title="Account">
+            {jwt ? <Tooltip title="Account">
               <IconButton
                 color="inherit"
                 aria-label="account"
@@ -138,7 +138,7 @@ const Header = ({ theme, setTheme }) => {
               >
                 <AccountCircleIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> : ""}
 
             <Menu
               id="simple-menu"
