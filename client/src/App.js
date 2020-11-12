@@ -54,8 +54,8 @@ function App() {
       <ThemeProvider theme={appliedTheme}>
         <CssBaseline />
         <Router>
-          <Header theme={theme} setTheme={setTheme} />
           <AuthContext.Provider value={{ jwt, setJwt, username, setUsername }}>
+            <Header theme={theme} setTheme={setTheme} />
             <Switch>
               <ProtectedRoute
                 exact
@@ -70,7 +70,8 @@ function App() {
               <ProtectedRoute
                 exact
                 path="/algorithms/:algorithmId"
-                component={Challenge} theme={theme}
+                component={Challenge}
+                theme={theme}
               />
               <ProtectedRoute exact path="/algorithms" component={AllAlgorithms} />
               <ProtectedRoute exact path="/home" component={MyAlgorithms} />

@@ -46,6 +46,11 @@ const navLinks = [
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
+<<<<<<< HEAD
+  // Using AuthContextAPI to get the setJwt function
+  const { jwt } = useContext(AuthContext);
+=======
+>>>>>>> main
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
@@ -77,13 +82,14 @@ const Header = ({ theme, setTheme }) => {
 
   //Delete user function
 
-  // const deleteUser = () => {
-  //   API.deleteUser(id)
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+  const deleteUser = () => {
+    handleAlertClose();
+    API.deleteUser(jwt)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <>
@@ -161,6 +167,7 @@ const Header = ({ theme, setTheme }) => {
         btn1="Cancel"
         btn2="Delete"
         btnColor="secondary"
+        deleteUser={deleteUser}
       />
     </>
   );

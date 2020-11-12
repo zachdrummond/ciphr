@@ -32,6 +32,9 @@ const API = {
   signup: function (userInfo) {
     return axios.post("/api/signup", userInfo);
   },
+  deleteUser: function (jwt) {
+    return axios.delete(`/api/user/${jwt}`);
+  },
 };
 
 export default API;
