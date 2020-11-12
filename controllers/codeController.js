@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
+let attempts = 0;
 // formats parameters for API call
 function compilerLang(lang) {
   switch (lang) {
@@ -9,10 +10,16 @@ function compilerLang(lang) {
       return "python3";
     case "go":
       return "go";
-    case "clike":
+    case "java":
       return "java";
     case "r":
       return "r";
+    case "ruby":
+      return "ruby";
+    case "clike":
+      return "csharp";
+    case "sql":
+      return "mysql";
     default:
       return "javascript";
   }
@@ -52,7 +59,6 @@ async function compilerCall(req, res) {
 
 // get request for compiled code result
 async function getCompiled(postRes) {
-  let attempts = 0;
   try {
     const { data } = await axios({
       method: "GET",
