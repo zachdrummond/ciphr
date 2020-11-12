@@ -144,6 +144,7 @@ router.post("/api/algorithm", (req, res) => {
 
 // Edit an algorithm
 router.put("/api/algorithm/:id", function (request, response) {
+  // updates the challenge name and description of the Algorithm document
   db.Algorithms.findByIdAndUpdate(
     request.params.id,
     {
@@ -154,6 +155,7 @@ router.put("/api/algorithm/:id", function (request, response) {
   )
     .populate("testCases")
     .then((updated) => {
+      // goes through each test case and updates the content
       for (let i = 0; i < updated.testCases.length; i++) {
         db.TestCases.findByIdAndUpdate(
           updated.testCases[i]._id,
