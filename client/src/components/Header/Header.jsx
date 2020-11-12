@@ -90,7 +90,7 @@ const Header = ({ theme, setTheme }) => {
             </Link>
           ))}
 
-          <Tooltip title="Toggle Light/Dark Theme" placement="bottom-end">
+          <Tooltip title="Toggle Light/Dark Theme">
             <IconButton
               edge="end"
               color="inherit"
@@ -100,14 +100,17 @@ const Header = ({ theme, setTheme }) => {
               {theme ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Tooltip>
-          <IconButton
-            color="inherit"
-            aria-label="account"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            <AccountCircleIcon />
-          </IconButton>
+          <Tooltip title="Account">
+            <IconButton
+              color="inherit"
+              aria-label="account"
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <AccountCircleIcon />
+            </IconButton>
+          </Tooltip>
+
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}
@@ -121,7 +124,9 @@ const Header = ({ theme, setTheme }) => {
                 Logout
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>Delete account</MenuItem>
+            <MenuItem onClick={handleClose} style={{ color: "red" }}>
+              Delete account
+            </MenuItem>
           </Menu>
           {/* <Avatar>H</Avatar> */}
         </List>
