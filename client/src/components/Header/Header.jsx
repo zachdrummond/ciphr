@@ -23,6 +23,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import API from "../../utils/API";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -67,11 +68,11 @@ const Header = ({ theme, setTheme }) => {
     setAnchorEl(null);
   };
 
-  //Dialog state
+  //Delete dialog state
 
   const [open, setOpen] = React.useState(false);
 
-  //Delete account dialog
+  //Delete dialog
 
   const handleAlertOpen = () => {
     handleMenuClose();
@@ -81,6 +82,16 @@ const Header = ({ theme, setTheme }) => {
   const handleAlertClose = () => {
     setOpen(false);
   };
+
+  //Delete user function
+
+  // const deleteUser = () => {
+  //   API.deleteUser(id)
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <>
@@ -158,8 +169,8 @@ const Header = ({ theme, setTheme }) => {
       <AlertDialog
         open={open}
         setOpen={setOpen}
-        dialogueTitle="Delete Account?"
-        dialogueContent="This action can't be undone... and you'll probably lose some friends. Knowing that, you would you like to delete your Ciphr account?"
+        dialogTitle="Delete Account?"
+        dialogContent="This action can't be undone... and you'll probably lose some friends. Knowing that, you would you still like to delete your Ciphr account?"
         btn1="Cancel"
         btn2="Delete"
         btnColor="secondary"

@@ -9,8 +9,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 const AlertDialog = ({
   open,
   setOpen,
-  dialogueTitle,
-  dialogueContent,
+  dialogTitle,
+  dialogContent,
   btn1,
   btn2,
   btnColor,
@@ -25,10 +25,10 @@ const AlertDialog = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{dialogueTitle}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          {dialogueContent}
+          {dialogContent}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
