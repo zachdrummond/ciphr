@@ -99,6 +99,7 @@ export default function AddAlgorithm() {
       algorithm: {
         challengeName: algoInfo.challengeName,
         description: algoInfo.challengeDescription,
+        hashtags: algoInfo.hashtags
       },
       testCases: allUsedTests,
       userJwt: jwt,

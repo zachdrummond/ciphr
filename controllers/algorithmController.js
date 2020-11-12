@@ -95,6 +95,7 @@ router.post("/api/algorithm", (req, res) => {
             challengeName: algorithm.challengeName,
             // regex added to preserve line breaks in mongodb
             description: algorithm.description.replace(/(\r\n)/g, "<br>"),
+            hashtags: algorithm.hashtags,
             testCases: testCases,
             userId: user._id,
           })
