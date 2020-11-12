@@ -28,6 +28,7 @@ const CredentialsForm = ({
   link,
   linkText,
   error,
+  signupError,
 }) => {
   return (
     <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
@@ -43,8 +44,9 @@ const CredentialsForm = ({
         autoFocus
         value={username}
         onChange={handleInput}
-        error={error}
-        helperText={error?"Invalid username.":""}
+        error={error|| signupError}
+        
+        helperText={error && !signupError?"Invalid username.":"", signupError?"Username already exists.":""}
       />
       <TextField
         variant="outlined"
@@ -59,7 +61,7 @@ const CredentialsForm = ({
         value={password}
         onChange={handleInput}
         error={error}
-        helperText={error?"Invalid password.":""}
+        helperText={error && !signupError?"Invalid password.":""}
       />
       <Button
         type="submit"

@@ -125,12 +125,12 @@ const [error, setError] = useState(false);
             linkText={"New to Ciphr? Sign up here!"}
           />
         </div>
-        <ModalComponent
+        {/* <ModalComponent
         // open={open}
         // setOpen={setOpen}
         text="Invalid username or password. Please try again."
         url="/login"
-      />
+      /> */}
       </Grid>
     </Grid>
   );

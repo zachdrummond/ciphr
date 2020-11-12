@@ -64,16 +64,21 @@ export default function SignUpSide() {
     password: "",
   });
   // modal state
-  const [open, setOpen] = useState(false);
-  // modal functions
-  const handleModalOpen = () => {
-    setOpen(true);
-  };
+  // const [open, setOpen] = useState(false);
+  // // modal functions
+  // const handleModalOpen = () => {
+  //   setOpen(true);
+  // };
+  const [signupError, setSignupError] = useState(false);
+  const [error, setError] = useState(false);
+
 
   const handleInput = (e) => {
     const { name, value } = e.target;
     // handles input of either username or password
     setUserInfo({ ...userInfo, [name]: value });
+    setSignupError(false);
+    setError(false);
   };
 
   const handleSubmit = (e) => {
@@ -88,7 +93,8 @@ export default function SignUpSide() {
         history.push("/home");
       })
       .catch((error) => {
-        handleModalOpen();
+        setSignupError(true);
+        setError(true);
       });
   };
 
@@ -104,6 +110,7 @@ export default function SignUpSide() {
         </Typography>
         <CredentialsForm
           {...userInfo}
+          signupError={signupError}
           handleInput={handleInput}
           handleSubmit={handleSubmit}
           classes={classes}
@@ -112,12 +119,12 @@ export default function SignUpSide() {
           linkText={"Already have an account? Sign in here!"}
         />
       </div>
-      <ModalComponent
+      {/* <ModalComponent
         open={open}
         setOpen={setOpen}
         text="This username is already taken. Please choose another username."
         url="/signup"
-      />
+      /> */}
     </Container>
   );
 }
