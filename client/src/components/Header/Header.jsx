@@ -1,7 +1,6 @@
 // React
-import React from "react";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
 // Material UI
 import {
   AppBar,
@@ -51,13 +50,14 @@ const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
   // Using AuthContextAPI to get the setJwt function
   const { jwt } = useContext(AuthContext);
+  const history = useHistory();
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
   };
 
   //Account menu
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -68,7 +68,7 @@ const Header = ({ theme, setTheme }) => {
   };
 
   //Delete dialog state
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   //Delete dialog
   const handleAlertOpen = () => {
@@ -84,6 +84,7 @@ const Header = ({ theme, setTheme }) => {
 
   const deleteUser = () => {
     handleAlertClose();
+    history.push("/login");
     API.deleteUser(jwt)
       .then((res) => {
         console.log(res);
