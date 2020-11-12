@@ -1,4 +1,5 @@
 // React
+import React from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 // Material UI
@@ -18,6 +19,9 @@ import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 // File Modules
 import AuthContext from "../../context/AuthContext/AuthContext";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -30,6 +34,10 @@ const useStyles = makeStyles({
     textTransform: `uppercase`,
     color: `white`,
   },
+  menuLink: {
+    textDecoration: `none`,
+    color: "black",
+  },
 });
 
 const navLinks = [
@@ -39,11 +47,21 @@ const navLinks = [
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
-    // Using AuthContextAPI to get the setJwt function
-    const { jwt } = useContext(AuthContext);
+  // Using AuthContextAPI to get the setJwt function
+  const { jwt } = useContext(AuthContext);
 
   const changeMode = () => {
     !theme ? setTheme(true) : setTheme(false);
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -71,6 +89,7 @@ const Header = ({ theme, setTheme }) => {
               </ListItem>
             </Link>
           ))}
+
           <Tooltip title="Toggle Light/Dark Theme" placement="bottom-end">
             <IconButton
               edge="end"
@@ -81,6 +100,30 @@ const Header = ({ theme, setTheme }) => {
               {theme ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Tooltip>
+          <IconButton
+            color="inherit"
+            aria-label="account"
+            aria-haspopup="true"
+            onClick={handleClick}
+          >
+            <AccountCircleIcon />
+          </IconButton>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose} to="/login">
+              <Link to="/login" className={classes.menuLink}>
+                Logout
+              </Link>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>Delete account</MenuItem>
+          </Menu>
+          {/* <Avatar>H</Avatar> */}
         </List>
       </Toolbar>
     </AppBar>
