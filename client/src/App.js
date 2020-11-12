@@ -3,19 +3,21 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // Material UI
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 // File Modules
-import Login from "./containers/Login/Login";
-import SignUp from "./containers/SignUp/SignUp";
-import Home from "./containers/Home/Home";
+import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
+import AllAlgorithms from "./containers/AllAlgorithms/AllAlgorithms";
+import AuthContext from "./context/AuthContext/AuthContext";
 import Challenge from "./containers/Challenge/Challenge";
 import EditAlgorithm from "./containers/EditAlgorithm/EditAlgorithm";
-import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
-import NotFound from "./containers/NotFound/NotFound";
+import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
-import AuthContext from "./context/AuthContext/AuthContext";
-import setAxiosDefaults from "./utils/setAxiosDefaults";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import Login from "./containers/Login/Login";
+import MyAlgorithms from "./containers/MyAlgorithms/MyAlgorithms";
+import NotFound from "./containers/NotFound/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import setAxiosDefaults from "./utils/setAxiosDefaults";
+import SignUp from "./containers/SignUp/SignUp";
 
 // define dark/light themes
 
@@ -35,6 +37,7 @@ const darkTheme = createMuiTheme({
 
 function App() {
   const [jwt, setJwt] = useState("");
+  const [username, setUsername] = useState("");
 
   const [theme, setTheme] = React.useState(true);
   const appliedTheme = createMuiTheme(theme ? lightTheme : darkTheme);
@@ -52,9 +55,13 @@ function App() {
         <CssBaseline />
         <Router>
           <Header theme={theme} setTheme={setTheme} />
-          <AuthContext.Provider value={{ jwt, setJwt }}>
+          <AuthContext.Provider value={{ jwt, setJwt, username, setUsername }}>
             <Switch>
-              <ProtectedRoute exact path="/algorithms/new" component={AddAlgorithm} />
+              <ProtectedRoute
+                exact
+                path="/algorithms/new"
+                component={AddAlgorithm}
+              />
               <ProtectedRoute
                 exact
                 path="/algorithms/edit/:algorithmId"
@@ -62,16 +69,18 @@ function App() {
               />
               <ProtectedRoute
                 exact
-                path="/algorithms/:algorithmId" component={Challenge}
-                render={(props) => <Challenge {...props} theme={theme} />}
+                path="/algorithms/:algorithmId"
+                component={Challenge} theme={theme}
               />
-              <ProtectedRoute exact path="/home" component={Home} />
+              <ProtectedRoute exact path="/algorithms" component={AllAlgorithms} />
+              <ProtectedRoute exact path="/home" component={MyAlgorithms} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Login} />
               <Route path="/" component={NotFound} />
             </Switch>
           </AuthContext.Provider>
+          <Footer/>
         </Router>
       </ThemeProvider>
     </div>

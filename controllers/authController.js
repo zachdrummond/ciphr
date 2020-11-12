@@ -130,4 +130,11 @@ router.post("/api/login", (request, response) => {
     });
 });
 
+// Delete a user
+router.delete("/api/user/:id", function (request, response) {
+  db.Users.findByIdAndDelete(request.params.id).then((result) => {
+    response.json(result);
+  });
+});
+
 module.exports = router;

@@ -6,6 +6,7 @@ import { makeStyles, Grid, Fab, Box, Typography } from "@material-ui/core";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+// import UserContext from "../../context/UserContext/UserContext";
 import HomeSection from "../../components/HomeSection/HomeSection";
 
 // Styling for Specific Components
@@ -15,30 +16,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = () => {
+const MyAlgorithms = () => {
   const classes = useStyles();
-  const { jwt } = useContext(AuthContext);
+  const { jwt, username } = useContext(AuthContext);
 
-  const [allAlgorithms, setAllAlgorithms] = useState([]);
   const [myAlgorithms, setMyAlgorithms] = useState([]);
-
-  useEffect(() => {
-    getAllAlgorithms();
-  }, [allAlgorithms]);
 
   useEffect(() => {
     getMyAlgorithms();
   }, [myAlgorithms]);
-
-  const getAllAlgorithms = () => {
-    API.getAllAlgorithms()
-      .then((algorithms) => {
-        setAllAlgorithms(algorithms.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const getMyAlgorithms = () => {
     API.getMyAlgorithms(jwt)
@@ -57,11 +43,11 @@ const Home = () => {
           {/* Welcome Message */}
           <Box p={3}>
             <Typography variant="h3" component="h3" align="center">
-              Welcome Username!
+              Welcome {username}!
             </Typography>
           </Box>
         </Grid>
-        <HomeSection size={6} title="My Algorithms" algorithms={myAlgorithms}>
+        <HomeSection size={12} title={`${username} Algorithms`} algorithms={myAlgorithms}>
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">
@@ -70,14 +56,9 @@ const Home = () => {
             </Link>
           </Box>
         </HomeSection>
-        <HomeSection
-          size={6}
-          title="All Algorithms"
-          algorithms={allAlgorithms}
-        />
       </Grid>
     </div>
   );
 };
 
-export default Home;
+export default MyAlgorithms;
