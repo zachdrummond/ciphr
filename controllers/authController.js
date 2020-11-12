@@ -118,6 +118,13 @@ router.post("/api/login", (request, response) => {
               message: "Password is incorrect.",
             });
           });
+      } else {
+        console.log(error);
+        response.status(500).json({
+          error: true,
+          data: null,
+          message: "Unable to find user.",
+        });
       }
     })
     .catch((error) => {
