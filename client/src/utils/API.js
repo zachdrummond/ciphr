@@ -33,6 +33,9 @@ const API = {
   addAlgorithm: function (algorithm) {
     return axios.post("/api/algorithm", algorithm);
   },
+  deleteUser: function (jwt) {
+    return axios.delete(`/api/user/${jwt}`);
+  },
 };
 
 export default API;

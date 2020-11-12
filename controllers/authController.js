@@ -131,9 +131,33 @@ router.post("/api/login", (request, response) => {
 });
 
 // Delete a user
-router.delete("/api/user/:id", function (request, response) {
-  db.Users.findByIdAndDelete(request.params.id).then((result) => {
-    response.json(result);
+router.delete("/api/user/:userJwt", function (request, response) {
+  jwt.verify(request.params.userJwt, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      console.log(err);
+      return response.status(401).json({
+        error: true,
+        data: null,
+        message: "Invalid token.",
+      });
+    } else {
+      console.log("hey");
+      db.Users.findOneAndDelete({ username: decoded.username }).then((user) => {
+        console.log("hey again");
+        // db.Algorithms.find({ userId: user._id })
+        //   .then((algorithms) => {
+        //     response.json(algorithms);
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //     response.status(500).json({
+        //       error: true,
+        //       data: null,
+        //       message: "Failed to delete user.",
+        //     });
+        // });
+      });
+    }
   });
 });
 
