@@ -24,6 +24,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -80,10 +81,16 @@ const Header = ({ theme, setTheme }) => {
     setOpen(false);
   };
 
+  //Delete confirmation
+  const handleSnackbarOpen = () => {
+    setSnackbarOpen(false);
+  };
+
   //Delete user function
 
   const deleteUser = () => {
     handleAlertClose();
+    handleSnackbarOpen();
     API.deleteUser(jwt)
       .then((res) => {
         console.log(res);
@@ -169,6 +176,7 @@ const Header = ({ theme, setTheme }) => {
         btnColor="secondary"
         deleteUser={deleteUser}
       />
+      <Snackbar />
     </>
   );
 };
