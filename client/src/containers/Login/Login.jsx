@@ -14,7 +14,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
-import UserContext from "../../context/UserContext/UserContext";
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,8 +55,7 @@ export default function SignInSide() {
   const history = useHistory();
 
   // Using AuthContextAPI to get the setJwt function
-  const { setJwt } = useContext(AuthContext);
-  const { setUsername } = useContext(UserContext);
+  const { setJwt, setUsername } = useContext(AuthContext);
 
   // hook configures username/password state
   // to find state in dev tools 'Components' look under 'SignInSide'

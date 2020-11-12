@@ -6,7 +6,7 @@ import { makeStyles, Grid, Fab, Box, Typography } from "@material-ui/core";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
-import UserContext from "../../context/UserContext/UserContext";
+// import UserContext from "../../context/UserContext/UserContext";
 import HomeSection from "../../components/HomeSection/HomeSection";
 
 // Styling for Specific Components
@@ -18,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  const { jwt } = useContext(AuthContext);
-  const { username } = useContext(UserContext);
+  const { jwt, username } = useContext(AuthContext);
 
   const [allAlgorithms, setAllAlgorithms] = useState([]);
   const [myAlgorithms, setMyAlgorithms] = useState([]);
