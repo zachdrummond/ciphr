@@ -6,17 +6,18 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 // File Modules
 import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
+import AllAlgorithms from "./containers/AllAlgorithms/AllAlgorithms";
 import AuthContext from "./context/AuthContext/AuthContext";
 import Challenge from "./containers/Challenge/Challenge";
 import EditAlgorithm from "./containers/EditAlgorithm/EditAlgorithm";
-import Header from "./components/Header/Header";
-import Home from "./containers/Home/Home";
-import Login from "./containers/Login/Login";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import SignUp from "./containers/SignUp/SignUp";
-import NotFound from "./containers/NotFound/NotFound";
-import setAxiosDefaults from "./utils/setAxiosDefaults";
 import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
+import Login from "./containers/Login/Login";
+import MyAlgorithms from "./containers/MyAlgorithms/MyAlgorithms";
+import NotFound from "./containers/NotFound/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import setAxiosDefaults from "./utils/setAxiosDefaults";
+import SignUp from "./containers/SignUp/SignUp";
 
 // define dark/light themes
 
@@ -71,7 +72,8 @@ function App() {
                 path="/algorithms/:algorithmId"
                 component={Challenge} theme={theme}
               />
-              <ProtectedRoute exact path="/home" component={Home} />
+              <ProtectedRoute exact path="/algorithms" component={AllAlgorithms} />
+              <ProtectedRoute exact path="/home" component={MyAlgorithms} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Login} />
