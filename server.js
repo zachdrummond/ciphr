@@ -13,6 +13,7 @@ app.use(express.static("client/build"));
 app.use(require("./controllers/algorithmController.js"));
 app.use(require("./controllers/authController.js"));
 app.use(require("./controllers/codeController"))
+app.use(require("./controllers/starController"))
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/algorithmsDB", {
     useNewUrlParser: true,

@@ -22,6 +22,12 @@ const UsersSchema = new Schema({
           ref: "Algorithms",
         },
       ],
+    starred: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Algorithms",
+        },
+      ],
 })
 
 const Users = mongoose.model("Users", UsersSchema);
