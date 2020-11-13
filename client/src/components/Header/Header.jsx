@@ -24,6 +24,7 @@ import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import TheSnackbar from "../Snackbar/TheSnackbar";
+import FullscreenDialog from "../FullscreenDialog/FullscreenDialog";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -68,10 +69,9 @@ const Header = ({ theme, setTheme }) => {
     setAnchorEl(null);
   };
 
-  //Dialog state
+  //Dialog
   const [open, setOpen] = useState(false);
 
-  //Delete dialog
   const handleAlertOpen = () => {
     handleMenuClose();
     setOpen(true);
@@ -94,6 +94,14 @@ const Header = ({ theme, setTheme }) => {
       return;
     }
     setSnackbarOpen(false);
+  };
+
+  //Fullscreen dialog
+  const [openFSDialog, setOpenFSDialog] = useState(false);
+
+  const handleFSDialogOpen = () => {
+    handleMenuClose();
+    setOpenFSDialog(true);
   };
 
   //Delete user function
@@ -175,7 +183,7 @@ const Header = ({ theme, setTheme }) => {
               open={Boolean(anchorEl)}
               onClose={handleMenuClose}
             >
-              <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+              <MenuItem onClick={handleFSDialogOpen}>My Account</MenuItem>
               <MenuItem
                 onClick={handleMenuClose}
                 component={Link}
@@ -204,6 +212,10 @@ const Header = ({ theme, setTheme }) => {
         snackbarOpen={snackbarOpen}
         setSnackbarOpen={setSnackbarOpen}
         message="Your account has been deleted"
+      />
+      <FullscreenDialog
+        openFSDialog={openFSDialog}
+        setOpenFSDialog={setOpenFSDialog}
       />
     </>
   );
