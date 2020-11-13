@@ -18,6 +18,7 @@ import AuthContext from "../../context/AuthContext/AuthContext";
 import ModalComponent from "../../components/Modal/ModalComponent";
 import TestCase from "../../components/TestCase/TestCase";
 import useTestCase from "../../utils/useTestCase";
+import { response } from "express";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -58,6 +59,9 @@ export default function AddAlgorithm() {
   const handleModalOpen = () => {
     setOpen(true);
   };
+  // form error state
+  const [error, setError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
 
   // each time the button is clicked the count is incremented
   const handleTestButton = () => {
@@ -82,6 +86,8 @@ export default function AddAlgorithm() {
     const { name, value } = e.target;
     // handles input of either challenge name or description
     setAlgoInfo({ ...algoInfo, [name]: value });
+    setError(false);
+    setDescriptionError(false);
   };
 
   const handleSaveAlgo = (e) => {
@@ -106,6 +112,12 @@ export default function AddAlgorithm() {
         handleModalOpen();
       })
       .catch((err) => {
+        if (!algoInfo.challengeName) {
+          setError(true);
+        }
+        if (!algoInfo.challengeDescription) {
+          setDescriptionError(true);
+        }
         console.log(err);
       });
   };
@@ -141,12 +153,15 @@ export default function AddAlgorithm() {
                 label="Challenge name"
                 multiline
                 required
+                autoFocus
                 rowsMax={4}
                 name="challengeName"
                 value={algoInfo.challengeName}
                 onChange={handleInput}
                 variant="outlined"
                 fullWidth
+                error={error}
+                helperText={error ? "Must include a challenge name." : ""}
               />
 
               <Typography variant="h6" color="textPrimary" align="left">
@@ -165,6 +180,12 @@ export default function AddAlgorithm() {
                 variant="outlined"
                 fullWidth
                 rows={4}
+                error={descriptionError}
+                helperText={
+                  descriptionError
+                    ? "Must include a challenge description."
+                    : ""
+                }
               />
               {/* map over array of test case hooks */}
               {allTests.map((test, index) => {
@@ -217,10 +238,11 @@ export default function AddAlgorithm() {
         </Grid>
       </Grid>
       <ModalComponent
-      open={open}
-      setOpen={setOpen}
-      text="Algorithm Successfully Added!"
-      url="/home"/>
+        open={open}
+        setOpen={setOpen}
+        text="Algorithm Successfully Added!"
+        url="/home"
+      />
     </Container>
   );
 }

@@ -15,7 +15,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
-import ModalComponent from "../../components/Modal/ModalComponent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
