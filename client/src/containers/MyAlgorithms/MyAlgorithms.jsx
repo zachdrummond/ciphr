@@ -38,7 +38,11 @@ const MyAlgorithms = () => {
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
-        <HomeSection size={12} title={`${username} Algorithms`} algorithms={myAlgorithms}>
+        <HomeSection
+          size={12}
+          title={`${username} Algorithms`}
+          algorithms={myAlgorithms}
+        >
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">

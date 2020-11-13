@@ -13,7 +13,7 @@ const AlgorithmsSchema = new Schema(
       required: true,
     },
     hashtags: {
-      type: String
+      type: Array
     },
     // an array of possible test cases for the algorithm
     testCases: [

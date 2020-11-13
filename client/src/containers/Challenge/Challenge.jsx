@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     resize: "vertical",
     width: "100%",
   },
+  chip: {
+    margin: theme.spacing(0.5)
+  },
   column: {
     margin: theme.spacing(1, 0),
   },
@@ -48,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 1),
   },
   titleBottom: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(3),
   },
   formControl: {
     margin: theme.spacing(1),
@@ -66,12 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Challenge = ({ theme }) => {
   const classes = useStyles();
-
-  useEffect(() => {
-    !theme
-      ? setOptions({ ...options, theme: "material-darker" })
-      : setOptions({ ...options, theme: "default" });
-  }, [theme]);
+  const { algoId } = useParams();
 
   // const [code, setCode] = useState("// Code")
   const [options, setOptions] = useState({
@@ -85,7 +83,26 @@ const Challenge = ({ theme }) => {
   const [output, setOutput] = useState("");
   const [algorithm, setAlgorithm] = useState("");
 
-  const { algoId } = useParams();
+  useEffect(() => {
+    !theme
+      ? setOptions({ ...options, theme: "material-darker" })
+      : setOptions({ ...options, theme: "default" });
+  }, [theme]);
+
+  useEffect(() => {
+    //get id from url
+    let url = window.location.href;
+    let id = url.substring(url.lastIndexOf("/") + 1);
+    // make API call to get algorithm by id
+    API.getAlgorithm(id)
+      .then((response) => {
+        setAlgorithm(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [algoId]);
 
   // changes the value of the input hook
   const handleInputChange = (e) => {
@@ -124,21 +141,6 @@ const Challenge = ({ theme }) => {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    //get id from url
-    let url = window.location.href;
-    let id = url.substring(url.lastIndexOf("/") + 1);
-    // make API call to get algorithm by id
-    API.getAlgorithm(id)
-      .then((response) => {
-        setAlgorithm(response.data);
-        console.log(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [algoId]);
 
   return (
     <Container maxWidth="lg">
@@ -282,7 +284,12 @@ const Challenge = ({ theme }) => {
                 >
                   Hashtags
                 </Typography>
-                <Chip label={algorithm.hashtags} color="secondary" />
+                {algorithm.hashtags
+                  ? algorithm.hashtags.map((hashtag) => (
+                      <Chip label={hashtag} color="secondary" size="small" className={classes.chip}/>
+                    ))
+                  : ""}
+
                 <Box
                   p={3}
                   mt={1}
