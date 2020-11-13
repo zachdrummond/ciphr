@@ -44,7 +44,6 @@ const AllAlgorithms = () => {
     API.getAllAlgorithms()
       .then((algorithms) => {
         setAllAlgorithms(algorithms.data);
-        console.log(algorithms.data);
       })
       .catch((error) => {
         console.log(error);

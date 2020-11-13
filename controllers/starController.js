@@ -46,7 +46,6 @@ router.post("/api/star/:id", (req, res) => {
           { new: true }
         )
           .then((userOne) => {
-            console.log(userOne);
           })
           .catch((err) => {
             console.log(err);
@@ -79,10 +78,8 @@ router.post("/api/star/:id", (req, res) => {
           { new: true }
         )
           .then((userTwo) => {
-            console.log(userTwo);
           })
           .catch((err) => {
-            console.log(err);
             console.log(err);
             res.status(500).json({
               error: true,
