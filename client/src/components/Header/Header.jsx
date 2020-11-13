@@ -89,12 +89,12 @@ const Header = ({ theme, setTheme }) => {
     console.log("snackbar!");
   };
 
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackbarOpen(false);
-  };
+  // const handleSnackbarClose = (event, reason) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+  //   setSnackbarOpen(false);
+  // };
 
   //Fullscreen dialog
   const [openFSDialog, setOpenFSDialog] = useState(false);
@@ -104,10 +104,15 @@ const Header = ({ theme, setTheme }) => {
     setOpenFSDialog(true);
   };
 
+  const handleFSDialogClose = () => {
+    setOpenFSDialog(false);
+  };
+
   //Delete user function
 
   const deleteUser = () => {
     handleAlertClose();
+    handleFSDialogClose();
     handleSnackbarOpen();
     history.push("/login");
     API.deleteUser(jwt)
@@ -191,9 +196,6 @@ const Header = ({ theme, setTheme }) => {
               >
                 Logout
               </MenuItem>
-              <MenuItem onClick={handleAlertOpen} style={{ color: "red" }}>
-                Delete Account
-              </MenuItem>
             </Menu>
           </List>
         </Toolbar>
@@ -216,6 +218,7 @@ const Header = ({ theme, setTheme }) => {
       <AccountDialog
         openFSDialog={openFSDialog}
         setOpenFSDialog={setOpenFSDialog}
+        handleAlertOpen={handleAlertOpen}
       />
     </>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -14,6 +15,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import EditIcon from "@material-ui/icons/Edit";
 import Tooltip from "@material-ui/core/Tooltip";
+import AuthContext from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -29,7 +31,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AccountDialog = ({ openFSDialog, setOpenFSDialog }) => {
+const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
+  const { username, password } = useContext(AuthContext);
+
   const classes = useStyles();
 
   const handleClose = () => {
@@ -55,7 +59,7 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog }) => {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Sound
+              Account Settings
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
               save
@@ -64,7 +68,7 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog }) => {
         </AppBar>
         <List>
           <ListItem button>
-            <ListItemText primary="Username" secondary="Username" />
+            <ListItemText primary="Username" secondary={username} />
           </ListItem>
           <Divider />
           <ListItem button>
@@ -86,7 +90,9 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog }) => {
           </ListItem>
           <Divider />
           <ListItem>
-            <Button color="secondary">Delete Account</Button>
+            <Button onClick={handleAlertOpen} color="secondary">
+              Delete Account
+            </Button>
           </ListItem>
         </List>
       </Dialog>
