@@ -19,7 +19,7 @@ const TheSnackbar = ({ snackbarOpen, setSnackbarOpen, message }) => {
         horizontal: "left",
       }}
       open={snackbarOpen}
-      autoHideDuration={4000}
+      autoHideDuration={3000}
       onClose={handleClose}
       message={message}
       action={
