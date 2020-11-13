@@ -18,7 +18,6 @@ import AuthContext from "../../context/AuthContext/AuthContext";
 import ModalComponent from "../../components/Modal/ModalComponent";
 import TestCase from "../../components/TestCase/TestCase";
 import useTestCase from "../../utils/useTestCase";
-import { response } from "express";
 
 const useStyles = makeStyles((theme) => ({
   form: {
