@@ -88,6 +88,7 @@ export default function AddAlgorithm() {
       }
     }
 
+    // Convert the hashtags to an array
     const hashtagArray = algoInfo.hashtags.match(/#\w+/g);
 
     API.addAlgorithm({
