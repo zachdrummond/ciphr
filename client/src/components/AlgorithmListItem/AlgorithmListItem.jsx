@@ -13,14 +13,15 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
-const AlgorithmListItem = ({ title, author, id }) => {
-  const handleDelete = (e) => {
-    API.deleteAlgorithm(id)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  };
+const AlgorithmListItem = ({ title, author, id, handleDelete }) => {
+  // const handleDelete = (e) => {
+  //   API.deleteAlgorithm(id)
+  //     .then((res) => {
+  //       console.log(res);
+
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <div>
@@ -40,7 +41,7 @@ const AlgorithmListItem = ({ title, author, id }) => {
             </IconButton>
             <IconButton
               value={id}
-              onClick={handleDelete}
+              onClick={()=>handleDelete(id)}
               edge="end"
               aria-label="delete"
             >
