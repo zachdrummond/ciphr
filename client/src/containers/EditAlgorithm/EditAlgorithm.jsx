@@ -68,16 +68,44 @@ export default function EditAlgorithm() {
   // testCount keeps track of how many test cases there are
   const [testCount, setTestCount] = useState(0);
   // modal state
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   // algorithm state
   const [algoInfo, setAlgoInfo] = useState({});
+  // form error state
+  const [error, setError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+
+  useEffect(() => {
+    //get id from url
+    let url = window.location.href;
+    let id = url.substring(url.lastIndexOf("/") + 1);
+    // make API call to get algorithm by id
+    API.getAlgorithm(id)
+      .then((response) => {
+        // Convert the hashtags to a String
+        setAlgoInfo({
+          ...response.data,
+          hashtags: response.data.hashtags.join(" "),
+        });
+        setTestCount(response.data.testCases.length);
+
+        for (let i = 0; i < response.data.testCases.length; i++) {
+          allTests[i].updateTestCase(
+            response.data.testCases[i].input,
+            response.data.testCases[i].output
+          );
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id]);
+
   // modal functions
   const handleOpen = () => {
     setOpen(true);
   };
-  // form error state
-  const [error, setError] = useState(false);
-  const [descriptionError, setDescriptionError] = useState(false);
+
   const handleClose = () => {
     setOpen(false);
     history.push("/home");
@@ -117,11 +145,16 @@ export default function EditAlgorithm() {
         allUsedTests.push(allTests[i].test);
       }
     }
+
+    // Convert the hashtags to an array
+    const hashtagArray = algoInfo.hashtags.match(/#\w+/g);
+
     if (algoInfo.challengeName && algoInfo.description) {
       API.editAlgorithm(id, {
         algorithm: {
           challengeName: algoInfo.challengeName,
           description: algoInfo.description,
+          hashtags: hashtagArray,
         },
         testCases: allUsedTests,
       })
@@ -139,35 +172,8 @@ export default function EditAlgorithm() {
       if (!algoInfo.challengeName) {
         setError(true);
       }
-      
     }
   };
-
-  useEffect(() => {
-    //get id from url
-    let url = window.location.href;
-    let id = url.substring(url.lastIndexOf("/") + 1);
-    // make API call to get algorithm by id
-    API.getAlgorithm(id)
-      .then((response) => {
-        setAlgoInfo(response.data);
-        setTestCount(response.data.testCases.length);
-
-        // testOne.updateTestCase(
-        //   response.data.testCases[0].input,
-        //   response.data.testCases[0].output
-        // );
-        for (let i = 0; i < response.data.testCases.length; i++) {
-          allTests[i].updateTestCase(
-            response.data.testCases[i].input,
-            response.data.testCases[i].output
-          );
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id]);
 
   return (
     <Container maxWidth="sm">
@@ -229,6 +235,28 @@ export default function EditAlgorithm() {
                     : ""
                 }
               />
+
+              <Typography
+                variant="h6"
+                color="textPrimary"
+                align="left"
+                display="inline"
+              >
+                Add Hashtags!
+              </Typography>
+
+              <TextField
+                id="algo-description"
+                multiline
+                rowsMax={4}
+                name="hashtags"
+                value={algoInfo.hashtags}
+                onChange={handleInput}
+                variant="outlined"
+                fullWidth
+                rows={4}
+              />
+
               {/* map over array of test case hooks */}
               {allTests.map((test, index) => {
                 if (index < testCount) {
@@ -242,7 +270,7 @@ export default function EditAlgorithm() {
                     />
                   );
                 }
-                return null; // IS THIS OKAY? THERE WAS A BUG THAT EXPECTED A RETURN
+                return "";
               })}
 
               <Button
@@ -268,11 +296,7 @@ export default function EditAlgorithm() {
               ) : (
                 <></>
               )}
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
+              <Button variant="contained" color="primary" type="submit">
                 Save
               </Button>
             </form>

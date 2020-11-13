@@ -77,8 +77,8 @@ router.get("/api/algorithm/:id", function (request, response) {
 });
 
 // Create an algorithm
-router.post("/api/algorithm", (req, res) => {
-  const { testCases, algorithm, userJwt } = req.body;
+router.post("/api/algorithm", (request, response) => {
+  const { testCases, algorithm, userJwt } = request.body;
   jwt.verify(userJwt, process.env.SECRET, (error, decoded) => {
     if (error) {
       console.log(error);
@@ -106,7 +106,7 @@ router.post("/api/algorithm", (req, res) => {
                   { new: true }
                 )
                 .then((updatedUser) => {
-                  res.status(200).json({
+                  response.status(200).json({
                     error: false,
                     data: newAlgorithm,
                     message: "Successfully added algorithm and updated user.",
@@ -114,7 +114,7 @@ router.post("/api/algorithm", (req, res) => {
                 })
                 .catch((error) => {
                   console.log(error);
-                  res.status(500).json({
+                  response.status(500).json({
                     error: true,
                     data: null,
                     message: "Failed to update user.",
@@ -123,7 +123,7 @@ router.post("/api/algorithm", (req, res) => {
             })
             .catch((error) => {
               console.log(error);
-              res.status(500).json({
+              response.status(500).json({
                 error: true,
                 data: null,
                 message: "Failed to create algorithm.",
@@ -132,7 +132,7 @@ router.post("/api/algorithm", (req, res) => {
         })
         .catch((error) => {
           console.log(error);
-          res.status(500).json({
+          response.status(500).json({
             error: true,
             data: null,
             message: "Failed to find user.",
@@ -151,6 +151,7 @@ router.put("/api/algorithm/:id", function (request, response) {
     {
       challengeName: algorithm.challengeName,
       description: algorithm.description,
+      hashtags: algorithm.hashtags
     },
     { new: true }
   )
@@ -161,7 +162,7 @@ router.put("/api/algorithm/:id", function (request, response) {
         .then((updatedTest) => {
           response.status(200).json({
             error: false,
-            data: updatedTest,
+            data: updated,
             message: "Successfully updated algorithm and test.",
           });
         })
@@ -190,7 +191,7 @@ router.delete("/api/algorithm/:id", function (request, response) {
     .then((result) => {
       db.Users.updateOne({ $pull: { algorithms: request.params.id } })
         .then((result) => {
-          res.status(200).json({
+          response.status(200).json({
             error: false,
             data: null,
             message: "Successfully deleted algorithm and updated user.",

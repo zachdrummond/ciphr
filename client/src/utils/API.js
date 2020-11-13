@@ -7,8 +7,8 @@ const API = {
   deleteAlgorithm: function (id) {
     return axios.delete(`/api/algorithm/${id}`);
   },
-  editAlgorithm: function (id, data) {
-    return axios.put(`/api/algorithm/${id}`, data);
+  editAlgorithm: function (id, algorithm) {
+    return axios.put(`/api/algorithm/${id}`, algorithm);
   },
   getAllAlgorithms: function () {
     return axios.get("/api/algorithm");
