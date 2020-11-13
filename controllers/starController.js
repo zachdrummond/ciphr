@@ -2,22 +2,33 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 
+// upon page load of an algorithm liked status is checked
 router.get("/api/star/:id/:username", (req, res) => {
-  db.Users.findOne({ username: req.params.username }).populate("starred").then((user) => {
-
-    let status = false;
-    for (const algo of user.starred) {
-        console.log(algo._id.toString())
-      if (req.params.id === algo._id.toString()) {
-        status = true;
+  db.Users.findOne({ username: req.params.username })
+    .populate("starred")
+    .then((user) => {
+      // returns a starred status of false unless id is found in the users list of starred algorithms
+      let status = false;
+      for (const algo of user.starred) {
+        console.log(algo._id.toString());
+        if (req.params.id === algo._id.toString()) {
+          status = true;
+        }
       }
-    }
-    res.status(200).json({
-      error: false,
-      data: status,
-      message: "Like status retrieved.",
+      res.status(200).json({
+        error: false,
+        data: status,
+        message: "Like status retrieved.",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: true,
+        data: null,
+        message: "Unable to retrieve like status.",
+      });
     });
-  });
 });
 
 router.post("/api/star/:id", (req, res) => {
@@ -40,10 +51,20 @@ router.post("/api/star/:id", (req, res) => {
           })
           .catch((err) => {
             console.log(err);
+            res.status(500).json({
+              error: true,
+              data: null,
+              message: "Unable to add star to user model.",
+            });
           });
       })
       .catch((err) => {
         console.log(err);
+        res.status(500).json({
+          error: true,
+          data: null,
+          message: "Unable to find user.",
+        });
       });
   } else {
     db.Algorithms.findOneAndUpdate(
@@ -63,10 +84,21 @@ router.post("/api/star/:id", (req, res) => {
           })
           .catch((err) => {
             console.log(err);
+            console.log(err);
+            res.status(500).json({
+              error: true,
+              data: null,
+              message: "Unable to delete star from user model.",
+            });
           });
       })
       .catch((err) => {
         console.log(err);
+        res.status(500).json({
+          error: true,
+          data: null,
+          message: "Unable to find user.",
+        });
       });
   }
 });

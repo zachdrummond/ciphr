@@ -103,13 +103,11 @@ const Challenge = ({ theme }) => {
   }, [theme]);
 
   useEffect(() => {
-    //get id from url
-    // let url = window.location.href;
-    // let id = url.substring(url.lastIndexOf("/") + 1);
     // make API call to get algorithm by id
     API.getAlgorithm(algorithmId)
       .then((response) => {
         setAlgorithm(response.data);
+        // gets status of star (ie. liked/disliked)
         API.getStar(algorithmId, username).then((starRes) => {
           setStar(starRes.data.data);
         }).catch(err => {
@@ -121,8 +119,8 @@ const Challenge = ({ theme }) => {
       });
   }, []);
 
-  const toggleStar = (e) => {
-    console.log(algorithmId);
+  // toggles star icon off/on
+  const toggleStar = () => {
     setStar(!star);
     API.star(algorithmId, star, username)
       .then((response) => {
@@ -131,7 +129,6 @@ const Challenge = ({ theme }) => {
       .catch((err) => {
         console.log(err);
       });
-    // console.log(star)
   };
 
   // changes the value of the input hook
@@ -189,7 +186,6 @@ const Challenge = ({ theme }) => {
           >
             {algorithm.challengeName}
           </Typography>
-          {/*TODO:*/}
           <FormControlLabel
             control={
               <Checkbox
