@@ -42,7 +42,6 @@ function getCompiled(postRes, res) {
     },
   })
     .then(({ data }) => {
-      console.log(data);
       if (data.status === "completed") {
         // checks out build exit codes for compiled languages like go, c#, etc. Value of 0 = success!
         if (!data.build_exit_code) {
@@ -63,7 +62,6 @@ function getCompiled(postRes, res) {
         setTimeout(() => {
           // recursive function.
           // if compiler is still executing code function is called again after timeout
-          console.log(`attempt ${attempts + 1}`);
           getCompiled(postRes, res);
         }, 500);
       }
