@@ -132,7 +132,7 @@ router.post("/api/algorithm", (req, res) => {
         })
         .catch((error) => {
           console.log(error);
-          response.status(500).json({
+          res.status(500).json({
             error: true,
             data: null,
             message: "Failed to find user.",

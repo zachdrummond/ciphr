@@ -26,7 +26,7 @@ export default function Footer() {
             variant="body1"
             color="inherit"
           >
-            ALGOMASTER &copy; 2020 -- Zach Drummond, Calvin Griffin, Joseph
+            Ciphr &copy; 2020 -- Zach Drummond, Calvin Griffin, Joseph
             Perry, Andrew Stewart
           </Typography>
           </Box>
