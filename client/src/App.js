@@ -77,9 +77,9 @@ function App() {
               <ProtectedRoute
                 exact
                 path="/algorithms"
-                component={AllAlgorithms}
+                component={MyAlgorithms}
               />
-              <ProtectedRoute exact path="/home" component={MyAlgorithms} />
+              <ProtectedRoute exact path="/home" component={AllAlgorithms} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Login} />
