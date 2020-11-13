@@ -75,7 +75,9 @@ export default function EditAlgorithm() {
   const handleOpen = () => {
     setOpen(true);
   };
-
+  // form error state
+  const [error, setError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
   const handleClose = () => {
     setOpen(false);
     history.push("/home");
@@ -99,6 +101,8 @@ export default function EditAlgorithm() {
     const { name, value } = e.target;
     // handles input of either challenge name or description
     setAlgoInfo({ ...algoInfo, [name]: value });
+    setError(false);
+    setDescriptionError(false);
   };
 
   const handleSaveAlgo = (e) => {
@@ -113,21 +117,30 @@ export default function EditAlgorithm() {
         allUsedTests.push(allTests[i].test);
       }
     }
-
-    API.editAlgorithm(id, {
-
-      algorithm: {
-        challengeName: algoInfo.challengeName,
-        description: algoInfo.description,
-      },
-      testCases: allUsedTests,
-    })
-      .then((response) => {
-        // console.log(response);
+    if (algoInfo.challengeName && algoInfo.description) {
+      API.editAlgorithm(id, {
+        algorithm: {
+          challengeName: algoInfo.challengeName,
+          description: algoInfo.description,
+        },
+        testCases: allUsedTests,
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((response) => {
+          // console.log(response);
+          handleOpen();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      if (!algoInfo.description) {
+        setDescriptionError(true);
+      }
+      if (!algoInfo.challengeName) {
+        setError(true);
+      }
+      
+    }
   };
 
   useEffect(() => {
@@ -145,9 +158,11 @@ export default function EditAlgorithm() {
         //   response.data.testCases[0].output
         // );
         for (let i = 0; i < response.data.testCases.length; i++) {
-          allTests[i].updateTestCase( response.data.testCases[i].input, response.data.testCases[i].output);
+          allTests[i].updateTestCase(
+            response.data.testCases[i].input,
+            response.data.testCases[i].output
+          );
         }
-
       })
       .catch((err) => {
         console.log(err);
@@ -189,6 +204,8 @@ export default function EditAlgorithm() {
                 onChange={handleInput}
                 variant="outlined"
                 fullWidth
+                error={error}
+                helperText={error ? "Must include a challenge name." : ""}
               />
 
               <Typography variant="h6" color="textPrimary" align="left">
@@ -205,13 +222,18 @@ export default function EditAlgorithm() {
                 variant="outlined"
                 fullWidth
                 rows={4}
+                error={descriptionError}
+                helperText={
+                  descriptionError
+                    ? "Must include a challenge description."
+                    : ""
+                }
               />
               {/* map over array of test case hooks */}
               {allTests.map((test, index) => {
                 if (index < testCount) {
                   return (
                     <TestCase
-                      
                       key={`Test Case ${index + 1}`}
                       header={`Test Case ${index + 1}`}
                       setCase={test.setTestCase}
@@ -247,7 +269,6 @@ export default function EditAlgorithm() {
                 <></>
               )}
               <Button
-                onClick={handleOpen}
                 variant="contained"
                 color="primary"
                 type="submit"

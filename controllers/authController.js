@@ -119,7 +119,6 @@ router.post("/api/login", (request, response) => {
             });
           });
       } else {
-        console.log(error);
         response.status(500).json({
           error: true,
           data: null,
