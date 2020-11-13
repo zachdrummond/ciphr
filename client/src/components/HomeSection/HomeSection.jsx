@@ -1,5 +1,5 @@
 // React imports
-import React from 'react';
+import React from "react";
 // Material UI
 import { Container, Grid, List, makeStyles, Paper } from "@material-ui/core";
 // File Modules
@@ -10,8 +10,8 @@ import HomeCard from "../HomeCard/HomeCard";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    maxHeight: 500, 
-    overflow: 'auto',
+    maxHeight: 500,
+    overflow: "auto",
   },
   paper: {
     padding: theme.spacing(2),
