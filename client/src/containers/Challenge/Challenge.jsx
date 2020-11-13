@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   titleBottom: {
     marginBottom: theme.spacing(3),
+    width: "100%"
   },
   formControl: {
     margin: theme.spacing(1),
@@ -137,7 +138,6 @@ const Challenge = ({ theme }) => {
   };
 
   const handleOptionsChange = (e) => {
-    console.log(e.target.value);
     const language = e.target.value;
 
     setOptions({ ...options, mode: language });
@@ -297,7 +297,7 @@ const Challenge = ({ theme }) => {
                 <Typography
                   className={classes.titleBottom}
                   variant="body1"
-                  multiline={true}
+                  multiline="true"
                   color="textPrimary"
                   align="left"
                   style={{ whiteSpace: "pre-line" }}
