@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2, 0),
+    margin: theme.spacing(0, 2),
     textAlign: "center",
     color: theme.palette.text.primary,
     fontSize: "1.5rem",
@@ -40,9 +41,8 @@ const HomeSection = ({ size, title, children, algorithms, handleDelete }) => {
     <Container maxWidth="md">
       <Grid item xs={size}>
         <Paper className={classes.paper}>
-          <CenteredTabs />
-          <Divider />
-
+          {/* <CenteredTabs />
+          <Divider /> */}
           <Typography
             variant="h5"
             color="textPrimary"
