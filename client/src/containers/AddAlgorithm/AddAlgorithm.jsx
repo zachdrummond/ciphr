@@ -42,6 +42,12 @@ export default function AddAlgorithm() {
   const classes = useStyles();
   const { jwt } = useContext(AuthContext);
 
+  const [algoInfo, setAlgoInfo] = useState({
+    challengeName: "",
+    challengeDescription: "",
+    hashtags: "",
+  });
+
   // custom hook imported from useTestCase.js
   // instance for each test case
   const testOne = useTestCase();
@@ -54,32 +60,10 @@ export default function AddAlgorithm() {
   const [testCount, setTestCount] = useState(0);
   // modal state
   const [open, setOpen] = useState(false);
-  // modal functions
-  const handleModalOpen = () => {
-    setOpen(true);
-  };
+
   // form error state
   const [error, setError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
-
-  // each time the button is clicked the count is incremented
-  const handleTestButton = () => {
-    if (testCount < 4) {
-      const newCount = testCount + 1;
-      setTestCount(newCount);
-    }
-  };
-
-  // decrements testCount value to remove test cases
-  const handleSeeLess = () => {
-    const newCount = testCount - 1;
-    setTestCount(newCount);
-  };
-
-  const [algoInfo, setAlgoInfo] = useState({
-    challengeName: "",
-    challengeDescription: "",
-  });
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -87,6 +71,11 @@ export default function AddAlgorithm() {
     setAlgoInfo({ ...algoInfo, [name]: value });
     setError(false);
     setDescriptionError(false);
+  };
+
+  // modal functions
+  const handleModalOpen = () => {
+    setOpen(true);
   };
 
   const handleSaveAlgo = (e) => {
@@ -99,10 +88,13 @@ export default function AddAlgorithm() {
       }
     }
 
+    const hashtagArray = algoInfo.hashtags.match(/#\w+/g);
+
     API.addAlgorithm({
       algorithm: {
         challengeName: algoInfo.challengeName,
         description: algoInfo.challengeDescription,
+        hashtags: hashtagArray,
       },
       testCases: allUsedTests,
       userJwt: jwt,
@@ -121,6 +113,20 @@ export default function AddAlgorithm() {
       });
   };
 
+  // each time the button is clicked the count is incremented
+  const handleTestButton = () => {
+    if (testCount < 4) {
+      const newCount = testCount + 1;
+      setTestCount(newCount);
+    }
+  };
+
+  // decrements testCount value to remove test cases
+  const handleSeeLess = () => {
+    const newCount = testCount - 1;
+    setTestCount(newCount);
+  };
+
   return (
     <Container maxWidth="sm">
       <Grid container className={classes.mastergrid}>
@@ -129,7 +135,7 @@ export default function AddAlgorithm() {
             className={classes.titleBottom}
             variant="h4"
             color="textPrimary"
-            align="left"
+            align="center"
           >
             Add an Algorithm
           </Typography>
@@ -162,8 +168,12 @@ export default function AddAlgorithm() {
                 error={error}
                 helperText={error ? "Must include a challenge name." : ""}
               />
-
-              <Typography variant="h6" color="textPrimary" align="left">
+              <Typography
+                variant="h6"
+                color="textPrimary"
+                align="left"
+                display="inline"
+              >
                 Tell us about your Algorithm
               </Typography>
 
@@ -186,6 +196,29 @@ export default function AddAlgorithm() {
                     : ""
                 }
               />
+
+              <Typography
+                variant="h6"
+                color="textPrimary"
+                align="left"
+                display="inline"
+              >
+                Add Hashtags!
+              </Typography>
+
+              <TextField
+                id="algo-description"
+                label="#algorithm"
+                multiline
+                rowsMax={4}
+                name="hashtags"
+                value={algoInfo.hashtags}
+                onChange={handleInput}
+                variant="outlined"
+                fullWidth
+                rows={4}
+              />
+
               {/* map over array of test case hooks */}
               {allTests.map((test, index) => {
                 if (index < testCount) {
@@ -198,7 +231,7 @@ export default function AddAlgorithm() {
                     />
                   );
                 }
-                return null; // IS THIS OKAY? THERE WAS A BUG THAT EXPECTED A RETURN
+                return "";
               })}
 
               <Button
