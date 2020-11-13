@@ -1,5 +1,5 @@
 // React
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 // Material UI
 import {
@@ -35,6 +35,8 @@ import "codemirror/mode/ruby/ruby";
 import "codemirror/mode/sql/sql";
 // import all the themes from codemirror/theme/...
 import "codemirror/theme/material-darker.css";
+// Context API
+import AuthContext from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -76,6 +78,8 @@ const Challenge = ({ theme }) => {
   const classes = useStyles();
   const { algorithmId } = useParams();
 
+  const { username } = useContext(AuthContext);
+
   // const [code, setCode] = useState("// Code")
   const [options, setOptions] = useState({
     mode: "javascript",
@@ -116,7 +120,7 @@ const Challenge = ({ theme }) => {
   const toggleStar = (e) => {
     console.log(algorithmId);
     setStar(!star);
-    API.star(algorithmId, star)
+    API.star(algorithmId, star, username)
       .then((response) => {
         console.log(response);
       })

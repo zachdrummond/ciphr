@@ -1,6 +1,4 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const router = express.Router();
 const db = require("../models");
 
@@ -11,17 +9,47 @@ router.post("/api/star/:id", (req, res) => {
       { _id: req.params.id },
       { $inc: { stars: 1 } },
       { new: true }
-    ).then((response) => {
-      console.log("increase: " + response);
-    });
+    )
+      .then((addResponse) => {
+        // algorithm id is added to user model 'starred' array
+        db.Users.findOneAndUpdate(
+          { username: req.body.user },
+          { $push: { starred: addResponse } },
+          { new: true }
+        )
+          .then((userOne) => {
+            console.log(userOne);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   } else {
     db.Algorithms.findOneAndUpdate(
       { _id: req.params.id },
       { $inc: { stars: -1 } },
       { new: true }
-    ).then((response) => {
-      console.log("decrease: " + response);
-    });
+    )
+      .then((deleteResponse) => {
+        // algorithm id is removed from user model 'starred' array
+        db.Users.updateOne(
+          { username: req.body.user },
+          { $pull: { starred: deleteResponse._id } },
+          { new: true }
+        )
+          .then((userTwo) => {
+            console.log(userTwo);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 });
 
