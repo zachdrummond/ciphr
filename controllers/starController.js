@@ -5,21 +5,24 @@ const router = express.Router();
 const db = require("../models");
 
 router.post("/api/star/:id", (req, res) => {
-  if (req.body.data.starred) {
-    db.Algorithms.findOne(
+  // if algorithm is starred the star key is incremented, unstarred = decrement
+  if (!req.body.status) {
+    db.Algorithms.findOneAndUpdate(
       { _id: req.params.id },
       { $inc: { stars: 1 } },
       { new: true }
     ).then((response) => {
-      console.log(response);
+      console.log("increase: " + response);
     });
   } else {
-    db.Algorithms.findOne(
+    db.Algorithms.findOneAndUpdate(
       { _id: req.params.id },
       { $inc: { stars: -1 } },
       { new: true }
     ).then((response) => {
-      console.log(response);
+      console.log("decrease: " + response);
     });
   }
 });
+
+module.exports = router;

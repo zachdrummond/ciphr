@@ -19,8 +19,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@material-ui/core";
-import {Stars,
-  StarsOutlined} from "@material-ui/icons"
+import { Stars, StarsOutlined } from "@material-ui/icons";
 // File Modules
 import API from "../../utils/API";
 // Code Mirror
@@ -75,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Challenge = ({ theme }) => {
   const classes = useStyles();
-  const { algoId } = useParams();
+  const { algorithmId } = useParams();
 
   // const [code, setCode] = useState("// Code")
   const [options, setOptions] = useState({
@@ -101,10 +100,10 @@ const Challenge = ({ theme }) => {
 
   useEffect(() => {
     //get id from url
-    let url = window.location.href;
-    let id = url.substring(url.lastIndexOf("/") + 1);
+    // let url = window.location.href;
+    // let id = url.substring(url.lastIndexOf("/") + 1);
     // make API call to get algorithm by id
-    API.getAlgorithm(id)
+    API.getAlgorithm(algorithmId)
       .then((response) => {
         setAlgorithm(response.data);
         console.log(response.data);
@@ -112,12 +111,20 @@ const Challenge = ({ theme }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [algoId]);
+  }, []);
 
   const toggleStar = (e) => {
+    console.log(algorithmId);
     setStar(!star);
-    console.log(star)
-  }
+    API.star(algorithmId, star)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // console.log(star)
+  };
 
   // changes the value of the input hook
   const handleInputChange = (e) => {
@@ -178,8 +185,8 @@ const Challenge = ({ theme }) => {
           <FormControlLabel
             control={
               <Checkbox
-              checked={star} 
-              onChange={toggleStar}
+                checked={star}
+                onChange={toggleStar}
                 icon={<StarsOutlined />}
                 checkedIcon={<Stars />}
                 name="checkedH"

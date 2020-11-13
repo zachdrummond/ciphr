@@ -39,7 +39,9 @@ const API = {
     return axios({
       url: `/api/star/${id}`,
       method: "POST",
-      data: status
+      data: {
+        status
+      },
     })
   }
 };
