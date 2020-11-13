@@ -6,6 +6,7 @@ import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import HomeSection from "../../components/HomeSection/HomeSection";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +50,9 @@ const AllAlgorithms = () => {
           size={12}
           title="All Algorithms"
           algorithms={allAlgorithms}
-        />
+        >
+          <SearchBar />
+        </HomeSection>
       </Grid>
     </div>
   );
