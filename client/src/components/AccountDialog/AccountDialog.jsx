@@ -73,9 +73,9 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
             <Typography variant="h6" className={classes.title}>
               Account Settings
             </Typography>
-            {/* <Button autoFocus color="inherit" onClick={handleClose}>
+            <Button autoFocus color="inherit" onClick={handleClose}>
               save
-            </Button> */}
+            </Button>
           </Toolbar>
         </AppBar>
         <List>
@@ -113,8 +113,9 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
         openFormDialog={openFormDialog}
         setOpenFormDialog={setOpenFormDialog}
         title="Update Password"
-        content="Enter a new password when ready"
-        label="New Password"
+        content="Enter your old password first. Then enter a new password."
+        label1="Old Password"
+        label2="New Password"
         btn1="Cancel"
         btn2="Save"
       />

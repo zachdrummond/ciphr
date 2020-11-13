@@ -13,7 +13,8 @@ const FormDialog = ({
   setOpenFormDialog,
   title,
   content,
-  label,
+  label1,
+  label2,
   btn1,
   btn2,
 }) => {
@@ -47,8 +48,16 @@ const FormDialog = ({
           <TextField
             autoFocus
             margin="dense"
-            id="name"
-            label={label}
+            id="outlined-basic"
+            label={label1}
+            type="text"
+            fullWidth
+          />
+          <TextField
+            // autoFocus
+            margin="dense"
+            id="outlined-basic"
+            label={label2}
             type="text"
             fullWidth
           />
