@@ -28,12 +28,15 @@ const AllAlgorithms = () => {
 
   const filterAlgorithms = () => {
     return allAlgorithms.filter((algorithm) => {
-      // return algorithm.challengeName
-      //   .toLowerCase()
-      //   .startsWith(search.toLowerCase());
-     const banana = algorithm.hashtags.filter((hashtag)=> hashtag.toLowerCase().startsWith(`#${search.toLowerCase()}`));
-     console.log(banana);
-     return banana;
+      return (
+        algorithm.challengeName
+          .toLowerCase()
+          .startsWith(search.toLowerCase()) ||
+        algorithm.hashtags
+          .join("")
+          .toLowerCase()
+          .includes(`#${search.toLowerCase()}`)
+      );
     });
   };
 
@@ -41,6 +44,7 @@ const AllAlgorithms = () => {
     API.getAllAlgorithms()
       .then((algorithms) => {
         setAllAlgorithms(algorithms.data);
+        console.log(algorithms.data);
       })
       .catch((error) => {
         console.log(error);
