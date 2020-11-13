@@ -1,5 +1,6 @@
 // React imports
 import React from "react";
+
 // Material UI
 import {
   Container,
@@ -34,15 +35,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomeSection = ({ size, title, children, algorithms, handleDelete }) => {
+const HomeSection = ({ size, title, children, algorithms, handleDelete, tabValue }) => {
   const classes = useStyles();
 
   return (
     <Container maxWidth="md">
       <Grid item xs={size}>
         <Paper className={classes.paper}>
-          {/* <CenteredTabs />
-          <Divider /> */}
+          <CenteredTabs tabValue={tabValue} />
+          <Divider />
           <Typography
             variant="h5"
             color="textPrimary"
