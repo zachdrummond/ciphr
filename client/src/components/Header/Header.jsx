@@ -6,8 +6,6 @@ import {
   AppBar,
   IconButton,
   List,
-  ListItem,
-  ListItemText,
   makeStyles,
   Toolbar,
   Tooltip,
@@ -42,11 +40,6 @@ const useStyles = makeStyles({
     color: "black",
   },
 });
-
-// const navLinks = [
-//   { title: `Add Algorithm`, path: `/algorithms/new` },
-//   { title: `My Algorithms`, path: `/algorithms` },
-// ];
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
@@ -128,7 +121,7 @@ const Header = ({ theme, setTheme }) => {
         <Toolbar className={classes.toolbar}>
           <Link to="/home">
             <Typography variant="h6" className={classes.linkText}>
-            Ciphr
+              Ciphr
             </Typography>
           </Link>
 
@@ -140,7 +133,7 @@ const Header = ({ theme, setTheme }) => {
                   className={classes.linkText}
                   aria-label="home"
                 >
-                  <Home fontSize="medium" />
+                  <Home fontSize="default" />
                 </IconButton>
               </Link>
             ) : (
@@ -153,22 +146,12 @@ const Header = ({ theme, setTheme }) => {
                   className={classes.linkText}
                   aria-label="add"
                 >
-                  <Add fontSize="medium" />
+                  <Add fontSize="default" />
                 </IconButton>
               </Link>
             ) : (
               ""
             )}
-            {/* {jwt
-              ? navLinks.map(({ title, path }) => (
-                  <Link to={path} key={title} className={classes.linkText}>
-                    <ListItem button>
-                      <ListItemText primary={title} />
-                    </ListItem>
-                  </Link>
-                ))
-              : ""} */}
-
             <Tooltip title="Toggle Light/Dark Theme">
               <IconButton
                 edge="end"
