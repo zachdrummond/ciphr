@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -16,6 +16,7 @@ import Slide from "@material-ui/core/Slide";
 import EditIcon from "@material-ui/icons/Edit";
 import Tooltip from "@material-ui/core/Tooltip";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import FormDialog from "../FormDialog/FormDialog";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -40,6 +41,17 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
     setOpenFSDialog(false);
   };
 
+  //Form Dialog
+  const [openFormDialog, setOpenFormDialog] = useState(false);
+
+  const showForm = () => {
+    setOpenFormDialog(true);
+  };
+
+  // const hideForm = () => {
+  //   setOpenFormDialog(false);
+  // };
+
   return (
     <div>
       <Dialog
@@ -61,9 +73,9 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
             <Typography variant="h6" className={classes.title}>
               Account Settings
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            {/* <Button autoFocus color="inherit" onClick={handleClose}>
               save
-            </Button>
+            </Button> */}
           </Toolbar>
         </AppBar>
         <List>
@@ -81,6 +93,7 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
               <IconButton
                 // component={Link}
                 // to={`/algorithms/edit/${id}`}
+                onClick={showForm}
                 edge="end"
                 aria-label="edit"
               >
@@ -96,6 +109,15 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
           </ListItem>
         </List>
       </Dialog>
+      <FormDialog
+        openFormDialog={openFormDialog}
+        setOpenFormDialog={setOpenFormDialog}
+        title="Update Password"
+        content="Enter a new password when ready"
+        label="New Password"
+        btn1="Cancel"
+        btn2="Save"
+      />
     </div>
   );
 };
