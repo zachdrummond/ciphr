@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomeSection = ({ size, title, children, algorithms }) => {
+const HomeSection = ({ size, title, children, algorithms, handleDelete }) => {
   const classes = useStyles();
 
   return (
@@ -37,6 +37,7 @@ const HomeSection = ({ size, title, children, algorithms }) => {
               const { _id, challengeName, user } = algorithm;
               return (
                 <AlgorithmListItem
+                  handleDelete={handleDelete}
                   key={_id}
                   title={challengeName}
                   author={user?.username}
