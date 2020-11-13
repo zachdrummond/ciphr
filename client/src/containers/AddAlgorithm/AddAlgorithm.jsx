@@ -103,6 +103,7 @@ export default function AddAlgorithm() {
       userJwt: jwt,
     })
       .then((response) => {
+        handleModalOpen();
       })
       .catch((err) => {
         console.log(err);
@@ -139,6 +140,7 @@ export default function AddAlgorithm() {
                 id="algo-name"
                 label="Challenge name"
                 multiline
+                required
                 rowsMax={4}
                 name="challengeName"
                 value={algoInfo.challengeName}
@@ -155,6 +157,7 @@ export default function AddAlgorithm() {
                 id="algo-description"
                 label="Challenge Description"
                 multiline
+                required
                 rowsMax={4}
                 name="challengeDescription"
                 value={algoInfo.challengeDescription}
@@ -202,7 +205,7 @@ export default function AddAlgorithm() {
                 <></>
               )}
               <Button
-                onClick={handleModalOpen}
+                // onClick={handleModalOpen}
                 variant="contained"
                 color="primary"
                 type="submit"
