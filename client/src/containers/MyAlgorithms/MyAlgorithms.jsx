@@ -56,7 +56,7 @@ const MyAlgorithms = () => {
             </Typography>
           </Box>
         </Grid>
-        <HomeSection handleDelete={handleDelete} size={12} title={`${username}'s Algorithms`} algorithms={myAlgorithms}>
+        <HomeSection tabValue={1} handleDelete={handleDelete} size={12} title={`${username}'s Algorithms`} algorithms={myAlgorithms}>
           <Box m={2}>
             <Link to={"/algorithms/new"}>
               <Fab color="primary" variant="extended">

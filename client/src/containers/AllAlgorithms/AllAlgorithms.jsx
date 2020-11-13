@@ -67,6 +67,7 @@ const AllAlgorithms = () => {
           </Box>
         </Grid>
         <HomeSection
+        tabValue={0}
           size={12}
           title="All Algorithms"
           algorithms={filterAlgorithms()}
