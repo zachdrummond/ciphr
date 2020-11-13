@@ -27,6 +27,8 @@ import "codemirror/mode/go/go";
 import "codemirror/mode/clike/clike";
 import "codemirror/mode/r/r";
 import "codemirror/mode/shell/shell";
+import "codemirror/mode/ruby/ruby";
+import "codemirror/mode/sql/sql";
 // import all the themes from codemirror/theme/...
 import "codemirror/theme/material-darker.css";
 
@@ -213,8 +215,11 @@ const Challenge = ({ theme }) => {
                       <MenuItem value="javascript">Node.js</MenuItem>
                       <MenuItem value="python">Python3</MenuItem>
                       <MenuItem value="go">Golang</MenuItem>
-                      <MenuItem value="clike">Java</MenuItem>
+                      <MenuItem value="java">Java</MenuItem>
                       <MenuItem value="r">R</MenuItem>
+                      <MenuItem value="clike">C#</MenuItem>
+                      <MenuItem value="ruby">Ruby</MenuItem>
+                      <MenuItem value="sql">SQL</MenuItem>
                     </Select>
                   </FormControl>
                 </Typography>
