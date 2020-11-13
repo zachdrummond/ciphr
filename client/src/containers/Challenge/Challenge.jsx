@@ -16,7 +16,11 @@ import {
   Select,
   Typography,
   CircularProgress,
+  FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
+import {Stars,
+  StarsOutlined} from "@material-ui/icons"
 // File Modules
 import API from "../../utils/API";
 // Code Mirror
@@ -86,6 +90,8 @@ const Challenge = ({ theme }) => {
   const [algorithm, setAlgorithm] = useState("");
   // state of code compiler after submit
   const [running, setRunning] = useState(false);
+  // star status
+  const [star, setStar] = useState(false);
 
   useEffect(() => {
     !theme
@@ -107,6 +113,11 @@ const Challenge = ({ theme }) => {
         console.log(err);
       });
   }, [algoId]);
+
+  const toggleStar = (e) => {
+    setStar(!star);
+    console.log(star)
+  }
 
   // changes the value of the input hook
   const handleInputChange = (e) => {
@@ -163,6 +174,19 @@ const Challenge = ({ theme }) => {
           >
             {algorithm.challengeName}
           </Typography>
+          {/*TODO:*/}
+          <FormControlLabel
+            control={
+              <Checkbox
+              checked={star} 
+              onChange={toggleStar}
+                icon={<StarsOutlined />}
+                checkedIcon={<Stars />}
+                name="checkedH"
+              />
+            }
+            label="Star"
+          />
           <Typography
             className={classes.titleBottom}
             variant="h6"
@@ -207,7 +231,11 @@ const Challenge = ({ theme }) => {
                     className={classes.runButton}
                   >
                     {/* Upon code submit 'running' is set to True, upon API response set to false */}
-                    {running ? (<CircularProgress size={30} color="secondary"/>) : <p>Run</p>}
+                    {running ? (
+                      <CircularProgress size={30} color="secondary" />
+                    ) : (
+                      <p>Run</p>
+                    )}
                   </Button>
                   <FormControl
                     variant="outlined"
