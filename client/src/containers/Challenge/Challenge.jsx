@@ -15,6 +15,7 @@ import {
   Paper,
   Select,
   Typography,
+  CircularProgress,
 } from "@material-ui/core";
 // File Modules
 import API from "../../utils/API";
@@ -64,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
   runButton: {
     margin: 20,
     width: 100,
+    height: 40,
   },
 }));
 
@@ -82,6 +84,8 @@ const Challenge = ({ theme }) => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [algorithm, setAlgorithm] = useState("");
+  // state of code compiler after submit
+  const [running, setRunning] = useState(false);
 
   useEffect(() => {
     !theme
@@ -118,11 +122,13 @@ const Challenge = ({ theme }) => {
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
-
     // stops function if no code is entered
     if (input.length === 0) {
       alert("No code to run!");
       return;
+    } else {
+      // circular progress on button engadged
+      setRunning(true);
     }
     // post code/input to server (codeController.js) where third party api call is made
     API.postCode(input, options.mode)
@@ -136,6 +142,8 @@ const Challenge = ({ theme }) => {
         } else if (data.err.length === 0) {
           setOutput(data.out);
         }
+        // circular progress stopped
+        setRunning(false);
       })
       .catch((err) => {
         console.log(err);
@@ -197,7 +205,8 @@ const Challenge = ({ theme }) => {
                     color="primary"
                     className={classes.runButton}
                   >
-                    Run
+                    {/* Upon code submit 'running' is set to True, upon API response set to false */}
+                    {running ? (<CircularProgress size={30} color="secondary"/>) : <p>Run</p>}
                   </Button>
                   <FormControl
                     variant="outlined"
