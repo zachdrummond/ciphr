@@ -10,7 +10,6 @@ router.get("/api/star/:id/:username", (req, res) => {
       // returns a starred status of false unless id is found in the users list of starred algorithms
       let status = false;
       for (const algo of user.starred) {
-        console.log(algo._id.toString());
         if (req.params.id === algo._id.toString()) {
           status = true;
         }
