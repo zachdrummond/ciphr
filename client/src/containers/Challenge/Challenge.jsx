@@ -1,5 +1,5 @@
 // React
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 // Material UI
 import {
@@ -16,7 +16,10 @@ import {
   Select,
   Typography,
   CircularProgress,
+  FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
+import { Stars, StarsOutlined } from "@material-ui/icons";
 // File Modules
 import API from "../../utils/API";
 // Code Mirror
@@ -32,6 +35,8 @@ import "codemirror/mode/ruby/ruby";
 import "codemirror/mode/sql/sql";
 // import all the themes from codemirror/theme/...
 import "codemirror/theme/material-darker.css";
+// Context API
+import AuthContext from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -72,7 +77,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Challenge = ({ theme }) => {
   const classes = useStyles();
-  const { algoId } = useParams();
+  const { algorithmId } = useParams();
+
+  const { username } = useContext(AuthContext);
 
   // const [code, setCode] = useState("// Code")
   const [options, setOptions] = useState({
@@ -87,6 +94,8 @@ const Challenge = ({ theme }) => {
   const [algorithm, setAlgorithm] = useState("");
   // state of code compiler after submit
   const [running, setRunning] = useState(false);
+  // star status
+  const [star, setStar] = useState(false);
 
   useEffect(() => {
     !theme
@@ -95,18 +104,33 @@ const Challenge = ({ theme }) => {
   }, [theme]);
 
   useEffect(() => {
-    //get id from url
-    let url = window.location.href;
-    let id = url.substring(url.lastIndexOf("/") + 1);
     // make API call to get algorithm by id
-    API.getAlgorithm(id)
+    API.getAlgorithm(algorithmId)
       .then((response) => {
         setAlgorithm(response.data);
+        // gets status of star (ie. liked/disliked)
+        API.getStar(algorithmId, username).then((starRes) => {
+          setStar(starRes.data.data);
+        }).catch(err => {
+          console.log(err);
+        })
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [algoId]);
+  }, []);
+
+  // toggles star icon off/on
+  const toggleStar = () => {
+    setStar(!star);
+    API.star(algorithmId, star, username)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // changes the value of the input hook
   const handleInputChange = (e) => {
@@ -145,6 +169,7 @@ const Challenge = ({ theme }) => {
         setRunning(false);
       })
       .catch((err) => {
+        setRunning(false);
         console.log(err);
       });
   };
@@ -161,6 +186,18 @@ const Challenge = ({ theme }) => {
           >
             {algorithm.challengeName}
           </Typography>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={star}
+                onChange={toggleStar}
+                icon={<StarsOutlined />}
+                checkedIcon={<Stars />}
+                name="checkedH"
+              />
+            }
+            label="Star"
+          />
           <Typography
             className={classes.titleBottom}
             variant="h6"
@@ -205,7 +242,11 @@ const Challenge = ({ theme }) => {
                     className={classes.runButton}
                   >
                     {/* Upon code submit 'running' is set to True, upon API response set to false */}
-                    {running ? (<CircularProgress size={30} color="secondary"/>) : <p>Run</p>}
+                    {running ? (
+                      <CircularProgress size={30} color="secondary" />
+                    ) : (
+                      <p>Run</p>
+                    )}
                   </Button>
                   <FormControl
                     variant="outlined"
