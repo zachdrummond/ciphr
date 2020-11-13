@@ -13,7 +13,7 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { Home } from "@material-ui/icons";
+import { Home, Add } from "@material-ui/icons";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 // File Modules
@@ -43,10 +43,10 @@ const useStyles = makeStyles({
   },
 });
 
-const navLinks = [
-  { title: `Add Algorithm`, path: `/algorithms/new` },
-  { title: `My Algorithms`, path: `/algorithms` },
-];
+// const navLinks = [
+//   { title: `Add Algorithm`, path: `/algorithms/new` },
+//   { title: `My Algorithms`, path: `/algorithms` },
+// ];
 
 const Header = ({ theme, setTheme }) => {
   const classes = useStyles();
@@ -136,17 +136,30 @@ const Header = ({ theme, setTheme }) => {
             {jwt ? (
               <Link to="/home">
                 <IconButton
-                  edge="start"
+                  edge="end"
                   className={classes.linkText}
                   aria-label="home"
                 >
-                  <Home fontSize="large" />
+                  <Home fontSize="medium" />
                 </IconButton>
               </Link>
             ) : (
               ""
             )}
-            {jwt
+            {jwt ? (
+              <Link to="/algorithms/new">
+                <IconButton
+                  edge="end"
+                  className={classes.linkText}
+                  aria-label="add"
+                >
+                  <Add fontSize="medium" />
+                </IconButton>
+              </Link>
+            ) : (
+              ""
+            )}
+            {/* {jwt
               ? navLinks.map(({ title, path }) => (
                   <Link to={path} key={title} className={classes.linkText}>
                     <ListItem button>
@@ -154,7 +167,7 @@ const Header = ({ theme, setTheme }) => {
                     </ListItem>
                   </Link>
                 ))
-              : ""}
+              : ""} */}
 
             <Tooltip title="Toggle Light/Dark Theme">
               <IconButton
