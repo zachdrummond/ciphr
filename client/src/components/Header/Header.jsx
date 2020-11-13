@@ -115,7 +115,7 @@ const Header = ({ theme, setTheme }) => {
         <Toolbar className={classes.toolbar}>
           <Link to="/home">
             <Typography variant="h6" className={classes.linkText}>
-              AlgoMaster
+            Ciphr
             </Typography>
           </Link>
 
@@ -194,7 +194,7 @@ const Header = ({ theme, setTheme }) => {
         open={open}
         setOpen={setOpen}
         dialogTitle="Delete Account?"
-        dialogContent="This action can't be undone... and you'll probably lose some friends. Knowing that, you would you still like to delete your Ciphr account?"
+        dialogContent="This action can't be undone... and you'll probably lose some good friends. Knowing that, would you still like to delete your Ciphr account?"
         btn1="Cancel"
         btn2="Delete"
         btnColor="secondary"
