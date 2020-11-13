@@ -24,6 +24,7 @@ import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import TheSnackbar from "../Snackbar/TheSnackbar";
+import AccountDialog from "../AccountDialog/AccountDialog";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -68,10 +69,9 @@ const Header = ({ theme, setTheme }) => {
     setAnchorEl(null);
   };
 
-  //Dialog state
+  //Dialog
   const [open, setOpen] = useState(false);
 
-  //Delete dialog
   const handleAlertOpen = () => {
     handleMenuClose();
     setOpen(true);
@@ -89,17 +89,30 @@ const Header = ({ theme, setTheme }) => {
     console.log("snackbar!");
   };
 
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackbarOpen(false);
+  // const handleSnackbarClose = (event, reason) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+  //   setSnackbarOpen(false);
+  // };
+
+  //Fullscreen dialog
+  const [openFSDialog, setOpenFSDialog] = useState(false);
+
+  const handleFSDialogOpen = () => {
+    handleMenuClose();
+    setOpenFSDialog(true);
+  };
+
+  const handleFSDialogClose = () => {
+    setOpenFSDialog(false);
   };
 
   //Delete user function
 
   const deleteUser = () => {
     handleAlertClose();
+    handleFSDialogClose();
     handleSnackbarOpen();
     history.push("/login");
     API.deleteUser(jwt)
@@ -175,16 +188,13 @@ const Header = ({ theme, setTheme }) => {
               open={Boolean(anchorEl)}
               onClose={handleMenuClose}
             >
-              <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+              <MenuItem onClick={handleFSDialogOpen}>My Account</MenuItem>
               <MenuItem
                 onClick={handleMenuClose}
                 component={Link}
                 to={"/login"}
               >
                 Logout
-              </MenuItem>
-              <MenuItem onClick={handleAlertOpen} style={{ color: "red" }}>
-                Delete Account
               </MenuItem>
             </Menu>
           </List>
@@ -204,6 +214,11 @@ const Header = ({ theme, setTheme }) => {
         snackbarOpen={snackbarOpen}
         setSnackbarOpen={setSnackbarOpen}
         message="Your account has been deleted"
+      />
+      <AccountDialog
+        openFSDialog={openFSDialog}
+        setOpenFSDialog={setOpenFSDialog}
+        handleAlertOpen={handleAlertOpen}
       />
     </>
   );
