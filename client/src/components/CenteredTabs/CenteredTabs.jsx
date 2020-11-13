@@ -19,17 +19,18 @@ const CenteredTabs = () => {
   };
 
   return (
-    <Paper className={classes.root}>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        indicatorColor="primary"
-        textColor="primary"
-        centered
-      >
-        <Tab label="All Algorithms" />
-        <Tab label="My Algorithms" />
-      </Tabs>
-    </Paper>
+    <Tabs
+      className={classes.root}
+      value={value}
+      onChange={handleChange}
+      indicatorColor="primary"
+      textColor="primary"
+      centered
+    >
+      <Tab label="All Algorithms" />
+      <Tab label="My Algorithms" />
+    </Tabs>
   );
 };
+
+export default CenteredTabs;
