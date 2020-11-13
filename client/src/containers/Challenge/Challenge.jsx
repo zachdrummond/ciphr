@@ -146,6 +146,7 @@ const Challenge = ({ theme }) => {
         setRunning(false);
       })
       .catch((err) => {
+        setRunning(false);
         console.log(err);
       });
   };
