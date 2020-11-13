@@ -1,4 +1,3 @@
-
 // Material UI
 import { Card, CardContent, makeStyles, Typography } from "@material-ui/core";
 
@@ -7,21 +6,19 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   backgroundColor: {
-      backgroundColor: "#dc004e"
+    backgroundColor: "#dc004e",
   },
   color: {
-      color: "white"
-  }
+    color: "white",
+  },
 }));
 
-const HomeCard = () => {
+const HomeCard = ({ text }) => {
   const classes = useStyles();
   return (
     <Card className={classes.backgroundColor} variant="outlined">
       <CardContent className={classes.backgroundColor}>
-        <Typography className={classes.color}>
-          You haven't added anything yet. Maybe today is the day!
-        </Typography>
+        <Typography className={classes.color}>{text}</Typography>
       </CardContent>
     </Card>
   );
