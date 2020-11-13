@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   chip: {
-    margin: theme.spacing(0.5)
+    margin: theme.spacing(0.5),
   },
   column: {
     margin: theme.spacing(1, 0),
@@ -258,14 +258,18 @@ const Challenge = ({ theme }) => {
                     ? algorithm.description.replace(/(<br>)/g, "\n")
                     : ""}
                 </Typography>
-                <Typography
-                  className={classes.titleBottom}
-                  variant="h5"
-                  color="textPrimary"
-                  align="left"
-                >
-                  Test Cases
-                </Typography>
+                {algorithm.testCases > 0 ? (
+                  <Typography
+                    className={classes.titleBottom}
+                    variant="h5"
+                    color="textPrimary"
+                    align="left"
+                  >
+                    Test Cases
+                  </Typography>
+                ) : (
+                  ""
+                )}
                 {/* populate all test cases if they exist */}
                 {algorithm
                   ? algorithm.testCases.map((algo, index) => (
@@ -276,17 +280,26 @@ const Challenge = ({ theme }) => {
                       </ul>
                     ))
                   : ""}
-                <Typography
-                  className={classes.titleBottom}
-                  variant="h5"
-                  color="textPrimary"
-                  align="left"
-                >
-                  Hashtags
-                </Typography>
+                {algorithm.hashtags ? (
+                  <Typography
+                    className={classes.titleBottom}
+                    variant="h5"
+                    color="textPrimary"
+                    align="left"
+                  >
+                    Hashtags
+                  </Typography>
+                ) : (
+                  ""
+                )}
                 {algorithm.hashtags
                   ? algorithm.hashtags.map((hashtag) => (
-                      <Chip label={hashtag} color="secondary" size="small" className={classes.chip}/>
+                      <Chip
+                        label={hashtag}
+                        color="secondary"
+                        size="small"
+                        className={classes.chip}
+                      />
                     ))
                   : ""}
 
