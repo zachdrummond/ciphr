@@ -35,6 +35,22 @@ const API = {
   deleteUser: function (jwt) {
     return axios.delete(`/api/user/${jwt}`);
   },
+  star: function(id, status, user) {
+    return axios({
+      url: `/api/star/${id}`,
+      method: "POST",
+      data: {
+        status,
+        user
+      },
+    })
+  },
+  getStar: function(id, user) {
+    return axios({
+      url: `/api/star/${id}/${user}`,
+      method: "GET",
+    })
+  },
 };
 
 export default API;

@@ -58,7 +58,7 @@ const HomeSection = ({ size, title, children, algorithms, handleDelete, tabValue
             <List component="nav" className={classes.root}>
               {algorithms.length > 0 ? (
                 algorithms.map((algorithm) => {
-                  const { _id, challengeName, user } = algorithm;
+                  const { _id, challengeName, user, stars } = algorithm;
                   return (
                     <AlgorithmListItem
                       handleDelete={handleDelete}
@@ -66,6 +66,7 @@ const HomeSection = ({ size, title, children, algorithms, handleDelete, tabValue
                       title={challengeName}
                       author={user?.username}
                       id={_id}
+                      stars={stars}
                     />
                   );
                 })

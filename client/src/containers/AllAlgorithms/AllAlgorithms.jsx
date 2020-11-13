@@ -6,6 +6,7 @@ import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import HomeSection from "../../components/HomeSection/HomeSection";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 // Styling for Specific Components
 const useStyles = makeStyles((theme) => ({
@@ -19,19 +20,39 @@ const AllAlgorithms = () => {
   const { username } = useContext(AuthContext);
 
   const [allAlgorithms, setAllAlgorithms] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     getAllAlgorithms();
   }, []);
 
+  const filterAlgorithms = () => {
+    return allAlgorithms.filter((algorithm) => {
+      return (
+        algorithm.challengeName
+          .toLowerCase()
+          .startsWith(search.toLowerCase()) ||
+        algorithm.hashtags
+          .join("")
+          .toLowerCase()
+          .includes(`#${search.toLowerCase()}`)
+      );
+    });
+  };
+
   const getAllAlgorithms = () => {
     API.getAllAlgorithms()
       .then((algorithms) => {
         setAllAlgorithms(algorithms.data);
+        console.log(algorithms.data);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
   };
 
   return (
@@ -49,8 +70,10 @@ const AllAlgorithms = () => {
         tabValue={0}
           size={12}
           title="All Algorithms"
-          algorithms={allAlgorithms}
-        />
+          algorithms={filterAlgorithms()}
+        >
+          <SearchBar search={search} handleSearch={handleSearch} />
+        </HomeSection>
       </Grid>
     </div>
   );
