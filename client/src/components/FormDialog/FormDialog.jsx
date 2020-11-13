@@ -29,7 +29,7 @@ const FormDialog = ({
     console.log("snackbar!");
   };
 
-  const pwUpdated = () => {
+  const updatePassword = () => {
     handleSnackbarOpen();
     hideForm();
   };
@@ -57,7 +57,7 @@ const FormDialog = ({
           <Button onClick={hideForm} color="primary">
             {btn1}
           </Button>
-          <Button onClick={pwUpdated} color="primary">
+          <Button onClick={updatePassword} color="primary">
             {btn2}
           </Button>
         </DialogActions>
