@@ -44,7 +44,13 @@ const API = {
         user
       },
     })
-  }
+  },
+  getStar: function(id, user) {
+    return axios({
+      url: `/api/star/${id}/${user}`,
+      method: "GET",
+    })
+  },
 };
 
 export default API;

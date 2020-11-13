@@ -110,7 +110,11 @@ const Challenge = ({ theme }) => {
     API.getAlgorithm(algorithmId)
       .then((response) => {
         setAlgorithm(response.data);
-        console.log(response.data);
+        API.getStar(algorithmId, username).then((starRes) => {
+          setStar(starRes.data.data);
+        }).catch(err => {
+          console.log(err);
+        })
       })
       .catch((err) => {
         console.log(err);

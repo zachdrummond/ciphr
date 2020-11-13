@@ -2,6 +2,24 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 
+router.get("/api/star/:id/:username", (req, res) => {
+  db.Users.findOne({ username: req.params.username }).populate("starred").then((user) => {
+
+    let status = false;
+    for (const algo of user.starred) {
+        console.log(algo._id.toString())
+      if (req.params.id === algo._id.toString()) {
+        status = true;
+      }
+    }
+    res.status(200).json({
+      error: false,
+      data: status,
+      message: "Like status retrieved.",
+    });
+  });
+});
+
 router.post("/api/star/:id", (req, res) => {
   // if algorithm is starred the star key is incremented, unstarred = decrement
   if (!req.body.status) {
