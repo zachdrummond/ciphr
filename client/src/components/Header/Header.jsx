@@ -45,7 +45,7 @@ const useStyles = makeStyles({
 
 const navLinks = [
   { title: `Add Algorithm`, path: `/algorithms/new` },
-  { title: `All Algorithms`, path: `/algorithms` },
+  { title: `My Algorithms`, path: `/algorithms` },
 ];
 
 const Header = ({ theme, setTheme }) => {
