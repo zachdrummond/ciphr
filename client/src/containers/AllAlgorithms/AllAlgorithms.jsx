@@ -20,10 +20,22 @@ const AllAlgorithms = () => {
   const { username } = useContext(AuthContext);
 
   const [allAlgorithms, setAllAlgorithms] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     getAllAlgorithms();
   }, []);
+
+  const filterAlgorithms = () => {
+    return allAlgorithms.filter((algorithm) => {
+      // return algorithm.challengeName
+      //   .toLowerCase()
+      //   .startsWith(search.toLowerCase());
+     const banana = algorithm.hashtags.filter((hashtag)=> hashtag.toLowerCase().startsWith(`#${search.toLowerCase()}`));
+     console.log(banana);
+     return banana;
+    });
+  };
 
   const getAllAlgorithms = () => {
     API.getAllAlgorithms()
@@ -33,6 +45,10 @@ const AllAlgorithms = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
   };
 
   return (
@@ -49,9 +65,9 @@ const AllAlgorithms = () => {
         <HomeSection
           size={12}
           title="All Algorithms"
-          algorithms={allAlgorithms}
+          algorithms={filterAlgorithms()}
         >
-          <SearchBar />
+          <SearchBar search={search} handleSearch={handleSearch} />
         </HomeSection>
       </Grid>
     </div>

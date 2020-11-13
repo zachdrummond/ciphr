@@ -1,5 +1,3 @@
-// React
-import { useState } from "react";
 // Material UI
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
@@ -45,13 +43,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchBar = () => {
+const SearchBar = ({search, handleSearch}) => {
   const classes = useStyles();
-  const [search, setSearch] = useState("");
-
-  const handleSearch = (event) => {
-    setSearch(event.target.value);
-  }
 
   return (
     <div className={classes.search}>
