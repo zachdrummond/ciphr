@@ -24,7 +24,7 @@ import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import TheSnackbar from "../Snackbar/TheSnackbar";
-import FullscreenDialog from "../FullscreenDialog/FullscreenDialog";
+import AccountDialog from "../AccountDialog/AccountDialog";
 
 const useStyles = makeStyles({
   toolbar: {
@@ -213,7 +213,7 @@ const Header = ({ theme, setTheme }) => {
         setSnackbarOpen={setSnackbarOpen}
         message="Your account has been deleted"
       />
-      <FullscreenDialog
+      <AccountDialog
         openFSDialog={openFSDialog}
         setOpenFSDialog={setOpenFSDialog}
       />

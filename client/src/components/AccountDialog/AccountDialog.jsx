@@ -12,6 +12,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import EditIcon from "@material-ui/icons/Edit";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -27,7 +29,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const FullscreenDialog = ({ openFSDialog, setOpenFSDialog }) => {
+const AccountDialog = ({ openFSDialog, setOpenFSDialog }) => {
   const classes = useStyles();
 
   const handleClose = () => {
@@ -62,14 +64,29 @@ const FullscreenDialog = ({ openFSDialog, setOpenFSDialog }) => {
         </AppBar>
         <List>
           <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
+            <ListItemText primary="Username" secondary="Username" />
           </ListItem>
           <Divider />
           <ListItem button>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
+            <ListItemText primary="Password" secondary="********" />
+            <Tooltip
+              title="Update password"
+              aria-label="update"
+              placement="left"
+            >
+              <IconButton
+                // component={Link}
+                // to={`/algorithms/edit/${id}`}
+                edge="end"
+                aria-label="edit"
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <Button color="secondary">Delete Account</Button>
           </ListItem>
         </List>
       </Dialog>
@@ -77,4 +94,4 @@ const FullscreenDialog = ({ openFSDialog, setOpenFSDialog }) => {
   );
 };
 
-export default FullscreenDialog;
+export default AccountDialog;
