@@ -74,6 +74,7 @@ export default function EditAlgorithm() {
   // form error state
   const [error, setError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
+  const [hashtagError, setHashtagError] = useState(false);
 
   useEffect(() => {
     //get id from url
@@ -131,6 +132,7 @@ export default function EditAlgorithm() {
     setAlgoInfo({ ...algoInfo, [name]: value });
     setError(false);
     setDescriptionError(false);
+    setHashtagError(false);
   };
 
   const handleSaveAlgo = (e) => {
@@ -171,6 +173,9 @@ export default function EditAlgorithm() {
       }
       if (!algoInfo.challengeName) {
         setError(true);
+      }
+      if (!algoInfo.hashtags) {
+        setHashtagError(true);
       }
     }
   };
@@ -255,6 +260,12 @@ export default function EditAlgorithm() {
                 variant="outlined"
                 fullWidth
                 rows={4}
+                error={hashtagError}
+                helperText={
+                  hashtagError
+                    ? "Must include a hashtag."
+                    : ""
+                }
               />
 
               {/* map over array of test case hooks */}

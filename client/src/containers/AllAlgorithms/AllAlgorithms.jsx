@@ -44,7 +44,6 @@ const AllAlgorithms = () => {
     API.getAllAlgorithms()
       .then((algorithms) => {
         setAllAlgorithms(algorithms.data);
-        console.log(algorithms.data);
       })
       .catch((error) => {
         console.log(error);
@@ -67,7 +66,7 @@ const AllAlgorithms = () => {
           </Box>
         </Grid>
         <HomeSection
-        tabValue={0}
+          tabValue={0}
           size={12}
           title="All Algorithms"
           algorithms={filterAlgorithms()}

@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 500,
     overflow: "auto",
   },
+  container: {
+    marginBottom: "150px"
+  },
   paper: {
     padding: theme.spacing(2, 0),
     margin: theme.spacing(0, 2),
@@ -35,11 +38,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomeSection = ({ size, title, children, algorithms, handleDelete, tabValue }) => {
+const HomeSection = ({
+  size,
+  title,
+  children,
+  algorithms,
+  handleDelete,
+  tabValue,
+}) => {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className={classes.container}>
       <Grid item xs={size}>
         <Paper className={classes.paper}>
           <CenteredTabs tabValue={tabValue} />
@@ -58,7 +68,7 @@ const HomeSection = ({ size, title, children, algorithms, handleDelete, tabValue
             <List component="nav" className={classes.root}>
               {algorithms.length > 0 ? (
                 algorithms.map((algorithm) => {
-                  const { _id, challengeName, user, stars } = algorithm;
+                  const { _id, challengeName, user, stars, hashtags } = algorithm;
                   return (
                     <AlgorithmListItem
                       handleDelete={handleDelete}
@@ -67,11 +77,12 @@ const HomeSection = ({ size, title, children, algorithms, handleDelete, tabValue
                       author={user?.username}
                       id={_id}
                       stars={stars}
+                      hashtags={hashtags?hashtags.join(" "):""}
                     />
                   );
                 })
               ) : (
-                <HomeCard />
+                <HomeCard text="You haven't added anything yet. Maybe today is the day!" />
               )}
             </List>
           </Container>

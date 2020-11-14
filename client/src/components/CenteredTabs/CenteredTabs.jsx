@@ -27,7 +27,7 @@ const CenteredTabs = ({ tabValue }) => {
   return (
     <Tabs
       className={classes.root}
-      value={tabValue}
+      value={value?value:tabValue}
       indicatorColor="primary"
       textColor="primary"
       centered

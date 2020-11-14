@@ -1,11 +1,8 @@
+// React
 import { useState } from "react";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+// Material UI
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@material-ui/core";
+// File Modules
 import TheSnackbar from "../Snackbar/TheSnackbar";
 
 const FormDialog = ({
@@ -16,17 +13,19 @@ const FormDialog = ({
   label,
   btn1,
   btn2,
+  handleSubmit,
+  handleInput,
 }) => {
-  const hideForm = () => {
-    setOpenFormDialog(false);
-  };
 
   //Snackbar
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleSnackbarOpen = () => {
     setSnackbarOpen(true);
-    console.log("snackbar!");
+  };
+
+  const hideForm = () => {
+    setOpenFormDialog(false);
   };
 
   const updatePassword = () => {
@@ -51,13 +50,14 @@ const FormDialog = ({
             label={label}
             type="text"
             fullWidth
+            onChange={handleInput}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={hideForm} color="primary">
             {btn1}
           </Button>
-          <Button onClick={updatePassword} color="primary">
+          <Button onClick={()=>{handleSubmit(); updatePassword()}} color="primary">
             {btn2}
           </Button>
         </DialogActions>
