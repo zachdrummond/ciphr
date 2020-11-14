@@ -56,8 +56,8 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
   });
   // form error state
   const [error, setError] = useState({
-    error:false,
-    message:"",
+    error: false,
+    message: "",
   });
 
   //Snackbar
@@ -81,25 +81,29 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
     setUserInfo(event.target.value);
     setError(false);
   };
+
   const handleSubmit = () => {
     if (userInfo) {
-      API.editUser(jwt, openFormDialog.title, userInfo).then((user) => {
-        handleClose();
-        setUserInfo("");
-        if (openFormDialog.title === "Update Username") {
-          history.push("/login");
-        }
-        handleSnackbarOpen();
-      }).catch(err=>{
-        setError({
-          error:true,
-          message:"Username already exists."
+      API.editUser(jwt, openFormDialog.title, userInfo)
+        .then((user) => {
+          handleClose();
+          setUserInfo("");
+          if (openFormDialog.title === "Update Username") {
+            history.push("/login");
+          }
+          handleSnackbarOpen();
+        })
+        .catch((err) => {
+          console.log(error);
+          setError({
+            error: true,
+            message: "Username already exists.",
+          });
         });
-      });
     } else {
       setError({
-        error:true,
-        message:"This field is required."
+        error: true,
+        message: "This field is required.",
       });
     }
   };
