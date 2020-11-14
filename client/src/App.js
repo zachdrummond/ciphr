@@ -25,12 +25,24 @@ import SignUp from "./containers/SignUp/SignUp";
 const lightTheme = createMuiTheme({
   palette: {
     type: "light",
+    primary: {
+      main: "#8000FF",
+    },
+    secondary: {
+      main: "#8000FF",
+    },
   },
 });
 
 const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
+    primary: {
+      main: "#A07EFF",
+    },
+    secondary: {
+      main: "#A07EFF",
+    },
   },
 });
 

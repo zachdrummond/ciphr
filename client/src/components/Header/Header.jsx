@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Home, Add } from "@material-ui/icons";
+import Icon from "@material-ui/core/Icon";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 // File Modules
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
   toolbar: {
     display: `flex`,
     justifyContent: `space-between`,
+    backgroundColor: "#161616",
   },
   linkText: {
     textDecoration: `none`,
@@ -38,6 +40,13 @@ const useStyles = makeStyles({
   menuLink: {
     textDecoration: `none`,
     color: "black",
+  },
+  iconRoot: {
+    paddingTop: "2px",
+  },
+  imageIcon: {
+    marginTop: "2px",
+    height: "40px",
   },
 });
 
@@ -119,10 +128,15 @@ const Header = ({ theme, setTheme }) => {
     <>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
-          <Link to="/home">
-            <Typography variant="h6" className={classes.linkText}>
+          <Link to="/home" classes={classes.iconRoot}>
+            {/* <Typography variant="h6" className={classes.linkText}>
               Ciphr
-            </Typography>
+            </Typography> */}
+            <img
+              src="/img/cipher_navlogo.svg"
+              alt="logo"
+              classes={classes.imageIcon}
+            />
           </Link>
 
           <List component="nav" aria-labelledby="main navigation">
