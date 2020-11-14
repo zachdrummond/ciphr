@@ -154,7 +154,7 @@ export default function EditAlgorithm() {
     // Convert the hashtags to an array
     const hashtagArray = algoInfo.hashtags.match(/#\w+/g);
 
-    if (algoInfo.challengeName && algoInfo.description) {
+    if (algoInfo.challengeName && algoInfo.description && algoInfo.hashtags) {
       API.editAlgorithm(id, {
         algorithm: {
           challengeName: algoInfo.challengeName,

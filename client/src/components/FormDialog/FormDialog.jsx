@@ -1,13 +1,11 @@
-// React
-import { useState } from "react";
 // Material UI
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@material-ui/core";
 // File Modules
-import TheSnackbar from "../Snackbar/TheSnackbar";
+
 
 const FormDialog = ({
   openFormDialog,
-  setOpenFormDialog,
+  hideForm,
   title,
   content,
   label,
@@ -15,19 +13,12 @@ const FormDialog = ({
   btn2,
   handleSubmit,
   handleInput,
+  error,
+  helperText
+
 }) => {
 
-  //Snackbar
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  const handleSnackbarOpen = () => {
-    hideForm();
-    setSnackbarOpen(true);
-  };
-
-  const hideForm = () => {
-    setOpenFormDialog(false);
-  };
+ 
 
   return (
     <>
@@ -46,22 +37,20 @@ const FormDialog = ({
             type="text"
             fullWidth
             onChange={handleInput}
+            error={error}
+            helperText={helperText}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={hideForm} color="primary">
             {btn1}
           </Button>
-          <Button onClick={()=>{handleSubmit(); handleSnackbarOpen()}} color="primary">
+          <Button onClick={()=>{handleSubmit()}} color="primary">
             {btn2}
           </Button>
         </DialogActions>
       </Dialog>
-      <TheSnackbar
-        snackbarOpen={snackbarOpen}
-        setSnackbarOpen={setSnackbarOpen}
-        message="Your user information has been updated."
-      />
+      
     </>
   );
 };

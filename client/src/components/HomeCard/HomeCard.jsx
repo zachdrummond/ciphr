@@ -6,10 +6,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   backgroundColor: {
-    backgroundColor: "#dc004e",
+    backgroundColor: "white",
   },
   color: {
-    color: "white",
+    color: "black",
   },
 }));
 

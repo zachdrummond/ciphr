@@ -24,6 +24,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import FormDialog from "../FormDialog/FormDialog";
+import TheSnackbar from "../Snackbar/TheSnackbar";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -40,7 +41,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
-
   const classes = useStyles();
   const history = useHistory();
 
@@ -52,8 +52,25 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
     title: "",
     content: "",
     label: "",
-    message: ""
+    message: "",
   });
+  // form error state
+  const [error, setError] = useState({
+    error:false,
+    message:"",
+  });
+
+  //Snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleSnackbarOpen = () => {
+    hideForm();
+    setSnackbarOpen(true);
+  };
+
+  const hideForm = () => {
+    setOpenFormDialog(false);
+  };
 
   const handleClose = () => {
     setOpenFSDialog(false);
@@ -62,14 +79,29 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
   // update password
   const handleInput = (event) => {
     setUserInfo(event.target.value);
+    setError(false);
   };
   const handleSubmit = () => {
-    API.editUser(jwt, openFormDialog.title, userInfo).then((user) => {
-      handleClose();
-      if (openFormDialog.title === "Update Username") {
-        history.push("/login");
-      }
-    });
+    if (userInfo) {
+      API.editUser(jwt, openFormDialog.title, userInfo).then((user) => {
+        handleClose();
+        setUserInfo("");
+        if (openFormDialog.title === "Update Username") {
+          history.push("/login");
+        }
+        handleSnackbarOpen();
+      }).catch(err=>{
+        setError({
+          error:true,
+          message:"Username already exists."
+        });
+      });
+    } else {
+      setError({
+        error:true,
+        message:"This field is required."
+      });
+    }
   };
 
   const showForm = (id) => {
@@ -159,6 +191,7 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
         openFormDialog={openFormDialog.open}
         setOpenFormDialog={setOpenFormDialog}
         handleSubmit={handleSubmit}
+        hideForm={hideForm}
         title={openFormDialog.title}
         content={openFormDialog.content}
         label={openFormDialog.label}
@@ -166,6 +199,13 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
         handleInput={handleInput}
         btn1="Cancel"
         btn2="Save"
+        error={error.error}
+        helperText={error.error ? error.message : ""}
+      />
+      <TheSnackbar
+        snackbarOpen={snackbarOpen}
+        setSnackbarOpen={setSnackbarOpen}
+        message="Your user information has been updated."
       />
     </>
   );
