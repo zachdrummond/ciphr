@@ -34,7 +34,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
-  const { username, password, jwt } = useContext(AuthContext);
+  const { username, jwt } = useContext(AuthContext);
   const [newPassword, setNewPassword] = useState("");
 
   const classes = useStyles();

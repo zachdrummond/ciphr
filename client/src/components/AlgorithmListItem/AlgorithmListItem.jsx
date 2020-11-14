@@ -1,7 +1,7 @@
 // React
 import { Link } from "react-router-dom";
 // File imports
-import API from "../../utils/API";
+
 // Material UI
 import {
   Divider,
