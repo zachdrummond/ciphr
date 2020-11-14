@@ -68,7 +68,7 @@ const HomeSection = ({
             <List component="nav" className={classes.root}>
               {algorithms.length > 0 ? (
                 algorithms.map((algorithm) => {
-                  const { _id, challengeName, user, stars } = algorithm;
+                  const { _id, challengeName, user, stars, hashtags } = algorithm;
                   return (
                     <AlgorithmListItem
                       handleDelete={handleDelete}
@@ -77,6 +77,7 @@ const HomeSection = ({
                       author={user?.username}
                       id={_id}
                       stars={stars}
+                      hashtags={hashtags?hashtags.join(" "):""}
                     />
                   );
                 })

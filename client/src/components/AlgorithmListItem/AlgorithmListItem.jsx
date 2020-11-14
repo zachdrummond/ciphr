@@ -12,22 +12,21 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import { Stars } from "@material-ui/icons";
+// import { Stars } from "@material-ui/icons";
 
-const AlgorithmListItem = ({ title, author, id, handleDelete, stars }) => {
+const AlgorithmListItem = ({ title, author, id, handleDelete, stars, hashtags }) => {
   return (
     <div>
       <Divider />
       <ListItem button component={Link} to={`/algorithms/${id}`}>
-        <ListItemText primary={title} />
-        <ListItemText align="center" secondary={stars} ><Stars/></ListItemText>
-        <ListItemText align="right" secondary={author} />
+        <ListItemText primary={title} secondary={`StarRating: ${stars}`}/>
+        <ListItemText align="right" primary={author} secondary={hashtags} />
         {!author ? (
           <ListItemSecondaryAction>
             <IconButton
               component={Link}
               to={`/algorithms/edit/${id}`}
-              edge="end"
+              edge="end"  
               aria-label="delete"
             >
               <EditIcon />
