@@ -21,6 +21,7 @@ const FormDialog = ({
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleSnackbarOpen = () => {
+    hideForm();
     setSnackbarOpen(true);
   };
 
@@ -28,13 +29,8 @@ const FormDialog = ({
     setOpenFormDialog(false);
   };
 
-  const updatePassword = () => {
-    handleSnackbarOpen();
-    hideForm();
-  };
-
   return (
-    <div>
+    <>
       <Dialog
         open={openFormDialog}
         onClose={hideForm}
@@ -46,7 +42,6 @@ const FormDialog = ({
           <TextField
             autoFocus
             margin="dense"
-            id="name"
             label={label}
             type="text"
             fullWidth
@@ -57,7 +52,7 @@ const FormDialog = ({
           <Button onClick={hideForm} color="primary">
             {btn1}
           </Button>
-          <Button onClick={()=>{handleSubmit(); updatePassword()}} color="primary">
+          <Button onClick={()=>{handleSubmit(); handleSnackbarOpen()}} color="primary">
             {btn2}
           </Button>
         </DialogActions>
@@ -65,9 +60,9 @@ const FormDialog = ({
       <TheSnackbar
         snackbarOpen={snackbarOpen}
         setSnackbarOpen={setSnackbarOpen}
-        message="Your password has been updated"
+        message="Your user information has been updated."
       />
-    </div>
+    </>
   );
 };
 
