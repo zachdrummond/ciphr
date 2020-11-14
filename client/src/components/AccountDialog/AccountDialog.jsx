@@ -1,23 +1,28 @@
+// React
 import React from "react";
 import { useContext, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItem from "@material-ui/core/ListItem";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+// Material UI
+import {
+  AppBar,
+  Button,
+  Dialog,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  makeStyles,
+  Slide,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import Slide from "@material-ui/core/Slide";
 import EditIcon from "@material-ui/icons/Edit";
-import Tooltip from "@material-ui/core/Tooltip";
+// File Modules
+import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import FormDialog from "../FormDialog/FormDialog";
-import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -35,39 +40,51 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
   const { username, jwt } = useContext(AuthContext);
-  const [newPassword, setNewPassword] = useState("");
+  const [userInfo, setUserInfo] = useState("");
+  //Form Dialog
+  const [openFormDialog, setOpenFormDialog] = useState({
+    open: false,
+    title: "",
+    content: "",
+    label: "",
+  });
 
   const classes = useStyles();
 
   const handleClose = () => {
     setOpenFSDialog(false);
   };
-  // update password 
-  const handleInput = (e) => {
-    const { value } = e.target;
-    // handles input of either challenge name or description
-    console.log("e.target.value")
-    setNewPassword(value);
+
+  // update password
+  const handleInput = (event) => {
+    setUserInfo(event.target.value);
   };
-  const handleSubmit = (e)=>{
-    API.editUser(jwt,newPassword).then(data=>{
+  const handleSubmit = () => {
+    API.editUser(jwt, openFormDialog.title, userInfo).then((data) => {
       handleClose();
-    })
-  }
-
-  //Form Dialog
-  const [openFormDialog, setOpenFormDialog] = useState(false);
-
-  const showForm = () => {
-    setOpenFormDialog(true);
+    });
   };
 
-  // const hideForm = () => {
-  //   setOpenFormDialog(false);
-  // };
+  const showForm = (id) => {
+    if (id === "updatePassword") {
+      setOpenFormDialog({
+        open: true,
+        title: "Update Password",
+        content: "Enter a new password:",
+        label: "New Password",
+      });
+    } else if (id === "updateUsername") {
+      setOpenFormDialog({
+        open: true,
+        title: "Update Username",
+        content: "Enter a new username:",
+        label: "New Username",
+      });
+    }
+  };
 
   return (
-    <div>
+    <>
       <Dialog
         fullScreen
         open={openFSDialog}
@@ -87,27 +104,35 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
             <Typography variant="h6" className={classes.title}>
               Account Settings
             </Typography>
-            {/* <Button autoFocus color="inherit" onClick={handleClose}>
-              save
-            </Button> */}
           </Toolbar>
         </AppBar>
         <List>
-          <ListItem button>
+          <ListItem>
             <ListItemText primary="Username" secondary={username} />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText primary="Password" secondary="********" />
             <Tooltip
-              title="Update password"
+              title="Update Username"
               aria-label="update"
               placement="left"
             >
               <IconButton
-                // component={Link}
-                // to={`/algorithms/edit/${id}`}
-                onClick={showForm}
+                onClick={() => showForm("updateUsername")}
+                edge="end"
+                aria-label="edit"
+              >
+                <EditIcon name="updateUsername" />
+              </IconButton>
+            </Tooltip>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <ListItemText primary="Password" secondary="***********" />
+            <Tooltip
+              title="Update Password"
+              aria-label="update"
+              placement="left"
+            >
+              <IconButton
+                onClick={() => showForm("updatePassword")}
                 edge="end"
                 aria-label="edit"
               >
@@ -124,18 +149,18 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
         </List>
       </Dialog>
       <FormDialog
-        openFormDialog={openFormDialog}
+        openFormDialog={openFormDialog.open}
         setOpenFormDialog={setOpenFormDialog}
         handleSubmit={handleSubmit}
-        title="Update Password"
-        content="Enter a new password when ready"
-        label="New Password"
-        value={newPassword}
+        title={openFormDialog.title}
+        content={openFormDialog.content}
+        label={openFormDialog.label}
+        value={userInfo}
         handleInput={handleInput}
         btn1="Cancel"
         btn2="Save"
       />
-    </div>
+    </>
   );
 };
 

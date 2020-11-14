@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const db = require("../models");
-const { Users } = require("../models");
 
 // SIGNUP ROUTE
 router.post("/api/signup", (request, response) => {
@@ -137,10 +136,9 @@ router.post("/api/login", (request, response) => {
     });
 });
 
-// Edit a user
+// Edit a User
 router.put("/api/user/:userJwt", function (request, response) {
   jwt.verify(request.params.userJwt, process.env.SECRET, (err, decoded) => {
-    console.log(`request.body: ${request.body}`);
     if (err) {
       console.log(err);
       return response.status(401).json({
@@ -149,15 +147,44 @@ router.put("/api/user/:userJwt", function (request, response) {
         message: "Invalid token.",
       });
     } else {
-      bcrypt.hash(request.body.password, 10).then((hashedPassword) => {
+      if (request.body.password) {
+        bcrypt
+          .hash(request.body.password, 10)
+          .then((hashedPassword) => {
+            db.Users.findOneAndUpdate(
+              {
+                username: decoded.username,
+              },
+              { password: hashedPassword }
+            )
+              .then((user) => {
+                response.status(204).end();
+              })
+              .catch((error) => {
+                console.log(error);
+                response.status(500).json({
+                  error: true,
+                  data: null,
+                  message: "Unable to edit user password.",
+                });
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+            response.status(500).json({
+              error: true,
+              data: null,
+              message: "Unable to verify user.",
+            });
+          });
+      } else if (request.body.username) {
         db.Users.findOneAndUpdate(
           {
             username: decoded.username,
           },
-          { password: hashedPassword }
+          { username: request.body.username }
         )
           .then((user) => {
-            console.log(user);
             response.status(204).end();
           })
           .catch((error) => {
@@ -165,10 +192,10 @@ router.put("/api/user/:userJwt", function (request, response) {
             response.status(500).json({
               error: true,
               data: null,
-              message: "Unable to edit user.",
+              message: "Unable to edit username.",
             });
           });
-      });
+      }
     }
   });
 });

@@ -21,16 +21,12 @@ const FormDialog = ({
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleSnackbarOpen = () => {
+    hideForm();
     setSnackbarOpen(true);
   };
 
   const hideForm = () => {
     setOpenFormDialog(false);
-  };
-
-  const updatePassword = () => {
-    handleSnackbarOpen();
-    hideForm();
   };
 
   return (
@@ -46,7 +42,6 @@ const FormDialog = ({
           <TextField
             autoFocus
             margin="dense"
-            id="name"
             label={label}
             type="text"
             fullWidth
@@ -57,7 +52,7 @@ const FormDialog = ({
           <Button onClick={hideForm} color="primary">
             {btn1}
           </Button>
-          <Button onClick={()=>{handleSubmit(); updatePassword()}} color="primary">
+          <Button onClick={()=>{handleSubmit(); handleSnackbarOpen()}} color="primary">
             {btn2}
           </Button>
         </DialogActions>
