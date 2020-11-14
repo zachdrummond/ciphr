@@ -1,5 +1,5 @@
 // React
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 // Material UI
 import {
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   titleBottom: {
     marginBottom: theme.spacing(3),
-    width: "100%"
+    width: "100%",
   },
   formControl: {
     margin: theme.spacing(1),
@@ -78,8 +78,8 @@ const useStyles = makeStyles((theme) => ({
 const Challenge = ({ theme }) => {
   const classes = useStyles();
   const { algorithmId } = useParams();
-
   const { username } = useContext(AuthContext);
+  const codeOutput = useRef();
 
   // const [code, setCode] = useState("// Code")
   const [options, setOptions] = useState({
@@ -109,16 +109,25 @@ const Challenge = ({ theme }) => {
       .then((response) => {
         setAlgorithm(response.data);
         // gets status of star (ie. liked/disliked)
-        API.getStar(algorithmId, username).then((starRes) => {
-          setStar(starRes.data.data);
-        }).catch(err => {
-          console.log(err);
-        })
+        API.getStar(algorithmId, username)
+          .then((starRes) => {
+            setStar(starRes.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  // useRef allows access to the code mirror instance and its methods
+  useEffect(() => {
+    const editorOut = codeOutput.current.getCodeMirror();
+    editorOut.setSize("100%", 200);
+    editorOut.setValue(output);
+  }, [output])
 
   // toggles star icon off/on
   const toggleStar = () => {
@@ -274,13 +283,13 @@ const Challenge = ({ theme }) => {
                     </Select>
                   </FormControl>
                 </Typography>
-                <textarea
-                  className={classes.autosize}
-                  name="output"
-                  rows="10"
-                  cols="50"
-                  defaultValue={output}
-                ></textarea>
+                <CodeMirror
+                  name="code output"
+                  ref={codeOutput}
+                  lineNumbers={false}
+                  options={{mode: "Shell", theme: options.theme}}
+                >
+                </CodeMirror>
               </Paper>
             </Grid>
 
