@@ -1,3 +1,4 @@
+// Material UI
 import {
   AppBar,
   Box,
@@ -5,6 +6,8 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
+// File Modules
+import MeetTheTeam from "../MeetTheTeam/MeetTheTeam";
 
 const useStyles = makeStyles({
   appBar: {
@@ -30,6 +33,7 @@ export default function Footer() {
             Perry, Andrew Stewart
           </Typography>
           </Box>
+          <MeetTheTeam/>
         </Toolbar>
     </AppBar>
   );
