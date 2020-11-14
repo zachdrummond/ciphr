@@ -74,8 +74,11 @@ const useStyles = makeStyles((theme) => ({
     height: 40,
   },
   star: {
-    marginLeft: "42%"
-  }
+    marginLeft: "42%",
+  },
+  codeMirror: {
+    fontSize: 13,
+  },
 }));
 
 const Challenge = ({ theme }) => {
@@ -127,17 +130,17 @@ const Challenge = ({ theme }) => {
 
   // useRef allows access to the code mirror instance and its methods
   useEffect(() => {
+    console.log(codeOutput)
     const editorOut = codeOutput.current.getCodeMirror();
     editorOut.setSize("100%", 200);
     editorOut.setValue(output);
-  }, [output])
+  }, [output]);
 
   // toggles star icon off/on
   const toggleStar = () => {
     setStar(!star);
     API.star(algorithmId, star, username)
-      .then((response) => {
-      })
+      .then((response) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -233,6 +236,7 @@ const Challenge = ({ theme }) => {
                   Input
                 </Typography>
                 <CodeMirror
+                  className={classes.codeMirror}
                   name="code"
                   value={input}
                   onChange={handleInputChange}
@@ -287,12 +291,17 @@ const Challenge = ({ theme }) => {
                   </FormControl>
                 </Typography>
                 <CodeMirror
+                  className={classes.codeMirror}
                   name="code output"
                   ref={codeOutput}
                   lineNumbers={false}
-                  options={{mode: "Shell", theme: options.theme}}
-                >
-                </CodeMirror>
+                  options={{
+                    mode: "Shell",
+                    theme: options.theme,
+                    lineWrapping: true,
+                    readOnly: true,
+                  }}
+                ></CodeMirror>
               </Paper>
             </Grid>
 
