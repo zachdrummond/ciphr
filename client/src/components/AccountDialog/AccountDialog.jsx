@@ -17,6 +17,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import Tooltip from "@material-ui/core/Tooltip";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import FormDialog from "../FormDialog/FormDialog";
+import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -33,13 +34,26 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
-  const { username, password } = useContext(AuthContext);
+  const { username, password, jwt } = useContext(AuthContext);
+  const [newPassword, setNewPassword] = useState("");
 
   const classes = useStyles();
 
   const handleClose = () => {
     setOpenFSDialog(false);
   };
+  // update password 
+  const handleInput = (e) => {
+    const { value } = e.target;
+    // handles input of either challenge name or description
+    console.log("e.target.value")
+    setNewPassword(value);
+  };
+  const handleSubmit = (e)=>{
+    API.editUser(jwt,newPassword).then(data=>{
+      handleClose();
+    })
+  }
 
   //Form Dialog
   const [openFormDialog, setOpenFormDialog] = useState(false);
@@ -112,9 +126,12 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
       <FormDialog
         openFormDialog={openFormDialog}
         setOpenFormDialog={setOpenFormDialog}
+        handleSubmit={handleSubmit}
         title="Update Password"
         content="Enter a new password when ready"
         label="New Password"
+        value={newPassword}
+        handleInput={handleInput}
         btn1="Cancel"
         btn2="Save"
       />
