@@ -73,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
     width: 100,
     height: 40,
   },
+  star: {
+    marginLeft: "42%"
+  }
 }));
 
 const Challenge = ({ theme }) => {
@@ -193,9 +196,10 @@ const Challenge = ({ theme }) => {
             color="textPrimary"
             align="center"
           >
-            {algorithm.challengeName}
+            Challenge: {algorithm.challengeName}
           </Typography>
           <FormControlLabel
+            className={classes.star}
             control={
               <Checkbox
                 checked={star}
@@ -205,7 +209,7 @@ const Challenge = ({ theme }) => {
                 name="checkedH"
               />
             }
-            label="Star"
+            label="Star this Algorithm"
           />
           <Typography
             className={classes.titleBottom}
@@ -360,26 +364,6 @@ const Challenge = ({ theme }) => {
                       />
                     ))
                   : ""}
-
-                <Box
-                  p={3}
-                  mt={1}
-                  bgcolor="text.primary"
-                  color="background.paper"
-                >
-                  <Typography
-                    className={classes.titleBottom}
-                    variant="body2"
-                    // color="background.paper"
-                    // color="white"
-                    align="left"
-                  >
-                    {algorithm.description}
-                  </Typography>
-                  <Button variant="contained" color="primary" disableElevation>
-                    See answer
-                  </Button>
-                </Box>
               </Paper>
             </Grid>
           </Grid>
