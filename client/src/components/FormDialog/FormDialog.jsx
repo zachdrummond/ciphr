@@ -30,7 +30,7 @@ const FormDialog = ({
   };
 
   return (
-    <div>
+    <>
       <Dialog
         open={openFormDialog}
         onClose={hideForm}
@@ -60,9 +60,9 @@ const FormDialog = ({
       <TheSnackbar
         snackbarOpen={snackbarOpen}
         setSnackbarOpen={setSnackbarOpen}
-        message="Your password has been updated"
+        message="Your user information has been updated."
       />
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 // React
 import React from "react";
 import { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 // Material UI
 import {
   AppBar,
@@ -39,6 +40,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
+
+  const classes = useStyles();
+  const history = useHistory();
+
   const { username, jwt } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState("");
   //Form Dialog
@@ -47,9 +52,8 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
     title: "",
     content: "",
     label: "",
+    message: ""
   });
-
-  const classes = useStyles();
 
   const handleClose = () => {
     setOpenFSDialog(false);
@@ -60,8 +64,11 @@ const AccountDialog = ({ openFSDialog, setOpenFSDialog, handleAlertOpen }) => {
     setUserInfo(event.target.value);
   };
   const handleSubmit = () => {
-    API.editUser(jwt, openFormDialog.title, userInfo).then((data) => {
+    API.editUser(jwt, openFormDialog.title, userInfo).then((user) => {
       handleClose();
+      if (openFormDialog.title === "Update Username") {
+        history.push("/login");
+      }
     });
   };
 
