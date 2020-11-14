@@ -35,6 +35,9 @@ const API = {
   deleteUser: function (jwt) {
     return axios.delete(`/api/user/${jwt}`);
   },
+  editUser: function (jwt, password) {
+    return axios.put(`/api/user/${jwt}`, {password});
+  },
   star: function(id, status, user) {
     return axios({
       url: `/api/star/${id}`,

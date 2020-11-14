@@ -13,6 +13,8 @@ const FormDialog = ({
   label,
   btn1,
   btn2,
+  handleSubmit,
+  handleInput,
 }) => {
 
   //Snackbar
@@ -48,13 +50,14 @@ const FormDialog = ({
             label={label}
             type="text"
             fullWidth
+            onChange={handleInput}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={hideForm} color="primary">
             {btn1}
           </Button>
-          <Button onClick={updatePassword} color="primary">
+          <Button onClick={()=>{handleSubmit(); updatePassword()}} color="primary">
             {btn2}
           </Button>
         </DialogActions>
