@@ -22,6 +22,9 @@ import useTestCase from "../../utils/useTestCase";
 import TestCase from "../../components/TestCase/TestCase";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    marginBottom: "150px"
+  },
   form: {
     "& .MuiTextField-root": {
       margin: theme.spacing(3, 0),
@@ -181,7 +184,7 @@ export default function EditAlgorithm() {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" className={classes.container}>
       <Grid container className={classes.mastergrid}>
         <Grid item xs={12}>
           <Typography
@@ -263,7 +266,7 @@ export default function EditAlgorithm() {
                 error={hashtagError}
                 helperText={
                   hashtagError
-                    ? "Must include a hashtag."
+                    ? "Must include at least one hashtag."
                     : ""
                 }
               />
