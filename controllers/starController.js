@@ -46,6 +46,11 @@ router.post("/api/star/:id", (req, res) => {
           { new: true }
         )
           .then((userOne) => {
+            res.status(200).json({
+              error: false,
+              data: userOne,
+              message: "Liked!",
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -78,6 +83,11 @@ router.post("/api/star/:id", (req, res) => {
           { new: true }
         )
           .then((userTwo) => {
+            res.status(200).json({
+              error: false,
+              data: userTwo,
+              message: "disliked!",
+            });
           })
           .catch((err) => {
             console.log(err);
