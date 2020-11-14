@@ -64,6 +64,7 @@ export default function AddAlgorithm() {
   // form error state
   const [error, setError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
+  const [hashtagError, setHashtagError] = useState(false);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -71,6 +72,7 @@ export default function AddAlgorithm() {
     setAlgoInfo({ ...algoInfo, [name]: value });
     setError(false);
     setDescriptionError(false);
+    setHashtagError(false);
   };
 
   // modal functions
@@ -109,6 +111,9 @@ export default function AddAlgorithm() {
         }
         if (!algoInfo.challengeDescription) {
           setDescriptionError(true);
+        }
+        if (!algoInfo.hashtags) {
+          setHashtagError(true);
         }
         console.log(err);
       });
@@ -218,6 +223,12 @@ export default function AddAlgorithm() {
                 variant="outlined"
                 fullWidth
                 rows={4}
+                error={hashtagError}
+                helperText={
+                  hashtagError
+                    ? "Must include a hashtag."
+                    : ""
+                }
               />
 
               {/* map over array of test case hooks */}

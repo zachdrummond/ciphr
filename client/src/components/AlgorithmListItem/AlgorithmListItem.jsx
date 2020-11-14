@@ -20,7 +20,7 @@ const AlgorithmListItem = ({ title, author, id, handleDelete, stars, hashtags })
       <Divider />
       <ListItem button component={Link} to={`/algorithms/${id}`}>
         <ListItemText primary={title} secondary={`StarRating: ${stars}`}/>
-        <ListItemText align="right" primary={author} secondary={hashtags} />
+        <ListItemText align="right" primary={author} secondary={author?hashtags:""} />
         {!author ? (
           <ListItemSecondaryAction>
             <IconButton

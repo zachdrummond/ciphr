@@ -13,7 +13,8 @@ const AlgorithmsSchema = new Schema(
       required: true,
     },
     hashtags: {
-      type: Array
+      type: Array,
+      required: true,
     },
     stars: {
       type: Number,
