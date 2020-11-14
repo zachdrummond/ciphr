@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const db = require("../models");
+const { Users } = require("../models");
 
 // SIGNUP ROUTE
 router.post("/api/signup", (request, response) => {
@@ -134,6 +135,38 @@ router.post("/api/login", (request, response) => {
         message: "Unable to find user.",
       });
     });
+});
+
+// Edit a user
+router.put("/api/user/:userJwt", function (request, response) {
+  jwt.verify(request.params.userJwt, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      console.log(err);
+      return response.status(401).json({
+        error: true,
+        data: null,
+        message: "Invalid token.",
+      });
+    } else {
+      db.Users.findOneAndUpdate(
+        {
+          username: decoded.username,
+        },
+        { password: Users.password }
+      )
+        .then((user) => {
+          console.log(user)
+        })
+        .catch((error) => {
+          console.log(error);
+          response.status(500).json({
+            error: true,
+            data: null,
+            message: "Unable to edit user.",
+          });
+        });
+    }
+  });
 });
 
 // Delete a user
