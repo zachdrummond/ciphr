@@ -92,6 +92,7 @@ const Challenge = ({ theme }) => {
     mode: "javascript",
     lineNumbers: true,
     theme: "",
+    autofocus: true
   });
   // sets the code input in first text area and language in dropdown select as state.
   // find in dev tools components under 'Challenge'
@@ -130,7 +131,6 @@ const Challenge = ({ theme }) => {
 
   // useRef allows access to the code mirror instance and its methods
   useEffect(() => {
-    console.log(codeOutput)
     const editorOut = codeOutput.current.getCodeMirror();
     editorOut.setSize("100%", 200);
     editorOut.setValue(output);
@@ -242,7 +242,6 @@ const Challenge = ({ theme }) => {
                   onChange={handleInputChange}
                   options={options}
                 >
-                  Input your code here!
                 </CodeMirror>
                 <Typography
                   className={classes.titleBottom}
