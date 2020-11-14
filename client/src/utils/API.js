@@ -35,24 +35,28 @@ const API = {
   deleteUser: function (jwt) {
     return axios.delete(`/api/user/${jwt}`);
   },
-  editUser: function (jwt, password) {
-    return axios.put(`/api/user/${jwt}`, {password});
+  editUser: function (jwt, title, userInfo) {
+    if (title === "Update Password") {
+      return axios.put(`/api/user/${jwt}`, { password: userInfo });
+    } else if (title === "Update Username") {
+      return axios.put(`/api/user/${jwt}`, { username: userInfo });
+    }
   },
-  star: function(id, status, user) {
+  star: function (id, status, user) {
     return axios({
       url: `/api/star/${id}`,
       method: "POST",
       data: {
         status,
-        user
+        user,
       },
-    })
+    });
   },
-  getStar: function(id, user) {
+  getStar: function (id, user) {
     return axios({
       url: `/api/star/${id}/${user}`,
       method: "GET",
-    })
+    });
   },
 };
 

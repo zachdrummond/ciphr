@@ -137,7 +137,6 @@ const Challenge = ({ theme }) => {
     setStar(!star);
     API.star(algorithmId, star, username)
       .then((response) => {
-        console.log(response);
       })
       .catch((err) => {
         console.log(err);

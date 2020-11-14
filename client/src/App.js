@@ -18,7 +18,6 @@ import NotFound from "./containers/NotFound/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import setAxiosDefaults from "./utils/setAxiosDefaults";
 import SignUp from "./containers/SignUp/SignUp";
-// import Snackbar from "@material-ui/core/Snackbar";
 
 // define dark/light themes
 

@@ -31,7 +31,7 @@ const AllAlgorithms = () => {
       return (
         algorithm.challengeName
           .toLowerCase()
-          .startsWith(search.toLowerCase()) ||
+          .includes(search.toLowerCase()) ||
         algorithm.hashtags
           .join("")
           .toLowerCase()
