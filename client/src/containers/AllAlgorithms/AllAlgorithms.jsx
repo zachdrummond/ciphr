@@ -68,6 +68,7 @@ const AllAlgorithms = () => {
           size={12}
           title="All Algorithms"
           algorithms={filterAlgorithms()}
+          search={search}
         >
           <SearchBar search={search} handleSearch={handleSearch} />
         </HomeSection>

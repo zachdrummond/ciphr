@@ -88,36 +88,57 @@ router.post("/api/algorithm", (request, response) => {
         message: "Invalid token.",
       });
     } else {
-      db.Users.findOne({ username: decoded.username })
-        .then((user) => {
-          // algorithm entry is created with the front end name/description and test cases
-          db.Algorithms.create({
-            challengeName: algorithm.challengeName,
-            // regex added to preserve line breaks in mongodb
-            description: algorithm.description.replace(/(\r\n)/g, "<br>"),
-            hashtags: algorithm.hashtags,
-            testCases: testCases,
-            userId: user._id,
-          })
-            .then((newAlgorithm) => {
-              user
-                .updateOne(
-                  { $push: { algorithms: newAlgorithm._id } },
-                  { new: true }
-                )
-                .then((updatedUser) => {
-                  response.status(200).json({
-                    error: false,
-                    data: newAlgorithm,
-                    message: "Successfully added algorithm and updated user.",
-                  });
+      db.Algorithms.findOne({
+        challengeName: algorithm.challengeName,
+      }).then((foundAlgorithm) => {
+        // If there is a matching user in the database
+        if (foundAlgorithm) {
+          response.status(400).json({
+            error: true,
+            data: null,
+            message: "Algorithm name already exists.",
+          }); // Bad Request
+        } else {
+          db.Users.findOne({ username: decoded.username })
+            .then((user) => {
+              // algorithm entry is created with the front end name/description and test cases
+              db.Algorithms.create({
+                challengeName: algorithm.challengeName,
+                // regex added to preserve line breaks in mongodb
+                description: algorithm.description.replace(/(\r\n)/g, "<br>"),
+                hashtags: algorithm.hashtags,
+                testCases: testCases,
+                userId: user._id,
+              })
+                .then((newAlgorithm) => {
+                  user
+                    .updateOne(
+                      { $push: { algorithms: newAlgorithm._id } },
+                      { new: true }
+                    )
+                    .then((updatedUser) => {
+                      response.status(200).json({
+                        error: false,
+                        data: newAlgorithm,
+                        message:
+                          "Successfully added algorithm and updated user.",
+                      });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                      response.status(500).json({
+                        error: true,
+                        data: null,
+                        message: "Failed to update user.",
+                      });
+                    });
                 })
                 .catch((error) => {
                   console.log(error);
                   response.status(500).json({
                     error: true,
                     data: null,
-                    message: "Failed to update user.",
+                    message: "Failed to create algorithm.",
                   });
                 });
             })
@@ -126,18 +147,11 @@ router.post("/api/algorithm", (request, response) => {
               response.status(500).json({
                 error: true,
                 data: null,
-                message: "Failed to create algorithm.",
+                message: "Failed to find user.",
               });
             });
-        })
-        .catch((error) => {
-          console.log(error);
-          response.status(500).json({
-            error: true,
-            data: null,
-            message: "Failed to find user.",
-          });
-        });
+        }
+      });
     }
   });
 });
@@ -146,43 +160,57 @@ router.post("/api/algorithm", (request, response) => {
 router.put("/api/algorithm/:id", function (request, response) {
   // updates the challenge name and description of the Algorithm document
   const { algorithm, testCases } = request.body;
-  db.Algorithms.findByIdAndUpdate(
-    request.params.id,
-    {
-      challengeName: algorithm.challengeName,
-      description: algorithm.description,
-      hashtags: algorithm.hashtags
-    },
-    { new: true }
-  )
-    .then((updated) => {
-      // updates the test cases associated with the model
-      updated
-        .updateOne({ $set: { testCases: testCases } }, { new: true })
-        .then((updatedTest) => {
-          response.status(200).json({
-            error: false,
-            data: updated,
-            message: "Successfully updated algorithm and test.",
-          });
+
+  db.Algorithms.findOne({
+    challengeName: algorithm.challengeName,
+  }).then((foundAlgorithm) => {
+    // If there is a matching user in the database
+    if (foundAlgorithm) {
+      response.status(400).json({
+        error: true,
+        data: null,
+        message: "Algorithm name already exists.",
+      }); // Bad Request
+    } else {
+      db.Algorithms.findByIdAndUpdate(
+        request.params.id,
+        {
+          challengeName: algorithm.challengeName,
+          description: algorithm.description,
+          hashtags: algorithm.hashtags,
+        },
+        { new: true }
+      )
+        .then((updated) => {
+          // updates the test cases associated with the model
+          updated
+            .updateOne({ $set: { testCases: testCases } }, { new: true })
+            .then((updatedTest) => {
+              response.status(200).json({
+                error: false,
+                data: updated,
+                message: "Successfully updated algorithm and test.",
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+              response.status(500).json({
+                error: true,
+                data: null,
+                message: "Unable to update test cases.",
+              });
+            });
         })
         .catch((error) => {
           console.log(error);
           response.status(500).json({
             error: true,
             data: null,
-            message: "Unable to update test cases.",
+            message: "An error occurred updating your algorithm.",
           });
         });
-    })
-    .catch((error) => {
-      console.log(error);
-      response.status(500).json({
-        error: true,
-        data: null,
-        message: "An error occurred updating your algorithm.",
-      });
-    });
+    }
+  });
 });
 
 // Delete an algorithm

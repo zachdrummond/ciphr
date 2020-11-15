@@ -6,13 +6,16 @@ import { TextField, Typography } from "@material-ui/core";
 const TestCase = ({ setCase, input, output, header }) => {
   return (
     <div>
-      <h3>{header}</h3>
       <Typography variant="h6" color="textPrimary" align="left">
-        Add Input
+        {header}
       </Typography>
+      {/* <h3>{header}</h3> */}
+      {/* <Typography variant="h7" color="textPrimary" align="left">
+        Input to be Tested
+      </Typography> */}
       <TextField
         id="test-input"
-        label="Add Input"
+        label="Input to be Tested"
         multiline
         name="input"
         value={input}
@@ -20,12 +23,12 @@ const TestCase = ({ setCase, input, output, header }) => {
         variant="outlined"
         fullWidth
       />
-      <Typography variant="h6" color="textPrimary" align="left">
-        Add Output
-      </Typography>
+      {/* <Typography variant="h7" color="textPrimary" align="left">
+        Output Expected
+      </Typography> */}
       <TextField
         id="test-output"
-        label="Add Output"
+        label="Expected Output "
         multiline
         name="output"
         value={output}
