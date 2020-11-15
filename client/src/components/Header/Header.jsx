@@ -126,7 +126,7 @@ const Header = ({ theme, setTheme }) => {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.appbar}>
         <Toolbar className={classes.toolbar}>
           <Link to="/home" classes={classes.iconRoot}>
             {/* <Typography variant="h6" className={classes.linkText}>
