@@ -2,22 +2,21 @@
 import React from "react";
 // Material UI
 import {
-  Avatar,
   Button,
   Dialog,
   DialogContent,
   Divider,
   Grid,
-  IconButton,
   makeStyles,
   Slide,
   Typography,
 } from "@material-ui/core";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import LinkedInIcon from "@material-ui/icons/LinkedIn";
-import EmailIcon from "@material-ui/icons/Email";
+//File Modules
+import Person from "./Person";
 // Images
 import Zach from "../../images/Zach.jpg";
+import Calvin from "../../images/Calvin.jpg";
+import Andrew from "../../images/Andrew.jpg";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -27,14 +26,44 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  large: {
-    width: theme.spacing(20),
-    height: theme.spacing(20),
-  },
   bold: {
     fontWeight: "bold",
   },
+  divider: {
+    marginBottom: "15px",
+  }
 }));
+
+const team = [
+  {
+    name: "Zach Drummond",
+    image: { Zach },
+    gitHub: "https://github.com/zachdrummond",
+    linkedIn: "https://www.linkedin.com/in/zachdrummond/",
+    email: "mailto: zachdrummond3@gmail.com",
+  },
+  {
+    name: "Calvin Griffin",
+    image: { Calvin },
+    gitHub: "https://github.com/cgriffin332",
+    linkedIn: "https://www.linkedin.com/in/calvin-griffin-8247521b7/",
+    email: "mailto: cgriffin332@gmail.com",
+  },
+  {
+    name: "Joseph Perry",
+    image: { Zach },
+    gitHub: "https://github.com/dgtlctzn",
+    linkedIn: "https://www.linkedin.com/in/joseph-perry-6650653a/",
+    email: "mailto: josephperry720@gmail.com",
+  },
+  {
+    name: "Andrew Stewart",
+    image: { Andrew },
+    gitHub: "https://github.com/stewdiostash",
+    linkedIn: "https://www.linkedin.com/in/andrewstewartwork/",
+    email: "mailto: 1andrewstewart@gmail.com",
+  },
+];
 
 export default function MeetTheTeam() {
   const classes = useStyles();
@@ -51,7 +80,7 @@ export default function MeetTheTeam() {
 
   return (
     <div className={classes.root}>
-      <Button color="secondary" onClick={handleClickOpen}>
+      <Button size="small" variant="outlined" color="inherit" onClick={handleClickOpen}>
         Meet The Team
       </Button>
       <Dialog
@@ -62,72 +91,17 @@ export default function MeetTheTeam() {
         maxWidth="md"
         fullWidth
       >
-        <Grid container>
-          <DialogContent>
-            <Typography align="center" variant="h4" className={classes.bold}>
-              Our Team - Fullstack Web Developers
-            </Typography>
-            <Divider/>
-            <Grid item xs={4}>
-              <Avatar
-                alt="Zach Drummond"
-                src={Zach}
-                className={classes.large}
-              />
-              <Typography variant="h6">Zach Drummond</Typography>
-              <IconButton
-                color="inherit"
-                href="https://github.com/zachdrummond"
-                target="_blank"
-              >
-                <GitHubIcon />
-              </IconButton>
-              <IconButton
-                color="inherit"
-                href="https://www.linkedin.com/in/zachdrummond/"
-                target="_blank"
-              >
-                <LinkedInIcon />
-              </IconButton>
-              <IconButton
-                color="inherit"
-                href="mailto: zachdrummond3@gmail.com"
-                target="_blank"
-              >
-                <EmailIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={4}>
-              <Avatar
-                alt="Zach Drummond"
-                src={Zach}
-                className={classes.large}
-              />
-              <Typography variant="h6">Zach Drummond</Typography>
-              <IconButton
-                color="inherit"
-                href="https://github.com/zachdrummond"
-                target="_blank"
-              >
-                <GitHubIcon />
-              </IconButton>
-              <IconButton
-                color="inherit"
-                href="https://www.linkedin.com/in/zachdrummond/"
-                target="_blank"
-              >
-                <LinkedInIcon />
-              </IconButton>
-              <IconButton
-                color="inherit"
-                href="mailto: zachdrummond3@gmail.com"
-                target="_blank"
-              >
-                <EmailIcon />
-              </IconButton>
-            </Grid>
-          </DialogContent>
-        </Grid>
+        <DialogContent>
+          <Typography align="center" variant="h4" className={classes.bold}>
+            Our Team - Fullstack Web Developers
+          </Typography>
+          <Divider className={classes.divider}/>
+          <Grid container spacing={2} align="center">
+            {team.map(({name, image, gitHub, linkedIn, email}) => {
+            return <Person name={name} image={Zach} gitHub={gitHub} linkedIn={linkedIn} email={email}/>
+          })}
+          </Grid>
+        </DialogContent>
       </Dialog>
     </div>
   );
