@@ -73,7 +73,10 @@ export default function AddAlgorithm() {
   const [open, setOpen] = useState(false);
 
   // form error state
-  const [error, setError] = useState(false);
+  const [error, setError] = useState({
+    error:false,
+    message:"",
+  });
   const [descriptionError, setDescriptionError] = useState(false);
   const [hashtagError, setHashtagError] = useState(false);
 
@@ -118,7 +121,16 @@ export default function AddAlgorithm() {
       })
       .catch((err) => {
         if (!algoInfo.challengeName) {
-          setError(true);
+          setError({
+            error:true,
+            message: "Must include a challenge name.",
+          });
+        }
+        if (algoInfo.challengeName && algoInfo.challengeDescription &&algoInfo.hashtags[0].includes("#")) {
+          setError({
+            error:true,
+            message: "Challenge name already exists.",
+          });
         }
         if (!algoInfo.challengeDescription) {
           setDescriptionError(true);
@@ -185,8 +197,8 @@ export default function AddAlgorithm() {
                 onChange={handleInput}
                 variant="outlined"
                 fullWidth
-                error={error}
-                helperText={error ? "Must include a challenge name." : ""}
+                error={error.error}
+                helperText={error.error ? error.message : ""}
               />
               <Typography
                 variant="h6"
