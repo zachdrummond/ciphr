@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // Material UI
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core";
 // File Modules
 import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
 import AllAlgorithms from "./containers/AllAlgorithms/AllAlgorithms";
@@ -51,9 +52,19 @@ const darkTheme = createMuiTheme({
   },
 });
 
+const useStyles = makeStyles((theme) => ({
+  flexparent: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "100vh",
+  },
+}));
+
 // import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 function App() {
+  const classes = useStyles();
   const [jwt, setJwt] = useState("");
   const [username, setUsername] = useState("");
 
@@ -72,38 +83,42 @@ function App() {
       <ThemeProvider theme={appliedTheme}>
         <CssBaseline />
         <Router>
-          <AuthContext.Provider value={{ jwt, setJwt, username, setUsername }}>
-            <Header theme={theme} setTheme={setTheme} />
-            <Switch>
-              <ProtectedRoute
-                exact
-                path="/algorithms/new"
-                component={AddAlgorithm}
-              />
-              <ProtectedRoute
-                exact
-                path="/algorithms/edit/:algorithmId"
-                component={EditAlgorithm}
-              />
-              <ProtectedRoute
-                exact
-                path="/algorithms/:algorithmId"
-                component={Challenge}
-                theme={theme}
-              />
-              <ProtectedRoute
-                exact
-                path="/algorithms"
-                component={MyAlgorithms}
-              />
-              <ProtectedRoute exact path="/home" component={AllAlgorithms} />
-              <Route exact path="/signup" component={SignUp} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/" component={Login} />
-              <Route path="/" component={NotFound} />
-            </Switch>
-          </AuthContext.Provider>
-          <Footer />
+          <div className={classes.flexparent}>
+            <AuthContext.Provider
+              value={{ jwt, setJwt, username, setUsername }}
+            >
+              <Header theme={theme} setTheme={setTheme} />
+              <Switch>
+                <ProtectedRoute
+                  exact
+                  path="/algorithms/new"
+                  component={AddAlgorithm}
+                />
+                <ProtectedRoute
+                  exact
+                  path="/algorithms/edit/:algorithmId"
+                  component={EditAlgorithm}
+                />
+                <ProtectedRoute
+                  exact
+                  path="/algorithms/:algorithmId"
+                  component={Challenge}
+                  theme={theme}
+                />
+                <ProtectedRoute
+                  exact
+                  path="/algorithms"
+                  component={MyAlgorithms}
+                />
+                <ProtectedRoute exact path="/home" component={AllAlgorithms} />
+                <Route exact path="/signup" component={SignUp} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/" component={Login} />
+                <Route path="/" component={NotFound} />
+              </Switch>
+            </AuthContext.Provider>
+            <Footer />
+          </div>
         </Router>
       </ThemeProvider>
     </div>
