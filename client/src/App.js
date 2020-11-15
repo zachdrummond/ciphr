@@ -31,6 +31,9 @@ const lightTheme = createMuiTheme({
       main: "#8000FF",
     },
   },
+  typography: {
+    fontFamily: "'Space Grotesk', Helvetica, Arial, sans-serif",
+  },
 });
 
 const darkTheme = createMuiTheme({
@@ -42,6 +45,9 @@ const darkTheme = createMuiTheme({
     secondary: {
       main: "#A07EFF",
     },
+  },
+  typography: {
+    fontFamily: "'Space Grotesk', Helvetica, Arial, sans-serif",
   },
 });
 
@@ -97,8 +103,8 @@ function App() {
               <Route path="/" component={NotFound} />
             </Switch>
           </AuthContext.Provider>
-          <Footer />
         </Router>
+        <Footer />
       </ThemeProvider>
     </div>
   );
