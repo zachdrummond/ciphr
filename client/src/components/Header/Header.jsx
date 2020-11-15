@@ -9,10 +9,8 @@ import {
   makeStyles,
   Toolbar,
   Tooltip,
-  Typography,
 } from "@material-ui/core";
 import { Home, Add } from "@material-ui/icons";
-import Icon from "@material-ui/core/Icon";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 // File Modules

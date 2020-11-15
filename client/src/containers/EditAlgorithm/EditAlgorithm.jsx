@@ -81,6 +81,7 @@ export default function EditAlgorithm() {
   });
   const [descriptionError, setDescriptionError] = useState(false);
   const [hashtagError, setHashtagError] = useState(false);
+  const [oldChallengeName, setOldChallengeName] = useState("");
 
   useEffect(() => {
     //get id from url
@@ -90,6 +91,7 @@ export default function EditAlgorithm() {
     API.getAlgorithm(id)
       .then((response) => {
         // Convert the hashtags to a String
+        setOldChallengeName(response.data.challengeName);
         setAlgoInfo({
           ...response.data,
           hashtags: response.data.hashtags.join(" "),
@@ -144,7 +146,6 @@ export default function EditAlgorithm() {
   const handleSaveAlgo = (e) => {
     let url = window.location.href;
     let id = url.substring(url.lastIndexOf("/") + 1);
-
     e.preventDefault();
     // filters out empty hooks and formats for back end db
     const allUsedTests = [];
@@ -166,9 +167,9 @@ export default function EditAlgorithm() {
             hashtags: hashtagArray,
           },
           testCases: allUsedTests,
+          oldChallengeName: oldChallengeName,
         })
           .then((response) => {
-            // console.log(response);
             handleOpen();
           })
           .catch((err) => {

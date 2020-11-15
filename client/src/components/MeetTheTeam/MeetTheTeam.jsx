@@ -89,8 +89,8 @@ export default function MeetTheTeam() {
           </Typography>
           <Divider className={classes.divider}/>
           <Grid container spacing={2} align="center">
-            {team.map(({name, image, gitHub, linkedIn, email}) => {
-            return <Person name={name} gitHub={gitHub} linkedIn={linkedIn} email={email}/>
+            {team.map(({name, gitHub, linkedIn, email}, index) => {
+            return <Person name={name} gitHub={gitHub} linkedIn={linkedIn} email={email} key={index}/>
           })}
           </Grid>
         </DialogContent>
