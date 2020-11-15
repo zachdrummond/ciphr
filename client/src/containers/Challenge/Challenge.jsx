@@ -77,7 +77,20 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "42%",
   },
   codeMirror: {
-    fontSize: 13,
+    fontSize: 14,
+  },
+  infobox: {
+    marginBottom: theme.spacing(3),
+    display: "flex",
+  },
+  colorbox: {
+    width: "3px",
+  },
+  description: {
+    fontFamily: "'Space Mono', monospace",
+    fontSize: "16px",
+    color: "secondary.main",
+    padding: theme.spacing(2),
   },
 }));
 
@@ -92,7 +105,7 @@ const Challenge = ({ theme }) => {
     mode: "javascript",
     lineNumbers: true,
     theme: "",
-    autofocus: true
+    autofocus: true,
   });
   // sets the code input in first text area and language in dropdown select as state.
   // find in dev tools components under 'Challenge'
@@ -241,8 +254,7 @@ const Challenge = ({ theme }) => {
                   value={input}
                   onChange={handleInputChange}
                   options={options}
-                >
-                </CodeMirror>
+                ></CodeMirror>
                 <Typography
                   className={classes.titleBottom}
                   variant="h5"
@@ -258,7 +270,7 @@ const Challenge = ({ theme }) => {
                   >
                     {/* Upon code submit 'running' is set to True, upon API response set to false */}
                     {running ? (
-                      <CircularProgress size={30} color="secondary" />
+                      <CircularProgress size={30} color="white" />
                     ) : (
                       <p>Run</p>
                     )}
@@ -314,19 +326,26 @@ const Challenge = ({ theme }) => {
                 >
                   Description
                 </Typography>
-                <Typography
-                  className={classes.titleBottom}
-                  variant="body1"
-                  multiline="true"
-                  color="textPrimary"
-                  align="left"
-                  style={{ whiteSpace: "pre-line" }}
-                >
-                  {/* Regex replaces breaks with line breaks */}
-                  {algorithm
-                    ? algorithm.description.replace(/(<br>)/g, "\n")
-                    : ""}
-                </Typography>
+                <Box bgcolor="text.disabled" className={classes.infobox}>
+                  <Box
+                    bgcolor="primary.main"
+                    className={classes.colorbox}
+                  ></Box>
+                  <Typography
+                    className={classes.description}
+                    variant="body1"
+                    multiline="true"
+                    // color="textPrimary"
+                    align="left"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
+                    {/* Regex replaces breaks with line breaks */}
+                    {algorithm
+                      ? algorithm.description.replace(/(<br>)/g, "\n")
+                      : ""}
+                  </Typography>
+                </Box>
+
                 {algorithm.testCases > 0 ? (
                   <Typography
                     className={classes.titleBottom}

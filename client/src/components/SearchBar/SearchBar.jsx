@@ -1,7 +1,7 @@
 // Material UI
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -10,13 +10,14 @@ const useStyles = makeStyles((theme) => ({
   input: {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    width: '100%',
+    width: "100%",
   },
   search: {
     position: "relative",
-    backgroundColor: "#e6e6e6",
-    width: "35%",
-    border: "thin solid black",
+    // backgroundColor: "gray",
+    width: "100%",
+    borderRadius: "4px",
+    border: "thin solid gray",
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchBar = ({search, handleSearch}) => {
+const SearchBar = ({ search, handleSearch }) => {
   const classes = useStyles();
 
   return (
