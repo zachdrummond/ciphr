@@ -18,8 +18,11 @@ import {
   CircularProgress,
   FormControlLabel,
   Checkbox,
+  List,
+  Avatar,
+  ListItemAvatar,
 } from "@material-ui/core";
-import { Stars, StarsOutlined } from "@material-ui/icons";
+import { Stars, StarRate, Code } from "@material-ui/icons";
 // File Modules
 import API from "../../utils/API";
 // Code Mirror
@@ -61,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   formControl: {
-    margin: theme.spacing(1),
+    marginTop: theme.spacing(2),
     minWidth: 120,
     float: "right",
   },
@@ -81,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
   infobox: {
     marginBottom: theme.spacing(3),
+    backgroundColor: "rgba(0, 0, 0, 0.04)",
     display: "flex",
   },
   colorbox: {
@@ -91,6 +95,20 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "16px",
     color: "secondary.main",
     padding: theme.spacing(2),
+  },
+  list: {
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: theme.spacing(3),
+    marginRight: theme.spacing(0),
+  },
+  listItem: {
+    listStyle: "none",
+    fontSize: 17,
+    paddingTop: 25,
+  },
+  instructions: {
+    fontSize: 12,
   },
 }));
 
@@ -219,7 +237,7 @@ const Challenge = ({ theme }) => {
               <Checkbox
                 checked={star}
                 onChange={toggleStar}
-                icon={<StarsOutlined />}
+                icon={<StarRate />}
                 checkedIcon={<Stars />}
                 name="checkedH"
               />
@@ -248,13 +266,24 @@ const Challenge = ({ theme }) => {
                 >
                   Input
                 </Typography>
-                <CodeMirror
-                  className={classes.codeMirror}
-                  name="code"
-                  value={input}
-                  onChange={handleInputChange}
-                  options={options}
-                ></CodeMirror>
+                <Typography className={classes.instructions}>
+                  Type code here!
+                </Typography>
+                <Typography className={classes.instructions}>
+                  If you use a function be sure to call it.
+                </Typography>
+                <Typography className={classes.instructions}>
+                  Remember to print/log any returns to the console.
+                </Typography>
+                <Box border={1}>
+                  <CodeMirror
+                    className={classes.codeMirror}
+                    name="code"
+                    value={input}
+                    onChange={handleInputChange}
+                    options={options}
+                  ></CodeMirror>
+                </Box>
                 <Typography
                   className={classes.titleBottom}
                   variant="h5"
@@ -301,18 +330,20 @@ const Challenge = ({ theme }) => {
                     </Select>
                   </FormControl>
                 </Typography>
-                <CodeMirror
-                  className={classes.codeMirror}
-                  name="code output"
-                  ref={codeOutput}
-                  lineNumbers={false}
-                  options={{
-                    mode: "Shell",
-                    theme: options.theme,
-                    lineWrapping: true,
-                    readOnly: true,
-                  }}
-                ></CodeMirror>
+                <Box border={1}>
+                  <CodeMirror
+                    className={classes.codeMirror}
+                    name="code output"
+                    ref={codeOutput}
+                    lineNumbers={false}
+                    options={{
+                      mode: "Shell",
+                      theme: options.theme,
+                      lineWrapping: true,
+                      readOnly: true,
+                    }}
+                  ></CodeMirror>
+                </Box>
               </Paper>
             </Grid>
 
@@ -326,7 +357,8 @@ const Challenge = ({ theme }) => {
                 >
                   Description
                 </Typography>
-                <Box bgcolor="text.disabled" className={classes.infobox}>
+                <Box className={classes.infobox}>
+                  {/*bgcolor="text.disabled"*/}
                   <Box
                     bgcolor="primary.main"
                     className={classes.colorbox}
@@ -346,28 +378,50 @@ const Challenge = ({ theme }) => {
                   </Typography>
                 </Box>
 
-                {algorithm.testCases > 0 ? (
-                  <Typography
-                    className={classes.titleBottom}
-                    variant="h5"
-                    color="textPrimary"
-                    align="left"
-                  >
-                    Test Cases
-                  </Typography>
+                {algorithm.testCases ? (
+                  <>
+                    <Typography
+                      className={classes.titleBottom}
+                      variant="h5"
+                      color="textPrimary"
+                      align="left"
+                    >
+                      Test Cases
+                    </Typography>
+                    <Typography className={classes.instructions}>
+                      Cases to test your algorithm.
+                    </Typography>
+                    <Typography className={classes.instructions}>
+                      If your code output matches
+                      all of those below you just solved the algorithm!
+                    </Typography>
+                  </>
                 ) : (
                   ""
                 )}
-                {/* populate all test cases if they exist */}
-                {algorithm
-                  ? algorithm.testCases.map((algo, index) => (
-                      <ul key={index}>
-                        <li>Input: {algo.input}</li>
-                        <li>Result: {algo.output}</li>
-                        <br />
-                      </ul>
-                    ))
-                  : ""}
+                <Box className={classes.infobox}>
+                  <List>
+                    {/* populate all test cases if they exist */}
+                    {algorithm
+                      ? algorithm.testCases.map((algo, index) => (
+                          <Box key={index} className={classes.list}>
+                            <ListItemAvatar>
+                              <Avatar>
+                                <Code />
+                              </Avatar>
+                            </ListItemAvatar>
+                            <div>
+                              <ul className={classes.listItem}>
+                                <li>Input: {algo.input}</li>
+                                <li>Output: {algo.output}</li>
+                                <br />
+                              </ul>
+                            </div>
+                          </Box>
+                        ))
+                      : ""}
+                  </List>
+                </Box>
                 {algorithm.hashtags ? (
                   <Typography
                     className={classes.titleBottom}
