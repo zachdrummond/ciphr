@@ -103,8 +103,8 @@ function App() {
               <Route path="/" component={NotFound} />
             </Switch>
           </AuthContext.Provider>
+          <Footer />
         </Router>
-        <Footer />
       </ThemeProvider>
     </div>
   );

@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  fab: {
+    textDecoration: "none",
+  },
 }));
 
 const MyAlgorithms = () => {
@@ -35,7 +38,7 @@ const MyAlgorithms = () => {
         console.log(error);
       });
   };
-// passing down delete button
+  // passing down delete button
   const handleDelete = (id) => {
     API.deleteAlgorithm(id)
       .then((res) => {
@@ -50,15 +53,21 @@ const MyAlgorithms = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           {/* Welcome Message */}
-          <Box p={3}>
+          <Box p={8}>
             <Typography variant="h3" component="h3" align="center">
               Welcome {username}!
             </Typography>
           </Box>
         </Grid>
-        <HomeSection tabValue={1} handleDelete={handleDelete} size={12} title={`${username}'s Algorithms`} algorithms={myAlgorithms}>
+        <HomeSection
+          tabValue={1}
+          handleDelete={handleDelete}
+          size={12}
+          title={`${username}'s Algorithms`}
+          algorithms={myAlgorithms}
+        >
           <Box m={2}>
-            <Link to={"/algorithms/new"}>
+            <Link to={"/algorithms/new"} className="classes.fab">
               <Fab color="primary" variant="extended">
                 Add Algorithm
               </Fab>

@@ -6,10 +6,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   backgroundColor: {
-    backgroundColor: "white",
+    // backgroundColor: "white",
+    border: "none",
+    padding: theme.spacing(4),
   },
   color: {
-    color: "black",
+    color: "text.disabled",
   },
 }));
 

@@ -21,7 +21,7 @@ import useTestCase from "../../utils/useTestCase";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginBottom: "150px"
+    marginBottom: "150px",
   },
   form: {
     "& .MuiTextField-root": {
@@ -37,7 +37,10 @@ const useStyles = makeStyles((theme) => ({
     justify: "center",
   },
   titleBottom: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(8),
+  },
+  button: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -228,9 +231,7 @@ export default function AddAlgorithm() {
                 rows={4}
                 error={hashtagError}
                 helperText={
-                  hashtagError
-                    ? "Must include at least one hashtag."
-                    : ""
+                  hashtagError ? "Must include at least one hashtag." : ""
                 }
               />
 
