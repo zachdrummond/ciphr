@@ -435,9 +435,10 @@ const Challenge = ({ theme }) => {
                   ""
                 )}
                 {algorithm.hashtags
-                  ? algorithm.hashtags.map((hashtag) => (
+                  ? algorithm.hashtags.map((hashtag, index) => (
                       <Chip
                         label={hashtag}
+                        key={index}
                         color="secondary"
                         size="small"
                         className={classes.chip}

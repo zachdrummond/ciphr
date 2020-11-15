@@ -1,5 +1,4 @@
 import {
-  AppBar,
   Box,
   makeStyles,
   Toolbar,
