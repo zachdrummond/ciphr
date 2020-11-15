@@ -219,13 +219,13 @@ export default function AddAlgorithm() {
                 label="Challenge Description"
                 multiline
                 required
-                rowsMax={4}
+                rowsMax={6}
                 name="challengeDescription"
                 value={algoInfo.challengeDescription}
                 onChange={handleInput}
                 variant="outlined"
                 fullWidth
-                rows={4}
+                rows={6}
                 error={descriptionError}
                 helperText={
                   descriptionError
