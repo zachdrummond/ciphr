@@ -9,6 +9,7 @@ import {
   Backdrop,
   Container,
   Grid,
+  Box,
   makeStyles,
   Paper,
   TextField,
@@ -50,7 +51,14 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
   },
   titleBottom: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(8),
+  },
+  buttonArea: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  button: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -301,32 +309,38 @@ export default function EditAlgorithm() {
                 return "";
               })}
 
-              <Button
-                variant="outlined"
-                color="primary"
-                className={classes.button}
-                startIcon={<AddIcon />}
-                onClick={handleTestButton}
-              >
-                Add Test Case
-              </Button>
-              {/* only shows remove test case button if there is at least one */}
-              {testCount > 0 ? (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  className={classes.button}
-                  startIcon={<RemoveIcon />}
-                  onClick={handleSeeLess}
-                >
-                  Remove Test Case
-                </Button>
-              ) : (
-                <></>
-              )}
-              <Button variant="contained" color="primary" type="submit">
-                Save
-              </Button>
+              <Box className={classes.buttonArea}>
+                <Box>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<AddIcon />}
+                    onClick={handleTestButton}
+                  >
+                    Add Test Case
+                  </Button>
+                  {/* only shows remove test case button if there is at least one */}
+                  {testCount > 0 ? (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      className={classes.button}
+                      startIcon={<RemoveIcon />}
+                      onClick={handleSeeLess}
+                    >
+                      Remove Test Case
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
+                </Box>
+                <Box>
+                  <Button variant="contained" color="primary" type="submit">
+                    Save
+                  </Button>
+                </Box>
+              </Box>
             </form>
           </Paper>
         </Grid>
