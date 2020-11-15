@@ -9,6 +9,7 @@ import {
 const useStyles = makeStyles({
   appBar: {
     top: 'auto',
+    position: "relative",
     bottom: 0,
   },
 });
