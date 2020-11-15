@@ -20,11 +20,9 @@ import Divider from "@material-ui/core/Divider";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    maxHeight: 500,
-    overflow: "auto",
   },
   container: {
-    marginBottom: "150px"
+    marginBottom: "150px",
   },
   paper: {
     padding: theme.spacing(2, 0),
@@ -45,6 +43,7 @@ const HomeSection = ({
   algorithms,
   handleDelete,
   tabValue,
+  search,
 }) => {
   const classes = useStyles();
 
@@ -68,7 +67,13 @@ const HomeSection = ({
             <List component="nav" className={classes.root}>
               {algorithms.length > 0 ? (
                 algorithms.map((algorithm) => {
-                  const { _id, challengeName, user, stars, hashtags } = algorithm;
+                  const {
+                    _id,
+                    challengeName,
+                    user,
+                    stars,
+                    hashtags,
+                  } = algorithm;
                   return (
                     <AlgorithmListItem
                       handleDelete={handleDelete}
@@ -77,12 +82,18 @@ const HomeSection = ({
                       author={user?.username}
                       id={_id}
                       stars={stars}
-                      hashtags={hashtags?hashtags.join(" "):""}
+                      hashtags={hashtags ? hashtags.join(" ") : ""}
                     />
                   );
                 })
               ) : (
-                <HomeCard text="You haven't added anything yet. Maybe today is the day!" />
+                <HomeCard
+                  text={
+                    search
+                      ? "No results found."
+                      : "You haven't added anything yet. Maybe today is the day!"
+                  }
+                />
               )}
             </List>
           </Container>
