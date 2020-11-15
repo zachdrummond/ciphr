@@ -118,7 +118,7 @@ const Challenge = ({ theme }) => {
   const { username } = useContext(AuthContext);
   const codeOutput = useRef();
 
-  // const [code, setCode] = useState("// Code")
+  // code mirror editor settings
   const [options, setOptions] = useState({
     mode: "javascript",
     lineNumbers: true,
@@ -129,7 +129,14 @@ const Challenge = ({ theme }) => {
   // find in dev tools components under 'Challenge'
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
-  const [algorithm, setAlgorithm] = useState("");
+  // algorithm info is set on page load
+  const [algorithm, setAlgorithm] = useState({
+    testCases: [],
+    description: "",
+    challengeName: "",
+    user: "",
+    hashtags: [],
+  });
   // state of code compiler after submit
   const [running, setRunning] = useState(false);
   // star status
@@ -145,7 +152,21 @@ const Challenge = ({ theme }) => {
     // make API call to get algorithm by id
     API.getAlgorithm(algorithmId)
       .then((response) => {
-        setAlgorithm(response.data);
+        const {
+          testCases,
+          description,
+          challengeName,
+          user,
+          hashtags,
+        } = response.data;
+        setAlgorithm({
+          ...algorithm,
+          testCases,
+          description,
+          challengeName,
+          user,
+          hashtags,
+        });
         // gets status of star (ie. liked/disliked)
         API.getStar(algorithmId, username)
           .then((starRes) => {
@@ -377,8 +398,7 @@ const Challenge = ({ theme }) => {
                       : ""}
                   </Typography>
                 </Box>
-
-                {algorithm.testCases ? (
+                {algorithm.testCases.length > 0 ? (
                   <>
                     <Typography
                       className={classes.titleBottom}
@@ -392,18 +412,19 @@ const Challenge = ({ theme }) => {
                       Cases to test your algorithm.
                     </Typography>
                     <Typography className={classes.instructions}>
-                      If your code output matches
-                      all of those below you just solved the algorithm!
+                      If your code output matches all of those below you just
+                      solved the algorithm!
                     </Typography>
                   </>
                 ) : (
                   ""
                 )}
-                <Box className={classes.infobox}>
-                  <List>
-                    {/* populate all test cases if they exist */}
-                    {algorithm
-                      ? algorithm.testCases.map((algo, index) => (
+
+                {/* populate all test cases if they exist */}
+                {algorithm
+                  ? algorithm.testCases.map((algo, index) => (
+                      <Box className={classes.infobox}>
+                        <List>
                           <Box key={index} className={classes.list}>
                             <ListItemAvatar>
                               <Avatar>
@@ -418,10 +439,10 @@ const Challenge = ({ theme }) => {
                               </ul>
                             </div>
                           </Box>
-                        ))
-                      : ""}
-                  </List>
-                </Box>
+                        </List>
+                      </Box>
+                    ))
+                  : ""}
                 {algorithm.hashtags ? (
                   <Typography
                     className={classes.titleBottom}
