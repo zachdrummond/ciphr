@@ -95,7 +95,7 @@ export default function AddAlgorithm() {
 
     // Convert the hashtags to an array
     const hashtagArray = algoInfo.hashtags.match(/#\w+/g);
-
+    console.log(algoInfo.hashtags);
     API.addAlgorithm({
       algorithm: {
         challengeName: algoInfo.challengeName,
@@ -116,6 +116,9 @@ export default function AddAlgorithm() {
           setDescriptionError(true);
         }
         if (!algoInfo.hashtags) {
+          setHashtagError(true);
+        }
+        else if (!algoInfo.hashtags[0].includes("#")){
           setHashtagError(true);
         }
         console.log(err);
@@ -229,7 +232,7 @@ export default function AddAlgorithm() {
                 error={hashtagError}
                 helperText={
                   hashtagError
-                    ? "Must include at least one hashtag."
+                    ? "Must include at least one hashtag. (# must precede value. i.e. #javascript)"
                     : ""
                 }
               />
