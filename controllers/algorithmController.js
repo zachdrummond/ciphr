@@ -88,7 +88,6 @@ router.post("/api/algorithm", (request, response) => {
         message: "Invalid token.",
       });
     } else {
-      console.log(algorithm.challengeName);
       db.Algorithms.findOne({
         challengeName: algorithm.challengeName,
       }).then((foundAlgorithm) => {
@@ -161,43 +160,57 @@ router.post("/api/algorithm", (request, response) => {
 router.put("/api/algorithm/:id", function (request, response) {
   // updates the challenge name and description of the Algorithm document
   const { algorithm, testCases } = request.body;
-  db.Algorithms.findByIdAndUpdate(
-    request.params.id,
-    {
-      challengeName: algorithm.challengeName,
-      description: algorithm.description,
-      hashtags: algorithm.hashtags,
-    },
-    { new: true }
-  )
-    .then((updated) => {
-      // updates the test cases associated with the model
-      updated
-        .updateOne({ $set: { testCases: testCases } }, { new: true })
-        .then((updatedTest) => {
-          response.status(200).json({
-            error: false,
-            data: updated,
-            message: "Successfully updated algorithm and test.",
-          });
+
+  db.Algorithms.findOne({
+    challengeName: algorithm.challengeName,
+  }).then((foundAlgorithm) => {
+    // If there is a matching user in the database
+    if (foundAlgorithm) {
+      response.status(400).json({
+        error: true,
+        data: null,
+        message: "Algorithm name already exists.",
+      }); // Bad Request
+    } else {
+      db.Algorithms.findByIdAndUpdate(
+        request.params.id,
+        {
+          challengeName: algorithm.challengeName,
+          description: algorithm.description,
+          hashtags: algorithm.hashtags,
+        },
+        { new: true }
+      )
+        .then((updated) => {
+          // updates the test cases associated with the model
+          updated
+            .updateOne({ $set: { testCases: testCases } }, { new: true })
+            .then((updatedTest) => {
+              response.status(200).json({
+                error: false,
+                data: updated,
+                message: "Successfully updated algorithm and test.",
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+              response.status(500).json({
+                error: true,
+                data: null,
+                message: "Unable to update test cases.",
+              });
+            });
         })
         .catch((error) => {
           console.log(error);
           response.status(500).json({
             error: true,
             data: null,
-            message: "Unable to update test cases.",
+            message: "An error occurred updating your algorithm.",
           });
         });
-    })
-    .catch((error) => {
-      console.log(error);
-      response.status(500).json({
-        error: true,
-        data: null,
-        message: "An error occurred updating your algorithm.",
-      });
-    });
+    }
+  });
 });
 
 // Delete an algorithm

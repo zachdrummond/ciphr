@@ -23,7 +23,7 @@ import TestCase from "../../components/TestCase/TestCase";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginBottom: "150px"
+    marginBottom: "150px",
   },
   form: {
     "& .MuiTextField-root": {
@@ -75,7 +75,10 @@ export default function EditAlgorithm() {
   // algorithm state
   const [algoInfo, setAlgoInfo] = useState({});
   // form error state
-  const [error, setError] = useState(false);
+  const [error, setError] = useState({
+    error: false,
+    message: "",
+  });
   const [descriptionError, setDescriptionError] = useState(false);
   const [hashtagError, setHashtagError] = useState(false);
 
@@ -154,38 +157,45 @@ export default function EditAlgorithm() {
     // Convert the hashtags to an array
     const hashtagArray = algoInfo.hashtags.match(/#\w+/g);
 
-    if (algoInfo.challengeName && algoInfo.description && algoInfo.hashtags && algoInfo.hashtags[0].includes("#")) {
-      API.editAlgorithm(id, {
-        algorithm: {
-          challengeName: algoInfo.challengeName,
-          description: algoInfo.description,
-          hashtags: hashtagArray,
-        },
-        testCases: allUsedTests,
-      })
-        .then((response) => {
-          // console.log(response);
-          handleOpen();
+    if (algoInfo.challengeName && algoInfo.description && algoInfo.hashtags) {
+      if (algoInfo.hashtags[0].includes("#")) {
+        API.editAlgorithm(id, {
+          algorithm: {
+            challengeName: algoInfo.challengeName,
+            description: algoInfo.description,
+            hashtags: hashtagArray,
+          },
+          testCases: allUsedTests,
         })
-        .catch((err) => {
-          console.log(err);
-        });
+          .then((response) => {
+            // console.log(response);
+            handleOpen();
+          })
+          .catch((err) => {
+            setError({
+              error: true,
+              message: "Challenge name already exists.",
+            });
+            console.log(err);
+          });
+      } else {
+        setHashtagError(true);
+      }
     } else {
       if (!algoInfo.description) {
         setDescriptionError(true);
       }
       if (!algoInfo.challengeName) {
-        setError(true);
+        setError({
+          error: true,
+          message: "Must include a challenge name.",
+        });
       }
       if (!algoInfo.hashtags) {
         setHashtagError(true);
       }
-      else if (!algoInfo.hashtags[0].includes("#")){
-        setHashtagError(true);
-      }
     }
   };
-
   return (
     <Container maxWidth="sm" className={classes.container}>
       <Grid container className={classes.mastergrid}>
@@ -221,8 +231,8 @@ export default function EditAlgorithm() {
                 onChange={handleInput}
                 variant="outlined"
                 fullWidth
-                error={error}
-                helperText={error ? "Must include a challenge name." : ""}
+                error={error.error}
+                helperText={error.error ? error.message : ""}
               />
 
               <Typography variant="h6" color="textPrimary" align="left">

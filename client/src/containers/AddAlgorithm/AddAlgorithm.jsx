@@ -74,8 +74,8 @@ export default function AddAlgorithm() {
 
   // form error state
   const [error, setError] = useState({
-    error:false,
-    message:"",
+    error: false,
+    message: "",
   });
   const [descriptionError, setDescriptionError] = useState(false);
   const [hashtagError, setHashtagError] = useState(false);
@@ -106,7 +106,7 @@ export default function AddAlgorithm() {
 
     // Convert the hashtags to an array
     const hashtagArray = algoInfo.hashtags.match(/#\w+/g);
-    
+
     API.addAlgorithm({
       algorithm: {
         challengeName: algoInfo.challengeName,
@@ -122,13 +122,19 @@ export default function AddAlgorithm() {
       .catch((err) => {
         if (!algoInfo.challengeName) {
           setError({
-            error:true,
+            error: true,
             message: "Must include a challenge name.",
           });
         }
-        if (algoInfo.challengeName && algoInfo.challengeDescription &&algoInfo.hashtags[0].includes("#")) {
+        if (!algoInfo.hashtags) {
+          setHashtagError(true);
+        } else if (
+          algoInfo.challengeName &&
+          algoInfo.challengeDescription &&
+          algoInfo.hashtags[0].includes("#")
+        ) {
           setError({
-            error:true,
+            error: true,
             message: "Challenge name already exists.",
           });
         }
@@ -137,8 +143,7 @@ export default function AddAlgorithm() {
         }
         if (!algoInfo.hashtags) {
           setHashtagError(true);
-        }
-        else if (!algoInfo.hashtags[0].includes("#")){
+        } else if (!algoInfo.hashtags[0].includes("#")) {
           setHashtagError(true);
         }
         console.log(err);
