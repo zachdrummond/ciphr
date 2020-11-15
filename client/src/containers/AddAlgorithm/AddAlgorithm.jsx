@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   Grid,
+  Box,
   makeStyles,
   Paper,
   TextField,
@@ -21,7 +22,7 @@ import useTestCase from "../../utils/useTestCase";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginBottom: "150px"
+    marginBottom: "150px",
   },
   form: {
     "& .MuiTextField-root": {
@@ -37,7 +38,14 @@ const useStyles = makeStyles((theme) => ({
     justify: "center",
   },
   titleBottom: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(8),
+  },
+  buttonArea: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  button: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -228,9 +236,7 @@ export default function AddAlgorithm() {
                 rows={4}
                 error={hashtagError}
                 helperText={
-                  hashtagError
-                    ? "Must include at least one hashtag."
-                    : ""
+                  hashtagError ? "Must include at least one hashtag." : ""
                 }
               />
 
@@ -249,37 +255,44 @@ export default function AddAlgorithm() {
                 return "";
               })}
 
-              <Button
-                variant="outlined"
-                color="primary"
-                className={classes.button}
-                startIcon={<AddIcon />}
-                onClick={handleTestButton}
-              >
-                Add Test Case
-              </Button>
-              {/* only shows remove test case button if there is at least one */}
-              {testCount > 0 ? (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  className={classes.button}
-                  startIcon={<RemoveIcon />}
-                  onClick={handleSeeLess}
-                >
-                  Remove Test Case
-                </Button>
-              ) : (
-                <></>
-              )}
-              <Button
-                // onClick={handleModalOpen}
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                Save
-              </Button>
+              <Box className={classes.buttonArea}>
+                <Box>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<AddIcon />}
+                    onClick={handleTestButton}
+                  >
+                    Add Test Case
+                  </Button>
+                  {/* only shows remove test case button if there is at least one */}
+                  {testCount > 0 ? (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      className={classes.button}
+                      startIcon={<RemoveIcon />}
+                      onClick={handleSeeLess}
+                    >
+                      Remove Test Case
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
+                </Box>
+                <Box>
+                  <Button
+                    // onClick={handleModalOpen}
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    align="right"
+                  >
+                    Save
+                  </Button>
+                </Box>
+              </Box>
             </form>
           </Paper>
         </Grid>

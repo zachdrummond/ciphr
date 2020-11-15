@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   image: {
-    backgroundImage: "url(./img/magic-macbook.jpg)",
+    backgroundImage: "url(./img/developer.png)",
     // backgroundImage: "url(https://source.unsplash.com/random)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
@@ -64,7 +64,7 @@ export default function SignInSide() {
     password: "",
   });
 
-const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
