@@ -73,7 +73,10 @@ export default function AddAlgorithm() {
   const [open, setOpen] = useState(false);
 
   // form error state
-  const [error, setError] = useState(false);
+  const [error, setError] = useState({
+    error: false,
+    message: "",
+  });
   const [descriptionError, setDescriptionError] = useState(false);
   const [hashtagError, setHashtagError] = useState(false);
 
@@ -118,12 +121,29 @@ export default function AddAlgorithm() {
       })
       .catch((err) => {
         if (!algoInfo.challengeName) {
-          setError(true);
+          setError({
+            error: true,
+            message: "Must include a challenge name.",
+          });
+        }
+        if (!algoInfo.hashtags) {
+          setHashtagError(true);
+        } else if (
+          algoInfo.challengeName &&
+          algoInfo.challengeDescription &&
+          algoInfo.hashtags[0].includes("#")
+        ) {
+          setError({
+            error: true,
+            message: "Challenge name already exists.",
+          });
         }
         if (!algoInfo.challengeDescription) {
           setDescriptionError(true);
         }
         if (!algoInfo.hashtags) {
+          setHashtagError(true);
+        } else if (!algoInfo.hashtags[0].includes("#")) {
           setHashtagError(true);
         }
         console.log(err);
@@ -182,8 +202,8 @@ export default function AddAlgorithm() {
                 onChange={handleInput}
                 variant="outlined"
                 fullWidth
-                error={error}
-                helperText={error ? "Must include a challenge name." : ""}
+                error={error.error}
+                helperText={error.error ? error.message : ""}
               />
               <Typography
                 variant="h6"
@@ -236,7 +256,9 @@ export default function AddAlgorithm() {
                 rows={4}
                 error={hashtagError}
                 helperText={
-                  hashtagError ? "Must include at least one hashtag." : ""
+                  hashtagError
+                    ? "Must include at least one hashtag. (# must precede value. i.e. #javascript)"
+                    : ""
                 }
               />
 
