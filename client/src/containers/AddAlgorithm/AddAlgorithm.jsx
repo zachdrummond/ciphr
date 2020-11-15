@@ -95,7 +95,7 @@ export default function AddAlgorithm() {
 
     // Convert the hashtags to an array
     const hashtagArray = algoInfo.hashtags.match(/#\w+/g);
-    console.log(algoInfo.hashtags);
+    
     API.addAlgorithm({
       algorithm: {
         challengeName: algoInfo.challengeName,

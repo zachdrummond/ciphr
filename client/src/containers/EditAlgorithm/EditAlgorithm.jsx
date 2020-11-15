@@ -154,7 +154,7 @@ export default function EditAlgorithm() {
     // Convert the hashtags to an array
     const hashtagArray = algoInfo.hashtags.match(/#\w+/g);
 
-    if (algoInfo.challengeName && algoInfo.description && algoInfo.hashtags) {
+    if (algoInfo.challengeName && algoInfo.description && algoInfo.hashtags && algoInfo.hashtags[0].includes("#")) {
       API.editAlgorithm(id, {
         algorithm: {
           challengeName: algoInfo.challengeName,
@@ -178,6 +178,9 @@ export default function EditAlgorithm() {
         setError(true);
       }
       if (!algoInfo.hashtags) {
+        setHashtagError(true);
+      }
+      else if (!algoInfo.hashtags[0].includes("#")){
         setHashtagError(true);
       }
     }
@@ -266,7 +269,7 @@ export default function EditAlgorithm() {
                 error={hashtagError}
                 helperText={
                   hashtagError
-                    ? "Must include at least one hashtag."
+                    ? "Must include at least one hashtag. (# must precede value. i.e. #javascript)"
                     : ""
                 }
               />
