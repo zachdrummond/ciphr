@@ -29,9 +29,7 @@ const AllAlgorithms = () => {
   const filterAlgorithms = () => {
     return allAlgorithms.filter((algorithm) => {
       return (
-        algorithm.challengeName
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
+        algorithm.challengeName.toLowerCase().includes(search.toLowerCase()) ||
         algorithm.hashtags
           .join("")
           .toLowerCase()
@@ -59,7 +57,7 @@ const AllAlgorithms = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           {/* Welcome Message */}
-          <Box p={3}>
+          <Box p={8}>
             <Typography variant="h3" component="h3" align="center">
               Welcome {username}!
             </Typography>
