@@ -1,15 +1,15 @@
-import {
-  AppBar,
-  Box,
-  makeStyles,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
+// Material UI
+import { Box, Grid, makeStyles, Toolbar, Typography } from "@material-ui/core";
+// File Modules
+import MeetTheTeam from "../MeetTheTeam/MeetTheTeam";
 
 const useStyles = makeStyles({
   footer: {
     padding: "8px",
   },
+  grid: {
+    justifyContent: "center"
+  }
 });
 
 export default function Footer() {
@@ -18,17 +18,21 @@ export default function Footer() {
   return (
     <Box className={classes.footer} color="white" bgcolor="primary.main">
       <Toolbar>
-        <Box margin="auto">
-          <Typography
-            align="center"
-            position="static"
-            variant="body1"
-            color="inherit"
-          >
-            Ciphr &copy; 2020 — Zach Drummond, Calvin Griffin, Joseph Perry,
-            Andrew Stewart
-          </Typography>
-        </Box>
+        <Grid container spacing={3} className={classes.grid}>
+          <Grid item>
+            <Typography
+              align="center"
+              position="static"
+              variant="body1"
+              color="inherit"
+            >
+              Ciphr &copy; 2020
+            </Typography>
+          </Grid>
+          <Grid item>
+            <MeetTheTeam />
+          </Grid>
+        </Grid>
       </Toolbar>
     </Box>
   );
