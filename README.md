@@ -3,20 +3,21 @@
 ## Table of Contents
 * [Description](#Description)
 * [Links](#Links)
+* [Usage](#Usage)
 * [Design Elements](#Design-Elements)
-* [App Preview](#App-Preview)
-* [Future Development Ideas](#Future-Development-Ideas)
 * [Collaborators](#Collaborators)
+* [Future Development Ideas](#Future-Development-Ideas)
+* [App Preview](#App-Preview)
 * [Credits](#Credits)
 
 ## Description
-This is an app that serves as a platform to share and solve coding algorithms. 
+This is an app that serves as a platform to share and solve coding algorithms. This website enables developers to connect with each other in order to strengthen their critical thinking abilities and problem solving skills. Ultimately, our team wants to make it easier for developers to work together in order to become better coders. Our users are developers who want to improve their skills, improve their apps, and improve their chances at securing their dream job. This is what motivates us - Building a place for developers to come together so that they can build better apps and make the world a better place.
 
 ## Links
 * Website: https://ciphr.herokuapp.com/
 * GitHub Repository: https://github.com/zachdrummond/ciphr
 
-### _Usage_
+## Usage
 * Create an Account
     1. On the homepage, click "New to Cipher? Sign up here!"
     2. Add a username and password and click the "Sign Up" button.
@@ -67,15 +68,11 @@ This is an app that serves as a platform to share and solve coding algorithms.
 * Mongoose.js
 * MongoDB
 
-## App Preview
-### *About*
-![Screenshot](src/images/ReadMe/About.png)
-
-### *Portfolio*
-![Screenshot](src/images/ReadMe/Portfolio.png)
-
-### *Contact*
-![Screenshot](src/images/ReadMe/Contact.png)
+## Collaborators
+* Zach Drummond - https://github.com/zachdrummond
+* Calvin Griffin - https://github.com/cgriffin332
+* Joseph Perry - https://github.com/dgtlctzn
+* Andrew Stewart - https://github.com/stewdiostash
 
 ## Future Development Ideas
 * Categories for Algorithms - i.e. Trending
@@ -87,11 +84,30 @@ This is an app that serves as a platform to share and solve coding algorithms.
 * Testing the Output based on the Solution and displaying a Success/Error Message
 * Sharing Algorithms on Social Media
 
-## Collaborators
-* Zach Drummond - https://github.com/zachdrummond
-* Calvin Griffin - https://github.com/cgriffin332
-* Joseph Perry - https://github.com/dgtlctzn
-* Andrew Stewart - https://github.com/stewdiostash
+## App Preview
+### *Login*
+![login](assets/images/login.png)
+
+### *Sign Up*
+![signup](assets/images/signup.png)
+
+### *All Algorithms*
+![All Algorithms](assets/images/home.png)
+
+### *Challenge*
+![Challenge](assets/images/challenge1.png)
+![Challenge](assets/images/challenge2.png)
+![Dark Mode](assets/images/darkMode.png)
+
+### *My Algorithms*
+![My Algorithms](assets/images/myAlgorithms.png)
+
+### *Add/Edit an Algorithm*
+![Add an Algorithm](assets/images/addAlgorithm.png)
+![Edit an Algorithm](assets/images/editAlgorithm.png)
+
+### *Account*
+![Account](assets/images/account.png)
 
 ## Credits
 * https://www.heroku.com/
