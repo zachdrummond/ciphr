@@ -187,12 +187,12 @@ export default function AddAlgorithm() {
               onSubmit={handleSaveAlgo}
             >
               <Typography variant="h6" color="textPrimary" align="left">
-                Give your Algorithm a name
+                Give your Algorithm a Name
               </Typography>
 
               <TextField
                 id="algo-name"
-                label="Challenge name"
+                label="Challenge Name"
                 multiline
                 required
                 autoFocus
