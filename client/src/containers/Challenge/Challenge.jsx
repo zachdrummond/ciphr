@@ -434,6 +434,7 @@ const Challenge = ({ theme }) => {
                             <div>
                               <ul className={classes.listItem}>
                                 <li>Input: {algo.input}</li>
+                                <br/>
                                 <li>Output: {algo.output}</li>
                                 <br />
                               </ul>
@@ -461,7 +462,7 @@ const Challenge = ({ theme }) => {
                         label={hashtag}
                         key={index}
                         color="secondary"
-                        size="small"
+                        size="medium"
                         className={classes.chip}
                       />
                     ))
