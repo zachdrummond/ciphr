@@ -12,7 +12,7 @@ import EmailIcon from "@material-ui/icons/Email";
 // Images
 import Zach from "../../images/Zach.jpg";
 import Calvin from "../../images/Calvin.jpg";
-import Joseph from "../../images/Joseph.png";
+import Joseph from "../../images/Joseph.jpg";
 import Andrew from "../../images/Andrew.jpg";
 
 const useStyles = makeStyles((theme) => ({
