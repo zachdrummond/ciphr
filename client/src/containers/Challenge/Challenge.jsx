@@ -137,6 +137,7 @@ const Challenge = ({ theme }) => {
     user: "",
     hashtags: [],
   });
+  // sets language for compiler api
   const [lang, setLang] = useState({
     name: "javascript",
     mode: "javascript"
@@ -348,6 +349,7 @@ const Challenge = ({ theme }) => {
                       label="Language"
                       name="language"
                     >
+                      {/* object stored as string allows stored values for api lang parameter and code mirror mode */}
                       <MenuItem value={'{"name":"javascript","mode":"javascript"}'}>Node.js</MenuItem>
                       <MenuItem value={'{"name":"python3","mode":"python"}'}>Python3</MenuItem>
                       <MenuItem value={'{"name":"go","mode":"go"}'}>Golang</MenuItem>
