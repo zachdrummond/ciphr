@@ -215,12 +215,12 @@ const Challenge = ({ theme }) => {
     if (input.length === 0) {
       alert("No code to run!");
       return;
-    } else {
+    } else if (!running) {
       // circular progress on button engadged
       setRunning(true);
-    }
-    // post code/input to server (codeController.js) where third party api call is made
-    API.postCode(input, options.mode)
+
+      // post code/input to server (codeController.js) where third party api call is made
+      API.postCode(input, options.mode)
       .then(({ data }) => {
         // if nothing is logged to console alert pops up
         if (data.out.length === 0 && data.err.length === 0) {
@@ -238,6 +238,7 @@ const Challenge = ({ theme }) => {
         setRunning(false);
         console.log(err);
       });
+    }
   };
 
   return (
