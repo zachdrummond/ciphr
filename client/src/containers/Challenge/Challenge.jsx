@@ -424,7 +424,7 @@ const Challenge = ({ theme }) => {
                 {/* populate all test cases if they exist */}
                 {algorithm
                   ? algorithm.testCases.map((algo, index) => (
-                      <Box className={classes.infobox}>
+                      <Box key={`Test Case ${index + 1}`} className={classes.infobox}>
                         <List>
                           <Box key={index} className={classes.list}>
                             <ListItemAvatar>
