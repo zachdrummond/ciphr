@@ -137,6 +137,10 @@ const Challenge = ({ theme }) => {
     user: "",
     hashtags: [],
   });
+  const [lang, setLang] = useState({
+    name: "javascript",
+    mode: "javascript"
+  })
   // state of code compiler after submit
   const [running, setRunning] = useState(false);
   // star status
@@ -204,12 +208,15 @@ const Challenge = ({ theme }) => {
   };
 
   const handleOptionsChange = (e) => {
-    const language = e.target.value;
+    const language = JSON.parse(e.target.value);
 
-    setOptions({ ...options, mode: language });
+    setLang({...language})
+    setOptions({ ...options, mode: language.mode });
   };
 
   const handleCodeSubmit = (e) => {
+    console.log(lang)
+    console.log(options)
     e.preventDefault();
     // stops function if no code is entered
     if (input.length === 0) {
@@ -220,7 +227,7 @@ const Challenge = ({ theme }) => {
       setRunning(true);
 
       // post code/input to server (codeController.js) where third party api call is made
-      API.postCode(input, options.mode)
+      API.postCode(input, lang.name)
       .then(({ data }) => {
         // if nothing is logged to console alert pops up
         if (data.out.length === 0 && data.err.length === 0) {
@@ -336,19 +343,19 @@ const Challenge = ({ theme }) => {
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      value={options.mode}
+                      value={JSON.stringify(lang).replace(" ", "")}
                       onChange={handleOptionsChange}
                       label="Language"
                       name="language"
                     >
-                      <MenuItem value="javascript">Node.js</MenuItem>
-                      <MenuItem value="python">Python3</MenuItem>
-                      <MenuItem value="go">Golang</MenuItem>
-                      <MenuItem value="java">Java</MenuItem>
-                      <MenuItem value="r">R</MenuItem>
-                      <MenuItem value="clike">C#</MenuItem>
-                      <MenuItem value="ruby">Ruby</MenuItem>
-                      <MenuItem value="sql">SQL</MenuItem>
+                      <MenuItem value={'{"name":"javascript","mode":"javascript"}'}>Node.js</MenuItem>
+                      <MenuItem value={'{"name":"python3","mode":"python"}'}>Python3</MenuItem>
+                      <MenuItem value={'{"name":"go","mode":"go"}'}>Golang</MenuItem>
+                      <MenuItem value={'{"name":"java","mode":"clike"}'}>Java</MenuItem>
+                      <MenuItem value={'{"name":"r","mode":"r"}'}>R</MenuItem>
+                      <MenuItem value={'{"name":"csharp","mode":"clike"}'}>C#</MenuItem>
+                      <MenuItem value={'{"name":"ruby","mode":"ruby"}'}>Ruby</MenuItem>
+                      <MenuItem value={'{"name":"mysql","mode":"sql"}'}>SQL</MenuItem>
                     </Select>
                   </FormControl>
                 </Typography>
