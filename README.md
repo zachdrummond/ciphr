@@ -22,6 +22,11 @@ This is an app that serves as a platform to share and solve coding algorithms. T
     1. On the homepage, click "New to Cipher? Sign up here!"
     2. Add a username and password and click the "Sign Up" button.
 
+* Use Guest Account
+    1. On the homepage, type "guest" in the username field.
+    2. Type "guest" in the password field.
+    3. Click the "Sign In" button.
+
 * Dark Mode
     1. Click the sun icon on any page to add a dark theme to the app.
     2. Click the moon icon on any page to add a light theme to the app.
