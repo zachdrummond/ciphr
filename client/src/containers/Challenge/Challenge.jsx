@@ -357,7 +357,8 @@ const Challenge = ({ theme }) => {
                       <MenuItem value={'{"name":"r","mode":"r"}'}>R</MenuItem>
                       <MenuItem value={'{"name":"csharp","mode":"clike"}'}>C#</MenuItem>
                       <MenuItem value={'{"name":"ruby","mode":"ruby"}'}>Ruby</MenuItem>
-                      <MenuItem value={'{"name":"mysql","mode":"sql"}'}>SQL</MenuItem>
+                      <MenuItem value={'{"name":"cpp","mode":"clike"}'}>C++</MenuItem>
+                      <MenuItem value={'{"name":"c","mode":"clike"}'}>C</MenuItem>
                     </Select>
                   </FormControl>
                 </Typography>
