@@ -231,12 +231,12 @@ const Challenge = ({ theme }) => {
       API.postCode(input, lang.name)
       .then(({ data }) => {
         // if nothing is logged to console alert pops up
-        if (data.out.length === 0 && data.err.length === 0) {
+        if (!data.out.length && !data.err.length) {
           alert("Remember to call functions or log/print results to console!");
           // if output is null error is logged to console and vice versa
-        } else if (data.out.length === 0) {
+        } else if (!data.out.length) {
           setOutput(data.err);
-        } else if (data.err.length === 0) {
+        } else if (!data.err.length) {
           setOutput(data.out);
         }
         // circular progress stopped
