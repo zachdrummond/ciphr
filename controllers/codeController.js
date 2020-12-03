@@ -4,27 +4,6 @@ const axios = require("axios");
 
 // global variable keeps track of API get request attempts
 let attempts = 0;
-// formats parameters for API call
-function compilerLang(lang) {
-  switch (lang) {
-    case "python":
-      return "python3";
-    case "go":
-      return "go";
-    case "java":
-      return "java";
-    case "r":
-      return "r";
-    case "ruby":
-      return "ruby";
-    case "clike":
-      return "csharp";
-    case "sql":
-      return "mysql";
-    default:
-      return "javascript";
-  }
-}
 
 // get request for code compiler results
 function getCompiled(postRes, res) {
@@ -77,7 +56,7 @@ function getCompiled(postRes, res) {
 }
 
 router.post("/api/code", (request, response) => {
-  const language = compilerLang(request.body.mode);
+  const language = request.body.lang;
   // post request for submitting code. Id is returned for use in get request
   axios({
     method: "POST",

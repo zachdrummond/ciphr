@@ -137,6 +137,11 @@ const Challenge = ({ theme }) => {
     user: "",
     hashtags: [],
   });
+  // sets language for compiler api
+  const [lang, setLang] = useState({
+    name: "javascript",
+    mode: "javascript"
+  })
   // state of code compiler after submit
   const [running, setRunning] = useState(false);
   // star status
@@ -204,31 +209,34 @@ const Challenge = ({ theme }) => {
   };
 
   const handleOptionsChange = (e) => {
-    const language = e.target.value;
+    const language = JSON.parse(e.target.value);
 
-    setOptions({ ...options, mode: language });
+    setLang({...language})
+    setOptions({ ...options, mode: language.mode });
   };
 
   const handleCodeSubmit = (e) => {
+    console.log(lang)
+    console.log(options)
     e.preventDefault();
     // stops function if no code is entered
     if (input.length === 0) {
       alert("No code to run!");
       return;
-    } else {
+    } else if (!running) {
       // circular progress on button engadged
       setRunning(true);
-    }
-    // post code/input to server (codeController.js) where third party api call is made
-    API.postCode(input, options.mode)
+
+      // post code/input to server (codeController.js) where third party api call is made
+      API.postCode(input, lang.name)
       .then(({ data }) => {
         // if nothing is logged to console alert pops up
-        if (data.out.length === 0 && data.err.length === 0) {
+        if (!data.out.length && !data.err.length) {
           alert("Remember to call functions or log/print results to console!");
           // if output is null error is logged to console and vice versa
-        } else if (data.out.length === 0) {
+        } else if (!data.out.length) {
           setOutput(data.err);
-        } else if (data.err.length === 0) {
+        } else if (!data.err.length) {
           setOutput(data.out);
         }
         // circular progress stopped
@@ -238,6 +246,7 @@ const Challenge = ({ theme }) => {
         setRunning(false);
         console.log(err);
       });
+    }
   };
 
   return (
@@ -335,19 +344,21 @@ const Challenge = ({ theme }) => {
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      value={options.mode}
+                      value={JSON.stringify(lang).replace(" ", "")}
                       onChange={handleOptionsChange}
                       label="Language"
                       name="language"
                     >
-                      <MenuItem value="javascript">Node.js</MenuItem>
-                      <MenuItem value="python">Python3</MenuItem>
-                      <MenuItem value="go">Golang</MenuItem>
-                      <MenuItem value="java">Java</MenuItem>
-                      <MenuItem value="r">R</MenuItem>
-                      <MenuItem value="clike">C#</MenuItem>
-                      <MenuItem value="ruby">Ruby</MenuItem>
-                      <MenuItem value="sql">SQL</MenuItem>
+                      {/* object stored as string allows stored values for api lang parameter and code mirror mode */}
+                      <MenuItem value={'{"name":"javascript","mode":"javascript"}'}>Node.js</MenuItem>
+                      <MenuItem value={'{"name":"python3","mode":"python"}'}>Python3</MenuItem>
+                      <MenuItem value={'{"name":"go","mode":"go"}'}>Golang</MenuItem>
+                      <MenuItem value={'{"name":"java","mode":"clike"}'}>Java</MenuItem>
+                      <MenuItem value={'{"name":"r","mode":"r"}'}>R</MenuItem>
+                      <MenuItem value={'{"name":"csharp","mode":"clike"}'}>C#</MenuItem>
+                      <MenuItem value={'{"name":"ruby","mode":"ruby"}'}>Ruby</MenuItem>
+                      <MenuItem value={'{"name":"cpp","mode":"clike"}'}>C++</MenuItem>
+                      <MenuItem value={'{"name":"c","mode":"clike"}'}>C</MenuItem>
                     </Select>
                   </FormControl>
                 </Typography>
@@ -423,7 +434,7 @@ const Challenge = ({ theme }) => {
                 {/* populate all test cases if they exist */}
                 {algorithm
                   ? algorithm.testCases.map((algo, index) => (
-                      <Box className={classes.infobox}>
+                      <Box key={`Test Case ${index + 1}`} className={classes.infobox}>
                         <List>
                           <Box key={index} className={classes.list}>
                             <ListItemAvatar>

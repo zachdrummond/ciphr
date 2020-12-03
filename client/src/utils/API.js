@@ -19,11 +19,11 @@ const API = {
   getAlgorithm: function (id) {
     return axios.get(`/api/algorithm/${id}`);
   },
-  postCode: function (input, mode) {
+  postCode: function (input, lang) {
     return axios({
       method: "POST",
       url: "/api/code",
-      data: { input, mode },
+      data: { input, lang },
     });
   },
   login: function (userInfo) {
