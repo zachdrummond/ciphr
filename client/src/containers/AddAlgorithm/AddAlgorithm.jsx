@@ -279,15 +279,20 @@ export default function AddAlgorithm() {
 
               <Box className={classes.buttonArea}>
                 <Box>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    className={classes.button}
-                    startIcon={<AddIcon />}
-                    onClick={handleTestButton}
-                  >
-                    Add Test Case
-                  </Button>
+                  {/* removes add test case button if all four are displayed */}
+                  {testCount < 4 ? (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      className={classes.button}
+                      startIcon={<AddIcon />}
+                      onClick={handleTestButton}
+                    >
+                      Add Test Case
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
                   {/* only shows remove test case button if there is at least one */}
                   {testCount > 0 ? (
                     <Button
