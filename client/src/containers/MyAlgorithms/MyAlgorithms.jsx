@@ -32,6 +32,11 @@ const MyAlgorithms = () => {
   const getMyAlgorithms = () => {
     API.getMyAlgorithms(jwt)
       .then((algorithms) => {
+        algorithms.data.sort(function (a, b) {
+          return (
+            b.stars - a.stars || new Date(b.createdAt) - new Date(a.createdAt)
+          );
+        });
         setMyAlgorithms(algorithms.data);
       })
       .catch((error) => {
