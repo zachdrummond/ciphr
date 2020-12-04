@@ -18,7 +18,7 @@ const AlgorithmsSchema = new Schema(
     },
     stars: {
       type: Number,
-      default: 0
+      default: 0,
     },
     // an array of possible test cases for the algorithm
     testCases: [
@@ -30,6 +30,10 @@ const AlgorithmsSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "Users",
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
     },
   },
   { toJSON: { virtuals: true } }
