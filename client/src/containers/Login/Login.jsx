@@ -108,13 +108,18 @@ export default function SignInSide() {
       <CssBaseline />
       <Grid item xs={0} sm={6} md={8} className={classes.about}>
         <Box my={8}>
-          <svg
+          <motion.svg
             width="200"
             height="200"
             viewBox="0 0 193 189"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             align="center"
+            // animate={{ y: [0, 20, 0] }}
+            // transition={{
+            //   duration: 4,
+            //   loop: Infinity,
+            // }}
           >
             <path
               fill-rule="evenodd"
@@ -127,10 +132,16 @@ export default function SignInSide() {
               clip-rule="evenodd"
               d="M13.6751 94.4855C13.6751 134.068 41.0544 167.192 77.7463 175.77C81.2419 176.587 83.4131 180.084 82.5959 183.579C81.7786 187.075 78.2824 189.246 74.7868 188.429C32.2966 178.495 0.67511 140.192 0.67511 94.4855C0.67511 48.9873 32.0086 10.8262 74.205 0.68013C77.6954 -0.159134 81.2053 1.99002 82.0445 5.48039C82.8838 8.97075 80.7346 12.4806 77.2443 13.3199C40.8046 22.0818 13.6751 55.084 13.6751 94.4855ZM110.579 183.579C109.762 180.084 111.933 176.587 115.429 175.77C152.121 167.192 179.5 134.068 179.5 94.4855C179.5 55.084 152.371 22.0818 115.931 13.3199C112.44 12.4806 110.291 8.97075 111.131 5.48039C111.97 1.99002 115.48 -0.159134 118.97 0.68013C161.166 10.8262 192.5 48.9873 192.5 94.4855C192.5 140.192 160.879 178.495 118.388 188.429C114.893 189.246 111.397 187.075 110.579 183.579Z"
               fill="#8000ff"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 3, loop: Infinity }}
+              // initial={{ rotate: 0 }}
+              animate={{ rotate: 360 }}
+              transition={{
+                duration: 6,
+                loop: Infinity,
+                // type: "tween",
+                ease: "linear",
+              }}
             />
-          </svg>
+          </motion.svg>
         </Box>
 
         <Box mb={4}>
