@@ -11,7 +11,7 @@
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build && migrate-mongo up"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "express": "^4.17.1",
     "if-env": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
+    "migrate-mongo": "^8.1.4",
     "mongoose": "^5.10.12",
     "nodemon": "^2.0.6",
     "path": "^0.12.7"

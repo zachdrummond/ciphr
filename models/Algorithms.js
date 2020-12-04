@@ -8,10 +8,6 @@ const AlgorithmsSchema = new Schema(
       type: String,
       required: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
     description: {
       type: String,
       required: true,
@@ -34,6 +30,10 @@ const AlgorithmsSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "Users",
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
     },
   },
   { toJSON: { virtuals: true } }
