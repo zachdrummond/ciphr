@@ -41,6 +41,11 @@ const AllAlgorithms = () => {
   const getAllAlgorithms = () => {
     API.getAllAlgorithms()
       .then((algorithms) => {
+        algorithms.data.sort(function (a, b) {
+          return (
+            b.stars - a.stars || new Date(b.createdAt) - new Date(a.createdAt)
+          );
+        });
         setAllAlgorithms(algorithms.data);
       })
       .catch((error) => {

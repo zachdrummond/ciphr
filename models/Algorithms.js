@@ -8,6 +8,10 @@ const AlgorithmsSchema = new Schema(
       type: String,
       required: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
     description: {
       type: String,
       required: true,
@@ -18,7 +22,7 @@ const AlgorithmsSchema = new Schema(
     },
     stars: {
       type: Number,
-      default: 0
+      default: 0,
     },
     // an array of possible test cases for the algorithm
     testCases: [
