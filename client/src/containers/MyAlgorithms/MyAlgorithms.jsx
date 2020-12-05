@@ -72,7 +72,7 @@ const MyAlgorithms = () => {
           algorithms={myAlgorithms}
         >
           <Box m={2}>
-            <Link to={"/algorithms/new"} className="classes.fab">
+            <Link to={"/algorithms/new"} className={classes.fab}>
               <Fab color="primary" variant="extended">
                 Add Algorithm
               </Fab>

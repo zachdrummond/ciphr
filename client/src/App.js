@@ -116,8 +116,8 @@ function App() {
                 <Route exact path="/" component={Login} />
                 <Route path="/" component={NotFound} />
               </Switch>
+              <Footer />
             </AuthContext.Provider>
-            <Footer />
           </div>
         </Router>
       </ThemeProvider>

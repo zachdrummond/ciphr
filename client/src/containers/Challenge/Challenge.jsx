@@ -76,9 +76,7 @@ const useStyles = makeStyles((theme) => ({
     width: 100,
     height: 40,
   },
-  star: {
-    marginLeft: "42%",
-  },
+  star: {},
   codeMirror: {
     fontSize: 14,
   },
@@ -140,8 +138,8 @@ const Challenge = ({ theme }) => {
   // sets language for compiler api
   const [lang, setLang] = useState({
     name: "javascript",
-    mode: "javascript"
-  })
+    mode: "javascript",
+  });
   // state of code compiler after submit
   const [running, setRunning] = useState(false);
   // star status
@@ -211,13 +209,13 @@ const Challenge = ({ theme }) => {
   const handleOptionsChange = (e) => {
     const language = JSON.parse(e.target.value);
 
-    setLang({...language})
+    setLang({ ...language });
     setOptions({ ...options, mode: language.mode });
   };
 
   const handleCodeSubmit = (e) => {
-    console.log(lang)
-    console.log(options)
+    console.log(lang);
+    console.log(options);
     e.preventDefault();
     // stops function if no code is entered
     if (input.length === 0) {
@@ -229,30 +227,32 @@ const Challenge = ({ theme }) => {
 
       // post code/input to server (codeController.js) where third party api call is made
       API.postCode(input, lang.name)
-      .then(({ data }) => {
-        // if nothing is logged to console alert pops up
-        if (!data.out.length && !data.err.length) {
-          alert("Remember to call functions or log/print results to console!");
-          // if output is null error is logged to console and vice versa
-        } else if (!data.out.length) {
-          setOutput(data.err);
-        } else if (!data.err.length) {
-          setOutput(data.out);
-        }
-        // circular progress stopped
-        setRunning(false);
-      })
-      .catch((err) => {
-        setRunning(false);
-        console.log(err);
-      });
+        .then(({ data }) => {
+          // if nothing is logged to console alert pops up
+          if (!data.out.length && !data.err.length) {
+            alert(
+              "Remember to call functions or log/print results to console!"
+            );
+            // if output is null error is logged to console and vice versa
+          } else if (!data.out.length) {
+            setOutput(data.err);
+          } else if (!data.err.length) {
+            setOutput(data.out);
+          }
+          // circular progress stopped
+          setRunning(false);
+        })
+        .catch((err) => {
+          setRunning(false);
+          console.log(err);
+        });
     }
   };
 
   return (
     <Container maxWidth="lg">
       <Grid container className={classes.mastergrid}>
-        <Grid item xs={12}>
+        <Grid justify="center" item xs={12}>
           <Typography
             className={classes.titleBottom}
             variant="h4"
@@ -261,19 +261,22 @@ const Challenge = ({ theme }) => {
           >
             Challenge: {algorithm.challengeName}
           </Typography>
-          <FormControlLabel
-            className={classes.star}
-            control={
-              <Checkbox
-                checked={star}
-                onChange={toggleStar}
-                icon={<StarRate />}
-                checkedIcon={<Stars />}
-                name="checkedH"
-              />
-            }
-            label="Star this Algorithm"
-          />
+          <Typography align="center">
+            <FormControlLabel
+              className={classes.star}
+              control={
+                <Checkbox
+                  checked={star}
+                  onChange={toggleStar}
+                  icon={<StarRate />}
+                  checkedIcon={<Stars />}
+                  name="checkedH"
+                />
+              }
+              label="Star this Algorithm"
+            />
+          </Typography>
+
           <Typography
             className={classes.titleBottom}
             variant="h6"
@@ -285,100 +288,6 @@ const Challenge = ({ theme }) => {
         </Grid>
         <Grid item xs={12}>
           <Grid container>
-            <Grid className={classes.column} item xs={12} md={6}>
-              <Paper className={classes.paper}>
-                <Typography
-                  className={classes.titleBottom}
-                  mb={2}
-                  variant="h5"
-                  color="textPrimary"
-                  align="left"
-                >
-                  Input
-                </Typography>
-                <Typography className={classes.instructions}>
-                  Type code here!
-                </Typography>
-                <Typography className={classes.instructions}>
-                  If you use a function be sure to call it.
-                </Typography>
-                <Typography className={classes.instructions}>
-                  Remember to print/log any returns to the console.
-                </Typography>
-                <Box border={1}>
-                  <CodeMirror
-                    className={classes.codeMirror}
-                    name="code"
-                    value={input}
-                    onChange={handleInputChange}
-                    options={options}
-                  ></CodeMirror>
-                </Box>
-                <Typography
-                  className={classes.titleBottom}
-                  variant="h5"
-                  color="textPrimary"
-                  align="left"
-                >
-                  Output
-                  <Button
-                    onClick={handleCodeSubmit}
-                    variant="contained"
-                    color="primary"
-                    className={classes.runButton}
-                  >
-                    {/* Upon code submit 'running' is set to True, upon API response set to false */}
-                    {running ? (
-                      <CircularProgress size={30} color="white" />
-                    ) : (
-                      <p>Run</p>
-                    )}
-                  </Button>
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                  >
-                    <InputLabel id="demo-simple-select-outlined-label">
-                      Language
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={JSON.stringify(lang).replace(" ", "")}
-                      onChange={handleOptionsChange}
-                      label="Language"
-                      name="language"
-                    >
-                      {/* object stored as string allows stored values for api lang parameter and code mirror mode */}
-                      <MenuItem value={'{"name":"javascript","mode":"javascript"}'}>Node.js</MenuItem>
-                      <MenuItem value={'{"name":"python3","mode":"python"}'}>Python3</MenuItem>
-                      <MenuItem value={'{"name":"go","mode":"go"}'}>Golang</MenuItem>
-                      <MenuItem value={'{"name":"java","mode":"clike"}'}>Java</MenuItem>
-                      <MenuItem value={'{"name":"r","mode":"r"}'}>R</MenuItem>
-                      <MenuItem value={'{"name":"csharp","mode":"clike"}'}>C#</MenuItem>
-                      <MenuItem value={'{"name":"ruby","mode":"ruby"}'}>Ruby</MenuItem>
-                      <MenuItem value={'{"name":"cpp","mode":"clike"}'}>C++</MenuItem>
-                      <MenuItem value={'{"name":"c","mode":"clike"}'}>C</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Typography>
-                <Box border={1}>
-                  <CodeMirror
-                    className={classes.codeMirror}
-                    name="code output"
-                    ref={codeOutput}
-                    lineNumbers={false}
-                    options={{
-                      mode: "Shell",
-                      theme: options.theme,
-                      lineWrapping: true,
-                      readOnly: true,
-                    }}
-                  ></CodeMirror>
-                </Box>
-              </Paper>
-            </Grid>
-
             <Grid item className={classes.column} xs={12} md={6}>
               <Paper className={classes.paper}>
                 <Typography
@@ -434,7 +343,10 @@ const Challenge = ({ theme }) => {
                 {/* populate all test cases if they exist */}
                 {algorithm
                   ? algorithm.testCases.map((algo, index) => (
-                      <Box key={`Test Case ${index + 1}`} className={classes.infobox}>
+                      <Box
+                        key={`Test Case ${index + 1}`}
+                        className={classes.infobox}
+                      >
                         <List>
                           <Box key={index} className={classes.list}>
                             <ListItemAvatar>
@@ -445,7 +357,7 @@ const Challenge = ({ theme }) => {
                             <div>
                               <ul className={classes.listItem}>
                                 <li>Input: {algo.input}</li>
-                                <br/>
+                                <br />
                                 <li>Output: {algo.output}</li>
                                 <br />
                               </ul>
@@ -478,6 +390,119 @@ const Challenge = ({ theme }) => {
                       />
                     ))
                   : ""}
+              </Paper>
+            </Grid>
+            <Grid className={classes.column} item xs={12} md={6}>
+              <Paper className={classes.paper}>
+                <Typography
+                  className={classes.titleBottom}
+                  mb={2}
+                  variant="h5"
+                  color="textPrimary"
+                  align="left"
+                >
+                  Input
+                </Typography>
+                <Typography className={classes.instructions}>
+                  Type code here!
+                </Typography>
+                <Typography className={classes.instructions}>
+                  If you use a function be sure to call it.
+                </Typography>
+                <Typography className={classes.instructions}>
+                  Remember to print/log any returns to the console.
+                </Typography>
+                <Box border={1}>
+                  <CodeMirror
+                    className={classes.codeMirror}
+                    name="code"
+                    value={input}
+                    onChange={handleInputChange}
+                    options={options}
+                  ></CodeMirror>
+                </Box>
+                
+                  <Button
+                    onClick={handleCodeSubmit}
+                    variant="contained"
+                    color="primary"
+                    className={classes.runButton}
+                  >
+                    {/* Upon code submit 'running' is set to True, upon API response set to false */}
+                    {running ? (
+                      <CircularProgress size={30} color="white" />
+                    ) : (
+                      <p>Run</p>
+                    )}
+                  </Button>
+
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
+                  >
+                    <InputLabel id="demo-simple-select-outlined-label">
+                      Language
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      value={JSON.stringify(lang).replace(" ", "")}
+                      onChange={handleOptionsChange}
+                      label="Language"
+                      name="language"
+                    >
+                      {/* object stored as string allows stored values for api lang parameter and code mirror mode */}
+                      <MenuItem
+                        value={'{"name":"javascript","mode":"javascript"}'}
+                      >
+                        Node.js
+                      </MenuItem>
+                      <MenuItem value={'{"name":"python3","mode":"python"}'}>
+                        Python3
+                      </MenuItem>
+                      <MenuItem value={'{"name":"go","mode":"go"}'}>
+                        Golang
+                      </MenuItem>
+                      <MenuItem value={'{"name":"java","mode":"clike"}'}>
+                        Java
+                      </MenuItem>
+                      <MenuItem value={'{"name":"r","mode":"r"}'}>R</MenuItem>
+                      <MenuItem value={'{"name":"csharp","mode":"clike"}'}>
+                        C#
+                      </MenuItem>
+                      <MenuItem value={'{"name":"ruby","mode":"ruby"}'}>
+                        Ruby
+                      </MenuItem>
+                      <MenuItem value={'{"name":"cpp","mode":"clike"}'}>
+                        C++
+                      </MenuItem>
+                      <MenuItem value={'{"name":"c","mode":"clike"}'}>
+                        C
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Typography
+                  className={classes.titleBottom}
+                  variant="h5"
+                  color="textPrimary"
+                  align="left"
+                >
+                  Output
+                </Typography>
+                <Box border={1}>
+                  <CodeMirror
+                    className={classes.codeMirror}
+                    name="code output"
+                    ref={codeOutput}
+                    lineNumbers={false}
+                    options={{
+                      mode: "Shell",
+                      theme: options.theme,
+                      lineWrapping: true,
+                      readOnly: true,
+                    }}
+                  ></CodeMirror>
+                </Box>
               </Paper>
             </Grid>
           </Grid>

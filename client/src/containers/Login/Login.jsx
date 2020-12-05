@@ -21,7 +21,7 @@ import CredentialsForm from "../../components/CredentialsForm/CredentialsForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh",
+    height: "100%",
   },
   about: {
     display: "flex",
@@ -157,7 +157,7 @@ export default function SignInSide() {
         </Box>
       </Grid>
       <Grid item xs={12} sm={6} md={4} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
+        <Grid className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
@@ -174,7 +174,7 @@ export default function SignInSide() {
             link={"/signup"}
             linkText={"New to Ciphr? Sign up here!"}
           />
-        </div>
+        </Grid>
       </Grid>
     </Grid>
   );
