@@ -36,7 +36,7 @@ const Person = ({ name, gitHub, linkedIn, email }) => {
   }
 
   return (
-    <Grid item xs={3}>
+    <Grid item xs={12} sm={6} md={3} >
       <Avatar alt={name} src={setImage()} className={classes.large} />
       <Typography variant="h6">{name}</Typography>
       <IconButton color="inherit" href={gitHub} target="_blank">

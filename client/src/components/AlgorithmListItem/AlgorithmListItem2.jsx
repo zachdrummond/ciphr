@@ -51,13 +51,46 @@ const AlgorithmListItem = ({
       <Box className={classes.root}>
         <Paper button elevation={3} className={classes.paper}>
           <Grid container spacing={2}>
-            <Grid item>
-              <ButtonBase className={classes.image}>
-                <Stars />
-                {stars}
-              </ButtonBase>
+            <Grid justify="space-between" container>
+              <Grid item>
+                <ButtonBase className={classes.image}>
+                  <Stars />
+                  {stars}
+                </ButtonBase>
+              </Grid>
+              <Grid  item>
+                <Typography
+                  variant="subtitle1"
+                >
+                  {author}
+                </Typography>
+                {!author ? (
+                  <Typography>
+                    <IconButton
+                      component={Link}
+                      to={`/algorithms/edit/${id}`}
+                      edge="end"
+                      aria-label="delete"
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      value={id}
+                      onClick={() => handleDelete(id)}
+                      edge="end"
+                      aria-label="delete"
+                      component={Link}
+                      to={`/algorithms`}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Typography>
+                ) : (
+                  ""
+                )}
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm container>
+            <Grid justify="center" item xs={12} sm container>
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item xs>
                   <Typography gutterBottom variant="h5">
@@ -82,31 +115,6 @@ const AlgorithmListItem = ({
                         ))
                     : ""}
                 </Grid>
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle1">{author}</Typography>
-                {!author ? (
-                  <Typography>
-                    <IconButton
-                      component={Link}
-                      to={`/algorithms/edit/${id}`}
-                      edge="end"
-                      aria-label="delete"
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      value={id}
-                      onClick={() => handleDelete(id)}
-                      edge="end"
-                      aria-label="delete"
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Typography>
-                ) : (
-                  ""
-                )}
               </Grid>
             </Grid>
           </Grid>

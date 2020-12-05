@@ -5,11 +5,11 @@ import MeetTheTeam from "../MeetTheTeam/MeetTheTeam";
 
 const useStyles = makeStyles({
   footer: {
-    padding: "8px",
+    padding: "2px",
   },
   grid: {
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
 
 export default function Footer() {
