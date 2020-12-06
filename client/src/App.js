@@ -57,7 +57,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    height: "100vh",
+    height: "100%",
+  },
+  topChild: {
+    flexGrow: "1",
   },
 }));
 
@@ -79,46 +82,51 @@ function App() {
   }, [jwt]);
 
   return (
-    <div className="App">
+    <div className="App" style={{ height: "100vh" }}>
       <ThemeProvider theme={appliedTheme}>
         <CssBaseline />
         <Router>
-          <div className={classes.flexparent}>
-            <AuthContext.Provider
-              value={{ jwt, setJwt, username, setUsername }}
-            >
-              <Header theme={theme} setTheme={setTheme} />
-              <Switch>
-                <ProtectedRoute
-                  exact
-                  path="/algorithms/new"
-                  component={AddAlgorithm}
-                />
-                <ProtectedRoute
-                  exact
-                  path="/algorithms/edit/:algorithmId"
-                  component={EditAlgorithm}
-                />
-                <ProtectedRoute
-                  exact
-                  path="/algorithms/:algorithmId"
-                  component={Challenge}
-                  theme={theme}
-                />
-                <ProtectedRoute
-                  exact
-                  path="/algorithms"
-                  component={MyAlgorithms}
-                />
-                <ProtectedRoute exact path="/home" component={AllAlgorithms} />
-                <Route exact path="/signup" component={SignUp} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/" component={Login} />
-                <Route path="/" component={NotFound} />
-              </Switch>
+          <AuthContext.Provider value={{ jwt, setJwt, username, setUsername }}>
+            <div className={classes.flexparent}>
+              <div className={classes.topChild}>
+                <Header theme={theme} setTheme={setTheme} />
+                <Switch>
+                  <ProtectedRoute
+                    exact
+                    path="/algorithms/new"
+                    component={AddAlgorithm}
+                  />
+                  <ProtectedRoute
+                    exact
+                    path="/algorithms/edit/:algorithmId"
+                    component={EditAlgorithm}
+                  />
+                  <ProtectedRoute
+                    exact
+                    path="/algorithms/:algorithmId"
+                    component={Challenge}
+                    theme={theme}
+                  />
+                  <ProtectedRoute
+                    exact
+                    path="/algorithms"
+                    component={MyAlgorithms}
+                  />
+                  <ProtectedRoute
+                    exact
+                    path="/home"
+                    component={AllAlgorithms}
+                  />
+                  <Route exact path="/signup" component={SignUp} />
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/" component={Login} />
+                  <Route path="/" component={NotFound} />
+                </Switch>
+              </div>
+
               <Footer />
-            </AuthContext.Provider>
-          </div>
+            </div>
+          </AuthContext.Provider>
         </Router>
       </ThemeProvider>
     </div>
