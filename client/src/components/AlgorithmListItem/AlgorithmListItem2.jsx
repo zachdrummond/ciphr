@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Box, Chip, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import { StarRate } from "@material-ui/icons";
+import { Stars } from "@material-ui/icons";
 
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
   },
   star: {
-    color: theme.palette.text.secondary,
+    // color: theme.palette.text.secondary,
+    marginRight: "5px",
   }
 }));
 
@@ -71,7 +72,7 @@ const AlgorithmListItem = ({
             <Grid justify="space-between" container>
               <Grid item>
                 <ButtonBase className={classes.image}>
-                  <StarRate className={classes.star}/>
+                  <Stars className={classes.star} color="secondary"/>
                   {stars}
                 </ButtonBase>
               </Grid>
