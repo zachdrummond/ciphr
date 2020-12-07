@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
   },
   star: {
-    color: "#8000ff",
+    color: theme.palette.text.secondary,
   }
 }));
 
