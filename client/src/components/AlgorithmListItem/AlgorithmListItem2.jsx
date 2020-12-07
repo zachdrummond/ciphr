@@ -44,7 +44,21 @@ const AlgorithmListItem = ({
   description,
 }) => {
   const classes = useStyles();
-  console.log(hashtags);
+
+  // cuts text of at 210 chars or slightly longer to finish out word
+  const previewText = (text) => {
+    let c = "";
+    for (let i = 0; i < text.length; i++) {
+      if (i <= 210) {
+        c += text[i];
+      } else if (i > 210 && text[i] !== " ") {
+        c += text[i];
+      } else if (i > 210 && text[i] === " ") {
+        return c += "...";
+      }
+    }
+    return c;
+  }
 
   return (
     <Link className={classes.noUnder} to={`/algorithms/${id}`}>
@@ -97,7 +111,7 @@ const AlgorithmListItem = ({
                     {title}
                   </Typography>
                   <Typography variant="body2" gutterBottom>
-                    {description.substring(0, 300)}
+                    {previewText(description)}
                   </Typography>
                 </Grid>
                 <Grid item>
