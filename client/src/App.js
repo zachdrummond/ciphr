@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // Material UI
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import {
+  ThemeProvider,
+  createMuiTheme,
+  responsiveFontSizes,
+} from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core";
 // File Modules
 import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
@@ -21,8 +25,7 @@ import setAxiosDefaults from "./utils/setAxiosDefaults";
 import SignUp from "./containers/SignUp/SignUp";
 
 // define dark/light themes
-
-const lightTheme = createMuiTheme({
+let lightTheme = createMuiTheme({
   palette: {
     type: "light",
     primary: {
@@ -37,7 +40,7 @@ const lightTheme = createMuiTheme({
   },
 });
 
-const darkTheme = createMuiTheme({
+let darkTheme = createMuiTheme({
   palette: {
     type: "dark",
     primary: {
@@ -51,6 +54,9 @@ const darkTheme = createMuiTheme({
     fontFamily: "'Space Grotesk', Helvetica, Arial, sans-serif",
   },
 });
+
+lightTheme = responsiveFontSizes(lightTheme);
+darkTheme = responsiveFontSizes(darkTheme);
 
 const useStyles = makeStyles((theme) => ({
   flexparent: {
