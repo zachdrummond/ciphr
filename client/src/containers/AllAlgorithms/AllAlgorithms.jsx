@@ -63,7 +63,12 @@ const AllAlgorithms = () => {
         <Grid item xs={12}>
           {/* Welcome Message */}
           <Box p={8}>
-            <Typography variant="h3" component="h3" align="center">
+            <Typography
+              variant="h3"
+              component="h3"
+              align="center"
+              style={{ wordWrap: "break-word" }}
+            >
               Welcome {username}!
             </Typography>
           </Box>
