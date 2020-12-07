@@ -32,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
   noUnder: {
     textDecoration: "none",
   },
+  star: {
+    // color: theme.palette.text.secondary,
+    marginRight: "5px",
+  }
 }));
 
 const AlgorithmListItem = ({
@@ -44,7 +48,21 @@ const AlgorithmListItem = ({
   description,
 }) => {
   const classes = useStyles();
-  console.log(hashtags);
+
+  // cuts text of at 210 chars or slightly longer to finish out word
+  const previewText = (text) => {
+    let c = "";
+    for (let i = 0; i < text.length; i++) {
+      if (i <= 210) {
+        c += text[i];
+      } else if (i > 210 && text[i] !== " ") {
+        c += text[i];
+      } else if (i > 210 && text[i] === " ") {
+        return c += "...";
+      }
+    }
+    return c;
+  }
 
   return (
     <Link className={classes.noUnder} to={`/algorithms/${id}`}>
@@ -54,7 +72,7 @@ const AlgorithmListItem = ({
             <Grid justify="space-between" container>
               <Grid item>
                 <ButtonBase className={classes.image}>
-                  <Stars />
+                  <Stars className={classes.star} color="secondary"/>
                   {stars}
                 </ButtonBase>
               </Grid>
@@ -97,14 +115,15 @@ const AlgorithmListItem = ({
                     {title}
                   </Typography>
                   <Typography variant="body2" gutterBottom>
-                    {description.substring(0, 300)}
+                    {previewText(description)}
                   </Typography>
                 </Grid>
                 <Grid item>
                   {hashtags
                     ? hashtags
                         .split(" ")
-                        .map((hashtag, index) => (
+                        .map((hashtag, index) => {
+                          if (index < 3) {return (
                           <Chip
                             label={hashtag}
                             key={index}
@@ -112,7 +131,7 @@ const AlgorithmListItem = ({
                             size="medium"
                             className={classes.chip}
                           />
-                        ))
+                        )}})
                     : ""}
                 </Grid>
               </Grid>
