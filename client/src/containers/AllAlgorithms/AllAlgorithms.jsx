@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AllAlgorithms = () => {
   const classes = useStyles();
-  const { username } = useContext(AuthContext);
+  const { username, jwt } = useContext(AuthContext);
 
   const [allAlgorithms, setAllAlgorithms] = useState([]);
   const [search, setSearch] = useState("");
@@ -39,7 +39,7 @@ const AllAlgorithms = () => {
   };
 
   const getAllAlgorithms = () => {
-    API.getAllAlgorithms()
+    API.getAllAlgorithms(jwt)
       .then((algorithms) => {
         algorithms.data.sort(function (a, b) {
           return (

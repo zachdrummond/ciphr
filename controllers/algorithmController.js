@@ -5,19 +5,30 @@ const jwt = require("jsonwebtoken");
 
 // Get all algorithms
 router.get("/api/algorithm", function (request, response) {
-  db.Algorithms.find({})
-    .populate("user")
-    .then((algorithms) => {
-      response.json(algorithms);
-    })
-    .catch((error) => {
+  jwt.verify(request.headers.authorization, process.env.SECRET, (error, decoded) => {
+    if (error) {
       console.log(error);
-      response.status(500).json({
+      return response.status(401).json({
         error: true,
         data: null,
-        message: "Failed to get algorithms.",
+        message: "Invalid token.",
       });
-    });
+    } else {
+      db.Algorithms.find({})
+        .populate("user")
+        .then((algorithms) => {
+          response.json(algorithms);
+        })
+        .catch((error) => {
+          console.log(error);
+          response.status(500).json({
+            error: true,
+            data: null,
+            message: "Failed to get algorithms.",
+          });
+        });
+    }
+  });
 });
 
 //Get my algorithms

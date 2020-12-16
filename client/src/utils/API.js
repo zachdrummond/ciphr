@@ -10,8 +10,13 @@ const API = {
   editAlgorithm: function (id, algorithm) {
     return axios.put(`/api/algorithm/${id}`, algorithm);
   },
-  getAllAlgorithms: function () {
-    return axios.get("/api/algorithm");
+  getAllAlgorithms: function (jwt) {
+    const config = {
+      headers: {
+        Authorization: jwt
+      }
+    }
+    return axios.get("/api/algorithm", config);
   },
   getMyAlgorithms: function (jwt) {
     return axios.get(`/api/algorithm/user/${jwt}`);
