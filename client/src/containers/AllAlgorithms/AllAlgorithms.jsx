@@ -41,12 +41,12 @@ const AllAlgorithms = () => {
   const getAllAlgorithms = () => {
     API.getAllAlgorithms(jwt)
       .then((algorithms) => {
-        algorithms.data.sort(function (a, b) {
+        algorithms.data.data.sort(function (a, b) {
           return (
             b.stars - a.stars || new Date(b.createdAt) - new Date(a.createdAt)
           );
         });
-        setAllAlgorithms(algorithms.data);
+        setAllAlgorithms(algorithms.data.data);
       })
       .catch((error) => {
         console.log(error);
