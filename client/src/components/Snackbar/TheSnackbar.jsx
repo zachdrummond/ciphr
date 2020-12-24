@@ -1,6 +1,7 @@
+// React
 import React from "react";
-import Snackbar from "@material-ui/core/Snackbar";
-import IconButton from "@material-ui/core/IconButton";
+// Material UI
+import { IconButton, Snackbar } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
 const TheSnackbar = ({ snackbarOpen, setSnackbarOpen, message }) => {

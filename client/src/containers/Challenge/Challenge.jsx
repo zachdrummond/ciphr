@@ -25,6 +25,7 @@ import {
 import { Stars, StarRate, Code } from "@material-ui/icons";
 // File Modules
 import API from "../../utils/API";
+import AuthContext from "../../context/AuthContext/AuthContext";
 // Code Mirror
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
@@ -38,8 +39,6 @@ import "codemirror/mode/ruby/ruby";
 import "codemirror/mode/sql/sql";
 // import all the themes from codemirror/theme/...
 import "codemirror/theme/material-darker.css";
-// Context API
-import AuthContext from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {

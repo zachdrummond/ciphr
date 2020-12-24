@@ -8,7 +8,7 @@ import {
   Paper,
 } from "@material-ui/core";
 // File Modules
-import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem2";
+import AlgorithmListItem from "../../components/AlgorithmListItem/AlgorithmListItem";
 import HomeCard from "../HomeCard/HomeCard";
 import CenteredTabs from "../CenteredTabs/CenteredTabs";
 import Divider from "@material-ui/core/Divider";

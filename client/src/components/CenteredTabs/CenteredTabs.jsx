@@ -1,8 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { makeStyles, Tabs, Tab } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
