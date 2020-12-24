@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 // Get all algorithms
 router.get("/api/algorithm", function (request, response) {
   db.Algorithms.find({})
-    .populate("user")
+    .populate("userId", "-password")
     .then((algorithms) => {
       response.json(algorithms);
     })
@@ -62,7 +62,7 @@ router.get("/api/algorithm/user/:userJwt", function (request, response) {
 router.get("/api/algorithm/:id", function (request, response) {
   db.Algorithms.findOne({ _id: request.params.id })
     .populate("testCases")
-    .populate("user")
+    .populate("userId", "-password")
     .then((algorithm) => {
       response.json(algorithm);
     })

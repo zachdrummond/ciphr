@@ -1,6 +1,3 @@
-// React imports
-import React from "react";
-
 // Material UI
 import {
   Container,
@@ -70,7 +67,7 @@ const HomeSection = ({
                   const {
                     _id,
                     challengeName,
-                    user,
+                    userId,
                     stars,
                     hashtags,
                     description,
@@ -80,7 +77,7 @@ const HomeSection = ({
                       handleDelete={handleDelete}
                       key={_id}
                       title={challengeName}
-                      author={user?.username}
+                      author={userId?.username}
                       id={_id}
                       stars={stars}
                       hashtags={hashtags ? hashtags.join(" ") : ""}

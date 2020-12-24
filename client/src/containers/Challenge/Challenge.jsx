@@ -159,7 +159,7 @@ const Challenge = ({ theme }) => {
           testCases,
           description,
           challengeName,
-          user,
+          userId,
           hashtags,
         } = response.data;
         setAlgorithm({
@@ -167,7 +167,7 @@ const Challenge = ({ theme }) => {
           testCases,
           description,
           challengeName,
-          user,
+          userId,
           hashtags,
         });
         // gets status of star (ie. liked/disliked)
@@ -283,7 +283,7 @@ const Challenge = ({ theme }) => {
             color="textPrimary"
             align="center"
           >
-            Added by: {algorithm.user?.username}
+            Added by: {algorithm.userId?.username}
           </Typography>
         </Grid>
         <Grid item xs={12}>
