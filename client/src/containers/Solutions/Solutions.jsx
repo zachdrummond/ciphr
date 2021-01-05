@@ -6,7 +6,8 @@ import { MenuItem, FormControl, Select, InputLabel, Button } from "@material-ui/
 const Solutions = () => {
   const codeOutput = useRef();
 
-  const [lang, setLang] = useState("JavaScript")
+  const [lang, setLang] = useState("JavaScript");
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     const editorOut = codeOutput.current.getCodeMirror();
@@ -16,6 +17,15 @@ const Solutions = () => {
 
   const handleLangChange = (e) => {
       setLang(e.target.value)
+  }
+
+  const handleInputChange = (e) => {
+      setInput(e);
+  }
+
+  const handleCodeSubmit = (e) => {
+      e.preventDefault();
+      console.log(input);
   }
 
   return (
@@ -32,6 +42,8 @@ const Solutions = () => {
         //   lineWrapping: true,
         //   readOnly: true,
         // }}
+        onChange={handleInputChange}
+        value={input}
       ></CodeMirror>
       <FormControl variant="outlined">
         <InputLabel id="demo-simple-select-outlined-label">Language</InputLabel>
@@ -60,7 +72,7 @@ const Solutions = () => {
         </Select>
       </FormControl>
       <Button
-        // onClick={handleCodeSubmit}
+        onClick={handleCodeSubmit}
         variant="contained"
         color="primary"
         // className={classes.runButton}
