@@ -25,6 +25,7 @@ import {
 import { Stars, StarRate, Code } from "@material-ui/icons";
 // File Modules
 import API from "../../utils/API";
+import AuthContext from "../../context/AuthContext/AuthContext";
 // Code Mirror
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
@@ -38,8 +39,6 @@ import "codemirror/mode/ruby/ruby";
 import "codemirror/mode/sql/sql";
 // import all the themes from codemirror/theme/...
 import "codemirror/theme/material-darker.css";
-// Context API
-import AuthContext from "../../context/AuthContext/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -159,7 +158,7 @@ const Challenge = ({ theme }) => {
           testCases,
           description,
           challengeName,
-          user,
+          userId,
           hashtags,
         } = response.data;
         setAlgorithm({
@@ -167,7 +166,7 @@ const Challenge = ({ theme }) => {
           testCases,
           description,
           challengeName,
-          user,
+          userId,
           hashtags,
         });
         // gets status of star (ie. liked/disliked)
@@ -283,7 +282,7 @@ const Challenge = ({ theme }) => {
             color="textPrimary"
             align="center"
           >
-            Added by: {algorithm.user?.username}
+            Added by: {algorithm.userId?.username}
           </Typography>
         </Grid>
         <Grid item xs={12}>

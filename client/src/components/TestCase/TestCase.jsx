@@ -1,5 +1,3 @@
-// React
-import React from "react";
 // Material UI
 import { TextField, Typography } from "@material-ui/core";
 

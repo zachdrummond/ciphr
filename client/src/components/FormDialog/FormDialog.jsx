@@ -1,7 +1,5 @@
 // Material UI
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@material-ui/core";
-// File Modules
-
 
 const FormDialog = ({
   openFormDialog,
@@ -15,10 +13,7 @@ const FormDialog = ({
   handleInput,
   error,
   helperText
-
 }) => {
-
- 
 
   return (
     <>
@@ -50,7 +45,6 @@ const FormDialog = ({
           </Button>
         </DialogActions>
       </Dialog>
-      
     </>
   );
 };
