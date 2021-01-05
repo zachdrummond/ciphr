@@ -10,14 +10,14 @@ const useStyles = makeStyles({
   },
 });
 
-const CenteredTabs = ({ tabValue, tab1, tab2 }) => {
+const CenteredTabs = ({ tabValue, tab1, tab2, link1, link2 }) => {
   const classes = useStyles();
   const history = useHistory();
   const [value, setValue] = useState(tabValue);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    newValue === 0 ? history.push("/home") : history.push("/algorithms");
+    newValue === 0 ? history.push(link1) : history.push(link2);
   };
 
   return (
@@ -28,6 +28,7 @@ const CenteredTabs = ({ tabValue, tab1, tab2 }) => {
       indicatorColor="primary"
       textColor="primary"
       centered
+      variant="fullWidth"
     >
       <Tab label={tab1} />
       <Tab label={tab2} />
