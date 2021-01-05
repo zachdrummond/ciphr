@@ -58,6 +58,16 @@ const API = {
       method: "GET",
     });
   },
+  postSolution: function (code, description) {
+    return axios({
+      url: `/api/solutions`,
+      method: "POST",
+      data: {
+        code,
+        description
+      }
+    });
+  }
 };
 
 export default API;
