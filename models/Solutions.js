@@ -10,6 +10,10 @@ const SolutionsSchema = new Schema({
         type: String,
         required: true
     },
+    language: {
+        type: String,
+        required: true
+    },
 })
 
 const Solutions = mongoose.model("Solutions", SolutionsSchema);

@@ -58,13 +58,14 @@ const API = {
       method: "GET",
     });
   },
-  postSolution: function (code, description) {
+  postSolution: function (code, description, language) {
     return axios({
       url: `/api/solutions`,
       method: "POST",
       data: {
         code,
-        description
+        description,
+        language
       }
     });
   }

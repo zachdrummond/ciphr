@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
-import "codemirror/mode/markdown/markdown"
+import "codemirror/mode/markdown/markdown";
 import {
   MenuItem,
   FormControl,
@@ -9,6 +9,7 @@ import {
   InputLabel,
   Button,
 } from "@material-ui/core";
+import API from "../../utils/API";
 
 const Solutions = () => {
   const solutionCode = useRef();
@@ -57,8 +58,13 @@ const Solutions = () => {
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
-    console.log(input.code);
-    console.log(input.description)
+    const {code, description} = input;
+    API.postSolution(code, description, lang).then(solutionsRes => {
+        console.log(solutionsRes);
+    }).catch(err => {
+        console.log(err);
+    })
+
   };
 
   return (
