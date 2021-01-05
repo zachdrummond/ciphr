@@ -1,6 +1,5 @@
 // React
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
 //Material UI
 import { makeStyles, Tabs, Tab } from "@material-ui/core";
 
@@ -10,14 +9,13 @@ const useStyles = makeStyles({
   },
 });
 
-const CenteredTabs = ({ tabValue, tab1, tab2 }) => {
+const Challenge2 = () => {
   const classes = useStyles();
-  const history = useHistory();
-  const [value, setValue] = useState(tabValue);
+
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    newValue === 0 ? history.push("/home") : history.push("/algorithms");
   };
 
   return (
@@ -27,12 +25,12 @@ const CenteredTabs = ({ tabValue, tab1, tab2 }) => {
       onChange={handleChange}
       indicatorColor="primary"
       textColor="primary"
-      centered
+      variant="fullWidth"
     >
-      <Tab label={tab1} />
-      <Tab label={tab2} />
+      <Tab label="Challenge" />
+      <Tab label="Solutions" />
     </Tabs>
   );
 };
 
-export default CenteredTabs;
+export default Challenge2;

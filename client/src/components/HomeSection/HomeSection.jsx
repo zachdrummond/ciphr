@@ -48,7 +48,7 @@ const HomeSection = ({
     <Container maxWidth="md" className={classes.container}>
       <Grid item xs={size}>
         <Paper className={classes.paper}>
-          <CenteredTabs tabValue={tabValue} />
+          <CenteredTabs tabValue={tabValue} tab1={"All Algorithms"} tab2={"My Algorithms"}/>
           <Divider />
           <Typography
             variant="h5"

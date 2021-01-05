@@ -14,6 +14,7 @@ import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
 import AllAlgorithms from "./containers/AllAlgorithms/AllAlgorithms";
 import AuthContext from "./context/AuthContext/AuthContext";
 import Challenge from "./containers/Challenge/Challenge";
+import Challenge2 from "./containers/Challenge/Challenge2";
 import EditAlgorithm from "./containers/EditAlgorithm/EditAlgorithm";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
