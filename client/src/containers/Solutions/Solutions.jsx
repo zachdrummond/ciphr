@@ -1,74 +1,112 @@
 import React, { useEffect, useRef, useState } from "react";
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
-import { MenuItem, FormControl, Select, InputLabel, Button } from "@material-ui/core";
+import "codemirror/mode/markdown/markdown"
+import {
+  MenuItem,
+  FormControl,
+  Select,
+  InputLabel,
+  Button,
+} from "@material-ui/core";
 
 const Solutions = () => {
-  const codeOutput = useRef();
+  const solutionCode = useRef();
+  const description = useRef();
 
   const [lang, setLang] = useState("JavaScript");
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState({
+      description: "",
+      code: ""
+  });
+
+  const [codeOptions, setCodeOptions] = useState({
+    mode: "javascript",
+    lineNumbers: true,
+    theme: "default",
+    // autofocus: true,
+  });
+
+  const [options, setOptions] = useState({
+    mode: "markdown",
+    lineNumbers: false,
+    theme: "default",
+    // autofocus: true,
+  });
 
   useEffect(() => {
-    const editorOut = codeOutput.current.getCodeMirror();
-    editorOut.setSize("100%", 200);
-    // editorOut.setValue(output);
+    const solution = solutionCode.current.getCodeMirror();
+    solution.setSize("50%", 200);
+    const textDescription = description.current.getCodeMirror();
+    textDescription.setSize("50%", 200);
   }, []);
 
   const handleLangChange = (e) => {
-      setLang(e.target.value)
-  }
+    const language = JSON.parse(e.target.value)
+    setLang(language.name);
+    setCodeOptions({...codeOptions, mode: language.mode});
+  };
 
-  const handleInputChange = (e) => {
-      setInput(e);
-  }
+  const handleCodeChange = (e) => {
+    setInput({...input, code: e});
+  };
+
+  const handleDescriptionChange = (e) => {
+    setInput({...input, description: e});
+  };
 
   const handleCodeSubmit = (e) => {
-      e.preventDefault();
-      console.log(input);
-  }
+    e.preventDefault();
+    console.log(input.code);
+    console.log(input.description)
+  };
 
   return (
     <div>
-      <h1>You found me!</h1>
+        <h1>Post a Solution!</h1>
+      <h2>Solution code</h2>
       <CodeMirror
         // className={classes.codeMirror}
-        name="code output"
-        ref={codeOutput}
+        name="solution"
+        ref={solutionCode}
         lineNumbers={true}
-        // options={{
-        //   mode: "Shell",
-        //   theme: options.theme,
-        //   lineWrapping: true,
-        //   readOnly: true,
-        // }}
-        onChange={handleInputChange}
-        value={input}
+        options={codeOptions}
+        onChange={handleCodeChange}
+        value={input.code}
+      ></CodeMirror>
+      <h2>Solution Description</h2>
+      <CodeMirror
+        // className={classes.codeMirror}
+        name="description"
+        ref={description}
+        options={options}
+        onChange={handleDescriptionChange}
+        value={input.description}
       ></CodeMirror>
       <FormControl variant="outlined">
         <InputLabel id="demo-simple-select-outlined-label">Language</InputLabel>
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          value={lang}
-            onChange={handleLangChange}
+          value={JSON.stringify(lang).replace(" ", "")}
+          onChange={handleLangChange}
           label="Language"
           name="language"
         >
           {/* object stored as string allows stored values for api lang parameter and code mirror mode */}
-          <MenuItem value={'javascript'}>
+          <MenuItem value={'{"name":"javascript","mode":"javascript"}'}>
             Node.js
           </MenuItem>
-          <MenuItem value={'python3'}>
+          <MenuItem value={'{"name":"python3","mode":"python"}'}>
             Python3
           </MenuItem>
-          <MenuItem value={'go'}>Golang</MenuItem>
-          <MenuItem value={'java'}>Java</MenuItem>
-          <MenuItem value={'r'}>R</MenuItem>
-          <MenuItem value={'csharp'}>C#</MenuItem>
-          <MenuItem value={'ruby'}>Ruby</MenuItem>
-          <MenuItem value={'cpp'}>C++</MenuItem>
-          <MenuItem value={'c'}>C</MenuItem>
+          <MenuItem value={'{"name":"go","mode":"go"}'}>Golang</MenuItem>
+          <MenuItem value={'{"name":"java","mode":"clike"}'}>Java</MenuItem>
+          <MenuItem value={'{"name":"r","mode":"r"}'}>R</MenuItem>
+          <MenuItem value={'{"name":"csharp","mode":"clike"}'}>C#</MenuItem>
+          <MenuItem value={'{"name":"ruby","mode":"ruby"}'}>Ruby</MenuItem>
+          <MenuItem value={'{"name":"cpp","mode":"clike"}'}>C++</MenuItem>
+          <MenuItem value={'{"name":"c","mode":"clike"}'}>C</MenuItem>
         </Select>
       </FormControl>
       <Button
@@ -76,7 +114,9 @@ const Solutions = () => {
         variant="contained"
         color="primary"
         // className={classes.runButton}
-      >Submit Solution</Button>
+      >
+        Submit Solution
+      </Button>
     </div>
   );
 };
