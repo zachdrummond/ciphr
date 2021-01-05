@@ -6,7 +6,6 @@ import { makeStyles, Grid, Fab, Box, Typography } from "@material-ui/core";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
-// import UserContext from "../../context/UserContext/UserContext";
 import HomeSection from "../../components/HomeSection/HomeSection";
 
 // Styling for Specific Components

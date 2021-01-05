@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 // Material UI
 import {
   Avatar,
-  CssBaseline,
   Grid,
   makeStyles,
   Paper,

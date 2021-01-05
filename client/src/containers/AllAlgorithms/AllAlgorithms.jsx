@@ -46,6 +46,7 @@ const AllAlgorithms = () => {
             b.stars - a.stars || new Date(b.createdAt) - new Date(a.createdAt)
           );
         });
+        console.log(algorithms.data);
         setAllAlgorithms(algorithms.data);
       })
       .catch((error) => {

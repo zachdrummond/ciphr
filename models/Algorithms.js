@@ -36,14 +36,7 @@ const AlgorithmsSchema = new Schema(
       default: Date.now,
     },
   },
-  { toJSON: { virtuals: true } }
 );
-AlgorithmsSchema.virtual("user", {
-  ref: "Users",
-  localField: "userId",
-  foreignField: "_id",
-  justOne: true,
-});
 
 const Algorithms = mongoose.model("Algorithms", AlgorithmsSchema);
 

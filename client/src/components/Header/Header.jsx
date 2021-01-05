@@ -7,6 +7,8 @@ import {
   IconButton,
   List,
   makeStyles,
+  Menu,
+  MenuItem,
   Toolbar,
   Tooltip,
 } from "@material-ui/core";
@@ -15,8 +17,6 @@ import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 // File Modules
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
