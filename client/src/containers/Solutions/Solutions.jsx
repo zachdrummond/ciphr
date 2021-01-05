@@ -15,7 +15,10 @@ const Solutions = () => {
   const solutionCode = useRef();
   const description = useRef();
 
-  const [lang, setLang] = useState("JavaScript");
+  const [lang, setLang] = useState({
+      name: "javascript",
+      mode: "javascript"
+  });
   const [input, setInput] = useState({
       description: "",
       code: ""
@@ -44,7 +47,7 @@ const Solutions = () => {
 
   const handleLangChange = (e) => {
     const language = JSON.parse(e.target.value)
-    setLang(language.name);
+    setLang({name: language.name, mode: language.mode});
     setCodeOptions({...codeOptions, mode: language.mode});
   };
 
@@ -59,7 +62,7 @@ const Solutions = () => {
   const handleCodeSubmit = (e) => {
     e.preventDefault();
     const {code, description} = input;
-    API.postSolution(code, description, lang).then(solutionsRes => {
+    API.postSolution(code, description, lang.name).then(solutionsRes => {
         console.log(solutionsRes);
     }).catch(err => {
         console.log(err);
