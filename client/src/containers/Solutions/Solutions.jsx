@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
 import { MenuItem, FormControl, Select, InputLabel, Button } from "@material-ui/core";
@@ -6,11 +6,17 @@ import { MenuItem, FormControl, Select, InputLabel, Button } from "@material-ui/
 const Solutions = () => {
   const codeOutput = useRef();
 
+  const [lang, setLang] = useState("JavaScript")
+
   useEffect(() => {
     const editorOut = codeOutput.current.getCodeMirror();
     editorOut.setSize("100%", 200);
     // editorOut.setValue(output);
   }, []);
+
+  const handleLangChange = (e) => {
+      setLang(e.target.value)
+  }
 
   return (
     <div>
@@ -32,25 +38,25 @@ const Solutions = () => {
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          //   value={JSON.stringify(lang).replace(" ", "")}
-          //   onChange={handleOptionsChange}
+          value={lang}
+            onChange={handleLangChange}
           label="Language"
           name="language"
         >
           {/* object stored as string allows stored values for api lang parameter and code mirror mode */}
-          <MenuItem value={'{"name":"javascript","mode":"javascript"}'}>
+          <MenuItem value={'javascript'}>
             Node.js
           </MenuItem>
-          <MenuItem value={'{"name":"python3","mode":"python"}'}>
+          <MenuItem value={'python3'}>
             Python3
           </MenuItem>
-          <MenuItem value={'{"name":"go","mode":"go"}'}>Golang</MenuItem>
-          <MenuItem value={'{"name":"java","mode":"clike"}'}>Java</MenuItem>
-          <MenuItem value={'{"name":"r","mode":"r"}'}>R</MenuItem>
-          <MenuItem value={'{"name":"csharp","mode":"clike"}'}>C#</MenuItem>
-          <MenuItem value={'{"name":"ruby","mode":"ruby"}'}>Ruby</MenuItem>
-          <MenuItem value={'{"name":"cpp","mode":"clike"}'}>C++</MenuItem>
-          <MenuItem value={'{"name":"c","mode":"clike"}'}>C</MenuItem>
+          <MenuItem value={'go'}>Golang</MenuItem>
+          <MenuItem value={'java'}>Java</MenuItem>
+          <MenuItem value={'r'}>R</MenuItem>
+          <MenuItem value={'csharp'}>C#</MenuItem>
+          <MenuItem value={'ruby'}>Ruby</MenuItem>
+          <MenuItem value={'cpp'}>C++</MenuItem>
+          <MenuItem value={'c'}>C</MenuItem>
         </Select>
       </FormControl>
       <Button
