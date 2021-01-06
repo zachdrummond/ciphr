@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import {useParams} from "react-router-dom";
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
@@ -12,12 +12,14 @@ import {
   Typography,
 } from "@material-ui/core";
 import API from "../../utils/API";
+import AuthContext from "../../context/AuthContext";
 
 const Solutions = () => {
   const solutionCode = useRef();
   const description = useRef();
 
   const {algorithmId} = useParams();
+  const { jwt } = useContext(AuthContext);
 
   const [lang, setLang] = useState({
     name: "javascript",
@@ -60,7 +62,7 @@ const Solutions = () => {
     e.preventDefault();
 
     const { code, description } = input;
-    API.postSolution(code, description, lang.name, algorithmId)
+    API.postSolution(code, description, lang.name, algorithmId, jwt)
       .then((solutionsRes) => {
         console.log(solutionsRes.data.code);
         console.log(solutionsRes.data.description);
