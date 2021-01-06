@@ -1,27 +1,66 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
+const jwt = require("jsonwebtoken");
 
 router.post("/api/solutions", (req, res) => {
-  const { code, description, language, algorithmId } = req.body;
+  const { code, description, language, algorithmId, token } = req.body;
 
-  db.Solutions.create({
-    code: code,
-    description: description,
-    language: language,
-  })
-    .then((solutionRes) => {
-      console.log(solutionRes);
-      db.Algorithms.findByIdAndUpdate(algorithmId, {$push: {solutions: solutionRes}}).then(updateRes => {
-        res.status(200).json(updateRes);
-      }).catch(err => {
-          console.log(err);
+  jwt.verify(token, process.env.SECRET, (error, decoded) => {
+    if (error) {
+      return response.status(401).json({
+        error: true,
+        data: null,
+        message: "Invalid token.",
       });
-      // res.status(200).json(solutionRes)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    } else {
+      db.Users.findOne({ username: decoded.username })
+        .then((userRes) => {
+          db.Solutions.create({
+            code: code,
+            description: description,
+            language: language,
+            username: userRes,
+          })
+            .then((solutionRes) => {
+              db.Algorithms.findByIdAndUpdate(algorithmId, {
+                $push: { solutions: solutionRes },
+              })
+                .then((updateRes) => {
+                  res.status(200).json({
+                    error: false,
+                    data: null,
+                    message: "Successfully added solution",
+                  });
+                })
+                .catch((err) => {
+                  console.log(err);
+                  response.status(500).json({
+                    error: true,
+                    data: null,
+                    message: "Failed to update Algorithm model.",
+                  });
+                });
+            })
+            .catch((err) => {
+              console.log(err);
+              response.status(500).json({
+                error: true,
+                data: null,
+                message: "Failed to post solution.",
+              });
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          response.status(500).json({
+            error: true,
+            data: null,
+            message: "No user found.",
+          });
+        });
+    }
+  });
 });
 
 module.exports = router;

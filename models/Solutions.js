@@ -14,6 +14,10 @@ const SolutionsSchema = new Schema({
         type: String,
         required: true
     },
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: "Users"
+    }
 })
 
 const Solutions = mongoose.model("Solutions", SolutionsSchema);
