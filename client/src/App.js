@@ -23,7 +23,6 @@ import NotFound from "./containers/NotFound/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import setAxiosDefaults from "./utils/setAxiosDefaults";
 import SignUp from "./containers/SignUp/SignUp";
-import Solutions from "./containers/Solutions/Solutions";
 
 // define dark/light themes
 let lightTheme = createMuiTheme({
@@ -112,12 +111,6 @@ function App() {
                     exact
                     path="/algorithms/:algorithmId"
                     component={Challenge}
-                    theme={theme}
-                  />
-                  <Route
-                    exact
-                    path="/solutions/:algorithmId"
-                    component={Solutions}
                     theme={theme}
                   />
                   <ProtectedRoute
