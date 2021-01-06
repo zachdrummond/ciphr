@@ -8,6 +8,7 @@ import {
   Select,
   InputLabel,
   Button,
+  Typography,
 } from "@material-ui/core";
 import API from "../../utils/API";
 
@@ -19,6 +20,7 @@ const Solutions = () => {
     name: "javascript",
     mode: "javascript",
   });
+
   const [input, setInput] = useState({
     description: "",
     code: "",
@@ -57,16 +59,8 @@ const Solutions = () => {
     const { code, description } = input;
     API.postSolution(code, description, lang.name)
       .then((solutionsRes) => {
-        console.log(
-          solutionsRes.data.code
-            .replace(/(<br>)/g, "\n")
-            .replace(/(<span>)/g, "\t")
-        );
-        console.log(
-          solutionsRes.data.description
-            .replace(/(<br>)/g, "\n")
-            .replace(/(<span>)/g, "\t")
-        );
+        console.log(solutionsRes.data.code);
+        console.log(solutionsRes.data.description);
       })
       .catch((err) => {
         console.log(err);
