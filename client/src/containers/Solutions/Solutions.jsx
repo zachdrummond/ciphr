@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import {useParams} from "react-router-dom";
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
 import "codemirror/mode/markdown/markdown";
@@ -15,6 +16,8 @@ import API from "../../utils/API";
 const Solutions = () => {
   const solutionCode = useRef();
   const description = useRef();
+
+  const {algorithmId} = useParams();
 
   const [lang, setLang] = useState({
     name: "javascript",
@@ -57,7 +60,7 @@ const Solutions = () => {
     e.preventDefault();
 
     const { code, description } = input;
-    API.postSolution(code, description, lang.name)
+    API.postSolution(code, description, lang.name, algorithmId)
       .then((solutionsRes) => {
         console.log(solutionsRes.data.code);
         console.log(solutionsRes.data.description);
