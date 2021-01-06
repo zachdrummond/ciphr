@@ -16,26 +16,18 @@ const Solutions = () => {
   const description = useRef();
 
   const [lang, setLang] = useState({
-      name: "javascript",
-      mode: "javascript"
+    name: "javascript",
+    mode: "javascript",
   });
   const [input, setInput] = useState({
-      description: "",
-      code: ""
+    description: "",
+    code: "",
   });
 
   const [codeOptions, setCodeOptions] = useState({
     mode: "javascript",
     lineNumbers: true,
     theme: "default",
-    // autofocus: true,
-  });
-
-  const [options, setOptions] = useState({
-    mode: "markdown",
-    lineNumbers: false,
-    theme: "default",
-    // autofocus: true,
   });
 
   useEffect(() => {
@@ -46,33 +38,44 @@ const Solutions = () => {
   }, []);
 
   const handleLangChange = (e) => {
-    const language = JSON.parse(e.target.value)
-    setLang({name: language.name, mode: language.mode});
-    setCodeOptions({...codeOptions, mode: language.mode});
+    const language = JSON.parse(e.target.value);
+    setLang({ name: language.name, mode: language.mode });
+    setCodeOptions({ ...codeOptions, mode: language.mode });
   };
 
   const handleCodeChange = (e) => {
-    setInput({...input, code: e});
+    setInput({ ...input, code: e });
   };
 
   const handleDescriptionChange = (e) => {
-    setInput({...input, description: e});
+    setInput({ ...input, description: e });
   };
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
-    const {code, description} = input;
-    API.postSolution(code, description, lang.name).then(solutionsRes => {
-        console.log(solutionsRes);
-    }).catch(err => {
-        console.log(err);
-    })
 
+    const { code, description } = input;
+    API.postSolution(code, description, lang.name)
+      .then((solutionsRes) => {
+        console.log(
+          solutionsRes.data.code
+            .replace(/(<br>)/g, "\n")
+            .replace(/(<span>)/g, "\t")
+        );
+        console.log(
+          solutionsRes.data.description
+            .replace(/(<br>)/g, "\n")
+            .replace(/(<span>)/g, "\t")
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
     <div>
-        <h1>Post a Solution!</h1>
+      <h1>Post a Solution!</h1>
       <h2>Solution code</h2>
       <CodeMirror
         // className={classes.codeMirror}
@@ -88,7 +91,11 @@ const Solutions = () => {
         // className={classes.codeMirror}
         name="description"
         ref={description}
-        options={options}
+        options={{
+          mode: "markdown",
+          lineNumbers: false,
+          theme: "default",
+        }}
         onChange={handleDescriptionChange}
         value={input.description}
       ></CodeMirror>
@@ -126,6 +133,11 @@ const Solutions = () => {
       >
         Submit Solution
       </Button>
+      {/* <Typography
+        variant="body1"
+        multiline="true"
+        style={{ whiteSpace: "pre-wrap" }}
+      >{output}</Typography> */}
     </div>
   );
 };

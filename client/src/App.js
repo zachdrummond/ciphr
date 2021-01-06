@@ -116,7 +116,7 @@ function App() {
                   />
                   <Route
                     exact
-                    path="/algorithms/solutions/:algorithmId"
+                    path="/solutions/:algorithmId"
                     component={Solutions}
                     theme={theme}
                   />

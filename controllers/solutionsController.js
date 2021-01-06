@@ -3,11 +3,11 @@ const router = express.Router();
 const db = require("../models");
 
 router.post("/api/solutions", (req, res) => {
-    // console.log(req.body)
     const {code, description, language} = req.body;
+    
     db.Solutions.create({
-        code: code,
-        description: description,
+        code: code.replace(/(\n)/g, "<br>").replace(/(\t)/g, "<span>"),
+        description: description.replace(/(\n)/g, "<br>").replace(/(\t)/g, "<span>"),
         language: language
     }).then(solutionRes => {
         console.log(solutionRes);
