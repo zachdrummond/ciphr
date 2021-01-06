@@ -8,7 +8,7 @@ router.post("/api/solutions", (req, res) => {
 
   jwt.verify(token, process.env.SECRET, (error, decoded) => {
     if (error) {
-      return response.status(401).json({
+      return res.status(401).json({
         error: true,
         data: null,
         message: "Invalid token.",
@@ -35,7 +35,7 @@ router.post("/api/solutions", (req, res) => {
                 })
                 .catch((err) => {
                   console.log(err);
-                  response.status(500).json({
+                  res.status(500).json({
                     error: true,
                     data: null,
                     message: "Failed to update Algorithm model.",
@@ -44,7 +44,7 @@ router.post("/api/solutions", (req, res) => {
             })
             .catch((err) => {
               console.log(err);
-              response.status(500).json({
+              res.status(500).json({
                 error: true,
                 data: null,
                 message: "Failed to post solution.",
@@ -53,7 +53,7 @@ router.post("/api/solutions", (req, res) => {
         })
         .catch((err) => {
           console.log(err);
-          response.status(500).json({
+          res.status(500).json({
             error: true,
             data: null,
             message: "No user found.",

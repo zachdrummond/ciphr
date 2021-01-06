@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import API from "../../utils/API";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../context/AuthContext/AuthContext";
 
 const Solutions = () => {
   const solutionCode = useRef();
