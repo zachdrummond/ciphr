@@ -20,7 +20,7 @@ router.post("/api/solutions", (req, res) => {
             code: code,
             description: description,
             language: language,
-            username: userRes,
+            createdBy: userRes,
           })
             .then((solutionRes) => {
               db.Algorithms.findByIdAndUpdate(algorithmId, {
@@ -62,5 +62,9 @@ router.post("/api/solutions", (req, res) => {
     }
   });
 });
+
+router.get("/api/solutions", (req, res) => {
+
+})
 
 module.exports = router;
