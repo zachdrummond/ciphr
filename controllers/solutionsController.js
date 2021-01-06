@@ -64,29 +64,32 @@ router.post("/api/solutions", (req, res) => {
 });
 
 router.get("/api/solutions/:algorithmId", (req, res) => {
-  const {algorithmId} = req.params;
+  const { algorithmId } = req.params;
 
-  db.Algorithms.findById(algorithmId).populate({ 
-    path: "solutions",
-    populate: {
-      path: "createdBy",
-      model: "Users",
-      select: "username"
-    } 
- }).then(solutionsRes => {
-    res.status(200).json({
-      error: false,
-      data: solutionsRes.solutions,
-      message: `Solutions for algorithm '${solutionsRes.challengeName}' returned`,
+  db.Algorithms.findById(algorithmId)
+    .populate({
+      path: "solutions",
+      populate: {
+        path: "createdBy",
+        model: "Users",
+        select: "username",
+      },
     })
-  }).catch(err => {
-    console.log(err);
-    res.status(500).json({
-      error: true,
-      data: null,
-      message: `Algorithm Id '${algorithmId}' does not exist`,
+    .then((solutionsRes) => {
+      res.status(200).json({
+        error: false,
+        data: solutionsRes.solutions,
+        message: `Solutions for algorithm '${solutionsRes.challengeName}' returned`,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).json({
+        error: true,
+        data: null,
+        message: `Algorithm Id '${algorithmId}' does not exist`,
+      });
     });
-  });
-})
+});
 
 module.exports = router;

@@ -75,6 +75,12 @@ const API = {
         token
       }
     });
+  },
+  getSolutions: function (algorithmId) {
+    return axios({
+      url: `/api/solutions/${algorithmId}`,
+      method: "GET"
+    });
   }
 };
 
