@@ -63,6 +63,25 @@ const API = {
       method: "GET",
     });
   },
+  postSolution: function (code, description, language, algorithmId, token) {
+    return axios({
+      url: `/api/solutions`,
+      method: "POST",
+      data: {
+        code,
+        description,
+        language,
+        algorithmId,
+        token
+      }
+    });
+  },
+  getSolutions: function (algorithmId) {
+    return axios({
+      url: `/api/solutions/${algorithmId}`,
+      method: "GET"
+    });
+  }
 };
 
 export default API;

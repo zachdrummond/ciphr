@@ -213,8 +213,6 @@ const Challenge = ({ theme }) => {
   };
 
   const handleCodeSubmit = (e) => {
-    console.log(lang);
-    console.log(options);
     e.preventDefault();
     // stops function if no code is entered
     if (input.length === 0) {
