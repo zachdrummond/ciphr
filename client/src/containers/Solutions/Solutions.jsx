@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
 import "codemirror/mode/markdown/markdown";
@@ -18,7 +18,7 @@ const Solutions = () => {
   const solutionCode = useRef();
   const description = useRef();
 
-  const {algorithmId} = useParams();
+  const { algorithmId } = useParams();
   const { jwt } = useContext(AuthContext);
 
   const [lang, setLang] = useState({
@@ -37,11 +37,24 @@ const Solutions = () => {
     theme: "default",
   });
 
+  const [foundAlgorithms, setFoundAlgorithms] = useState([]);
+
   useEffect(() => {
     const solution = solutionCode.current.getCodeMirror();
     solution.setSize("50%", 200);
     const textDescription = description.current.getCodeMirror();
     textDescription.setSize("50%", 200);
+  }, []);
+
+  useEffect(() => {
+    API.getSolutions(algorithmId)
+      .then((solutionsRes) => {
+        console.log(solutionsRes);
+        setFoundAlgorithms(solutionsRes.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const handleLangChange = (e) => {
@@ -63,9 +76,15 @@ const Solutions = () => {
 
     const { code, description } = input;
     API.postSolution(code, description, lang.name, algorithmId, jwt)
-      .then((solutionsRes) => {
-        console.log(solutionsRes.data.code);
-        console.log(solutionsRes.data.description);
+      .then((solutionsResOne) => {
+        API.getSolutions(algorithmId)
+        .then((solutionsResTwo) => {
+          console.log(solutionsResTwo);
+          setFoundAlgorithms(solutionsResTwo.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -137,6 +156,14 @@ const Solutions = () => {
         multiline="true"
         style={{ whiteSpace: "pre-wrap" }}
       >{output}</Typography> */}
+      <br />
+      {foundAlgorithms.map((algorithm) => (
+        <>
+          <h5>{algorithm.createdBy.username}</h5>
+          <p style={{ whiteSpace: "pre-wrap" }}>{algorithm.description}</p>
+          <code style={{ whiteSpace: "pre-wrap" }}>{algorithm.code}</code>
+        </>
+      ))}
     </div>
   );
 };
