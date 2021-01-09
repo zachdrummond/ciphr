@@ -46,7 +46,6 @@ const MyAlgorithms = () => {
   const handleDelete = (id) => {
     API.deleteAlgorithm(id)
       .then((res) => {
-        console.log(res);
         getMyAlgorithms();
       })
       .catch((err) => console.log(err));

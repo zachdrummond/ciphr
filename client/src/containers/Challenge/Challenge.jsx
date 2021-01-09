@@ -26,6 +26,7 @@ import { Stars, StarRate, Code } from "@material-ui/icons";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import CenteredTabs from "../../components/CenteredTabs/CenteredTabs";
 // Code Mirror
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
@@ -282,6 +283,13 @@ const Challenge = ({ theme }) => {
           >
             Added by: {algorithm.userId?.username}
           </Typography>
+          <CenteredTabs
+          tabValue={0}
+          tab1={"Challenge"}
+          tab2={"Solutions"}
+          link1={`/algorithms/${algorithmId}`}
+          link2={`/solutions/${algorithmId}`}
+        />
         </Grid>
         <Grid item xs={12}>
           <Grid container>
@@ -418,67 +426,62 @@ const Challenge = ({ theme }) => {
                     options={options}
                   ></CodeMirror>
                 </Box>
-                
-                  <Button
-                    onClick={handleCodeSubmit}
-                    variant="contained"
-                    color="primary"
-                    className={classes.runButton}
-                  >
-                    {/* Upon code submit 'running' is set to True, upon API response set to false */}
-                    {running ? (
-                      <CircularProgress size={30} color="white" />
-                    ) : (
-                      <p>Run</p>
-                    )}
-                  </Button>
 
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
+                <Button
+                  onClick={handleCodeSubmit}
+                  variant="contained"
+                  color="primary"
+                  className={classes.runButton}
+                >
+                  {/* Upon code submit 'running' is set to True, upon API response set to false */}
+                  {running ? (
+                    <CircularProgress size={30} color="white" />
+                  ) : (
+                    <p>Run</p>
+                  )}
+                </Button>
+
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Language
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={JSON.stringify(lang).replace(" ", "")}
+                    onChange={handleOptionsChange}
+                    label="Language"
+                    name="language"
                   >
-                    <InputLabel id="demo-simple-select-outlined-label">
-                      Language
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={JSON.stringify(lang).replace(" ", "")}
-                      onChange={handleOptionsChange}
-                      label="Language"
-                      name="language"
+                    {/* object stored as string allows stored values for api lang parameter and code mirror mode */}
+                    <MenuItem
+                      value={'{"name":"javascript","mode":"javascript"}'}
                     >
-                      {/* object stored as string allows stored values for api lang parameter and code mirror mode */}
-                      <MenuItem
-                        value={'{"name":"javascript","mode":"javascript"}'}
-                      >
-                        Node.js
-                      </MenuItem>
-                      <MenuItem value={'{"name":"python3","mode":"python"}'}>
-                        Python3
-                      </MenuItem>
-                      <MenuItem value={'{"name":"go","mode":"go"}'}>
-                        Golang
-                      </MenuItem>
-                      <MenuItem value={'{"name":"java","mode":"clike"}'}>
-                        Java
-                      </MenuItem>
-                      <MenuItem value={'{"name":"r","mode":"r"}'}>R</MenuItem>
-                      <MenuItem value={'{"name":"csharp","mode":"clike"}'}>
-                        C#
-                      </MenuItem>
-                      <MenuItem value={'{"name":"ruby","mode":"ruby"}'}>
-                        Ruby
-                      </MenuItem>
-                      <MenuItem value={'{"name":"cpp","mode":"clike"}'}>
-                        C++
-                      </MenuItem>
-                      <MenuItem value={'{"name":"c","mode":"clike"}'}>
-                        C
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                  <Typography
+                      Node.js
+                    </MenuItem>
+                    <MenuItem value={'{"name":"python3","mode":"python"}'}>
+                      Python3
+                    </MenuItem>
+                    <MenuItem value={'{"name":"go","mode":"go"}'}>
+                      Golang
+                    </MenuItem>
+                    <MenuItem value={'{"name":"java","mode":"clike"}'}>
+                      Java
+                    </MenuItem>
+                    <MenuItem value={'{"name":"r","mode":"r"}'}>R</MenuItem>
+                    <MenuItem value={'{"name":"csharp","mode":"clike"}'}>
+                      C#
+                    </MenuItem>
+                    <MenuItem value={'{"name":"ruby","mode":"ruby"}'}>
+                      Ruby
+                    </MenuItem>
+                    <MenuItem value={'{"name":"cpp","mode":"clike"}'}>
+                      C++
+                    </MenuItem>
+                    <MenuItem value={'{"name":"c","mode":"clike"}'}>C</MenuItem>
+                  </Select>
+                </FormControl>
+                <Typography
                   className={classes.titleBottom}
                   variant="h5"
                   color="textPrimary"

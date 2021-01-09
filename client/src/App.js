@@ -14,6 +14,7 @@ import AddAlgorithm from "./containers/AddAlgorithm/AddAlgorithm";
 import AllAlgorithms from "./containers/AllAlgorithms/AllAlgorithms";
 import AuthContext from "./context/AuthContext/AuthContext";
 import Challenge from "./containers/Challenge/Challenge";
+import Solutions from "./containers/Challenge/Solutions";
 import EditAlgorithm from "./containers/EditAlgorithm/EditAlgorithm";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
@@ -117,6 +118,12 @@ function App() {
                     exact
                     path="/algorithms"
                     component={MyAlgorithms}
+                  />
+                  <ProtectedRoute
+                    exact
+                    path="/solutions/:algorithmId"
+                    component={Solutions}
+                    theme={theme}
                   />
                   <ProtectedRoute
                     exact
