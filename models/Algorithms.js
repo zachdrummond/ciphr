@@ -35,6 +35,12 @@ const AlgorithmsSchema = new Schema(
       type: Date,
       default: Date.now,
     },
+    solutions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Solutions",
+      },
+    ],
   },
 );
 

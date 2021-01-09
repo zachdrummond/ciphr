@@ -111,7 +111,7 @@ function App() {
                   <ProtectedRoute
                     exact
                     path="/algorithms/:algorithmId"
-                    component={Challenge}
+                    component={Challenge2}
                     theme={theme}
                   />
                   <ProtectedRoute

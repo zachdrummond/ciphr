@@ -1,35 +1,14 @@
-// React
-import { useState } from "react";
-//Material UI
-import { makeStyles, Tabs, Tab } from "@material-ui/core";
-
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-  },
-});
+import CenteredTabs from "../../components/CenteredTabs/CenteredTabs";
 
 const Challenge2 = () => {
-  const classes = useStyles();
-
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   return (
-    <Tabs
-      className={classes.root}
-      value={value}
-      onChange={handleChange}
-      indicatorColor="primary"
-      textColor="primary"
-      variant="fullWidth"
-    >
-      <Tab label="Challenge" />
-      <Tab label="Solutions" />
-    </Tabs>
+    <CenteredTabs
+      tabValue={0}
+      tab1={"Challenge"}
+      tab2={"Solutions"}
+      link1={""}
+      link2={""}
+    />
   );
 };
 

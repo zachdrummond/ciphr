@@ -10,8 +10,13 @@ const API = {
   editAlgorithm: function (id, algorithm) {
     return axios.put(`/api/algorithm/${id}`, algorithm);
   },
-  getAllAlgorithms: function () {
-    return axios.get("/api/algorithm");
+  getAllAlgorithms: function (jwt) {
+    const config = {
+      headers: {
+        Authorization: jwt
+      }
+    }
+    return axios.get("/api/algorithm", config);
   },
   getMyAlgorithms: function (jwt) {
     return axios.get(`/api/algorithm/user/${jwt}`);
@@ -58,6 +63,25 @@ const API = {
       method: "GET",
     });
   },
+  postSolution: function (code, description, language, algorithmId, token) {
+    return axios({
+      url: `/api/solutions`,
+      method: "POST",
+      data: {
+        code,
+        description,
+        language,
+        algorithmId,
+        token
+      }
+    });
+  },
+  getSolutions: function (algorithmId) {
+    return axios({
+      url: `/api/solutions/${algorithmId}`,
+      method: "GET"
+    });
+  }
 };
 
 export default API;
