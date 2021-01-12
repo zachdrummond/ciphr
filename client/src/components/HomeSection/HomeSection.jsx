@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 // Material UI
 import {
   Container,
@@ -43,12 +45,55 @@ const HomeSection = ({
   search,
 }) => {
   const classes = useStyles();
+  const [items, setItems] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [lastItem, setLastItem] = useState(5);
 
+  let list = [];
+
+  const fetchData = () => {
+    console.log(`fetchData called`);
+    if (!search && algorithms.length && items.length >= algorithms.length) {
+      setHasMore(false);
+      return;
+    }
+    if (algorithms.length > lastItem) {
+      for (let i = 0; i < lastItem; i++) {
+        list.push(algorithms[i]);
+      }
+      setItems(list);
+      setLastItem(lastItem + 5);
+    } else {
+      for (let i = 0; i < algorithms.length; i++) {
+        list.push(algorithms[i]);
+      }
+      setItems(list);
+    }
+  };
+
+  useEffect(() => {
+      fetchData();
+  }, [algorithms]);
+
+  useEffect(() => {
+      console.log(`search`);
+      setLastItem(5);
+      setHasMore(true);
+      setItems([]);
+      list = [];
+      fetchData();
+  }, [search]);
   return (
     <Container maxWidth="md" className={classes.container}>
       <Grid item xs={size}>
         <Paper className={classes.paper}>
-          <CenteredTabs tabValue={tabValue} tab1={"All Algorithms"} tab2={"My Algorithms"} link1={"/home"} link2={"/algorithms"}/>
+          <CenteredTabs
+            tabValue={tabValue}
+            tab1={"All Algorithms"}
+            tab2={"My Algorithms"}
+            link1={"/home"}
+            link2={"/algorithms"}
+          />
           <Divider />
           <Typography
             variant="h5"
@@ -61,40 +106,46 @@ const HomeSection = ({
 
           <Container align="center">
             {children}
-            <List component="nav" className={classes.root}>
-              {algorithms.length > 0 ? (
-                algorithms.map((algorithm) => {
-                  const {
-                    _id,
-                    challengeName,
-                    userId,
-                    stars,
-                    hashtags,
-                    description,
-                  } = algorithm;
-                  return (
-                    <AlgorithmListItem
-                      handleDelete={handleDelete}
-                      key={_id}
-                      title={challengeName}
-                      author={userId?.username}
-                      id={_id}
-                      stars={stars}
-                      hashtags={hashtags ? hashtags.join(" ") : ""}
-                      description={description}
-                    />
-                  );
-                })
-              ) : (
-                <HomeCard
-                  text={
-                    search
-                      ? "No results found."
-                      : "You haven't added anything yet. Maybe today is the day!"
-                  }
-                />
-              )}
-            </List>
+            <InfiniteScroll
+              dataLength={items.length} //This is important field to render the next data
+              next={fetchData}
+              hasMore={hasMore}
+            >
+              <List component="nav" className={classes.root}>
+                {items.length > 0 ? (
+                  items.map((item) => {
+                    const {
+                      _id,
+                      challengeName,
+                      userId,
+                      stars,
+                      hashtags,
+                      description,
+                    } = item;
+                    return (
+                      <AlgorithmListItem
+                        handleDelete={handleDelete}
+                        key={_id}
+                        title={challengeName}
+                        author={userId?.username}
+                        id={_id}
+                        stars={stars}
+                        hashtags={hashtags ? hashtags.join(" ") : ""}
+                        description={description}
+                      />
+                    );
+                  })
+                ) : (
+                  <HomeCard
+                    text={
+                      search
+                        ? "No results found."
+                        : "You haven't added anything yet. Maybe today is the day!"
+                    }
+                  />
+                )}
+              </List>
+            </InfiniteScroll>
           </Container>
         </Paper>
       </Grid>
