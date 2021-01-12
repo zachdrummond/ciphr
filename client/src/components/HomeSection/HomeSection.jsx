@@ -47,7 +47,7 @@ const HomeSection = ({
   const classes = useStyles();
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const [lastItem, setLastItem] = useState(5);
+  const [lastItem, setLastItem] = useState(10);
 
   let list = [];
 
@@ -62,7 +62,7 @@ const HomeSection = ({
         list.push(algorithms[i]);
       }
       setItems(list);
-      setLastItem(lastItem + 5);
+      setLastItem(lastItem + 10);
     } else {
       for (let i = 0; i < algorithms.length; i++) {
         list.push(algorithms[i]);
@@ -77,7 +77,7 @@ const HomeSection = ({
 
   useEffect(() => {
       console.log(`search`);
-      setLastItem(5);
+      setLastItem(10);
       setHasMore(true);
       setItems([]);
       list = [];
