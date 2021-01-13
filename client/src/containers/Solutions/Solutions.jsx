@@ -13,10 +13,11 @@ import {
 } from "@material-ui/core";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import SolutionTab from "../../components/SolutionTab/SolutionTab";
 
 const Solutions = () => {
-  const solutionCode = useRef();
-  const description = useRef();
+  // const solutionCode = useRef();
+  // const description = useRef();
 
   const { algorithmId } = useParams();
   const { jwt } = useContext(AuthContext);
@@ -39,12 +40,12 @@ const Solutions = () => {
 
   const [foundAlgorithms, setFoundAlgorithms] = useState([]);
 
-  useEffect(() => {
-    const solution = solutionCode.current.getCodeMirror();
-    solution.setSize("50%", 200);
-    const textDescription = description.current.getCodeMirror();
-    textDescription.setSize("50%", 200);
-  }, []);
+  // useEffect(() => {
+  //   const solution = solutionCode.current.getCodeMirror();
+  //   solution.setSize("50%", 200);
+  //   const textDescription = description.current.getCodeMirror();
+  //   textDescription.setSize("50%", 200);
+  // }, []);
 
   useEffect(() => {
     API.getSolutions(algorithmId)
@@ -95,7 +96,7 @@ const Solutions = () => {
     <div>
       <h1>Post a Solution!</h1>
       <h2>Solution code</h2>
-      <CodeMirror
+      {/* <CodeMirror
         // className={classes.codeMirror}
         name="solution"
         ref={solutionCode}
@@ -116,7 +117,7 @@ const Solutions = () => {
         }}
         onChange={handleDescriptionChange}
         value={input.description}
-      ></CodeMirror>
+      ></CodeMirror> */}
       <FormControl variant="outlined">
         <InputLabel id="demo-simple-select-outlined-label">Language</InputLabel>
         <Select
@@ -159,9 +160,11 @@ const Solutions = () => {
       <br />
       {foundAlgorithms.map((algorithm) => (
         <>
-          <h5>{algorithm.createdBy.username}</h5>
+          {/* <h5>{algorithm.createdBy.username}</h5>
           <p style={{ whiteSpace: "pre-wrap" }}>{algorithm.description}</p>
-          <code style={{ whiteSpace: "pre-wrap" }}>{algorithm.code}</code>
+          <code style={{ whiteSpace: "pre-wrap" }}>{algorithm.code}</code> */}
+          {console.log(algorithm)}
+          <SolutionTab code={algorithm.code} description={algorithm.description} createdBy={algorithm.createdBy.username}/>
         </>
       ))}
     </div>
