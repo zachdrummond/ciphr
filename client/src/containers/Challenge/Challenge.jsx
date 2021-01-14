@@ -7,13 +7,9 @@ import {
   Button,
   Container,
   Chip,
-  FormControl,
   Grid,
-  InputLabel,
   makeStyles,
-  MenuItem,
   Paper,
-  Select,
   Typography,
   CircularProgress,
   FormControlLabel,
@@ -37,7 +33,7 @@ import "codemirror/mode/clike/clike";
 import "codemirror/mode/r/r";
 import "codemirror/mode/shell/shell";
 import "codemirror/mode/ruby/ruby";
-import "codemirror/mode/sql/sql";
+import "codemirror/addon/edit/closebrackets";
 // import all the themes from codemirror/theme/...
 import "codemirror/theme/material-darker.css";
 // components
@@ -117,6 +113,7 @@ const Challenge = ({ theme }) => {
   const { algorithmId } = useParams();
   const { username } = useContext(AuthContext);
   const codeOutput = useRef();
+  const codeInput = useRef();
 
   // code mirror editor settings
   const [options, setOptions] = useState({
@@ -124,6 +121,7 @@ const Challenge = ({ theme }) => {
     lineNumbers: true,
     theme: "",
     autofocus: true,
+    autoCloseBrackets: true,
   });
   // sets the code input in first text area and language in dropdown select as state.
   // find in dev tools components under 'Challenge'
@@ -192,6 +190,10 @@ const Challenge = ({ theme }) => {
     editorOut.setSize("100%", 200);
     editorOut.setValue(output);
   }, [output]);
+
+  useEffect(() => {
+    const editorIn = codeInput.current.getCodeMirror({autoCloseBrackets: true});
+  }, []);
 
   // toggles star icon off/on
   const toggleStar = () => {
@@ -423,6 +425,7 @@ const Challenge = ({ theme }) => {
                   <CodeMirror
                     className={classes.codeMirror}
                     name="code"
+                    ref={codeInput}
                     value={input}
                     onChange={handleInputChange}
                     options={options}
