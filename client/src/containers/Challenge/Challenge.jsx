@@ -113,7 +113,6 @@ const Challenge = ({ theme }) => {
   const { algorithmId } = useParams();
   const { username } = useContext(AuthContext);
   const codeOutput = useRef();
-  const codeInput = useRef();
 
   // code mirror editor settings
   const [options, setOptions] = useState({
@@ -190,10 +189,6 @@ const Challenge = ({ theme }) => {
     editorOut.setSize("100%", 200);
     editorOut.setValue(output);
   }, [output]);
-
-  useEffect(() => {
-    const editorIn = codeInput.current.getCodeMirror({autoCloseBrackets: true});
-  }, []);
 
   // toggles star icon off/on
   const toggleStar = () => {
@@ -425,7 +420,6 @@ const Challenge = ({ theme }) => {
                   <CodeMirror
                     className={classes.codeMirror}
                     name="code"
-                    ref={codeInput}
                     value={input}
                     onChange={handleInputChange}
                     options={options}
