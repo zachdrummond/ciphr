@@ -1,11 +1,21 @@
 // React
 import { Link } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 // Material UI
-import { makeStyles, Grid, Fab, Box, Typography } from "@material-ui/core";
+import {
+  makeStyles,
+  Grid,
+  Fab,
+  Box,
+  Typography,
+  Snackbar,
+  IconButton,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import SnackbarContext from "../../context/SnackbarContext/SnackbarContext";
 import HomeSection from "../../components/HomeSection/HomeSection";
 
 // Styling for Specific Components
@@ -21,8 +31,19 @@ const useStyles = makeStyles((theme) => ({
 const MyAlgorithms = () => {
   const classes = useStyles();
   const { jwt, username } = useContext(AuthContext);
+  const { snackbarMessage, snackbarOpen, setSnackbarOpen, setSnackbarMessage } = useContext(
+    SnackbarContext
+  );
 
   const [myAlgorithms, setMyAlgorithms] = useState([]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
 
   useEffect(() => {
     getMyAlgorithms();
@@ -46,6 +67,8 @@ const MyAlgorithms = () => {
   const handleDelete = (id) => {
     API.deleteAlgorithm(id)
       .then((res) => {
+        setSnackbarMessage("Algorithm Successfully Deleted!");
+        setSnackbarOpen(true);
         getMyAlgorithms();
       })
       .catch((err) => console.log(err));
@@ -82,6 +105,28 @@ const MyAlgorithms = () => {
             </Link>
           </Box>
         </HomeSection>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message={snackbarMessage}
+          action={
+            <React.Fragment>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
       </Grid>
     </div>
   );

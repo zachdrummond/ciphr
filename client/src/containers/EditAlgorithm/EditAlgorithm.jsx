@@ -1,5 +1,5 @@
 // React
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 // Material UI
 import {
@@ -21,6 +21,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import API from "../../utils/API";
 import useTestCase from "../../utils/useTestCase";
 import TestCase from "../../components/TestCase/TestCase";
+import SnackbarContext from "../../context/SnackbarContext/SnackbarContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,6 +66,8 @@ const useStyles = makeStyles((theme) => ({
 export default function EditAlgorithm() {
   const classes = useStyles();
   const history = useHistory();
+
+  const { setSnackbarMessage, setSnackbarOpen } = useContext(SnackbarContext);
 
   // custom hook imported from useTestCase.js
   // instance for each test case
@@ -178,7 +181,9 @@ export default function EditAlgorithm() {
           oldChallengeName: oldChallengeName,
         })
           .then((response) => {
-            handleOpen();
+            setSnackbarMessage("Algorithm Successfully Updated!");
+            setSnackbarOpen(true);
+            history.push("/algorithms");
           })
           .catch((err) => {
             setError({

@@ -1,5 +1,6 @@
 // React
 import { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 // Material UI
 import {
   Button,
@@ -16,6 +17,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import SnackbarContext from "../../context/SnackbarContext/SnackbarContext";
 import ModalComponent from "../../components/Modal/ModalComponent";
 import TestCase from "../../components/TestCase/TestCase";
 import useTestCase from "../../utils/useTestCase";
@@ -52,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
 export default function AddAlgorithm() {
   const classes = useStyles();
   const { jwt } = useContext(AuthContext);
+  const { setSnackbarMessage, setSnackbarOpen } = useContext(SnackbarContext);
+  const history = useHistory();
 
   const [algoInfo, setAlgoInfo] = useState({
     challengeName: "",
@@ -117,7 +121,9 @@ export default function AddAlgorithm() {
       userJwt: jwt,
     })
       .then((response) => {
-        handleModalOpen();
+        setSnackbarMessage("Algorithm Successfully Added!");
+        setSnackbarOpen(true);
+        history.push("/algorithms");
       })
       .catch((err) => {
         if (!algoInfo.challengeName) {

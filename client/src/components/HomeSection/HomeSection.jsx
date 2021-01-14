@@ -72,16 +72,16 @@ const HomeSection = ({
   };
 
   useEffect(() => {
-      fetchData();
+    fetchData();
   }, [algorithms]);
 
   useEffect(() => {
-      console.log(`search`);
-      setLastItem(10);
-      setHasMore(true);
-      setItems([]);
-      list = [];
-      fetchData();
+    console.log(`search`);
+    setLastItem(10);
+    setHasMore(true);
+    setItems([]);
+    list = [];
+    fetchData();
   }, [search]);
   return (
     <Container maxWidth="md" className={classes.container}>
