@@ -1,11 +1,10 @@
 // React
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 // Material UI
 import {
   Button,
   Fade,
-  Modal,
   Backdrop,
   Container,
   Grid,
@@ -21,6 +20,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import API from "../../utils/API";
 import useTestCase from "../../utils/useTestCase";
 import TestCase from "../../components/TestCase/TestCase";
+import SnackbarContext from "../../context/SnackbarContext/SnackbarContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,20 +35,9 @@ const useStyles = makeStyles((theme) => ({
   mastergrid: {
     margin: theme.spacing(8, 0),
   },
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   paper: {
     padding: theme.spacing(4),
     justify: "center",
-  },
-  modalPaper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
   },
   titleBottom: {
     marginBottom: theme.spacing(8),
@@ -66,6 +55,8 @@ export default function EditAlgorithm() {
   const classes = useStyles();
   const history = useHistory();
 
+  const { setSnackbarMessage, setSnackbarOpen } = useContext(SnackbarContext);
+
   // custom hook imported from useTestCase.js
   // instance for each test case
   const testOne = useTestCase();
@@ -78,8 +69,7 @@ export default function EditAlgorithm() {
   const { id } = useParams();
   // testCount keeps track of how many test cases there are
   const [testCount, setTestCount] = useState(0);
-  // modal state
-  const [open, setOpen] = useState(false);
+  
   // algorithm state
   const [algoInfo, setAlgoInfo] = useState({});
   // form error state
@@ -118,15 +108,6 @@ export default function EditAlgorithm() {
       });
   }, [id]);
 
-  // modal functions
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    history.push("/home");
-  };
 
   // each time the button is clicked the count is incremented
   const handleTestButton = () => {
@@ -178,7 +159,9 @@ export default function EditAlgorithm() {
           oldChallengeName: oldChallengeName,
         })
           .then((response) => {
-            handleOpen();
+            setSnackbarMessage("Algorithm Successfully Updated!");
+            setSnackbarOpen(true);
+            history.push("/algorithms");
           })
           .catch((err) => {
             setError({
@@ -345,25 +328,6 @@ export default function EditAlgorithm() {
           </Paper>
         </Grid>
       </Grid>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.modalPaper}>
-            <h2 id="transition-modal-title">Algorithm Successfully Updated!</h2>
-            <p id="transition-modal-description">Click anywhere to continue.</p>
-          </div>
-        </Fade>
-      </Modal>
     </Container>
   );
 }

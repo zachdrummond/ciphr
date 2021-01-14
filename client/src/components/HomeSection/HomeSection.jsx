@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 // Material UI
 import {
@@ -41,6 +41,7 @@ const HomeSection = ({
   children,
   algorithms,
   handleDelete,
+  deleted,
   tabValue,
   search,
 }) => {
@@ -52,11 +53,6 @@ const HomeSection = ({
   let list = [];
 
   const fetchData = () => {
-    console.log(`fetchData called`);
-    if (!search && algorithms.length && items.length >= algorithms.length) {
-      setHasMore(false);
-      return;
-    }
     if (algorithms.length > lastItem) {
       for (let i = 0; i < lastItem; i++) {
         list.push(algorithms[i]);
@@ -72,16 +68,23 @@ const HomeSection = ({
   };
 
   useEffect(() => {
-      fetchData();
-  }, [algorithms]);
-
-  useEffect(() => {
-      console.log(`search`);
+    if (deleted) {
       setLastItem(10);
       setHasMore(true);
       setItems([]);
       list = [];
       fetchData();
+    } else {
+      fetchData();
+    }
+  }, [algorithms]);
+
+  useEffect(() => {
+    setLastItem(10);
+    setHasMore(true);
+    setItems([]);
+    list = [];
+    fetchData();
   }, [search]);
   return (
     <Container maxWidth="md" className={classes.container}>

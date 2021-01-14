@@ -24,6 +24,7 @@ import NotFound from "./containers/NotFound/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import setAxiosDefaults from "./utils/setAxiosDefaults";
 import SignUp from "./containers/SignUp/SignUp";
+import SnackbarContext from "./context/SnackbarContext/SnackbarContext";
 
 // define dark/light themes
 let lightTheme = createMuiTheme({
@@ -77,6 +78,8 @@ function App() {
   const classes = useStyles();
   const [jwt, setJwt] = useState("");
   const [username, setUsername] = useState("");
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const [theme, setTheme] = React.useState(true);
   const appliedTheme = createMuiTheme(theme ? lightTheme : darkTheme);
@@ -93,53 +96,64 @@ function App() {
       <ThemeProvider theme={appliedTheme}>
         <CssBaseline />
         <Router>
-          <AuthContext.Provider value={{ jwt, setJwt, username, setUsername }}>
-            <div className={classes.flexparent}>
-              <div className={classes.topChild}>
-                <Header theme={theme} setTheme={setTheme} />
-                <Switch>
-                  <ProtectedRoute
-                    exact
-                    path="/algorithms/new"
-                    component={AddAlgorithm}
-                  />
-                  <ProtectedRoute
-                    exact
-                    path="/algorithms/edit/:algorithmId"
-                    component={EditAlgorithm}
-                  />
-                  <ProtectedRoute
-                    exact
-                    path="/algorithms/:algorithmId"
-                    component={Challenge}
-                    theme={theme}
-                  />
-                  <ProtectedRoute
-                    exact
-                    path="/algorithms"
-                    component={MyAlgorithms}
-                  />
-                  <ProtectedRoute
-                    exact
-                    path="/solutions/:algorithmId"
-                    component={Solutions}
-                    theme={theme}
-                  />
-                  <ProtectedRoute
-                    exact
-                    path="/home"
-                    component={AllAlgorithms}
-                  />
-                  <Route exact path="/signup" component={SignUp} />
-                  <Route exact path="/login" component={Login} />
-                  <Route exact path="/" component={Login} />
-                  <Route path="/" component={NotFound} />
-                </Switch>
-              </div>
+          <SnackbarContext.Provider
+            value={{
+              snackbarMessage,
+              snackbarOpen,
+              setSnackbarOpen,
+              setSnackbarMessage,
+            }}
+          >
+            <AuthContext.Provider
+              value={{ jwt, setJwt, username, setUsername }}
+            >
+              <div className={classes.flexparent}>
+                <div className={classes.topChild}>
+                  <Header theme={theme} setTheme={setTheme} />
+                  <Switch>
+                    <ProtectedRoute
+                      exact
+                      path="/algorithms/new"
+                      component={AddAlgorithm}
+                    />
+                    <ProtectedRoute
+                      exact
+                      path="/algorithms/edit/:algorithmId"
+                      component={EditAlgorithm}
+                    />
+                    <ProtectedRoute
+                      exact
+                      path="/algorithms/:algorithmId"
+                      component={Challenge}
+                      theme={theme}
+                    />
+                    <ProtectedRoute
+                      exact
+                      path="/algorithms"
+                      component={MyAlgorithms}
+                    />
+                    <ProtectedRoute
+                      exact
+                      path="/solutions/:algorithmId"
+                      component={Solutions}
+                      theme={theme}
+                    />
+                    <ProtectedRoute
+                      exact
+                      path="/home"
+                      component={AllAlgorithms}
+                    />
+                    <Route exact path="/signup" component={SignUp} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/" component={Login} />
+                    <Route path="/" component={NotFound} />
+                  </Switch>
+                </div>
 
-              <Footer />
-            </div>
-          </AuthContext.Provider>
+                <Footer />
+              </div>
+            </AuthContext.Provider>
+          </SnackbarContext.Provider>
         </Router>
       </ThemeProvider>
     </div>
