@@ -5,7 +5,6 @@ import { useHistory, useParams } from "react-router-dom";
 import {
   Button,
   Fade,
-  Modal,
   Backdrop,
   Container,
   Grid,
@@ -36,20 +35,9 @@ const useStyles = makeStyles((theme) => ({
   mastergrid: {
     margin: theme.spacing(8, 0),
   },
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   paper: {
     padding: theme.spacing(4),
     justify: "center",
-  },
-  modalPaper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
   },
   titleBottom: {
     marginBottom: theme.spacing(8),
@@ -81,8 +69,7 @@ export default function EditAlgorithm() {
   const { id } = useParams();
   // testCount keeps track of how many test cases there are
   const [testCount, setTestCount] = useState(0);
-  // modal state
-  const [open, setOpen] = useState(false);
+  
   // algorithm state
   const [algoInfo, setAlgoInfo] = useState({});
   // form error state
@@ -121,15 +108,6 @@ export default function EditAlgorithm() {
       });
   }, [id]);
 
-  // modal functions
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    history.push("/algorithms");
-  };
 
   // each time the button is clicked the count is incremented
   const handleTestButton = () => {
@@ -350,25 +328,6 @@ export default function EditAlgorithm() {
           </Paper>
         </Grid>
       </Grid>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.modalPaper}>
-            <h2 id="transition-modal-title">Algorithm Successfully Updated!</h2>
-            <p id="transition-modal-description">Click anywhere to continue.</p>
-          </div>
-        </Fade>
-      </Modal>
     </Container>
   );
 }

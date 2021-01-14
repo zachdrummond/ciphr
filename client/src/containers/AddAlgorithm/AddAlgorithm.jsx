@@ -18,7 +18,6 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import SnackbarContext from "../../context/SnackbarContext/SnackbarContext";
-import ModalComponent from "../../components/Modal/ModalComponent";
 import TestCase from "../../components/TestCase/TestCase";
 import useTestCase from "../../utils/useTestCase";
 
@@ -73,8 +72,6 @@ export default function AddAlgorithm() {
 
   // testCount keeps track of how many test cases there are
   const [testCount, setTestCount] = useState(0);
-  // modal state
-  const [open, setOpen] = useState(false);
 
   // form error state
   const [error, setError] = useState({
@@ -91,11 +88,6 @@ export default function AddAlgorithm() {
     setError(false);
     setDescriptionError(false);
     setHashtagError(false);
-  };
-
-  // modal functions
-  const handleModalOpen = () => {
-    setOpen(true);
   };
 
   const handleSaveAlgo = (e) => {
@@ -316,7 +308,6 @@ export default function AddAlgorithm() {
                 </Box>
                 <Box>
                   <Button
-                    // onClick={handleModalOpen}
                     variant="contained"
                     color="primary"
                     type="submit"
@@ -330,12 +321,6 @@ export default function AddAlgorithm() {
           </Paper>
         </Grid>
       </Grid>
-      <ModalComponent
-        open={open}
-        setOpen={setOpen}
-        text="Algorithm Successfully Added!"
-        url="/algorithms"
-      />
     </Container>
   );
 }
