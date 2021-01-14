@@ -125,7 +125,7 @@ export default function EditAlgorithm() {
 
   const handleClose = () => {
     setOpen(false);
-    history.push("/home");
+    history.push("/algorithms");
   };
 
   // each time the button is clicked the count is incremented

@@ -328,7 +328,7 @@ export default function AddAlgorithm() {
         open={open}
         setOpen={setOpen}
         text="Algorithm Successfully Added!"
-        url="/home"
+        url="/algorithms"
       />
     </Container>
   );
