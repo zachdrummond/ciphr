@@ -164,7 +164,7 @@ const Solutions = () => {
           <p style={{ whiteSpace: "pre-wrap" }}>{algorithm.description}</p>
           <code style={{ whiteSpace: "pre-wrap" }}>{algorithm.code}</code> */}
           {console.log(algorithm)}
-          <SolutionTab code={algorithm.code} description={algorithm.description} createdBy={algorithm.createdBy.username}/>
+          <SolutionTab code={algorithm.code} description={algorithm.description} createdBy={algorithm.createdBy.username} lang={algorithm.language}/>
         </>
       ))}
     </div>

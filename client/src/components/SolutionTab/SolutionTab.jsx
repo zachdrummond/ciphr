@@ -2,6 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Paper, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Java from "../../images/java.svg";
+import Node from "../../images/node.svg";
+import Python from "../../images/python.svg";
+import R from "../../images/r.svg";
+import CSharp from "../../images/csharp.svg";
+import CPP from "../../images/cpp.svg";
+import C from "../../images/c.svg";
+import Go from "../../images/go.svg";
+import Ruby from "../../images/ruby.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,18 +33,50 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgba(0, 0, 0, 0.04)",
     whiteSpace: "pre-wrap",
   },
+  icon: {
+    margin: "20px",
+  },
 }));
 
-const SolutionTab = ({ code, description, createdBy }) => {
+const SolutionTab = ({ code, description, createdBy, lang }) => {
   const classes = useStyles();
+
+  const langImage = (langString) => {
+    switch (langString) {
+      case "java":
+        return Java;
+      case "python3":
+        return Python;
+      case "r":
+        return R;
+      case "go":
+        return Go;
+      case "ruby":
+        return Ruby;
+      case "csharp":
+        return CSharp;
+      case "cpp":
+        return CPP;
+      case "c":
+        return C;
+      default:
+        return Node;
+    }
+  };
+
   return (
     <div>
       <Box className={classes.root}>
         <Paper className={classes.paper} elevation={3}>
           <Grid container>
-            <h3>{createdBy}</h3>
+            <h3>Solution by {createdBy}</h3>
           </Grid>
           <Grid container>
+            <Grid item>
+              <Grid justify="space-between" container>
+                <img className={classes.icon} src={langImage(lang)}></img>
+              </Grid>
+            </Grid>
             <Grid item>
               <Grid justify="space-between" container>
                 <code className={classes.code}>{code}</code>
@@ -59,6 +100,7 @@ SolutionTab.propTypes = {
   code: PropTypes.string,
   description: PropTypes.string,
   createdBy: PropTypes.string,
+  lang: PropTypes.string,
 };
 
 export default SolutionTab;
