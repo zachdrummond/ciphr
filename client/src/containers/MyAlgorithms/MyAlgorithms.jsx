@@ -36,6 +36,7 @@ const MyAlgorithms = () => {
   );
 
   const [myAlgorithms, setMyAlgorithms] = useState([]);
+  const [deleted, setDeleted] = useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -58,6 +59,7 @@ const MyAlgorithms = () => {
           );
         });
         setMyAlgorithms(algorithms.data);
+        setDeleted(false);
       })
       .catch((error) => {
         console.log(error);
@@ -69,6 +71,7 @@ const MyAlgorithms = () => {
       .then((res) => {
         setSnackbarMessage("Algorithm Successfully Deleted!");
         setSnackbarOpen(true);
+        setDeleted(true);
         getMyAlgorithms();
       })
       .catch((err) => console.log(err));
@@ -96,6 +99,7 @@ const MyAlgorithms = () => {
           size={12}
           title={`${username}'s Algorithms`}
           algorithms={myAlgorithms}
+          deleted={deleted}
         >
           <Box m={2}>
             <Link to={"/algorithms/new"} className={classes.fab}>
