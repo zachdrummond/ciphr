@@ -26,6 +26,7 @@ import { Stars, StarRate, Code } from "@material-ui/icons";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import CenteredTabs from "../../components/CenteredTabs/CenteredTabs";
 // Code Mirror
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
@@ -284,6 +285,13 @@ const Challenge = ({ theme }) => {
           >
             Added by: {algorithm.userId?.username}
           </Typography>
+          <CenteredTabs
+          tabValue={0}
+          tab1={"Challenge"}
+          tab2={"Solutions"}
+          link1={`/algorithms/${algorithmId}`}
+          link2={`/solutions/${algorithmId}`}
+        />
         </Grid>
         <Grid item xs={12}>
           <Grid container>

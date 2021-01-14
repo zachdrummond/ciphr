@@ -34,7 +34,9 @@
     "migrate-mongo": "^8.1.4",
     "mongoose": "^5.10.12",
     "nodemon": "^2.0.6",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "react-infinite-scroll-component": "^5.1.0",
+    "react-infinite-scroller": "^1.2.4"
   },
   "devDependencies": {
     "concurrently": "^5.3.0"
