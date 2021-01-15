@@ -2,11 +2,8 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
-// global variable keeps track of API get request attempts
-let attempts = 0;
-
 // get request for code compiler results
-function getCompiled(postRes, res) {
+function getCompiled(postRes, res, attempts = 1) {
   axios({
     method: "GET",
     url: "https://paiza-io.p.rapidapi.com/runners/get_details",
@@ -36,12 +33,12 @@ function getCompiled(postRes, res) {
             err: data.build_stderr,
           });
         }
-      } else if (data.status === "running" && attempts < 3) {
+      } else if (data.status === "running" && attempts < 4) {
         attempts++;
         setTimeout(() => {
           // recursive function.
           // if compiler is still executing code function is called again after timeout
-          getCompiled(postRes, res);
+          getCompiled(postRes, res, attempts);
         }, 500);
       }
     })
