@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "20px",
   },
   paper: {
-    padding: theme.spacing(2),
-    margin: "auto",
+    padding: theme.spacing(4),
+    margin: theme.spacing(1, 1),
   },
   description: {
     fontFamily: "'Space Mono', monospace",
@@ -67,7 +67,7 @@ const SolutionTab = ({ code, description, createdBy, lang }) => {
   return (
     <div>
       <Box className={classes.root}>
-        <Paper className={classes.paper} elevation={3}>
+        <Paper className={classes.paper}>
           <Grid container>
             <h3>Solution by {createdBy}</h3>
           </Grid>
