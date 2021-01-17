@@ -196,12 +196,17 @@ const Solutions = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const {code, lang} = globalState.state;
+    const codeInput = code.get(algorithmId);
+    let langInput = lang.get(algorithmId)
     // stops function if no code is entered
     if (code.length === 0) {
       return;
     }
+    if (!langInput) {
+      langInput = "javascript";
+    }
 
-    API.postSolution(code, descriptionInput, lang, algorithmId, jwt)
+    API.postSolution(codeInput, descriptionInput, langInput, algorithmId, jwt)
       .then((response) => {
         API.getSolutions(algorithmId)
           .then((res) => {
