@@ -1,21 +1,30 @@
-import {createContext, useReducer} from "react";
+import { createContext, useReducer } from "react";
 
-const initialState = {};
+const initialState = {
+  code: "",
+  lang: {
+    name: "javascript",
+    mode: "javascript",
+  },
+};
 const store = createContext(initialState);
 const { Provider } = store;
 
-const StateProvider = ( { children } ) => {
+const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
-    switch(action.type) {
-      case 'CODE_CHANGE':
-        const newState = action.payload;
+    switch (action.type) {
+      case "CODE_CHANGE":
+        const newState = { ...state, code: action.payload.code };
         return newState;
+      case "CHANGE_LANG":
+        const newLang = { ...state, lang: action.payload.lang };
+        return newLang;
       default:
         throw new Error();
-    };
+    }
   }, initialState);
 
   return <Provider value={{ state, dispatch }}>{children}</Provider>;
 };
 
-export { store, StateProvider }
+export { store, StateProvider };

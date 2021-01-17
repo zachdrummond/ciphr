@@ -209,14 +209,15 @@ const Challenge = ({ theme }) => {
   // changes the value of the input hook
   const handleInputChange = (e) => {
     // setInput(e);
-    dispatch({type: "CODE_CHANGE", payload: e});
+    dispatch({type: "CODE_CHANGE", payload: {code: e}});
     console.log(globalState);
   };
 
   const handleOptionsChange = (e) => {
     const language = JSON.parse(e.target.value);
 
-    setLang({ ...language });
+    // setLang({ ...language });
+    dispatch({type: "CHANGE_LANG", payload: {lang: language}})
     setOptions({ ...options, mode: language.mode });
   };
 
@@ -428,7 +429,7 @@ const Challenge = ({ theme }) => {
                   <CodeMirror
                     className={classes.codeMirror}
                     name="code"
-                    value={globalState.state}
+                    value={globalState.state.code}
                     onChange={handleInputChange}
                     options={options}
                   ></CodeMirror>
@@ -449,7 +450,7 @@ const Challenge = ({ theme }) => {
                 </Button>
                 <LangDropdown
                   classes={classes.formControl}
-                  lang={lang}
+                  lang={globalState.state.lang}
                   handleOptionsChange={handleOptionsChange}
                 />
                 <Typography
