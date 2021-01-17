@@ -140,11 +140,7 @@ const Challenge = ({ theme }) => {
     user: "",
     hashtags: [],
   });
-  // sets language for compiler api
-  const [lang, setLang] = useState({
-    name: "javascript",
-    mode: "javascript",
-  });
+
   // state of code compiler after submit
   const [running, setRunning] = useState(false);
   // star status
@@ -208,52 +204,51 @@ const Challenge = ({ theme }) => {
 
   // changes the value of the input hook
   const handleInputChange = (e) => {
-    // setInput(e);
     dispatch({type: "CODE_CHANGE", payload: {code: e}});
-    console.log(globalState);
   };
 
   const handleOptionsChange = (e) => {
     const language = JSON.parse(e.target.value);
 
-    // setLang({ ...language });
     dispatch({type: "CHANGE_LANG", payload: {lang: language}})
     setOptions({ ...options, mode: language.mode });
   };
 
-  // const handleCodeSubmit = (e) => {
-  //   e.preventDefault();
-  //   // stops function if no code is entered
-  //   if (input.length === 0) {
-  //     alert("No code to run!");
-  //     return;
-  //   } else if (!running) {
-  //     // circular progress on button engadged
-  //     setRunning(true);
+  const handleCodeSubmit = (e) => {
+    e.preventDefault();
 
-  //     // post code/input to server (codeController.js) where third party api call is made
-  //     API.postCode(input, lang.name)
-  //       .then(({ data }) => {
-  //         // if nothing is logged to console alert pops up
-  //         if (!data.out.length && !data.err.length) {
-  //           alert(
-  //             "Remember to call functions or log/print results to console!"
-  //           );
-  //           // if output is null error is logged to console and vice versa
-  //         } else if (!data.out.length) {
-  //           setOutput(data.err);
-  //         } else if (!data.err.length) {
-  //           setOutput(data.out);
-  //         }
-  //         // circular progress stopped
-  //         setRunning(false);
-  //       })
-  //       .catch((err) => {
-  //         setRunning(false);
-  //         console.log(err);
-  //       });
-  //   }
-  // };
+    const {code, lang} = globalState.state;
+    // stops function if no code is entered
+    if (code.length === 0) {
+      alert("No code to run!");
+      return;
+    } else if (!running) {
+      // circular progress on button engadged
+      setRunning(true);
+
+      // post code/input to server (codeController.js) where third party api call is made
+      API.postCode(code, lang.name)
+        .then(({ data }) => {
+          // if nothing is logged to console alert pops up
+          if (!data.out.length && !data.err.length) {
+            alert(
+              "Remember to call functions or log/print results to console!"
+            );
+            // if output is null error is logged to console and vice versa
+          } else if (!data.out.length) {
+            setOutput(data.err);
+          } else if (!data.err.length) {
+            setOutput(data.out);
+          }
+          // circular progress stopped
+          setRunning(false);
+        })
+        .catch((err) => {
+          setRunning(false);
+          console.log(err);
+        });
+    }
+  };
 
   return (
     <Container maxWidth="lg">
@@ -436,7 +431,7 @@ const Challenge = ({ theme }) => {
                 </Box>
 
                 <Button
-                  // onClick={handleCodeSubmit}
+                  onClick={handleCodeSubmit}
                   variant="contained"
                   color="primary"
                   className={classes.runButton}
