@@ -34,6 +34,8 @@ import "codemirror/mode/ruby/ruby";
 import "codemirror/addon/edit/closebrackets";
 // import all the themes from codemirror/theme/...
 import "codemirror/theme/material-darker.css";
+// global state
+import {store} from "../../context/Store/Store";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -76,6 +78,8 @@ const Solutions = () => {
   const classes = useStyles();
   const { algorithmId } = useParams();
   const { username, jwt } = useContext(AuthContext);
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
 
   // code mirror editor settings
   const [options, setOptions] = useState({
@@ -87,7 +91,7 @@ const Solutions = () => {
   });
   // sets the code input in first text area and language in dropdown select as state.
   // find in dev tools components under 'Challenge'
-  const [codeInput, setCodeInput] = useState("");
+  // const [codeInput, setCodeInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
 
   // algorithm info is set on page load
@@ -97,12 +101,6 @@ const Solutions = () => {
     challengeName: "",
     user: "",
     hashtags: [],
-  });
-
-  // sets language for compiler api
-  const [lang, setLang] = useState({
-    name: "javascript",
-    mode: "javascript",
   });
 
   // star status
@@ -164,7 +162,8 @@ const Solutions = () => {
 
   // changes the value of the input hooks
   const handleCodeInputChange = (e) => {
-    setCodeInput(e);
+    // setCodeInput(e);
+    dispatch({type: "CODE_CHANGE", payload: {code: e}})
   };
   const handleDescriptionInputChange = (e) => {
     setDescriptionInput(e.target.value);
@@ -173,18 +172,20 @@ const Solutions = () => {
   const handleOptionsChange = (e) => {
     const language = JSON.parse(e.target.value);
 
-    setLang({ ...language });
+    // setLang({ ...language });
+    dispatch({type: "LANG_CHANGE", payload: {lang: language}})
     setOptions({ ...options, mode: language.mode });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const {code, lang} = globalState.state;
     // stops function if no code is entered
-    if (codeInput.length === 0) {
+    if (code.length === 0) {
       return;
     }
 
-    API.postSolution(codeInput, descriptionInput, lang.name, algorithmId, jwt)
+    API.postSolution(code, descriptionInput, lang.name, algorithmId, jwt)
       .then((response) => {
         API.getSolutions(algorithmId)
           .then((res) => {
@@ -258,7 +259,7 @@ const Solutions = () => {
               <CodeMirror
                 className={classes.codeMirror}
                 name="code"
-                value={codeInput}
+                value={globalState.state.code}
                 onChange={handleCodeInputChange}
                 options={options}
               ></CodeMirror>
@@ -286,7 +287,7 @@ const Solutions = () => {
             </Button>
             <LangDropdown
               classes={classes.formControl}
-              lang={lang}
+              lang={globalState.state.lang}
               handleOptionsChange={handleOptionsChange}
             />
           </Paper>

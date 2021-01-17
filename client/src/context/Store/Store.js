@@ -16,7 +16,7 @@ const StateProvider = ({ children }) => {
       case "CODE_CHANGE":
         const newState = { ...state, code: action.payload.code };
         return newState;
-      case "CHANGE_LANG":
+      case "LANG_CHANGE":
         const newLang = { ...state, lang: action.payload.lang };
         return newLang;
       default:

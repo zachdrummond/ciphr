@@ -38,7 +38,7 @@ import "codemirror/addon/edit/closebrackets";
 import "codemirror/theme/material-darker.css";
 // components
 import LangDropdown from "../../components/LangDropdown/LangDropdown";
-
+// global state
 import {store} from "../../context/Store/Store";
 
 const useStyles = makeStyles((theme) => ({
@@ -115,7 +115,6 @@ const Challenge = ({ theme }) => {
   const { algorithmId } = useParams();
   const { username } = useContext(AuthContext);
   const codeOutput = useRef();
-
   const globalState = useContext(store);
   const { dispatch } = globalState;
 
@@ -128,9 +127,6 @@ const Challenge = ({ theme }) => {
     autoCloseBrackets: true,
   });
 
-  // sets the code input in first text area and language in dropdown select as state.
-  // find in dev tools components under 'Challenge'
-  // const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   // algorithm info is set on page load
   const [algorithm, setAlgorithm] = useState({
@@ -210,7 +206,7 @@ const Challenge = ({ theme }) => {
   const handleOptionsChange = (e) => {
     const language = JSON.parse(e.target.value);
 
-    dispatch({type: "CHANGE_LANG", payload: {lang: language}})
+    dispatch({type: "LANG_CHANGE", payload: {lang: language}})
     setOptions({ ...options, mode: language.mode });
   };
 
