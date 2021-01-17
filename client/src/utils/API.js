@@ -13,9 +13,9 @@ const API = {
   getAllAlgorithms: function (jwt) {
     const config = {
       headers: {
-        Authorization: jwt
-      }
-    }
+        Authorization: jwt,
+      },
+    };
     return axios.get("/api/algorithm", config);
   },
   getMyAlgorithms: function (jwt) {
@@ -72,16 +72,16 @@ const API = {
         description,
         language,
         algorithmId,
-        token
-      }
+        token,
+      },
     });
   },
   getSolutions: function (algorithmId) {
     return axios({
       url: `/api/solutions/${algorithmId}`,
-      method: "GET"
+      method: "GET",
     });
-  }
+  },
 };
 
 export default API;

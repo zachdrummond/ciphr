@@ -163,18 +163,34 @@ const Solutions = () => {
   // changes the value of the input hooks
   const handleCodeInputChange = (e) => {
     // setCodeInput(e);
-    dispatch({type: "CODE_CHANGE", payload: {code: e, algorithmId}})
+    dispatch({type: "CODE_CHANGE", payload: {code: e, codeId: algorithmId}})
   };
   const handleDescriptionInputChange = (e) => {
     setDescriptionInput(e.target.value);
   };
 
-  const handleOptionsChange = (e) => {
-    const language = JSON.parse(e.target.value);
+  const nameToMode = (lang) => {
+    switch (lang) {
+      case "python3":
+        return "python";
+      case "c":
+        return "clike";
+      case "cpp":
+        return "clike";
+      case "csharp":
+        return "clike";
+      case "java":
+        return "clike";
+      default:
+        return lang;
+    }
+  };
 
-    // setLang({ ...language });
-    dispatch({type: "LANG_CHANGE", payload: {lang: language}})
-    setOptions({ ...options, mode: language.mode });
+  const handleOptionsChange = (e) => {
+    const lang = e.target.value;
+
+    dispatch({ type: "LANG_CHANGE", payload: { lang, langId: algorithmId } });
+    setOptions({ ...options, mode: nameToMode(lang) });
   };
 
   const handleSubmit = (e) => {
@@ -185,7 +201,7 @@ const Solutions = () => {
       return;
     }
 
-    API.postSolution(code, descriptionInput, lang.name, algorithmId, jwt)
+    API.postSolution(code, descriptionInput, lang, algorithmId, jwt)
       .then((response) => {
         API.getSolutions(algorithmId)
           .then((res) => {
@@ -287,7 +303,7 @@ const Solutions = () => {
             </Button>
             <LangDropdown
               classes={classes.formControl}
-              lang={globalState.state.lang}
+              lang={globalState.state.lang.get(algorithmId)}
               handleOptionsChange={handleOptionsChange}
             />
           </Paper>

@@ -39,7 +39,7 @@ import "codemirror/theme/material-darker.css";
 // components
 import LangDropdown from "../../components/LangDropdown/LangDropdown";
 // global state
-import {store} from "../../context/Store/Store";
+import { store } from "../../context/Store/Store";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -200,30 +200,53 @@ const Challenge = ({ theme }) => {
 
   // changes the value of the input hook
   const handleInputChange = (e) => {
-    dispatch({type: "CODE_CHANGE", payload: {code: e, algorithmId}});
+    dispatch({ type: "CODE_CHANGE", payload: { code: e, codeId: algorithmId } });
+  };
+
+  const nameToMode = (lang) => {
+    switch (lang) {
+      case "python3":
+        return "python";
+      case "c":
+        return "clike";
+      case "cpp":
+        return "clike";
+      case "csharp":
+        return "clike";
+      case "java":
+        return "clike";
+      default:
+        return lang;
+    }
   };
 
   const handleOptionsChange = (e) => {
-    const language = JSON.parse(e.target.value);
+    const lang = e.target.value;
 
-    dispatch({type: "LANG_CHANGE", payload: {lang: language}})
-    setOptions({ ...options, mode: language.mode });
+    dispatch({ type: "LANG_CHANGE", payload: { lang, langId: algorithmId } });
+    setOptions({ ...options, mode: nameToMode(lang) });
   };
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
 
-    const {code, lang} = globalState.state;
+    const { code, lang } = globalState.state;
+    const codeInput = code.get(algorithmId);
+    let langInput = lang.get(algorithmId)
     // stops function if no code is entered
-    if (code.length === 0) {
+    if (codeInput.length === 0) {
       alert("No code to run!");
       return;
     } else if (!running) {
       // circular progress on button engadged
       setRunning(true);
 
+      if (!langInput) {
+        langInput = "javascript";
+      }
+
       // post code/input to server (codeController.js) where third party api call is made
-      API.postCode(code, lang.name)
+      API.postCode(codeInput, langInput)
         .then(({ data }) => {
           // if nothing is logged to console alert pops up
           if (!data.out.length && !data.err.length) {
@@ -283,12 +306,12 @@ const Challenge = ({ theme }) => {
             Added by: {algorithm.userId?.username}
           </Typography>
           <CenteredTabs
-          tabValue={0}
-          tab1={"Challenge"}
-          tab2={"Solutions"}
-          link1={`/algorithms/${algorithmId}`}
-          link2={`/solutions/${algorithmId}`}
-        />
+            tabValue={0}
+            tab1={"Challenge"}
+            tab2={"Solutions"}
+            link1={`/algorithms/${algorithmId}`}
+            link2={`/solutions/${algorithmId}`}
+          />
         </Grid>
         <Grid item xs={12}>
           <Grid container>
@@ -441,7 +464,7 @@ const Challenge = ({ theme }) => {
                 </Button>
                 <LangDropdown
                   classes={classes.formControl}
-                  lang={globalState.state.lang}
+                  lang={globalState.state.lang.get(algorithmId)}
                   handleOptionsChange={handleOptionsChange}
                 />
                 <Typography
