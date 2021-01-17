@@ -200,7 +200,7 @@ const Challenge = ({ theme }) => {
 
   // changes the value of the input hook
   const handleInputChange = (e) => {
-    dispatch({type: "CODE_CHANGE", payload: {code: e}});
+    dispatch({type: "CODE_CHANGE", payload: {code: e, algorithmId}});
   };
 
   const handleOptionsChange = (e) => {
@@ -420,7 +420,7 @@ const Challenge = ({ theme }) => {
                   <CodeMirror
                     className={classes.codeMirror}
                     name="code"
-                    value={globalState.state.code}
+                    value={globalState.state.code.get(algorithmId)}
                     onChange={handleInputChange}
                     options={options}
                   ></CodeMirror>

@@ -163,7 +163,7 @@ const Solutions = () => {
   // changes the value of the input hooks
   const handleCodeInputChange = (e) => {
     // setCodeInput(e);
-    dispatch({type: "CODE_CHANGE", payload: {code: e}})
+    dispatch({type: "CODE_CHANGE", payload: {code: e, algorithmId}})
   };
   const handleDescriptionInputChange = (e) => {
     setDescriptionInput(e.target.value);
@@ -259,7 +259,7 @@ const Solutions = () => {
               <CodeMirror
                 className={classes.codeMirror}
                 name="code"
-                value={globalState.state.code}
+                value={globalState.state.code.get(algorithmId)}
                 onChange={handleCodeInputChange}
                 options={options}
               ></CodeMirror>

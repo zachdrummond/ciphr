@@ -1,7 +1,8 @@
 import { createContext, useReducer } from "react";
 
 const initialState = {
-  code: "",
+  // map storing algorithm id and its' associated code
+  code: new Map(),
   lang: {
     name: "javascript",
     mode: "javascript",
@@ -14,7 +15,14 @@ const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case "CODE_CHANGE":
-        const newState = { ...state, code: action.payload.code };
+        const { algorithmId, code } = action.payload;
+        if (state.code.get(algorithmId)) {
+          state.code.delete(algorithmId);
+          state.code.set(algorithmId, code);
+        } else {
+          state.code.set(algorithmId, code);
+        }
+        const newState = { ...state };
         return newState;
       case "LANG_CHANGE":
         const newLang = { ...state, lang: action.payload.lang };
