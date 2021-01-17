@@ -141,7 +141,6 @@ const Solutions = () => {
 
         API.getSolutions(algorithmId)
           .then((res) => {
-            console.log(res.data.data);
             setSolutions(res.data.data);
           })
           .catch((err) => {
@@ -151,7 +150,7 @@ const Solutions = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [solutions]);
+  }, []);
 
   // toggles star icon off/on
   const toggleStar = () => {
@@ -186,7 +185,15 @@ const Solutions = () => {
     }
 
     API.postSolution(codeInput, descriptionInput, lang.name, algorithmId, jwt)
-      .then((response) => {})
+      .then((response) => {
+        API.getSolutions(algorithmId)
+          .then((res) => {
+            setSolutions(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
       .catch((err) => {
         console.log(err);
       });
