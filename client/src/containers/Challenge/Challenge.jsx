@@ -39,6 +39,8 @@ import "codemirror/theme/material-darker.css";
 // components
 import LangDropdown from "../../components/LangDropdown/LangDropdown";
 
+import {store} from "../../context/Store/Store";
+
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
     margin: theme.spacing(8, 0),
@@ -114,6 +116,9 @@ const Challenge = ({ theme }) => {
   const { username } = useContext(AuthContext);
   const codeOutput = useRef();
 
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
+
   // code mirror editor settings
   const [options, setOptions] = useState({
     mode: "javascript",
@@ -122,9 +127,10 @@ const Challenge = ({ theme }) => {
     autofocus: true,
     autoCloseBrackets: true,
   });
+
   // sets the code input in first text area and language in dropdown select as state.
   // find in dev tools components under 'Challenge'
-  const [input, setInput] = useState("");
+  // const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   // algorithm info is set on page load
   const [algorithm, setAlgorithm] = useState({
@@ -202,7 +208,9 @@ const Challenge = ({ theme }) => {
 
   // changes the value of the input hook
   const handleInputChange = (e) => {
-    setInput(e);
+    // setInput(e);
+    dispatch({type: "CODE_CHANGE", payload: e});
+    console.log(globalState);
   };
 
   const handleOptionsChange = (e) => {
@@ -212,39 +220,39 @@ const Challenge = ({ theme }) => {
     setOptions({ ...options, mode: language.mode });
   };
 
-  const handleCodeSubmit = (e) => {
-    e.preventDefault();
-    // stops function if no code is entered
-    if (input.length === 0) {
-      alert("No code to run!");
-      return;
-    } else if (!running) {
-      // circular progress on button engadged
-      setRunning(true);
+  // const handleCodeSubmit = (e) => {
+  //   e.preventDefault();
+  //   // stops function if no code is entered
+  //   if (input.length === 0) {
+  //     alert("No code to run!");
+  //     return;
+  //   } else if (!running) {
+  //     // circular progress on button engadged
+  //     setRunning(true);
 
-      // post code/input to server (codeController.js) where third party api call is made
-      API.postCode(input, lang.name)
-        .then(({ data }) => {
-          // if nothing is logged to console alert pops up
-          if (!data.out.length && !data.err.length) {
-            alert(
-              "Remember to call functions or log/print results to console!"
-            );
-            // if output is null error is logged to console and vice versa
-          } else if (!data.out.length) {
-            setOutput(data.err);
-          } else if (!data.err.length) {
-            setOutput(data.out);
-          }
-          // circular progress stopped
-          setRunning(false);
-        })
-        .catch((err) => {
-          setRunning(false);
-          console.log(err);
-        });
-    }
-  };
+  //     // post code/input to server (codeController.js) where third party api call is made
+  //     API.postCode(input, lang.name)
+  //       .then(({ data }) => {
+  //         // if nothing is logged to console alert pops up
+  //         if (!data.out.length && !data.err.length) {
+  //           alert(
+  //             "Remember to call functions or log/print results to console!"
+  //           );
+  //           // if output is null error is logged to console and vice versa
+  //         } else if (!data.out.length) {
+  //           setOutput(data.err);
+  //         } else if (!data.err.length) {
+  //           setOutput(data.out);
+  //         }
+  //         // circular progress stopped
+  //         setRunning(false);
+  //       })
+  //       .catch((err) => {
+  //         setRunning(false);
+  //         console.log(err);
+  //       });
+  //   }
+  // };
 
   return (
     <Container maxWidth="lg">
@@ -420,14 +428,14 @@ const Challenge = ({ theme }) => {
                   <CodeMirror
                     className={classes.codeMirror}
                     name="code"
-                    value={input}
+                    value={globalState.state}
                     onChange={handleInputChange}
                     options={options}
                   ></CodeMirror>
                 </Box>
 
                 <Button
-                  onClick={handleCodeSubmit}
+                  // onClick={handleCodeSubmit}
                   variant="contained"
                   color="primary"
                   className={classes.runButton}
