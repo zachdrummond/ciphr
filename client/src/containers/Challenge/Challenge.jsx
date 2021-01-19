@@ -143,10 +143,28 @@ const Challenge = ({ theme }) => {
   const [star, setStar] = useState(false);
 
   useEffect(() => {
+    // sets code mirror theme on page theme change
     !theme
       ? setOptions({ ...options, theme: "material-darker" })
       : setOptions({ ...options, theme: "default" });
   }, [theme]);
+
+  useEffect(() => {
+    // sets code mirror theme and mode on page load
+    const currLang = globalState.state.lang.get(algorithmId);
+
+    !theme
+      ? setOptions({
+          ...options,
+          theme: "material-darker",
+          mode: nameToMode(currLang),
+        })
+      : setOptions({
+          ...options,
+          theme: "default",
+          mode: nameToMode(currLang),
+        });
+  }, []);
 
   useEffect(() => {
     // make API call to get algorithm by id
@@ -200,7 +218,10 @@ const Challenge = ({ theme }) => {
 
   // changes the value of the input hook
   const handleInputChange = (e) => {
-    dispatch({ type: "CODE_CHANGE", payload: { code: e, codeId: algorithmId } });
+    dispatch({
+      type: "CODE_CHANGE",
+      payload: { code: e, codeId: algorithmId },
+    });
   };
 
   const nameToMode = (lang) => {
@@ -232,7 +253,7 @@ const Challenge = ({ theme }) => {
 
     const { code, lang } = globalState.state;
     const codeInput = code.get(algorithmId);
-    let langInput = lang.get(algorithmId)
+    let langInput = lang.get(algorithmId);
     // stops function if no code is entered
     if (codeInput.length === 0) {
       alert("No code to run!");

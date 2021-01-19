@@ -35,7 +35,7 @@ import "codemirror/addon/edit/closebrackets";
 // import all the themes from codemirror/theme/...
 import "codemirror/theme/material-darker.css";
 // global state
-import {store} from "../../context/Store/Store";
+import { store } from "../../context/Store/Store";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Solutions = () => {
+const Solutions = ({ theme }) => {
   const classes = useStyles();
   const { algorithmId } = useParams();
   const { username, jwt } = useContext(AuthContext);
@@ -108,6 +108,29 @@ const Solutions = () => {
 
   // solutions
   const [solutions, setSolutions] = useState("");
+
+  useEffect(() => {
+    // sets code mirror theme on page theme change
+    !theme
+      ? setOptions({ ...options, theme: "material-darker" })
+      : setOptions({ ...options, theme: "default" });
+  }, [theme]);
+
+  useEffect(() => {
+    // sets code mirror theme and mode on page load
+    const currLang = globalState.state.lang.get(algorithmId);
+    !theme
+      ? setOptions({
+          ...options,
+          theme: "material-darker",
+          mode: nameToMode(currLang),
+        })
+      : setOptions({
+          ...options,
+          theme: "default",
+          mode: nameToMode(currLang),
+        });
+  }, []);
 
   useEffect(() => {
     // make API call to get algorithm by id
@@ -163,7 +186,10 @@ const Solutions = () => {
   // changes the value of the input hooks
   const handleCodeInputChange = (e) => {
     // setCodeInput(e);
-    dispatch({type: "CODE_CHANGE", payload: {code: e, codeId: algorithmId}})
+    dispatch({
+      type: "CODE_CHANGE",
+      payload: { code: e, codeId: algorithmId },
+    });
   };
   const handleDescriptionInputChange = (e) => {
     setDescriptionInput(e.target.value);
@@ -195,9 +221,9 @@ const Solutions = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const {code, lang} = globalState.state;
+    const { code, lang } = globalState.state;
     const codeInput = code.get(algorithmId);
-    let langInput = lang.get(algorithmId)
+    let langInput = lang.get(algorithmId);
     // stops function if no code is entered
     if (code.length === 0) {
       return;
