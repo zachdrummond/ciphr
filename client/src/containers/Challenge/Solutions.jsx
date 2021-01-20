@@ -118,7 +118,11 @@ const Solutions = ({ theme }) => {
 
   useEffect(() => {
     // sets code mirror theme and mode on page load
-    const currLang = globalState.state.lang.get(algorithmId);
+    let currLang = globalState.state.lang.get(algorithmId);
+    if (!currLang) {
+      currLang = "javascript";
+    }
+
     !theme
       ? setOptions({
           ...options,
