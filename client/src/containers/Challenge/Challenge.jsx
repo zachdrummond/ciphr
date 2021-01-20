@@ -38,6 +38,8 @@ import "codemirror/addon/edit/closebrackets";
 import "codemirror/theme/material-darker.css";
 // components
 import LangDropdown from "../../components/LangDropdown/LangDropdown";
+// global state
+import { store } from "../../context/Store/Store";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -113,6 +115,8 @@ const Challenge = ({ theme }) => {
   const { algorithmId } = useParams();
   const { username } = useContext(AuthContext);
   const codeOutput = useRef();
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
 
   // code mirror editor settings
   const [options, setOptions] = useState({
@@ -122,9 +126,7 @@ const Challenge = ({ theme }) => {
     autofocus: true,
     autoCloseBrackets: true,
   });
-  // sets the code input in first text area and language in dropdown select as state.
-  // find in dev tools components under 'Challenge'
-  const [input, setInput] = useState("");
+
   const [output, setOutput] = useState("");
   // algorithm info is set on page load
   const [algorithm, setAlgorithm] = useState({
@@ -134,21 +136,38 @@ const Challenge = ({ theme }) => {
     user: "",
     hashtags: [],
   });
-  // sets language for compiler api
-  const [lang, setLang] = useState({
-    name: "javascript",
-    mode: "javascript",
-  });
+
   // state of code compiler after submit
   const [running, setRunning] = useState(false);
   // star status
   const [star, setStar] = useState(false);
 
   useEffect(() => {
+    // sets code mirror theme on page theme change
     !theme
       ? setOptions({ ...options, theme: "material-darker" })
       : setOptions({ ...options, theme: "default" });
   }, [theme]);
+
+  useEffect(() => {
+    // sets code mirror theme and mode on page load
+    let currLang = globalState.state.lang.get(algorithmId);
+    if (!currLang) {
+      currLang = "javascript";
+    }
+
+    !theme
+      ? setOptions({
+          ...options,
+          theme: "material-darker",
+          mode: nameToMode(currLang),
+        })
+      : setOptions({
+          ...options,
+          theme: "default",
+          mode: nameToMode(currLang),
+        });
+  }, []);
 
   useEffect(() => {
     // make API call to get algorithm by id
@@ -202,28 +221,56 @@ const Challenge = ({ theme }) => {
 
   // changes the value of the input hook
   const handleInputChange = (e) => {
-    setInput(e);
+    dispatch({
+      type: "CODE_CHANGE",
+      payload: { code: e, codeId: algorithmId },
+    });
+  };
+
+  const nameToMode = (lang) => {
+    switch (lang) {
+      case "python3":
+        return "python";
+      case "c":
+        return "clike";
+      case "cpp":
+        return "clike";
+      case "csharp":
+        return "clike";
+      case "java":
+        return "clike";
+      default:
+        return lang;
+    }
   };
 
   const handleOptionsChange = (e) => {
-    const language = JSON.parse(e.target.value);
+    const lang = e.target.value;
 
-    setLang({ ...language });
-    setOptions({ ...options, mode: language.mode });
+    dispatch({ type: "LANG_CHANGE", payload: { lang, langId: algorithmId } });
+    setOptions({ ...options, mode: nameToMode(lang) });
   };
 
   const handleCodeSubmit = (e) => {
     e.preventDefault();
+
+    const { code, lang } = globalState.state;
+    const codeInput = code.get(algorithmId);
+    let langInput = lang.get(algorithmId);
     // stops function if no code is entered
-    if (input.length === 0) {
+    if (codeInput.length === 0) {
       alert("No code to run!");
       return;
     } else if (!running) {
       // circular progress on button engadged
       setRunning(true);
 
+      if (!langInput) {
+        langInput = "javascript";
+      }
+
       // post code/input to server (codeController.js) where third party api call is made
-      API.postCode(input, lang.name)
+      API.postCode(codeInput, langInput)
         .then(({ data }) => {
           // if nothing is logged to console alert pops up
           if (!data.out.length && !data.err.length) {
@@ -283,12 +330,12 @@ const Challenge = ({ theme }) => {
             Added by: {algorithm.userId?.username}
           </Typography>
           <CenteredTabs
-          tabValue={0}
-          tab1={"Challenge"}
-          tab2={"Solutions"}
-          link1={`/algorithms/${algorithmId}`}
-          link2={`/solutions/${algorithmId}`}
-        />
+            tabValue={0}
+            tab1={"Challenge"}
+            tab2={"Solutions"}
+            link1={`/algorithms/${algorithmId}`}
+            link2={`/solutions/${algorithmId}`}
+          />
         </Grid>
         <Grid item xs={12}>
           <Grid container>
@@ -420,7 +467,7 @@ const Challenge = ({ theme }) => {
                   <CodeMirror
                     className={classes.codeMirror}
                     name="code"
-                    value={input}
+                    value={globalState.state.code.get(algorithmId)}
                     onChange={handleInputChange}
                     options={options}
                   ></CodeMirror>
@@ -441,7 +488,7 @@ const Challenge = ({ theme }) => {
                 </Button>
                 <LangDropdown
                   classes={classes.formControl}
-                  lang={lang}
+                  lang={globalState.state.lang.get(algorithmId)}
                   handleOptionsChange={handleOptionsChange}
                 />
                 <Typography

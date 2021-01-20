@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     marginBottom: "20px",
+    marginLeft: "5px",
+    marginRight: "5px"
   },
   paper: {
     padding: theme.spacing(2),
@@ -67,7 +69,7 @@ const AlgorithmListItem = ({
   return (
     <Link className={classes.noUnder} to={`/algorithms/${id}`}>
       <Box className={classes.root}>
-        <Paper button elevation={3} className={classes.paper}>
+        <Paper button elevation={5} className={classes.paper}>
           <Grid container spacing={2}>
             <Grid justify="space-between" container>
               <Grid item>
