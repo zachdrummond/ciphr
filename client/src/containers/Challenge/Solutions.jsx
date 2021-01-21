@@ -113,7 +113,7 @@ const Solutions = ({ theme }) => {
   // solutions
   const [solutions, setSolutions] = useState("");
 
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState("language");
 
   useEffect(() => {
     // sets code mirror theme on page theme change
@@ -261,6 +261,31 @@ const Solutions = ({ theme }) => {
     setSortBy(e.target.value);
   }
 
+  const sortBySelection = (solList) => {
+    let A;
+    let B;
+    solList.sort((a, b) => {
+      if (sortBy === "language" && solList.length) {
+        A = a.language.toUpperCase();
+        B = b.language.toUpperCase();
+      } else if (sortBy === "new" && solList.length) {
+        A = a.createdAt;
+        B = b.createdAt;
+      } else if (sortBy === "old" && solList.length) {
+        A = b.createdAt;
+        B = a.createdAt;
+      }
+      if (A < B) {
+        return -1;
+      }
+      if (A > B) {
+        return 1;
+      }
+      return 0;
+    });
+    return solList;
+  }
+
   return (
     <Container maxWidth="lg">
       <Grid container className={classes.mastergrid}>
@@ -358,7 +383,7 @@ const Solutions = ({ theme }) => {
         </Grid>
         <Grid justify="center" item xs={12}>
           {solutions
-            ? solutions.map((solution) => (
+            ? sortBySelection(solutions).map((solution) => (
                 <SolutionsTab
                   code={solution.code}
                   description={solution.description}
