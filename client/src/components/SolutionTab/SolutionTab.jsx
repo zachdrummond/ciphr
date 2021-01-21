@@ -106,6 +106,7 @@ SolutionTab.propTypes = {
   code: PropTypes.string,
   description: PropTypes.string,
   createdBy: PropTypes.string,
+  createdAt: PropTypes.string,
   lang: PropTypes.string,
 };
 
