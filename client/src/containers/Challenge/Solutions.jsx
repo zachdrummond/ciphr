@@ -350,6 +350,7 @@ const Solutions = ({ theme }) => {
                   code={solution.code}
                   description={solution.description}
                   createdBy={solution.createdBy.username}
+                  createdAt={solution.createdAt}
                   lang={solution.language}
                 />
               ))

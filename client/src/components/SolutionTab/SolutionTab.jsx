@@ -36,9 +36,12 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     margin: "20px",
   },
+  date: {
+    float: "right",
+  },
 }));
 
-const SolutionTab = ({ code, description, createdBy, lang }) => {
+const SolutionTab = ({ code, description, createdBy, createdAt, lang }) => {
   const classes = useStyles();
 
   const langImage = (langString) => {
@@ -64,12 +67,15 @@ const SolutionTab = ({ code, description, createdBy, lang }) => {
     }
   };
 
+  const date = new Date(createdAt).toDateString().slice(4);
+
   return (
     <div>
       <Box className={classes.root}>
         <Paper className={classes.paper}>
-          <Grid container>
+          <Grid container direction="row" justify="space-between">
             <h3>Solution by {createdBy}</h3>
+            <p>{date}</p>
           </Grid>
           <Grid container>
             <Grid item>
