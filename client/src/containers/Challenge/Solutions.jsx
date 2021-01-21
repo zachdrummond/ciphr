@@ -74,8 +74,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
   },
   sort: {
-    width: "200px"
-  }
+    width: "200px",
+  },
 }));
 
 const Solutions = ({ theme }) => {
@@ -259,32 +259,39 @@ const Solutions = ({ theme }) => {
 
   const handleSortSelection = (e) => {
     setSortBy(e.target.value);
-  }
+  };
 
   const sortBySelection = (solList) => {
-    let A;
-    let B;
-    solList.sort((a, b) => {
-      if (sortBy === "language" && solList.length) {
-        A = a.language.toUpperCase();
-        B = b.language.toUpperCase();
-      } else if (sortBy === "new" && solList.length) {
-        A = a.createdAt;
-        B = b.createdAt;
-      } else if (sortBy === "old" && solList.length) {
-        A = b.createdAt;
-        B = a.createdAt;
-      }
-      if (A < B) {
-        return -1;
-      }
-      if (A > B) {
-        return 1;
-      }
-      return 0;
-    });
+    // sort by language or date
+    if (solList.length) {
+      solList.sort((a, b) => {
+        let A;
+        let B;
+        switch (sortBy) {
+          case "new":
+            A = a.createdAt;
+            B = b.createdAt;
+            break;
+          case "old":
+            A = b.createdAt;
+            B = a.createdAt;
+            break;
+          default:
+            A = a.language.toUpperCase();
+            B = b.language.toUpperCase();
+            break;
+        }
+        if (A < B) {
+          return -1;
+        }
+        if (A > B) {
+          return 1;
+        }
+        return 0;
+      });
+    }
     return solList;
-  }
+  };
 
   return (
     <Container maxWidth="lg">
@@ -379,7 +386,11 @@ const Solutions = ({ theme }) => {
           </Paper>
         </Grid>
         <Grid>
-          <SortBy handleSortSelection={handleSortSelection} sortBy={sortBy} classes={classes.sort}/>
+          <SortBy
+            handleSortSelection={handleSortSelection}
+            sortBy={sortBy}
+            classes={classes.sort}
+          />
         </Grid>
         <Grid justify="center" item xs={12}>
           {solutions
