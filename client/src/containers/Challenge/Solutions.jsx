@@ -36,6 +36,7 @@ import "codemirror/addon/edit/closebrackets";
 import "codemirror/theme/material-darker.css";
 // global state
 import { store } from "../../context/Store/Store";
+import SortBy from "../../components/SortBy/SortBy";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -72,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
   codeMirror: {
     fontSize: 14,
   },
+  sort: {
+    width: "200px"
+  }
 }));
 
 const Solutions = ({ theme }) => {
@@ -108,6 +112,8 @@ const Solutions = ({ theme }) => {
 
   // solutions
   const [solutions, setSolutions] = useState("");
+
+  const [sortBy, setSortBy] = useState("");
 
   useEffect(() => {
     // sets code mirror theme on page theme change
@@ -251,6 +257,10 @@ const Solutions = ({ theme }) => {
       });
   };
 
+  const handleSortSelection = (e) => {
+    setSortBy(e.target.value);
+  }
+
   return (
     <Container maxWidth="lg">
       <Grid container className={classes.mastergrid}>
@@ -342,6 +352,9 @@ const Solutions = ({ theme }) => {
               handleOptionsChange={handleOptionsChange}
             />
           </Paper>
+        </Grid>
+        <Grid>
+          <SortBy handleSortSelection={handleSortSelection} sortBy={sortBy} classes={classes.sort}/>
         </Grid>
         <Grid justify="center" item xs={12}>
           {solutions
