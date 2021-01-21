@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {FormControl, MenuItem, InputLabel, Select} from "@material-ui/core"
+import { FormControl, MenuItem, InputLabel, Select } from "@material-ui/core";
 
 const SortBy = ({ handleSortSelection, sortBy, classes }) => {
   return (
@@ -22,6 +22,10 @@ const SortBy = ({ handleSortSelection, sortBy, classes }) => {
   );
 };
 
-SortBy.propTypes = {};
+SortBy.propTypes = {
+  handleSortSelection: PropTypes.func.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+};
 
 export default SortBy;

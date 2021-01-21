@@ -269,12 +269,12 @@ const Solutions = ({ theme }) => {
         let B;
         switch (sortBy) {
           case "new":
-            A = a.createdAt;
-            B = b.createdAt;
+            A = new Date(a.createdAt);
+            B = new Date(b.createdAt);
             break;
           case "old":
-            A = b.createdAt;
-            B = a.createdAt;
+            A = new Date(b.createdAt);
+            B = new Date(a.createdAt);
             break;
           default:
             A = a.language.toUpperCase();
