@@ -118,10 +118,6 @@ const Solutions = ({ theme }) => {
   const [sortBy, setSortBy] = useState("language");
 
   useEffect(() => {
-
-  }, [])
-
-  useEffect(() => {
     // sets code mirror theme on page theme change
     !theme
       ? setOptions({ ...options, theme: "material-darker" })
@@ -178,15 +174,15 @@ const Solutions = ({ theme }) => {
 
         API.getSolutions(algorithmId)
           .then((res) => {
-            console.log(res.data.data)
             setSolutions(res.data.data);
-            API.getStarredSolutions(username).then(starredRes => {
-              // console.log(starredRes);
-              setStarredSolutions(starredRes.data.data)
-              console.log(starredRes.data.data)
-            }).catch(err => {
-              console.log(err);
-            })
+            API.getStarredSolutions(username)
+              .then((starredRes) => {
+                // console.log(starredRes);
+                setStarredSolutions(starredRes.data.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           })
           .catch((err) => {
             console.log(err);
@@ -308,21 +304,28 @@ const Solutions = ({ theme }) => {
   };
 
   const toggledStar = (e) => {
-    // console.log(e.target.value)
     const id = e.target.value;
     let status = false;
     for (const star of starredSolutions) {
       if (star.id === id) {
-        status = true
+        status = true;
       }
     }
-    API.starSolution(id, status, username).then(starRes => {
-      console.log(starRes.data.data);
-      setStarredSolutions(starRes.data.data)
-    }).catch(err => {
-      console.log(err);
-    })
-  }
+    API.starSolution(id, status, username)
+      .then((starRes) => {
+        setStarredSolutions(starRes.data.data);
+        API.getSolutions(algorithmId)
+          .then((res) => {
+            setSolutions(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Container maxWidth="lg">
