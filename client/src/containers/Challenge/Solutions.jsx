@@ -113,7 +113,13 @@ const Solutions = ({ theme }) => {
   // solutions
   const [solutions, setSolutions] = useState("");
 
+  const [starredSolutions, setStarredSolutions] = useState([]);
+
   const [sortBy, setSortBy] = useState("language");
+
+  useEffect(() => {
+
+  }, [])
 
   useEffect(() => {
     // sets code mirror theme on page theme change
@@ -174,6 +180,13 @@ const Solutions = ({ theme }) => {
           .then((res) => {
             console.log(res.data.data)
             setSolutions(res.data.data);
+            API.getStarredSolutions(username).then(starredRes => {
+              // console.log(starredRes);
+              setStarredSolutions(starredRes.data.data)
+              console.log(starredRes.data.data)
+            }).catch(err => {
+              console.log(err);
+            })
           })
           .catch((err) => {
             console.log(err);
@@ -294,6 +307,16 @@ const Solutions = ({ theme }) => {
     return solList;
   };
 
+  const toggledStar = (e) => {
+    // console.log(e.target.value)
+    const id = e.target.value;
+    API.starSolution(id, false, username).then(starRes => {
+      console.log(starRes);
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
   return (
     <Container maxWidth="lg">
       <Grid container className={classes.mastergrid}>
@@ -403,6 +426,9 @@ const Solutions = ({ theme }) => {
                   createdAt={solution.createdAt}
                   lang={solution.language}
                   stars={solution.stars}
+                  id={solution._id}
+                  toggledStar={toggledStar}
+                  starredSolutions={starredSolutions}
                 />
               ))
             : ""}

@@ -109,6 +109,42 @@ router.post("/api/star/:id", (req, res) => {
   }
 });
 
+router.get("/api/solutionsStar/:username", (req, res) => {
+  db.Users.findOne({ username: req.params.username })
+    .populate("starredSolutions")
+    .then((user) => {
+      // returns a starred status of false unless id is found in the users list of starred algorithms
+      // let status = false;
+      // for (const algo of user.starred) {
+      //   if (req.params.id === algo._id.toString()) {
+      //     status = true;
+      //   }
+      // }
+      const starredArr = [];
+      for (const star of user.starredSolutions) {
+        const starred = {
+          id: star._id.toString(),
+          status: true
+        }
+        starredArr.push(starred)
+      }
+      // console.log(starred)
+      res.status(200).json({
+        error: false,
+        data: starredArr,
+        message: "Like status retrieved.",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: true,
+        data: null,
+        message: "Unable to retrieve like status.",
+      });
+    });
+});
+
 router.post("/api/solutionsStar/:id", (req, res) => {
   // if solution is starred the star key is incremented, unstarred = decrement
   if (!req.body.status) {

@@ -49,7 +49,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SolutionTab = ({ code, description, createdBy, createdAt, lang, stars }) => {
+const SolutionTab = ({
+  code,
+  description,
+  createdBy,
+  createdAt,
+  lang,
+  stars,
+  id,
+  toggledStar,
+  starredSolutions,
+}) => {
   const classes = useStyles();
 
   const langImage = (langString) => {
@@ -77,6 +87,13 @@ const SolutionTab = ({ code, description, createdBy, createdAt, lang, stars }) =
 
   const date = new Date(createdAt).toDateString().slice(4);
 
+  let status = false;
+  for (const star of starredSolutions) {
+    if (star.id === id) {
+      status = true;
+    }
+  }
+
   return (
     <div>
       <Box className={classes.root}>
@@ -84,18 +101,18 @@ const SolutionTab = ({ code, description, createdBy, createdAt, lang, stars }) =
           <Grid container direction="row" justify="space-between">
             <h3>Solution by {createdBy}</h3>
             <FormControlLabel
-                className={classes.star}
-                control={
-                  <Checkbox
-                    // checked={star}
-                    // onChange={toggleStar}
-                    icon={<StarRate />}
-                    checkedIcon={<Stars />}
-                    name="checkedH"
-                  />
-                }
-                label={stars}
-              />
+              className={classes.star}
+              control={
+                <Checkbox
+                  checked={status}
+                  onChange={toggledStar}
+                  icon={<StarRate />}
+                  checkedIcon={<Stars />}
+                  value={id}
+                />
+              }
+              label={stars}
+            />
             <p>{date}</p>
           </Grid>
           <Grid container>
@@ -129,7 +146,7 @@ SolutionTab.propTypes = {
   createdBy: PropTypes.string,
   createdAt: PropTypes.string,
   lang: PropTypes.string,
-  stars: PropTypes.number
+  stars: PropTypes.number,
 };
 
 export default SolutionTab;
