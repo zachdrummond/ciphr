@@ -172,6 +172,7 @@ const Solutions = ({ theme }) => {
 
         API.getSolutions(algorithmId)
           .then((res) => {
+            console.log(res.data.data)
             setSolutions(res.data.data);
           })
           .catch((err) => {
@@ -401,6 +402,7 @@ const Solutions = ({ theme }) => {
                   createdBy={solution.createdBy.username}
                   createdAt={solution.createdAt}
                   lang={solution.language}
+                  stars={solution.stars}
                 />
               ))
             : ""}

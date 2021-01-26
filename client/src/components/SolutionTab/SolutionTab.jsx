@@ -1,6 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Paper, Grid, Typography } from "@material-ui/core";
+import {
+  Box,
+  Paper,
+  Grid,
+  Typography,
+  FormControlLabel,
+  Checkbox,
+} from "@material-ui/core";
+import { Stars, StarRate } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import Java from "../../images/java.svg";
 import Node from "../../images/node.svg";
@@ -41,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SolutionTab = ({ code, description, createdBy, createdAt, lang }) => {
+const SolutionTab = ({ code, description, createdBy, createdAt, lang, stars }) => {
   const classes = useStyles();
 
   const langImage = (langString) => {
@@ -75,6 +83,19 @@ const SolutionTab = ({ code, description, createdBy, createdAt, lang }) => {
         <Paper className={classes.paper}>
           <Grid container direction="row" justify="space-between">
             <h3>Solution by {createdBy}</h3>
+            <FormControlLabel
+                className={classes.star}
+                control={
+                  <Checkbox
+                    // checked={star}
+                    // onChange={toggleStar}
+                    icon={<StarRate />}
+                    checkedIcon={<Stars />}
+                    name="checkedH"
+                  />
+                }
+                label={stars}
+              />
             <p>{date}</p>
           </Grid>
           <Grid container>
@@ -108,6 +129,7 @@ SolutionTab.propTypes = {
   createdBy: PropTypes.string,
   createdAt: PropTypes.string,
   lang: PropTypes.string,
+  stars: PropTypes.number
 };
 
 export default SolutionTab;

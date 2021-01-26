@@ -63,6 +63,16 @@ const API = {
       method: "GET",
     });
   },
+  starSolution: function (id, status, user) {
+    return axios({
+      url: `/api/solutionsStar/${id}`,
+      method: "POST",
+      data: {
+        status,
+        user,
+      },
+    });
+  },
   postSolution: function (code, description, language, algorithmId, token) {
     return axios({
       url: `/api/solutions`,
