@@ -310,7 +310,13 @@ const Solutions = ({ theme }) => {
   const toggledStar = (e) => {
     // console.log(e.target.value)
     const id = e.target.value;
-    API.starSolution(id, false, username).then(starRes => {
+    let status = false;
+    for (const star of starredSolutions) {
+      if (star.id === id) {
+        status = true
+      }
+    }
+    API.starSolution(id, status, username).then(starRes => {
       console.log(starRes);
     }).catch(err => {
       console.log(err);
