@@ -113,13 +113,6 @@ router.get("/api/solutionsStar/:username", (req, res) => {
   db.Users.findOne({ username: req.params.username })
     .populate("starredSolutions")
     .then((user) => {
-      // returns a starred status of false unless id is found in the users list of starred algorithms
-      // let status = false;
-      // for (const algo of user.starred) {
-      //   if (req.params.id === algo._id.toString()) {
-      //     status = true;
-      //   }
-      // }
       const starredArr = [];
       for (const star of user.starredSolutions) {
         const starred = {
@@ -128,7 +121,6 @@ router.get("/api/solutionsStar/:username", (req, res) => {
         }
         starredArr.push(starred)
       }
-      // console.log(starred)
       res.status(200).json({
         error: false,
         data: starredArr,
@@ -147,6 +139,8 @@ router.get("/api/solutionsStar/:username", (req, res) => {
 
 router.post("/api/solutionsStar/:id", (req, res) => {
   // if solution is starred the star key is incremented, unstarred = decrement
+  let starredArr = [];
+
   if (!req.body.status) {
     db.Solutions.findOneAndUpdate(
       { _id: req.params.id },
@@ -159,11 +153,18 @@ router.post("/api/solutionsStar/:id", (req, res) => {
           { username: req.body.user },
           { $push: { starredSolutions: addResponse } },
           { new: true }
-        )
+        ).populate("starredSolutions")
           .then((userOne) => {
+            for (const star of userOne.starredSolutions) {
+              const starred = {
+                id: star._id.toString(),
+                status: true
+              }
+              starredArr.push(starred)
+            }
             res.status(200).json({
               error: false,
-              data: userOne,
+              data: starredArr,
               message: "Liked!",
             });
           })
@@ -192,15 +193,22 @@ router.post("/api/solutionsStar/:id", (req, res) => {
     )
       .then((deleteResponse) => {
         // algorithm id is removed from user model 'starred' array
-        db.Users.updateOne(
+        db.Users.findOneAndUpdate(
           { username: req.body.user },
           { $pull: { starredSolutions: deleteResponse._id } },
           { new: true }
-        )
+        ).populate("starredSolutions")
           .then((userTwo) => {
+            for (const star of userTwo.starredSolutions) {
+              const starred = {
+                id: star._id.toString(),
+                status: true
+              }
+              starredArr.push(starred)
+            }
             res.status(200).json({
               error: false,
-              data: userTwo,
+              data: starredArr,
               message: "disliked!",
             });
           })

@@ -317,7 +317,8 @@ const Solutions = ({ theme }) => {
       }
     }
     API.starSolution(id, status, username).then(starRes => {
-      console.log(starRes);
+      console.log(starRes.data.data);
+      setStarredSolutions(starRes.data.data)
     }).catch(err => {
       console.log(err);
     })
