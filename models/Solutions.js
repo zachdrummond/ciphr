@@ -22,6 +22,10 @@ const SolutionsSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  stars: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const Solutions = mongoose.model("Solutions", SolutionsSchema);

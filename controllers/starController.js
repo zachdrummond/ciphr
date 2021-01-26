@@ -109,4 +109,83 @@ router.post("/api/star/:id", (req, res) => {
   }
 });
 
+router.post("/api/solutionsStar/:id", (req, res) => {
+  // if solution is starred the star key is incremented, unstarred = decrement
+  if (!req.body.status) {
+    db.Solutions.findOneAndUpdate(
+      { _id: req.params.id },
+      { $inc: { stars: 1 } },
+      { new: true }
+    )
+      .then((addResponse) => {
+        // solution id is added to user model 'starred' array
+        db.Users.findOneAndUpdate(
+          { username: req.body.user },
+          { $push: { starredSolutions: addResponse } },
+          { new: true }
+        )
+          .then((userOne) => {
+            res.status(200).json({
+              error: false,
+              data: userOne,
+              message: "Liked!",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+              error: true,
+              data: null,
+              message: "Unable to add star to user model.",
+            });
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: true,
+          data: null,
+          message: "Unable to find user.",
+        });
+      });
+  } else {
+    db.Solutions.findOneAndUpdate(
+      { _id: req.params.id },
+      { $inc: { stars: -1 } },
+      { new: true }
+    )
+      .then((deleteResponse) => {
+        // algorithm id is removed from user model 'starred' array
+        db.Users.updateOne(
+          { username: req.body.user },
+          { $pull: { starredSolutions: deleteResponse._id } },
+          { new: true }
+        )
+          .then((userTwo) => {
+            res.status(200).json({
+              error: false,
+              data: userTwo,
+              message: "disliked!",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+              error: true,
+              data: null,
+              message: "Unable to delete star from user model.",
+            });
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: true,
+          data: null,
+          message: "Unable to find user.",
+        });
+      });
+  }
+});
+
 module.exports = router;
