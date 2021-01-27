@@ -286,6 +286,10 @@ const Solutions = ({ theme }) => {
             A = new Date(b.createdAt);
             B = new Date(a.createdAt);
             break;
+          case "high":
+            A = b.stars;
+            B = a.stars;
+            break;
           default:
             A = a.language.toUpperCase();
             B = b.language.toUpperCase();

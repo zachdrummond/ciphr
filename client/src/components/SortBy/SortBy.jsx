@@ -17,6 +17,7 @@ const SortBy = ({ handleSortSelection, sortBy, classes }) => {
         <MenuItem value="language">Language</MenuItem>
         <MenuItem value="new">Newest First</MenuItem>
         <MenuItem value="old">Oldest First</MenuItem>
+        <MenuItem value="high">Highest Rated</MenuItem>
       </Select>
     </FormControl>
   );
