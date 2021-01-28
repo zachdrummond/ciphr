@@ -36,6 +36,7 @@ import "codemirror/addon/edit/closebrackets";
 import "codemirror/theme/material-darker.css";
 // global state
 import { store } from "../../context/Store/Store";
+import SortBy from "../../components/SortBy/SortBy";
 
 const useStyles = makeStyles((theme) => ({
   mastergrid: {
@@ -71,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
   star: {},
   codeMirror: {
     fontSize: 14,
+  },
+  sort: {
+    width: "200px",
   },
 }));
 
@@ -108,6 +112,10 @@ const Solutions = ({ theme }) => {
 
   // solutions
   const [solutions, setSolutions] = useState("");
+
+  const [starredSolutions, setStarredSolutions] = useState([]);
+
+  const [sortBy, setSortBy] = useState("language");
 
   useEffect(() => {
     // sets code mirror theme on page theme change
@@ -167,6 +175,14 @@ const Solutions = ({ theme }) => {
         API.getSolutions(algorithmId)
           .then((res) => {
             setSolutions(res.data.data);
+            API.getStarredSolutions(username)
+              .then((starredRes) => {
+                // console.log(starredRes);
+                setStarredSolutions(starredRes.data.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           })
           .catch((err) => {
             console.log(err);
@@ -238,6 +254,70 @@ const Solutions = ({ theme }) => {
 
     API.postSolution(codeInput, descriptionInput, langInput, algorithmId, jwt)
       .then((response) => {
+        API.getSolutions(algorithmId)
+          .then((res) => {
+            setSolutions(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleSortSelection = (e) => {
+    setSortBy(e.target.value);
+  };
+
+  const sortBySelection = (solList) => {
+    // sort by language or date
+    if (solList.length) {
+      solList.sort((a, b) => {
+        let A;
+        let B;
+        switch (sortBy) {
+          case "new":
+            A = new Date(a.createdAt);
+            B = new Date(b.createdAt);
+            break;
+          case "old":
+            A = new Date(b.createdAt);
+            B = new Date(a.createdAt);
+            break;
+          case "high":
+            A = b.stars;
+            B = a.stars;
+            break;
+          default:
+            A = a.language.toUpperCase();
+            B = b.language.toUpperCase();
+            break;
+        }
+        if (A < B) {
+          return -1;
+        }
+        if (A > B) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    return solList;
+  };
+
+  const toggledStar = (e) => {
+    const id = e.target.value;
+    let status = false;
+    for (const star of starredSolutions) {
+      if (star.id === id) {
+        status = true;
+      }
+    }
+    API.starSolution(id, status, username)
+      .then((starRes) => {
+        setStarredSolutions(starRes.data.data);
         API.getSolutions(algorithmId)
           .then((res) => {
             setSolutions(res.data.data);
@@ -343,14 +423,26 @@ const Solutions = ({ theme }) => {
             />
           </Paper>
         </Grid>
+        <Grid>
+          <SortBy
+            handleSortSelection={handleSortSelection}
+            sortBy={sortBy}
+            classes={classes.sort}
+          />
+        </Grid>
         <Grid justify="center" item xs={12}>
           {solutions
-            ? solutions.map((solution) => (
+            ? sortBySelection(solutions).map((solution) => (
                 <SolutionsTab
                   code={solution.code}
                   description={solution.description}
                   createdBy={solution.createdBy.username}
+                  createdAt={solution.createdAt}
                   lang={solution.language}
+                  stars={solution.stars}
+                  id={solution._id}
+                  toggledStar={toggledStar}
+                  starredSolutions={starredSolutions}
                 />
               ))
             : ""}

@@ -63,6 +63,22 @@ const API = {
       method: "GET",
     });
   },
+  starSolution: function (id, status, user) {
+    return axios({
+      url: `/api/solutionsStar/${id}`,
+      method: "POST",
+      data: {
+        status,
+        user,
+      },
+    });
+  },
+  getStar: function (id, user) {
+    return axios({
+      url: `/api/star/${id}/${user}`,
+      method: "GET",
+    });
+  },
   postSolution: function (code, description, language, algorithmId, token) {
     return axios({
       url: `/api/solutions`,
@@ -74,6 +90,12 @@ const API = {
         algorithmId,
         token,
       },
+    });
+  },
+  getStarredSolutions: function (user) {
+    return axios({
+      url: `/api/solutionsStar/${user}`,
+      method: "GET",
     });
   },
   getSolutions: function (algorithmId) {
