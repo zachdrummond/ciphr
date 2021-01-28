@@ -92,4 +92,34 @@ router.get("/api/solutions/:algorithmId", (req, res) => {
     });
 });
 
+router.delete("/api/solutions/:solutionId", function (request, response) {
+  db.Solutions.findByIdAndDelete(request.params.solutionId)
+    .then((result) => {
+      db.Algorithms.updateOne({ $pull: { solutions: request.params.solutionId } })
+        .then((result) => {
+          response.status(200).json({
+            error: false,
+            data: null,
+            message: "Successfully deleted solution and updated user.",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          response.status(500).json({
+            error: true,
+            data: null,
+            message: "An error occurred deleting the user's algorithm.",
+          });
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(500).json({
+        error: true,
+        data: null,
+        message: "An error occurred deleting the algorithm.",
+      });
+    });
+});
+
 module.exports = router;
