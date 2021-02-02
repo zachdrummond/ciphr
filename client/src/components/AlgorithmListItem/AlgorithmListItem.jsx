@@ -1,19 +1,22 @@
 // React
 import { Link } from "react-router-dom";
+import React from "react";
 // File imports
 
 // Material UI
-import { Box, Chip, IconButton } from "@material-ui/core";
+import {
+  Box,
+  ButtonBase,
+  Chip,
+  Grid,
+  IconButton,
+  makeStyles,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { Stars } from "@material-ui/icons";
-
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import ButtonBase from "@material-ui/core/ButtonBase";
 
 // THIS IS BACK TO THE BEGINNING
 
@@ -22,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginBottom: "20px",
     marginLeft: "5px",
-    marginRight: "5px"
+    marginRight: "5px",
   },
   paper: {
     padding: theme.spacing(2),
@@ -37,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   star: {
     // color: theme.palette.text.secondary,
     marginRight: "5px",
-  }
+  },
 }));
 
 const AlgorithmListItem = ({
@@ -60,11 +63,11 @@ const AlgorithmListItem = ({
       } else if (i > 210 && text[i] !== " ") {
         c += text[i];
       } else if (i > 210 && text[i] === " ") {
-        return c += "...";
+        return (c += "...");
       }
     }
     return c;
-  }
+  };
 
   return (
     <Link className={classes.noUnder} to={`/algorithms/${id}`}>
@@ -74,16 +77,12 @@ const AlgorithmListItem = ({
             <Grid justify="space-between" container>
               <Grid item>
                 <ButtonBase className={classes.image}>
-                  <Stars className={classes.star} color="secondary"/>
+                  <Stars className={classes.star} color="secondary" />
                   {stars}
                 </ButtonBase>
               </Grid>
-              <Grid  item>
-                <Typography
-                  variant="subtitle1"
-                >
-                  {author}
-                </Typography>
+              <Grid item>
+                <Typography variant="subtitle1">{author}</Typography>
                 {!author ? (
                   <Typography>
                     <IconButton
@@ -122,18 +121,19 @@ const AlgorithmListItem = ({
                 </Grid>
                 <Grid item>
                   {hashtags
-                    ? hashtags
-                        .split(" ")
-                        .map((hashtag, index) => {
-                          if (index < 3) {return (
-                          <Chip
-                            label={hashtag}
-                            key={index}
-                            color="secondary"
-                            size="medium"
-                            className={classes.chip}
-                          />
-                        )}})
+                    ? hashtags.split(" ").map((hashtag, index) => {
+                        if (index < 3) {
+                          return (
+                            <Chip
+                              label={hashtag}
+                              key={index}
+                              color="secondary"
+                              size="medium"
+                              className={classes.chip}
+                            />
+                          );
+                        }
+                      })
                     : ""}
                 </Grid>
               </Grid>

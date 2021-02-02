@@ -1,26 +1,30 @@
 // React
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 // Material UI
 import {
   Box,
   Button,
+  Checkbox,
   Container,
+  FormControlLabel,
   Grid,
+  IconButton,
   makeStyles,
   Paper,
+  Snackbar,
   TextField,
   Typography,
-  FormControlLabel,
-  Checkbox,
 } from "@material-ui/core";
 import { Stars, StarRate } from "@material-ui/icons";
+import CloseIcon from "@material-ui/icons/Close";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import CenteredTabs from "../../components/CenteredTabs/CenteredTabs";
-import SolutionsTab from "../../components/SolutionTab/SolutionTab";
 import LangDropdown from "../../components/LangDropdown/LangDropdown";
+import SolutionTab from "../../components/SolutionTab/SolutionTab";
+import SnackbarContext from "../../context/SnackbarContext/SnackbarContext";
 // Code Mirror
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
@@ -84,6 +88,12 @@ const Solutions = ({ theme }) => {
   const { username, jwt } = useContext(AuthContext);
   const globalState = useContext(store);
   const { dispatch } = globalState;
+  const {
+    snackbarMessage,
+    snackbarOpen,
+    setSnackbarOpen,
+    setSnackbarMessage,
+  } = useContext(SnackbarContext);
 
   // code mirror editor settings
   const [options, setOptions] = useState({
@@ -172,17 +182,21 @@ const Solutions = ({ theme }) => {
             console.log(err);
           });
 
-        API.getSolutions(algorithmId)
-          .then((res) => {
-            setSolutions(res.data.data);
-            API.getStarredSolutions(username)
-              .then((starredRes) => {
-                // console.log(starredRes);
-                setStarredSolutions(starredRes.data.data);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+        getSolutions();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const getSolutions = () => {
+    API.getSolutions(algorithmId)
+      .then((res) => {
+        setSolutions(res.data.data);
+        API.getStarredSolutions(username)
+          .then((starredRes) => {
+            // console.log(starredRes);
+            setStarredSolutions(starredRes.data.data);
           })
           .catch((err) => {
             console.log(err);
@@ -191,7 +205,7 @@ const Solutions = ({ theme }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
 
   // toggles star icon off/on
   const toggleStar = () => {
@@ -201,6 +215,13 @@ const Solutions = ({ theme }) => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
   // changes the value of the input hooks
@@ -213,6 +234,16 @@ const Solutions = ({ theme }) => {
   };
   const handleDescriptionInputChange = (e) => {
     setDescriptionInput(e.target.value);
+  };
+
+  const handleDelete = (id) => {
+    API.deleteSolution(id)
+      .then((res) => {
+        setSnackbarMessage("Solution successfully deleted!");
+        setSnackbarOpen(true);
+        getSolutions();
+      })
+      .catch((err) => console.log(err));
   };
 
   const nameToMode = (lang) => {
@@ -433,7 +464,9 @@ const Solutions = ({ theme }) => {
         <Grid justify="center" item xs={12}>
           {solutions
             ? sortBySelection(solutions).map((solution) => (
-                <SolutionsTab
+                <SolutionTab
+                  currentUser={username}
+                  algorithmId={algorithmId}
                   code={solution.code}
                   description={solution.description}
                   createdBy={solution.createdBy.username}
@@ -443,10 +476,33 @@ const Solutions = ({ theme }) => {
                   id={solution._id}
                   toggledStar={toggledStar}
                   starredSolutions={starredSolutions}
+                  handleDelete={handleDelete}
                 />
               ))
             : ""}
         </Grid>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message={snackbarMessage}
+          action={
+            <React.Fragment>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
       </Grid>
     </Container>
   );

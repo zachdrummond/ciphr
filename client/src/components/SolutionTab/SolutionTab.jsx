@@ -1,15 +1,24 @@
+// React
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
+// Material UI
 import {
   Box,
-  Paper,
-  Grid,
-  Typography,
-  FormControlLabel,
   Checkbox,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  makeStyles,
+  Paper,
+  Typography,
 } from "@material-ui/core";
 import { Stars, StarRate } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+
+// File imports
 import Java from "../../images/java.svg";
 import Node from "../../images/node.svg";
 import Python from "../../images/python.svg";
@@ -50,6 +59,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SolutionTab = ({
+  currentUser,
+  algorithmId,
   code,
   description,
   createdBy,
@@ -59,6 +70,7 @@ const SolutionTab = ({
   id,
   toggledStar,
   starredSolutions,
+  handleDelete,
 }) => {
   const classes = useStyles();
 
@@ -87,6 +99,8 @@ const SolutionTab = ({
 
   const date = new Date(createdAt).toDateString().slice(4);
 
+  console.log(currentUser);
+
   let status = false;
   for (const star of starredSolutions) {
     if (star.id === id) {
@@ -114,6 +128,30 @@ const SolutionTab = ({
               label={stars}
             />
             <p>{date}</p>
+            {currentUser === createdBy ? (
+              <Typography>
+                <IconButton
+                  component={Link}
+                  to={""}
+                  edge="end"
+                  aria-label="delete"
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  value={id}
+                  onClick={() => handleDelete(id)}
+                  edge="end"
+                  aria-label="delete"
+                  component={Link}
+                  to={`/solutions/${algorithmId}`}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Typography>
+            ) : (
+              ""
+            )}
           </Grid>
           <Grid container>
             <Grid item>

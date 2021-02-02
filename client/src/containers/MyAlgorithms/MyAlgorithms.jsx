@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
 // Material UI
 import {
-  makeStyles,
-  Grid,
-  Fab,
   Box,
-  Typography,
-  Snackbar,
+  makeStyles,
+  Fab,
+  Grid,
   IconButton,
+  Snackbar,
+  Typography,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 // File Modules
@@ -69,7 +69,7 @@ const MyAlgorithms = () => {
   const handleDelete = (id) => {
     API.deleteAlgorithm(id)
       .then((res) => {
-        setSnackbarMessage("Algorithm Successfully Deleted!");
+        setSnackbarMessage("Algorithm successfully deleted!");
         setSnackbarOpen(true);
         setDeleted(true);
         getMyAlgorithms();
