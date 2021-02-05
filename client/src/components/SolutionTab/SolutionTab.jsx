@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SolutionTab = ({
   currentUser,
-  algorithmId,
   code,
   description,
   createdBy,
@@ -70,6 +69,7 @@ const SolutionTab = ({
   id,
   toggledStar,
   starredSolutions,
+  handleEdit,
   handleDelete,
 }) => {
   const classes = useStyles();
@@ -98,8 +98,6 @@ const SolutionTab = ({
   };
 
   const date = new Date(createdAt).toDateString().slice(4);
-
-  console.log(currentUser);
 
   let status = false;
   for (const star of starredSolutions) {
@@ -131,8 +129,8 @@ const SolutionTab = ({
             {currentUser === createdBy ? (
               <Typography>
                 <IconButton
-                  component={Link}
-                  to={""}
+                  value={id}
+                  onClick={() => handleEdit(id, code, description, lang)}
                   edge="end"
                   aria-label="delete"
                 >
@@ -143,8 +141,6 @@ const SolutionTab = ({
                   onClick={() => handleDelete(id)}
                   edge="end"
                   aria-label="delete"
-                  component={Link}
-                  to={`/solutions/${algorithmId}`}
                 >
                   <DeleteIcon />
                 </IconButton>

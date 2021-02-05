@@ -296,7 +296,9 @@ const Challenge = ({ theme }) => {
   return (
     <Container maxWidth="lg">
       <Grid container className={classes.mastergrid}>
+        {/* -------------------------------------------------------------------------PAGE HEADER */}
         <Grid justify="center" item xs={12}>
+          {/* Challenge Name */}
           <Typography
             className={classes.titleBottom}
             variant="h4"
@@ -305,6 +307,7 @@ const Challenge = ({ theme }) => {
           >
             Challenge: {algorithm.challengeName}
           </Typography>
+          {/* Star Button */}
           <Typography align="center">
             <FormControlLabel
               className={classes.star}
@@ -320,7 +323,7 @@ const Challenge = ({ theme }) => {
               label="Star this Algorithm"
             />
           </Typography>
-
+          {/* Added By */}
           <Typography
             className={classes.titleBottom}
             variant="h6"
@@ -329,6 +332,7 @@ const Challenge = ({ theme }) => {
           >
             Added by: {algorithm.userId?.username}
           </Typography>
+          {/* Tabs - Challenge/Solutions  */}
           <CenteredTabs
             tabValue={0}
             tab1={"Challenge"}
@@ -339,8 +343,10 @@ const Challenge = ({ theme }) => {
         </Grid>
         <Grid item xs={12}>
           <Grid container>
+            {/* -------------------------------------------------------------------------DESCRIPTION, TEST CASES, HASHTAGS */}
             <Grid item className={classes.column} xs={12} md={6}>
               <Paper className={classes.paper}>
+                {/* Description */}
                 <Typography
                   className={classes.titleBottom}
                   variant="h5"
@@ -369,6 +375,7 @@ const Challenge = ({ theme }) => {
                       : ""}
                   </Typography>
                 </Box>
+                {/* Test Cases */}
                 {algorithm.testCases.length > 0 ? (
                   <>
                     <Typography
@@ -418,6 +425,7 @@ const Challenge = ({ theme }) => {
                       </Box>
                     ))
                   : ""}
+                {/* Hashtags */}
                 {algorithm.hashtags ? (
                   <Typography
                     className={classes.titleBottom}
@@ -443,8 +451,10 @@ const Challenge = ({ theme }) => {
                   : ""}
               </Paper>
             </Grid>
+            {/* -------------------------------------------------------------------------CODE EDITOR */}
             <Grid className={classes.column} item xs={12} md={6}>
               <Paper className={classes.paper}>
+                {/* Header - Input */}
                 <Typography
                   className={classes.titleBottom}
                   mb={2}
@@ -463,6 +473,7 @@ const Challenge = ({ theme }) => {
                 <Typography className={classes.instructions}>
                   Remember to print/log any returns to the console.
                 </Typography>
+                {/* CodeMirror Box */}
                 <Box border={1}>
                   <CodeMirror
                     className={classes.codeMirror}
@@ -472,7 +483,7 @@ const Challenge = ({ theme }) => {
                     options={options}
                   ></CodeMirror>
                 </Box>
-
+                {/* Run Button */}
                 <Button
                   onClick={handleCodeSubmit}
                   variant="contained"
@@ -486,11 +497,13 @@ const Challenge = ({ theme }) => {
                     <p>Run</p>
                   )}
                 </Button>
+                {/* Language Dropdown */}
                 <LangDropdown
                   classes={classes.formControl}
                   lang={globalState.state.lang.get(algorithmId)}
                   handleOptionsChange={handleOptionsChange}
                 />
+                {/* Header - Input */}
                 <Typography
                   className={classes.titleBottom}
                   variant="h5"
@@ -499,6 +512,7 @@ const Challenge = ({ theme }) => {
                 >
                   Output
                 </Typography>
+                {/* CodeMirror Box */}
                 <Box border={1}>
                   <CodeMirror
                     className={classes.codeMirror}
