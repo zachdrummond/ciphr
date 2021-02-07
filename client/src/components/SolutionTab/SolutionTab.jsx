@@ -1,6 +1,5 @@
 // React
 import React from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Material UI
@@ -152,7 +151,7 @@ const SolutionTab = ({
           <Grid container>
             <Grid item>
               <Grid justify="space-between" container>
-                <img className={classes.icon} src={langImage(lang)}></img>
+                <img className={classes.icon} src={langImage(lang)} alt="Images"></img>
               </Grid>
             </Grid>
             <Grid item>

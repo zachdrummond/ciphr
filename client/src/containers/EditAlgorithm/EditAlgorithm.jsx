@@ -4,8 +4,6 @@ import { useHistory, useParams } from "react-router-dom";
 // Material UI
 import {
   Button,
-  Fade,
-  Backdrop,
   Container,
   Grid,
   Box,

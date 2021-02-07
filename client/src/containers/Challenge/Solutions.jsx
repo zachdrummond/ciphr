@@ -1,5 +1,5 @@
 // React
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 // Material UI
 import {
@@ -93,6 +93,7 @@ const Solutions = ({ theme }) => {
     user: "",
     hashtags: [],
   });
+  const codeInputRef = useRef();
   const [descriptionInput, setDescriptionInput] = useState("");
   const globalState = useContext(store);
   const { dispatch } = globalState;
@@ -104,6 +105,7 @@ const Solutions = ({ theme }) => {
     autofocus: true,
     autoCloseBrackets: true,
   });
+  const [codeInputState, setCodeInputState] = useState();
   // Snackbar
   const {
     snackbarMessage,
@@ -183,6 +185,12 @@ const Solutions = ({ theme }) => {
       });
   }, []);
 
+  // useRef allows access to the code mirror instance and its methods
+  useEffect(() => {
+    const editor = codeInputRef.current.getCodeMirror();
+    editor.setValue(codeInputState);
+  }, [codeInputState]);
+
   //-------------------------------------------------------------------------METHODS - ALPHABETICALLY ORDERED
   // Gets and sets all the solutions with their star ratings
   const getSolutions = () => {
@@ -213,6 +221,7 @@ const Solutions = ({ theme }) => {
 
   // changes the value of the input hooks
   const handleCodeInputChange = (e) => {
+    setCodeInputState(e);
     dispatch({
       type: "CODE_CHANGE",
       payload: { code: e, codeId: algorithmId },
@@ -237,10 +246,7 @@ const Solutions = ({ theme }) => {
 
   // Edits the solutions
   const handleEdit = (id, code, description, lang) => {
-    dispatch({
-      type: "CODE_CHANGE",
-      payload: { code: code, codeId: algorithmId },
-    });
+    handleCodeInputChange(code);
     dispatch({ type: "LANG_CHANGE", payload: { lang, langId: algorithmId } });
     setOptions({ ...options, mode: nameToMode(lang) });
     setDescriptionInput(description);
@@ -424,6 +430,13 @@ const Solutions = ({ theme }) => {
           <Grid container>
             {/* -------------------------------------------------------------------------SOLUTIONS */}
             <Grid className={classes.column} item xs={12} md={6}>
+              <Box display="flex" justifyContent="center">
+                <SortBy
+                  handleSortSelection={handleSortSelection}
+                  sortBy={sortBy}
+                  classes={classes.sort}
+                />
+              </Box>
               {solutions
                 ? sortBySelection(solutions).map((solution) => (
                     <SolutionTab
@@ -462,6 +475,7 @@ const Solutions = ({ theme }) => {
                     className={classes.codeMirror}
                     name="code"
                     value={globalState.state.code.get(algorithmId)}
+                    ref={codeInputRef}
                     onChange={handleCodeInputChange}
                     options={options}
                   ></CodeMirror>
@@ -495,14 +509,6 @@ const Solutions = ({ theme }) => {
                 />
               </Paper>
             </Grid>
-            {/* -------------------------------------------------------------------------SORT BY BUTTON */}
-            {/* <Grid>
-          <SortBy
-            handleSortSelection={handleSortSelection}
-            sortBy={sortBy}
-            classes={classes.sort}
-          />
-        </Grid> */}
             {/* -------------------------------------------------------------------------SNACKBAR MESSAGES */}
             <Snackbar
               anchorOrigin={{
