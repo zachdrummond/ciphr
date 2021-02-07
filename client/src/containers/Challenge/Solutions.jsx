@@ -105,7 +105,7 @@ const Solutions = ({ theme }) => {
     autofocus: true,
     autoCloseBrackets: true,
   });
-  const [codeInputState, setCodeInputState] = useState();
+  const [codeInputState, setCodeInputState] = useState("");
   // Snackbar
   const {
     snackbarMessage,
