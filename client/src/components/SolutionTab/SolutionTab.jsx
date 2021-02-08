@@ -1,15 +1,23 @@
+// React
 import React from "react";
 import PropTypes from "prop-types";
+
+// Material UI
 import {
   Box,
-  Paper,
-  Grid,
-  Typography,
-  FormControlLabel,
   Checkbox,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  makeStyles,
+  Paper,
+  Typography,
 } from "@material-ui/core";
 import { Stars, StarRate } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+
+// File imports
 import Java from "../../images/java.svg";
 import Node from "../../images/node.svg";
 import Python from "../../images/python.svg";
@@ -50,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SolutionTab = ({
+  currentUser,
   code,
   description,
   createdBy,
@@ -59,6 +68,8 @@ const SolutionTab = ({
   id,
   toggledStar,
   starredSolutions,
+  handleEdit,
+  handleDelete,
 }) => {
   const classes = useStyles();
 
@@ -114,11 +125,33 @@ const SolutionTab = ({
               label={stars}
             />
             <p>{date}</p>
+            {currentUser === createdBy ? (
+              <Typography>
+                <IconButton
+                  value={id}
+                  onClick={() => handleEdit(id, code, description, lang)}
+                  edge="end"
+                  aria-label="delete"
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  value={id}
+                  onClick={() => handleDelete(id)}
+                  edge="end"
+                  aria-label="delete"
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Typography>
+            ) : (
+              ""
+            )}
           </Grid>
           <Grid container>
             <Grid item>
               <Grid justify="space-between" container>
-                <img className={classes.icon} src={langImage(lang)}></img>
+                <img className={classes.icon} src={langImage(lang)} alt="Images"></img>
               </Grid>
             </Grid>
             <Grid item>

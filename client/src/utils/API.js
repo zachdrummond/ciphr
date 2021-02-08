@@ -73,12 +73,6 @@ const API = {
       },
     });
   },
-  getStar: function (id, user) {
-    return axios({
-      url: `/api/star/${id}/${user}`,
-      method: "GET",
-    });
-  },
   postSolution: function (code, description, language, algorithmId, token) {
     return axios({
       url: `/api/solutions`,
@@ -103,6 +97,12 @@ const API = {
       url: `/api/solutions/${algorithmId}`,
       method: "GET",
     });
+  },
+  deleteSolution: function (solutionId) {
+    return axios.delete(`/api/solutions/${solutionId}`);
+  },
+  editSolution: function (solutionId, algorithm) {
+    return axios.put(`/api/solutions/${solutionId}`, algorithm);
   },
 };
 

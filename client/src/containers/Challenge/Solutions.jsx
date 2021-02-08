@@ -1,26 +1,30 @@
 // React
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 // Material UI
 import {
   Box,
   Button,
+  Checkbox,
   Container,
+  FormControlLabel,
   Grid,
+  IconButton,
   makeStyles,
   Paper,
+  Snackbar,
   TextField,
   Typography,
-  FormControlLabel,
-  Checkbox,
 } from "@material-ui/core";
 import { Stars, StarRate } from "@material-ui/icons";
+import CloseIcon from "@material-ui/icons/Close";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
 import CenteredTabs from "../../components/CenteredTabs/CenteredTabs";
-import SolutionsTab from "../../components/SolutionTab/SolutionTab";
 import LangDropdown from "../../components/LangDropdown/LangDropdown";
+import SolutionTab from "../../components/SolutionTab/SolutionTab";
+import SnackbarContext from "../../context/SnackbarContext/SnackbarContext";
 // Code Mirror
 import CodeMirror from "react-codemirror";
 import "codemirror/lib/codemirror.css";
@@ -70,9 +74,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   star: {},
-  codeMirror: {
-    fontSize: 14,
-  },
   sort: {
     width: "200px",
   },
@@ -80,24 +81,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Solutions = ({ theme }) => {
   const classes = useStyles();
+
+  //-------------------------------------------------------------------------HOOKS - ALPHABETICALLY ORDERED
+  // The id of the current algorithm
   const { algorithmId } = useParams();
-  const { username, jwt } = useContext(AuthContext);
-  const globalState = useContext(store);
-  const { dispatch } = globalState;
-
-  // code mirror editor settings
-  const [options, setOptions] = useState({
-    mode: "javascript",
-    lineNumbers: true,
-    theme: "",
-    autofocus: true,
-    autoCloseBrackets: true,
-  });
-  // sets the code input in first text area and language in dropdown select as state.
-  // find in dev tools components under 'Challenge'
-  // const [codeInput, setCodeInput] = useState("");
-  const [descriptionInput, setDescriptionInput] = useState("");
-
   // algorithm info is set on page load
   const [algorithm, setAlgorithm] = useState({
     testCases: [],
@@ -106,26 +93,45 @@ const Solutions = ({ theme }) => {
     user: "",
     hashtags: [],
   });
-
+  const codeInputRef = useRef();
+  const [descriptionInput, setDescriptionInput] = useState("");
+  const globalState = useContext(store);
+  const { dispatch } = globalState;
+  // code mirror editor settings
+  const [options, setOptions] = useState({
+    mode: "javascript",
+    lineNumbers: true,
+    theme: "",
+    autofocus: true,
+    autoCloseBrackets: true,
+  });
+  const [codeInputState, setCodeInputState] = useState("");
+  // Snackbar
+  const {
+    snackbarMessage,
+    snackbarOpen,
+    setSnackbarOpen,
+    setSnackbarMessage,
+  } = useContext(SnackbarContext);
   // star status
   const [star, setStar] = useState(false);
-
   // solutions
   const [solutions, setSolutions] = useState("");
-
   const [starredSolutions, setStarredSolutions] = useState([]);
-
   const [sortBy, setSortBy] = useState("language");
+  // The username and jwt of the current user
+  const { username, jwt } = useContext(AuthContext);
 
+  //-------------------------------------------------------------------------USE EFFECT LIFECYCLE METHODS
+  // sets code mirror theme on page theme change
   useEffect(() => {
-    // sets code mirror theme on page theme change
     !theme
       ? setOptions({ ...options, theme: "material-darker" })
       : setOptions({ ...options, theme: "default" });
   }, [theme]);
 
+  // sets code mirror theme and mode on page load
   useEffect(() => {
-    // sets code mirror theme and mode on page load
     let currLang = globalState.state.lang.get(algorithmId);
     if (!currLang) {
       currLang = "javascript";
@@ -172,17 +178,29 @@ const Solutions = ({ theme }) => {
             console.log(err);
           });
 
-        API.getSolutions(algorithmId)
-          .then((res) => {
-            setSolutions(res.data.data);
-            API.getStarredSolutions(username)
-              .then((starredRes) => {
-                // console.log(starredRes);
-                setStarredSolutions(starredRes.data.data);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+        getSolutions();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // useRef allows access to the code mirror instance and its methods
+  useEffect(() => {
+    const editor = codeInputRef.current.getCodeMirror();
+    editor.setValue(codeInputState);
+  }, [codeInputState]);
+
+  //-------------------------------------------------------------------------METHODS - ALPHABETICALLY ORDERED
+  // Gets and sets all the solutions with their star ratings
+  const getSolutions = () => {
+    API.getSolutions(algorithmId)
+      .then((res) => {
+        setSolutions(res.data.data);
+        API.getStarredSolutions(username)
+          .then((starredRes) => {
+            // console.log(starredRes);
+            setStarredSolutions(starredRes.data.data);
           })
           .catch((err) => {
             console.log(err);
@@ -191,45 +209,47 @@ const Solutions = ({ theme }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
 
-  // toggles star icon off/on
-  const toggleStar = () => {
-    setStar(!star);
-    API.star(algorithmId, star, username)
-      .then((response) => {})
-      .catch((err) => {
-        console.log(err);
-      });
+  // Closes the Snackbar
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
   // changes the value of the input hooks
   const handleCodeInputChange = (e) => {
-    // setCodeInput(e);
+    setCodeInputState(e);
     dispatch({
       type: "CODE_CHANGE",
       payload: { code: e, codeId: algorithmId },
     });
   };
+
+  // Changes the value of the description
   const handleDescriptionInputChange = (e) => {
     setDescriptionInput(e.target.value);
   };
 
-  const nameToMode = (lang) => {
-    switch (lang) {
-      case "python3":
-        return "python";
-      case "c":
-        return "clike";
-      case "cpp":
-        return "clike";
-      case "csharp":
-        return "clike";
-      case "java":
-        return "clike";
-      default:
-        return lang;
-    }
+  // Deletes the solutions
+  const handleDelete = (id) => {
+    API.deleteSolution(id)
+      .then((res) => {
+        setSnackbarMessage("Solution successfully deleted!");
+        setSnackbarOpen(true);
+        getSolutions();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // Edits the solutions
+  const handleEdit = (id, code, description, lang) => {
+    handleCodeInputChange(code);
+    dispatch({ type: "LANG_CHANGE", payload: { lang, langId: algorithmId } });
+    setOptions({ ...options, mode: nameToMode(lang) });
+    setDescriptionInput(description);
   };
 
   const handleOptionsChange = (e) => {
@@ -237,6 +257,10 @@ const Solutions = ({ theme }) => {
 
     dispatch({ type: "LANG_CHANGE", payload: { lang, langId: algorithmId } });
     setOptions({ ...options, mode: nameToMode(lang) });
+  };
+
+  const handleSortSelection = (e) => {
+    setSortBy(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -267,8 +291,21 @@ const Solutions = ({ theme }) => {
       });
   };
 
-  const handleSortSelection = (e) => {
-    setSortBy(e.target.value);
+  const nameToMode = (lang) => {
+    switch (lang) {
+      case "python3":
+        return "python";
+      case "c":
+        return "clike";
+      case "cpp":
+        return "clike";
+      case "csharp":
+        return "clike";
+      case "java":
+        return "clike";
+      default:
+        return lang;
+    }
   };
 
   const sortBySelection = (solList) => {
@@ -307,6 +344,16 @@ const Solutions = ({ theme }) => {
     return solList;
   };
 
+  // toggles star icon off/on
+  const toggleStar = () => {
+    setStar(!star);
+    API.star(algorithmId, star, username)
+      .then((response) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const toggledStar = (e) => {
     const id = e.target.value;
     let status = false;
@@ -334,7 +381,9 @@ const Solutions = ({ theme }) => {
   return (
     <Container maxWidth="lg">
       <Grid container className={classes.mastergrid}>
+        {/* -------------------------------------------------------------------------PAGE HEADER */}
         <Grid justify="center" item xs={12}>
+          {/* Challenge Name */}
           <Typography
             className={classes.titleBottom}
             variant="h4"
@@ -343,6 +392,7 @@ const Solutions = ({ theme }) => {
           >
             Challenge: {algorithm.challengeName}
           </Typography>
+          {/* Star Button */}
           <Typography align="center">
             <FormControlLabel
               className={classes.star}
@@ -358,7 +408,7 @@ const Solutions = ({ theme }) => {
               label="Star this Algorithm"
             />
           </Typography>
-
+          {/* Added By */}
           <Typography
             className={classes.titleBottom}
             variant="h6"
@@ -367,6 +417,7 @@ const Solutions = ({ theme }) => {
           >
             Added by: {algorithm.userId?.username}
           </Typography>
+          {/* Tabs - Challenge/Solutions  */}
           <CenteredTabs
             tabValue={1}
             tab1={"Challenge"}
@@ -375,77 +426,113 @@ const Solutions = ({ theme }) => {
             link2={`/solutions/${algorithmId}`}
           />
         </Grid>
-        <Grid className={classes.column} item xs={12}>
-          <Paper className={classes.paper}>
-            <Typography
-              className={classes.titleBottom}
-              mb={2}
-              variant="h5"
-              color="textPrimary"
-              align="left"
-            >
-              Code
-            </Typography>
-            <Box border={1}>
-              <CodeMirror
-                className={classes.codeMirror}
-                name="code"
-                value={globalState.state.code.get(algorithmId)}
-                onChange={handleCodeInputChange}
-                options={options}
-              ></CodeMirror>
-            </Box>
-
-            <TextField
-              variant="outlined"
-              multiline
-              fullWidth
-              required
-              rowsMax={4}
-              label="Solution Description"
-              name="description"
-              value={descriptionInput}
-              onChange={handleDescriptionInputChange}
-            ></TextField>
-
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              color="primary"
-              className={classes.runButton}
-            >
-              Submit
-            </Button>
-            <LangDropdown
-              classes={classes.formControl}
-              lang={globalState.state.lang.get(algorithmId)}
-              handleOptionsChange={handleOptionsChange}
-            />
-          </Paper>
-        </Grid>
-        <Grid>
-          <SortBy
-            handleSortSelection={handleSortSelection}
-            sortBy={sortBy}
-            classes={classes.sort}
-          />
-        </Grid>
-        <Grid justify="center" item xs={12}>
-          {solutions
-            ? sortBySelection(solutions).map((solution) => (
-                <SolutionsTab
-                  code={solution.code}
-                  description={solution.description}
-                  createdBy={solution.createdBy.username}
-                  createdAt={solution.createdAt}
-                  lang={solution.language}
-                  stars={solution.stars}
-                  id={solution._id}
-                  toggledStar={toggledStar}
-                  starredSolutions={starredSolutions}
+        <Grid item xs={12}>
+          <Grid container>
+            {/* -------------------------------------------------------------------------SOLUTIONS */}
+            <Grid className={classes.column} item xs={12} md={6}>
+              <Box display="flex" justifyContent="center">
+                <SortBy
+                  handleSortSelection={handleSortSelection}
+                  sortBy={sortBy}
+                  classes={classes.sort}
                 />
-              ))
-            : ""}
+              </Box>
+              {solutions
+                ? sortBySelection(solutions).map((solution) => (
+                    <SolutionTab
+                      currentUser={username}
+                      code={solution.code}
+                      description={solution.description}
+                      createdBy={solution.createdBy.username}
+                      createdAt={solution.createdAt}
+                      lang={solution.language}
+                      stars={solution.stars}
+                      id={solution._id}
+                      toggledStar={toggledStar}
+                      starredSolutions={starredSolutions}
+                      handleEdit={handleEdit}
+                      handleDelete={handleDelete}
+                    />
+                  ))
+                : ""}
+            </Grid>
+            {/* -------------------------------------------------------------------------CODE EDITOR */}
+            <Grid item className={classes.column} item xs={12} md={6}>
+              <Paper className={classes.paper}>
+                {/* Header - Code */}
+                <Typography
+                  className={classes.titleBottom}
+                  mb={2}
+                  variant="h5"
+                  color="textPrimary"
+                  align="left"
+                >
+                  Code
+                </Typography>
+                {/* CodeMirror Box */}
+                <Box border={1}>
+                  <CodeMirror
+                    className={classes.codeMirror}
+                    name="code"
+                    value={globalState.state.code.get(algorithmId)}
+                    ref={codeInputRef}
+                    onChange={handleCodeInputChange}
+                    options={options}
+                  ></CodeMirror>
+                </Box>
+                {/* Description Box */}
+                <TextField
+                  variant="outlined"
+                  multiline
+                  fullWidth
+                  required
+                  rowsMax={4}
+                  label="Solution Description"
+                  name="description"
+                  value={descriptionInput}
+                  onChange={handleDescriptionInputChange}
+                ></TextField>
+                {/* Submit Button */}
+                <Button
+                  onClick={handleSubmit}
+                  variant="contained"
+                  color="primary"
+                  className={classes.runButton}
+                >
+                  Submit
+                </Button>
+                {/* Language Dropdown */}
+                <LangDropdown
+                  classes={classes.formControl}
+                  lang={globalState.state.lang.get(algorithmId)}
+                  handleOptionsChange={handleOptionsChange}
+                />
+              </Paper>
+            </Grid>
+            {/* -------------------------------------------------------------------------SNACKBAR MESSAGES */}
+            <Snackbar
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              open={snackbarOpen}
+              autoHideDuration={6000}
+              onClose={handleClose}
+              message={snackbarMessage}
+              action={
+                <React.Fragment>
+                  <IconButton
+                    size="small"
+                    aria-label="close"
+                    color="inherit"
+                    onClick={handleClose}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </React.Fragment>
+              }
+            />
+          </Grid>
         </Grid>
       </Grid>
     </Container>
