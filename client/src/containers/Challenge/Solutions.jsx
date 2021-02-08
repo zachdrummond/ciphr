@@ -105,7 +105,6 @@ const Solutions = ({ theme }) => {
     autofocus: true,
     autoCloseBrackets: true,
   });
-  const [codeInputState, setCodeInputState] = useState("");
   // Snackbar
   const {
     snackbarMessage,
@@ -186,10 +185,10 @@ const Solutions = ({ theme }) => {
   }, []);
 
   // useRef allows access to the code mirror instance and its methods
-  useEffect(() => {
-    const editor = codeInputRef.current.getCodeMirror();
-    editor.setValue(codeInputState);
-  }, [codeInputState]);
+  // useEffect(() => {
+  //   const editor = codeInputRef.current.getCodeMirror();
+  //   editor.setValue(codeInputState);
+  // }, [codeInputState]);
 
   //-------------------------------------------------------------------------METHODS - ALPHABETICALLY ORDERED
   // Gets and sets all the solutions with their star ratings
@@ -221,7 +220,6 @@ const Solutions = ({ theme }) => {
 
   // changes the value of the input hooks
   const handleCodeInputChange = (e) => {
-    setCodeInputState(e);
     dispatch({
       type: "CODE_CHANGE",
       payload: { code: e, codeId: algorithmId },
@@ -246,10 +244,14 @@ const Solutions = ({ theme }) => {
 
   // Edits the solutions
   const handleEdit = (id, code, description, lang) => {
-    handleCodeInputChange(code);
+    dispatch({ type: "CODE_CHANGE", payload: { code, codeId: algorithmId } });
+    setDescriptionInput(description);
+    
     dispatch({ type: "LANG_CHANGE", payload: { lang, langId: algorithmId } });
     setOptions({ ...options, mode: nameToMode(lang) });
-    setDescriptionInput(description);
+
+    const editor = codeInputRef.current.getCodeMirror();
+    editor.setValue(code);
   };
 
   const handleOptionsChange = (e) => {
