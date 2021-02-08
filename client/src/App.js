@@ -83,7 +83,7 @@ function App() {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const [theme, setTheme] = React.useState(true);
+  const [theme, setTheme] = useState(true);
   const appliedTheme = createMuiTheme(theme ? lightTheme : darkTheme);
 
   // When jwt changes, this calls the setAxiosDefaults function to set the authorization header to the jwt
@@ -95,8 +95,13 @@ function App() {
 
   // check local storage
   useEffect(() => {
-    USER.initPreferences(setTheme);
-  }, [])
+    USER.init(setTheme);
+  }, []);
+
+  const handleThemeChange = () => {
+    setTheme(!theme);
+    USER.theme(!theme);
+  }
 
   return (
     <div className="App" style={{ height: "100vh" }}>
@@ -116,7 +121,7 @@ function App() {
             >
               <div className={classes.flexparent}>
                 <div className={classes.topChild}>
-                  <Header theme={theme} setTheme={setTheme} />
+                  <Header theme={theme} handleThemeChange={handleThemeChange} />
                   <Switch>
                     <ProtectedRoute
                       exact

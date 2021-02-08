@@ -1,5 +1,5 @@
 const USER = {
-  initPreferences: function (cb) {
+  init: function (cb) {
     // sets default settings in storage if none present
     if (!localStorage.length) {
       const preferences = {
@@ -13,6 +13,13 @@ const USER = {
       cb(lightMode);
     }
   },
+  theme: function (lightMode) {
+    // updates theme preference in storage
+    const ls = JSON.parse(localStorage.getItem("preferences"));
+    const updatePreferences = JSON.stringify({...ls, lightMode});
+    localStorage.clear();
+    localStorage.setItem("preferences", updatePreferences);
+  }
 };
 
 export default USER;

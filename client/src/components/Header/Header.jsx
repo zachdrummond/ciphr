@@ -48,15 +48,11 @@ const useStyles = makeStyles({
   },
 });
 
-const Header = ({ theme, setTheme }) => {
+const Header = ({ theme, handleThemeChange }) => {
   const classes = useStyles();
   // Using AuthContextAPI to get the setJwt function
   const { jwt } = useContext(AuthContext);
   const history = useHistory();
-
-  const changeMode = () => {
-    !theme ? setTheme(true) : setTheme(false);
-  };
 
   //Account menu
   const [anchorEl, setAnchorEl] = useState(null);
@@ -169,7 +165,7 @@ const Header = ({ theme, setTheme }) => {
                 edge="end"
                 color="inherit"
                 aria-label="mode"
-                onClick={changeMode}
+                onClick={handleThemeChange}
               >
                 {theme ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
