@@ -26,6 +26,8 @@ import setAxiosDefaults from "./utils/setAxiosDefaults";
 import SignUp from "./containers/SignUp/SignUp";
 import SnackbarContext from "./context/SnackbarContext/SnackbarContext";
 
+import USER from "./utils/userPreferences";
+
 // define dark/light themes
 let lightTheme = createMuiTheme({
   palette: {
@@ -90,6 +92,11 @@ function App() {
       setAxiosDefaults(jwt);
     }
   }, [jwt]);
+
+  // check local storage
+  useEffect(() => {
+    USER.initPreferences(setTheme);
+  }, [])
 
   return (
     <div className="App" style={{ height: "100vh" }}>
