@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  text: {
+    color: theme.palette.secondary.main
+  }
 }));
 
 export default function SignUpSide() {

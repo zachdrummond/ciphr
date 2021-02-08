@@ -1,21 +1,8 @@
 // React
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 // Material UI
 import { Box, Button, TextField, Typography } from "@material-ui/core";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" to="/">
-        Ciphr
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 // 'classes' is a style object found on Login page. Maybe copy/paste or create new style object???
 const CredentialsForm = ({
@@ -73,9 +60,18 @@ const CredentialsForm = ({
       >
         {type}
       </Button>
-      <Link to={link ? link : "/"}>{linkText}</Link>
+      <NavLink className={classes.text} to={link}>
+        {linkText}
+      </NavLink>
       <Box mt={5}>
-        <Copyright />
+        <Typography variant="body2" color="textSecondary" align="center">
+          {"Copyright © "}
+          <NavLink className={classes.text} to={link}>
+            Ciphr
+          </NavLink>{" "}
+          {new Date().getFullYear()}
+          {"."}
+        </Typography>
       </Box>
     </form>
   );
