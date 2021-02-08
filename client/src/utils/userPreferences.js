@@ -3,7 +3,7 @@ const USER = {
     // sets default settings in storage if none present
     if (!localStorage.length) {
       const preferences = {
-        lightMode: false,
+        lightMode: true,
         preferredLang: "javascript",
       };
       localStorage.setItem("preferences", JSON.stringify(preferences));
