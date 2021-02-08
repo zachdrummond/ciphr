@@ -246,6 +246,9 @@ const Solutions = ({ theme }) => {
   const handleEdit = (id, code, description, lang) => {
     dispatch({ type: "CODE_CHANGE", payload: { code, codeId: algorithmId } });
     setDescriptionInput(description);
+    
+    dispatch({ type: "LANG_CHANGE", payload: { lang, langId: algorithmId } });
+    setOptions({ ...options, mode: nameToMode(lang) });
 
     const editor = codeInputRef.current.getCodeMirror();
     editor.setValue(code);
