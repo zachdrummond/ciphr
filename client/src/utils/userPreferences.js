@@ -4,7 +4,7 @@ const USER = {
     if (!localStorage.length) {
       const preferences = {
         lightMode: true,
-        preferredLang: "javascript",
+        preferredLang: "",
       };
       localStorage.setItem("preferences", JSON.stringify(preferences));
     } else {
@@ -16,9 +16,19 @@ const USER = {
   theme: function (lightMode) {
     // updates theme preference in storage
     const ls = JSON.parse(localStorage.getItem("preferences"));
-    const updatePreferences = JSON.stringify({...ls, lightMode});
+    const updatedPreferences = JSON.stringify({...ls, lightMode});
     localStorage.clear();
-    localStorage.setItem("preferences", updatePreferences);
+    localStorage.setItem("preferences", updatedPreferences);
+  },
+  getLang: function () {
+    const {preferredLang} = JSON.parse(localStorage.getItem("preferences"));
+    return preferredLang;
+  },
+  setLang: function (preferredLang) {
+    const ls = JSON.parse(localStorage.getItem("preferences"));
+    const updatedPreferences = JSON.stringify({...ls, preferredLang});
+    localStorage.clear();
+    localStorage.setItem("preferences", updatedPreferences);
   }
 };
 

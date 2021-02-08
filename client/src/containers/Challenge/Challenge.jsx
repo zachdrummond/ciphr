@@ -22,6 +22,7 @@ import { Stars, StarRate, Code } from "@material-ui/icons";
 // File Modules
 import API from "../../utils/API";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import USER from "../../utils/userPreferences";
 import CenteredTabs from "../../components/CenteredTabs/CenteredTabs";
 // Code Mirror
 import CodeMirror from "react-codemirror";
@@ -153,7 +154,15 @@ const Challenge = ({ theme }) => {
     // sets code mirror theme and mode on page load
     let currLang = globalState.state.lang.get(algorithmId);
     if (!currLang) {
-      currLang = "javascript";
+      // if no state check local storage for preferred language
+      currLang = USER.getLang();
+      if (!currLang) {
+        // if no preferred language default to javascript
+        USER.setLang("javascript");
+        currLang = "javascript";
+      } else if (currLang !== "javascript") {
+        dispatch({ type: "LANG_CHANGE", payload: { lang: currLang, langId: algorithmId } });
+      }
     }
 
     !theme
@@ -268,6 +277,8 @@ const Challenge = ({ theme }) => {
       if (!langInput) {
         langInput = "javascript";
       }
+
+      USER.setLang(langInput);
 
       // post code/input to server (codeController.js) where third party api call is made
       API.postCode(codeInput, langInput)
