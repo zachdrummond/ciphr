@@ -42,6 +42,7 @@ router.post("/api/signup", (request, response) => {
                     { username: newUser.username },
                     process.env.SECRET
                   );
+                  response.cookie("token", token, { httpOnly: true });
                   response.json({
                     error: false,
                     data: token,
@@ -97,6 +98,7 @@ router.post("/api/login", (request, response) => {
                 { username: foundUser.username },
                 process.env.SECRET
               );
+              response.cookie("token", token, { httpOnly: true });
               response.json({
                 error: false,
                 data: token,
