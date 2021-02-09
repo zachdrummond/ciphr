@@ -260,4 +260,15 @@ router.delete("/api/user/:userJwt", function (request, response) {
   });
 });
 
+router.get("/api/token", (req, res) => {
+    try {
+      const token = req.cookies.token;
+      console.log("here")
+      console.log(token)
+      res.json(token);
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
 module.exports = router;
