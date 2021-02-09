@@ -181,34 +181,36 @@ router.put("/api/user/:userJwt", function (request, response) {
           });
       } else if (request.body.username) {
         // Find a user in the database
-        db.Users.findOne({ username: request.body.username }).then((foundUser) => {
-          // If there is a matching user in the database
-          if (foundUser) {
-            response.status(400).json({
-              error: true,
-              data: null,
-              message: "Username already exists.",
-            }); // Bad Request
-          } else {
-            db.Users.findOneAndUpdate(
-              {
-                username: decoded.username,
-              },
-              { username: request.body.username }
-            )
-              .then((user) => {
-                response.status(204).end();
-              })
-              .catch((error) => {
-                console.log(error);
-                response.status(500).json({
-                  error: true,
-                  data: null,
-                  message: "Unable to edit username.",
+        db.Users.findOne({ username: request.body.username }).then(
+          (foundUser) => {
+            // If there is a matching user in the database
+            if (foundUser) {
+              response.status(400).json({
+                error: true,
+                data: null,
+                message: "Username already exists.",
+              }); // Bad Request
+            } else {
+              db.Users.findOneAndUpdate(
+                {
+                  username: decoded.username,
+                },
+                { username: request.body.username }
+              )
+                .then((user) => {
+                  response.status(204).end();
+                })
+                .catch((error) => {
+                  console.log(error);
+                  response.status(500).json({
+                    error: true,
+                    data: null,
+                    message: "Unable to edit username.",
+                  });
                 });
-              });
+            }
           }
-        });
+        );
       }
     }
   });

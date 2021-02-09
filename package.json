@@ -30,6 +30,7 @@
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
     "if-env": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
     "migrate-mongo": "^8.1.4",

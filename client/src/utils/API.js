@@ -104,6 +104,12 @@ const API = {
   editSolution: function (solutionId, algorithm) {
     return axios.put(`/api/solutions/${solutionId}`, algorithm);
   },
+  getCookieToken: function () {
+    return axios({
+      url: `/api/token`,
+      method: "GET",
+    });
+  }
 };
 
 export default API;

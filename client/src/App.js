@@ -27,6 +27,7 @@ import SignUp from "./containers/SignUp/SignUp";
 import SnackbarContext from "./context/SnackbarContext/SnackbarContext";
 
 import USER from "./utils/userPreferences";
+import API from "./utils/API";
 
 // define dark/light themes
 let lightTheme = createMuiTheme({
@@ -92,6 +93,14 @@ function App() {
       setAxiosDefaults(jwt);
     }
   }, [jwt]);
+
+  // useEffect(() => {
+  //   API.getCookieToken().then(res => {
+  //     console.log(res);
+  //   }).catch(err => {
+  //     console.log(err);
+  //   })
+  // }, [])
 
   // check local storage
   useEffect(() => {
