@@ -93,10 +93,14 @@ const Solutions = ({ theme }) => {
     user: "",
     hashtags: [],
   });
+  // References the value of the Code Mirror
   const codeInputRef = useRef();
+  // The value of the description box
   const [descriptionInput, setDescriptionInput] = useState("");
   const globalState = useContext(store);
   const { dispatch } = globalState;
+  // description error state
+  const [descriptionError, setDescriptionError] = useState(false);
   // code mirror editor settings
   const [options, setOptions] = useState({
     mode: "javascript",
@@ -205,8 +209,13 @@ const Solutions = ({ theme }) => {
       });
   };
 
+  const handleSnackBarOpen = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
   // Closes the Snackbar
-  const handleClose = (event, reason) => {
+  const handleSnackBarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -224,14 +233,14 @@ const Solutions = ({ theme }) => {
   // Changes the value of the description
   const handleDescriptionInputChange = (e) => {
     setDescriptionInput(e.target.value);
+    setDescriptionError(false);
   };
 
   // Deletes the solutions
   const handleDelete = (id) => {
     API.deleteSolution(id)
       .then((res) => {
-        setSnackbarMessage("Solution successfully deleted!");
-        setSnackbarOpen(true);
+        handleSnackBarOpen("Solution successfully deleted!");
         getSolutions();
       })
       .catch((err) => console.log(err));
@@ -268,7 +277,12 @@ const Solutions = ({ theme }) => {
     const codeInput = code.get(algorithmId);
     let langInput = lang.get(algorithmId);
     // stops function if no code is entered
-    if (code.length === 0) {
+    if (codeInput.length === 0) {
+      alert("No code to submit!");
+      return;
+    }
+    if (!descriptionInput) {
+      setDescriptionError(true);
       return;
     }
     if (!langInput) {
@@ -278,13 +292,8 @@ const Solutions = ({ theme }) => {
     if (solutionId) {
       API.editSolution(solutionId, codeInput, descriptionInput, langInput)
         .then((response) => {
-          API.getSolutions(algorithmId)
-            .then((res) => {
-              setSolutions(res.data.data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          handleSnackBarOpen("Solution successfully edited!");
+          getSolutions();
         })
         .catch((err) => {
           console.log(err);
@@ -293,13 +302,8 @@ const Solutions = ({ theme }) => {
     } else {
       API.postSolution(codeInput, descriptionInput, langInput, algorithmId, jwt)
         .then((response) => {
-          API.getSolutions(algorithmId)
-            .then((res) => {
-              setSolutions(res.data.data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          handleSnackBarOpen("Solution successfully submitted!");
+          getSolutions();
         })
         .catch((err) => {
           console.log(err);
@@ -381,13 +385,7 @@ const Solutions = ({ theme }) => {
     API.starSolution(id, status, username)
       .then((starRes) => {
         setStarredSolutions(starRes.data.data);
-        API.getSolutions(algorithmId)
-          .then((res) => {
-            setSolutions(res.data.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        getSolutions();
       })
       .catch((err) => {
         console.log(err);
@@ -507,6 +505,12 @@ const Solutions = ({ theme }) => {
                   name="description"
                   value={descriptionInput}
                   onChange={handleDescriptionInputChange}
+                  error={descriptionError}
+                  helperText={
+                    descriptionError
+                      ? "Must include a solution description."
+                      : ""
+                  }
                 ></TextField>
                 {/* Submit Button */}
                 <Button
@@ -533,7 +537,7 @@ const Solutions = ({ theme }) => {
               }}
               open={snackbarOpen}
               autoHideDuration={6000}
-              onClose={handleClose}
+              onClose={handleSnackBarClose}
               message={snackbarMessage}
               action={
                 <React.Fragment>
@@ -541,7 +545,7 @@ const Solutions = ({ theme }) => {
                     size="small"
                     aria-label="close"
                     color="inherit"
-                    onClick={handleClose}
+                    onClick={handleSnackBarClose}
                   >
                     <CloseIcon fontSize="small" />
                   </IconButton>
