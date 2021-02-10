@@ -102,7 +102,15 @@ const API = {
     return axios.delete(`/api/solutions/${solutionId}`);
   },
   editSolution: function (solutionId, code, description, language) {
-    return axios.put(`/api/solutions/${solutionId}`, code, description, language);
+    return axios({
+      url: `/api/solutions/${solutionId}`,
+      method: "PUT",
+      data: {
+        code,
+        description,
+        language,
+      },
+    });
   },
 };
 
