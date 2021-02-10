@@ -93,10 +93,14 @@ const Solutions = ({ theme }) => {
     user: "",
     hashtags: [],
   });
+  // References the value of the Code Mirror
   const codeInputRef = useRef();
+  // The value of the description box
   const [descriptionInput, setDescriptionInput] = useState("");
   const globalState = useContext(store);
   const { dispatch } = globalState;
+  // description error state
+  const [descriptionError, setDescriptionError] = useState(false);
   // code mirror editor settings
   const [options, setOptions] = useState({
     mode: "javascript",
@@ -116,6 +120,7 @@ const Solutions = ({ theme }) => {
   const [star, setStar] = useState(false);
   // solutions
   const [solutions, setSolutions] = useState("");
+  const [solutionId, setSolutionId] = useState("");
   const [starredSolutions, setStarredSolutions] = useState([]);
   const [sortBy, setSortBy] = useState("language");
   // The username and jwt of the current user
@@ -184,12 +189,6 @@ const Solutions = ({ theme }) => {
       });
   }, []);
 
-  // useRef allows access to the code mirror instance and its methods
-  // useEffect(() => {
-  //   const editor = codeInputRef.current.getCodeMirror();
-  //   editor.setValue(codeInputState);
-  // }, [codeInputState]);
-
   //-------------------------------------------------------------------------METHODS - ALPHABETICALLY ORDERED
   // Gets and sets all the solutions with their star ratings
   const getSolutions = () => {
@@ -210,8 +209,13 @@ const Solutions = ({ theme }) => {
       });
   };
 
+  const handleSnackBarOpen = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
   // Closes the Snackbar
-  const handleClose = (event, reason) => {
+  const handleSnackBarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -229,14 +233,14 @@ const Solutions = ({ theme }) => {
   // Changes the value of the description
   const handleDescriptionInputChange = (e) => {
     setDescriptionInput(e.target.value);
+    setDescriptionError(false);
   };
 
   // Deletes the solutions
   const handleDelete = (id) => {
     API.deleteSolution(id)
       .then((res) => {
-        setSnackbarMessage("Solution successfully deleted!");
-        setSnackbarOpen(true);
+        handleSnackBarOpen("Solution successfully deleted!");
         getSolutions();
       })
       .catch((err) => console.log(err));
@@ -244,9 +248,11 @@ const Solutions = ({ theme }) => {
 
   // Edits the solutions
   const handleEdit = (id, code, description, lang) => {
+    setSolutionId(id);
+
     dispatch({ type: "CODE_CHANGE", payload: { code, codeId: algorithmId } });
     setDescriptionInput(description);
-    
+
     dispatch({ type: "LANG_CHANGE", payload: { lang, langId: algorithmId } });
     setOptions({ ...options, mode: nameToMode(lang) });
 
@@ -271,26 +277,38 @@ const Solutions = ({ theme }) => {
     const codeInput = code.get(algorithmId);
     let langInput = lang.get(algorithmId);
     // stops function if no code is entered
-    if (code.length === 0) {
+    if (codeInput.length === 0) {
+      alert("No code to submit!");
+      return;
+    }
+    if (!descriptionInput) {
+      setDescriptionError(true);
       return;
     }
     if (!langInput) {
       langInput = "javascript";
     }
 
-    API.postSolution(codeInput, descriptionInput, langInput, algorithmId, jwt)
-      .then((response) => {
-        API.getSolutions(algorithmId)
-          .then((res) => {
-            setSolutions(res.data.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (solutionId) {
+      API.editSolution(solutionId, codeInput, descriptionInput, langInput)
+        .then((response) => {
+          handleSnackBarOpen("Solution successfully edited!");
+          getSolutions();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      setSolutionId("");
+    } else {
+      API.postSolution(codeInput, descriptionInput, langInput, algorithmId, jwt)
+        .then((response) => {
+          handleSnackBarOpen("Solution successfully submitted!");
+          getSolutions();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const nameToMode = (lang) => {
@@ -367,13 +385,7 @@ const Solutions = ({ theme }) => {
     API.starSolution(id, status, username)
       .then((starRes) => {
         setStarredSolutions(starRes.data.data);
-        API.getSolutions(algorithmId)
-          .then((res) => {
-            setSolutions(res.data.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        getSolutions();
       })
       .catch((err) => {
         console.log(err);
@@ -493,6 +505,12 @@ const Solutions = ({ theme }) => {
                   name="description"
                   value={descriptionInput}
                   onChange={handleDescriptionInputChange}
+                  error={descriptionError}
+                  helperText={
+                    descriptionError
+                      ? "Must include a solution description."
+                      : ""
+                  }
                 ></TextField>
                 {/* Submit Button */}
                 <Button
@@ -501,7 +519,7 @@ const Solutions = ({ theme }) => {
                   color="primary"
                   className={classes.runButton}
                 >
-                  Submit
+                  {solutionId ? "Edit" : "Submit"}
                 </Button>
                 {/* Language Dropdown */}
                 <LangDropdown
@@ -519,7 +537,7 @@ const Solutions = ({ theme }) => {
               }}
               open={snackbarOpen}
               autoHideDuration={6000}
-              onClose={handleClose}
+              onClose={handleSnackBarClose}
               message={snackbarMessage}
               action={
                 <React.Fragment>
@@ -527,7 +545,7 @@ const Solutions = ({ theme }) => {
                     size="small"
                     aria-label="close"
                     color="inherit"
-                    onClick={handleClose}
+                    onClick={handleSnackBarClose}
                   >
                     <CloseIcon fontSize="small" />
                   </IconButton>
