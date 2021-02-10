@@ -101,8 +101,8 @@ const API = {
   deleteSolution: function (solutionId) {
     return axios.delete(`/api/solutions/${solutionId}`);
   },
-  editSolution: function (solutionId, algorithm) {
-    return axios.put(`/api/solutions/${solutionId}`, algorithm);
+  editSolution: function (solutionId, code, description, language) {
+    return axios.put(`/api/solutions/${solutionId}`, code, description, language);
   },
 };
 

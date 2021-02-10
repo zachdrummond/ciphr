@@ -116,6 +116,7 @@ const Solutions = ({ theme }) => {
   const [star, setStar] = useState(false);
   // solutions
   const [solutions, setSolutions] = useState("");
+  const [solutionId, setSolutionId] = useState("");
   const [starredSolutions, setStarredSolutions] = useState([]);
   const [sortBy, setSortBy] = useState("language");
   // The username and jwt of the current user
@@ -184,12 +185,6 @@ const Solutions = ({ theme }) => {
       });
   }, []);
 
-  // useRef allows access to the code mirror instance and its methods
-  // useEffect(() => {
-  //   const editor = codeInputRef.current.getCodeMirror();
-  //   editor.setValue(codeInputState);
-  // }, [codeInputState]);
-
   //-------------------------------------------------------------------------METHODS - ALPHABETICALLY ORDERED
   // Gets and sets all the solutions with their star ratings
   const getSolutions = () => {
@@ -244,9 +239,11 @@ const Solutions = ({ theme }) => {
 
   // Edits the solutions
   const handleEdit = (id, code, description, lang) => {
+    setSolutionId(id);
+
     dispatch({ type: "CODE_CHANGE", payload: { code, codeId: algorithmId } });
     setDescriptionInput(description);
-    
+
     dispatch({ type: "LANG_CHANGE", payload: { lang, langId: algorithmId } });
     setOptions({ ...options, mode: nameToMode(lang) });
 
@@ -278,19 +275,36 @@ const Solutions = ({ theme }) => {
       langInput = "javascript";
     }
 
-    API.postSolution(codeInput, descriptionInput, langInput, algorithmId, jwt)
-      .then((response) => {
-        API.getSolutions(algorithmId)
-          .then((res) => {
-            setSolutions(res.data.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (solutionId) {
+      API.editSolution(solutionId, codeInput, descriptionInput, langInput)
+        .then((response) => {
+          API.getSolutions(algorithmId)
+            .then((res) => {
+              setSolutions(res.data.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      setSolutionId("");
+    } else {
+      API.postSolution(codeInput, descriptionInput, langInput, algorithmId, jwt)
+        .then((response) => {
+          API.getSolutions(algorithmId)
+            .then((res) => {
+              setSolutions(res.data.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const nameToMode = (lang) => {
@@ -501,7 +515,7 @@ const Solutions = ({ theme }) => {
                   color="primary"
                   className={classes.runButton}
                 >
-                  Submit
+                  {solutionId ? "Edit" : "Submit"}
                 </Button>
                 {/* Language Dropdown */}
                 <LangDropdown
