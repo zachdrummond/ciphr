@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-const jwt = require("express-jwt");
+// const jwt = require("express-jwt");
 const cookieParser = require("cookie-parser");
 
 const PORT = process.env.PORT || 3001;
