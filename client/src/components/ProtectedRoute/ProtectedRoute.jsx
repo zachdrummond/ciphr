@@ -10,37 +10,31 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   // Destructures jwt from the AuthContextAPI
   const { jwt, setJwt } = useContext(AuthContext);
 
-  // useEffect(() => {
-  if (!jwt) {
-    API.getCookieToken()
-      .then((res) => {
-        console.log(res);
-        setJwt(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  // }, []);
-
   // If the user has logged in or signed up, the user can access the website. Otherwise, the user is redirected to the login page.
+
   return (
     <Route
       {...rest}
       render={(props) => {
         if (jwt) {
           return <Component {...rest} {...props} />;
+        } else if (!jwt) {
+          API.getCookieToken()
+            .then((res) => {
+              console.log(res);
+              setJwt(res.data);
+              if (!res.data) {
+                return router.push("/login");
+              } else {
+                return <Component {...rest} {...props} />;
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+              return router.push("/login");
+            });
         } else {
-          return (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: {
-                  from: props.location,
-                },
-              }}
-            />
-          );
+          return <Component {...rest} {...props} />;
         }
       }}
     />
