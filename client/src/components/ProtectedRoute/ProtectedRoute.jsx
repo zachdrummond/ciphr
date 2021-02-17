@@ -1,5 +1,5 @@
 // React
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, useHistory } from "react-router-dom";
 import { useContext, useEffect } from "react";
 // File Modules
 import AuthContext from "../../context/AuthContext/AuthContext";
@@ -9,7 +9,7 @@ import API from "../../utils/API";
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   // Destructures jwt from the AuthContextAPI
   const { jwt, setJwt } = useContext(AuthContext);
-
+  let history = useHistory();
   // If the user has logged in or signed up, the user can access the website. Otherwise, the user is redirected to the login page.
 
   return (
@@ -24,14 +24,14 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
               console.log(res);
               setJwt(res.data);
               if (!res.data) {
-                return router.push("/login");
+                return history.push("/login");
               } else {
                 return <Component {...rest} {...props} />;
               }
             })
             .catch((err) => {
               console.log(err);
-              return router.push("/login");
+              return history.push("/login");
             });
         } else {
           return <Component {...rest} {...props} />;
