@@ -10,8 +10,8 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   // Destructures jwt from the AuthContextAPI
   const { jwt, setJwt, setUsername } = useContext(AuthContext);
   let history = useHistory();
+  
   // If the user has logged in or signed up, the user can access the website. Otherwise, the user is redirected to the login page.
-
   return (
     <Route
       {...rest}

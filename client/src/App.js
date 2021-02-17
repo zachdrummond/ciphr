@@ -87,15 +87,6 @@ function App() {
   const [theme, setTheme] = useState(true);
   const appliedTheme = createMuiTheme(theme ? lightTheme : darkTheme);
 
-  // useEffect(() => {
-  //   API.getCookieToken().then(res => {
-  //     console.log(res);
-  //     setJwt(res.data)
-  //   }).catch(err => {
-  //     console.log(err);
-  //   })
-  // }, [])
-
   // When jwt changes, this calls the setAxiosDefaults function to set the authorization header to the jwt
   useEffect(() => {
     if (jwt) {
