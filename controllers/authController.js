@@ -260,6 +260,15 @@ router.delete("/api/user/:userJwt", function (request, response) {
   });
 });
 
+router.get("/api/logout", (req, res) => {
+  res.clearCookie("token");
+  return res.status(200).json({
+    error: false,
+    data: null,
+    message: "Successfully logged out user.",
+  });
+})
+
 router.get("/api/token", (req, res) => {
   const token = req.cookies.token;
   jwt.verify(token, process.env.SECRET, (err, decoded) => {

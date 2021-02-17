@@ -117,6 +117,12 @@ const API = {
       url: `/api/token`,
       method: "GET",
     });
+  },
+  logout: function () {
+    return axios({
+      url: `/api/logout`,
+      method: "GET",
+    });
   }
 };
 

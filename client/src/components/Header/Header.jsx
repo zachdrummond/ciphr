@@ -62,8 +62,16 @@ const Header = ({ theme, handleThemeChange }) => {
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
+      setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    API.logout().then(res => {
+      handleMenuClose()
+    }).catch(err => {
+      console.log(err);
+    })
+  }
 
   //Dialog
   const [open, setOpen] = useState(false);
@@ -194,7 +202,7 @@ const Header = ({ theme, handleThemeChange }) => {
             >
               <MenuItem onClick={handleFSDialogOpen}>My Account</MenuItem>
               <MenuItem
-                onClick={handleMenuClose}
+                onClick={handleLogout}
                 component={Link}
                 to={"/login"}
               >
