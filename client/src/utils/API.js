@@ -101,8 +101,16 @@ const API = {
   deleteSolution: function (solutionId) {
     return axios.delete(`/api/solutions/${solutionId}`);
   },
-  editSolution: function (solutionId, algorithm) {
-    return axios.put(`/api/solutions/${solutionId}`, algorithm);
+  editSolution: function (solutionId, code, description, language) {
+    return axios({
+      url: `/api/solutions/${solutionId}`,
+      method: "PUT",
+      data: {
+        code,
+        description,
+        language,
+      },
+    });
   },
   getCookieToken: function () {
     return axios({

@@ -17,7 +17,7 @@ const USER = {
     // updates theme preference in storage
     const ls = JSON.parse(localStorage.getItem("preferences"));
     const updatedPreferences = JSON.stringify({...ls, lightMode});
-    localStorage.clear();
+    localStorage.removeItem("preferences");
     localStorage.setItem("preferences", updatedPreferences);
   },
   getLang: function () {
@@ -27,7 +27,7 @@ const USER = {
   setLang: function (preferredLang) {
     const ls = JSON.parse(localStorage.getItem("preferences"));
     const updatedPreferences = JSON.stringify({...ls, preferredLang});
-    localStorage.clear();
+    localStorage.removeItem("preferences");
     localStorage.setItem("preferences", updatedPreferences);
   }
 };

@@ -93,7 +93,7 @@ router.get("/api/solutions/:algorithmId", (req, res) => {
 });
 
 router.put("/api/solutions/:solutionId", function (request, response) {
-  const { description, code, language } = request.body.solution;
+  const { description, code, language } = request.body;
 
   db.Solutions.findByIdAndUpdate(
     request.params.solutionId,
