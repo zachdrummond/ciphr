@@ -8,7 +8,7 @@ import API from "../../utils/API";
 // Takes in a component and all of its props
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   // Destructures jwt from the AuthContextAPI
-  const { jwt, setJwt } = useContext(AuthContext);
+  const { jwt, setJwt, setUsername } = useContext(AuthContext);
   let history = useHistory();
   // If the user has logged in or signed up, the user can access the website. Otherwise, the user is redirected to the login page.
 
@@ -20,10 +20,10 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
           return <Component {...rest} {...props} />;
         } else if (!jwt) {
           API.getCookieToken()
-            .then((res) => {
-              console.log(res);
-              setJwt(res.data);
-              if (!res.data) {
+            .then(({data}) => {
+              setJwt(data.data.jwt);
+              setUsername(data.data.username);
+              if (!data) {
                 return history.push("/login");
               } else {
                 return <Component {...rest} {...props} />;

@@ -261,14 +261,24 @@ router.delete("/api/user/:userJwt", function (request, response) {
 });
 
 router.get("/api/token", (req, res) => {
-    try {
-      const token = req.cookies.token;
-      console.log("here")
-      console.log(token)
-      res.json(token);
-    } catch (err) {
-      console.log(err);
+  const token = req.cookies.token;
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({
+        error: true,
+        data: null,
+        message: "Invalid token.",
+      });
     }
+    return res.status(200).json({
+      error: false,
+      data: {
+        jwt: token,
+        username: decoded.username,
+      },
+      message: "Cookie successfully retreived",
+    });
   });
+});
 
 module.exports = router;
