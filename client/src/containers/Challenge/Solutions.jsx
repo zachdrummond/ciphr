@@ -336,12 +336,12 @@ const Solutions = ({ theme }) => {
         let B;
         switch (sortBy) {
           case "new":
-            A = new Date(a.createdAt);
-            B = new Date(b.createdAt);
-            break;
-          case "old":
             A = new Date(b.createdAt);
             B = new Date(a.createdAt);
+            break;
+          case "old":
+            A = new Date(a.createdAt);
+            B = new Date(b.createdAt);
             break;
           case "high":
             A = b.stars;
