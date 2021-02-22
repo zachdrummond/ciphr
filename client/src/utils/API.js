@@ -112,6 +112,24 @@ const API = {
       },
     });
   },
+  getCookieToken: function () {
+    return axios({
+      url: `/api/token`,
+      method: "GET",
+    });
+  },
+  logout: function () {
+    return axios({
+      url: `/api/logout`,
+      method: "GET",
+    });
+  },
+  getCsrfToken: function () {
+    return axios({
+      url: `/api/csrf`,
+      method: "GET",
+    });
+  }
 };
 
 export default API;

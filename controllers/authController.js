@@ -42,6 +42,7 @@ router.post("/api/signup", (request, response) => {
                     { username: newUser.username },
                     process.env.SECRET
                   );
+                  response.cookie("token", token, { httpOnly: true });
                   response.json({
                     error: false,
                     data: token,
@@ -97,6 +98,7 @@ router.post("/api/login", (request, response) => {
                 { username: foundUser.username },
                 process.env.SECRET
               );
+              response.cookie("token", token, { httpOnly: true });
               response.json({
                 error: false,
                 data: token,
@@ -179,34 +181,36 @@ router.put("/api/user/:userJwt", function (request, response) {
           });
       } else if (request.body.username) {
         // Find a user in the database
-        db.Users.findOne({ username: request.body.username }).then((foundUser) => {
-          // If there is a matching user in the database
-          if (foundUser) {
-            response.status(400).json({
-              error: true,
-              data: null,
-              message: "Username already exists.",
-            }); // Bad Request
-          } else {
-            db.Users.findOneAndUpdate(
-              {
-                username: decoded.username,
-              },
-              { username: request.body.username }
-            )
-              .then((user) => {
-                response.status(204).end();
-              })
-              .catch((error) => {
-                console.log(error);
-                response.status(500).json({
-                  error: true,
-                  data: null,
-                  message: "Unable to edit username.",
+        db.Users.findOne({ username: request.body.username }).then(
+          (foundUser) => {
+            // If there is a matching user in the database
+            if (foundUser) {
+              response.status(400).json({
+                error: true,
+                data: null,
+                message: "Username already exists.",
+              }); // Bad Request
+            } else {
+              db.Users.findOneAndUpdate(
+                {
+                  username: decoded.username,
+                },
+                { username: request.body.username }
+              )
+                .then((user) => {
+                  response.status(204).end();
+                })
+                .catch((error) => {
+                  console.log(error);
+                  response.status(500).json({
+                    error: true,
+                    data: null,
+                    message: "Unable to edit username.",
+                  });
                 });
-              });
+            }
           }
-        });
+        );
       }
     }
   });
@@ -255,5 +259,53 @@ router.delete("/api/user/:userJwt", function (request, response) {
     }
   });
 });
+
+router.get("/api/logout", (req, res) => {
+  res.clearCookie("token");
+  return res.status(200).json({
+    error: false,
+    data: null,
+    message: "Successfully logged out user.",
+  });
+})
+
+router.get("/api/token", (req, res) => {
+  const token = req.cookies.token;
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({
+        error: true,
+        data: null,
+        message: "Invalid token.",
+      });
+    }
+    return res.status(200).json({
+      error: false,
+      data: {
+        jwt: token,
+        username: decoded.username,
+      },
+      message: "Cookie successfully retreived",
+    });
+  });
+});
+
+router.get("/api/csrf", (req, res) => {
+  const csrfToken = req.csrfToken();
+  if (!csrfToken) {
+    return res.status(401).json({
+      error: true,
+      data: null,
+      message: "No csrf token present.",
+    });
+  }
+  return res.status(200).json({
+    error: false,
+    data: {
+      csrfToken
+    },
+    message: "CSRF successfully retreived",
+  });
+})
 
 module.exports = router;
