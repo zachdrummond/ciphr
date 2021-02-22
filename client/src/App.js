@@ -22,7 +22,7 @@ import Login from "./containers/Login/Login";
 import MyAlgorithms from "./containers/MyAlgorithms/MyAlgorithms";
 import NotFound from "./containers/NotFound/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import setAxiosDefaults from "./utils/setAxiosDefaults";
+import { setAxiosDefaults, setAxiosCsrf } from "./utils/setAxiosDefaults";
 import SignUp from "./containers/SignUp/SignUp";
 import SnackbarContext from "./context/SnackbarContext/SnackbarContext";
 
@@ -99,10 +99,22 @@ function App() {
     USER.init(setTheme);
   }, []);
 
+  // set Axios default anti-csrf
+  useEffect(() => {
+    API.getCsrfToken()
+      .then(({data}) => {
+        const csrf = data.data.csrfToken;
+        setAxiosCsrf(csrf);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const handleThemeChange = () => {
     setTheme(!theme);
     USER.theme(!theme);
-  }
+  };
 
   return (
     <div className="App" style={{ height: "100vh" }}>

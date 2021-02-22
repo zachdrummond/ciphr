@@ -123,6 +123,12 @@ const API = {
       url: `/api/logout`,
       method: "GET",
     });
+  },
+  getCsrfToken: function () {
+    return axios({
+      url: `/api/csrf`,
+      method: "GET",
+    });
   }
 };
 

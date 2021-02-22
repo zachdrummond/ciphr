@@ -290,4 +290,15 @@ router.get("/api/token", (req, res) => {
   });
 });
 
+router.get("/api/csrf", (req, res) => {
+  const csrfToken = req.csrfToken();
+  return res.status(200).json({
+    error: false,
+    data: {
+      csrfToken
+    },
+    message: "CSRF successfully retreived",
+  });
+})
+
 module.exports = router;

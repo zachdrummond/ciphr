@@ -4,15 +4,21 @@ const mongoose = require("mongoose");
 const path = require("path");
 // const jwt = require("express-jwt");
 const cookieParser = require("cookie-parser");
+const csrf = require("csurf");
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
 
+const csrfProtection = csrf({
+  cookie: true
+});
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("client/build"));
 app.use(cookieParser());
+app.use(csrfProtection);
 app.use(require("./controllers/algorithmController.js"));
 app.use(require("./controllers/authController.js"));
 app.use(require("./controllers/codeController"));
