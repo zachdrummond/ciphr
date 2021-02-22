@@ -292,6 +292,13 @@ router.get("/api/token", (req, res) => {
 
 router.get("/api/csrf", (req, res) => {
   const csrfToken = req.csrfToken();
+  if (!csrfToken) {
+    return res.status(401).json({
+      error: true,
+      data: null,
+      message: "No csrf token present.",
+    });
+  }
   return res.status(200).json({
     error: false,
     data: {
