@@ -7,5 +7,5 @@ export const setAxiosDefaults = (token) => {
 
 // sets anti-Csrf token with every axios request
 export const setAxiosCsrf = (csrf) => {
-  axios.defaults.headers.post['X-CSRF-Token'] = csrf;
+  axios.defaults.headers.common['X-CSRF-Token'] = csrf;
 };
